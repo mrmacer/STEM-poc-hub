@@ -658,88 +658,6 @@
 
   .coming-soon strong { color: var(--accent); }
 
-  /* TEMPORARILY HIDDEN SECTIONS */
-  .hidden-section { display: none !important; }
-
-  /* ROLE CARDS */
-  .role-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-  }
-
-  .role-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-
-  .role-card:hover { border-color: rgba(244,161,29,0.5); transform: translateY(-2px); }
-
-  .role-card-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 1.5px;
-    color: var(--accent);
-  }
-
-  .role-card-desc {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.55;
-  }
-
-  .role-entry-list {
-    list-style: none;
-    padding: 0;
-    flex: 1;
-  }
-
-  .role-entry-list li {
-    font-size: 0.76rem;
-    color: var(--muted);
-    padding: 0.22rem 0;
-    padding-left: 0.8rem;
-    position: relative;
-    line-height: 1.4;
-  }
-
-  .role-entry-list li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-  }
-
-  .role-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .btn-role {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--accent);
-    background: rgba(244,161,29,0.08);
-    border: 1px solid rgba(244,161,29,0.2);
-    padding: 0.35rem 0.75rem;
-    border-radius: 4px;
-    text-decoration: none;
-    text-align: center;
-    font-weight: 600;
-    transition: background 0.2s;
-  }
-
-  .btn-role:hover { background: rgba(244,161,29,0.18); }
-
   /* SOW CARDS */
   .sow-grid {
     display: grid;
@@ -1328,14 +1246,14 @@
   <ul class="nav-links" id="navLinks">
     <li><a href="#story">Origin</a></li>
     <li><a href="#start">Start Here</a></li>
-    <li><a href="#who-for">Who It's For</a></li>
+    <li><a href="#audience">Who It's For</a></li>
     <li><a href="#pathway">90-Day</a></li>
     <li><a href="#sow">SoW Menu</a></li>
     <li><a href="#deliverables">Deliverables</a></li>
     <li><a href="#workgroups">Workgroups</a></li>
     <li><a href="#directory">Directory</a></li>
     <li><a href="#orbit">ORBIT</a></li>
-    <!-- Meeting OS nav link hidden temporarily: <li><a href="#meeting-os">Meeting OS</a></li> -->
+    <li><a href="#meeting-os">Meeting OS</a></li>
     <li><a href="#resources">Resources</a></li>
     <li><a href="#buddy">Buddy</a></li>
     <li><a href="#future">Future</a></li>
@@ -2011,86 +1929,14 @@
 </div>
 
 <!-- WHO IT'S FOR -->
-<div class="section reveal" id="who-for">
+<div class="section reveal" id="audience">
   <div class="section-header">
     <span class="section-num">07 //</span>
     <h2 class="section-title">WHO THIS HUB IS FOR</h2>
   </div>
-  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.75rem;">
-    The PA STEM PoC Hub is designed for different kinds of users across the network. Start where you are, then move deeper as you connect your local work to statewide collaboration, reporting, and impact.
-  </p>
-
-  <div class="role-grid">
-
-    <!-- NEW POCs -->
-    <div class="role-card">
-      <div class="role-card-title">New PoCs</div>
-      <p class="role-card-desc">Start here if you are new to the STEM PoC role and need a clear path into the network.</p>
-      <ul class="role-entry-list">
-        <li>Complete the Start Here checklist</li>
-        <li>Follow the 90-Day Pathway</li>
-        <li>Learn the SoW deliverables</li>
-        <li>Find your TaC and buddy</li>
-        <li>Use the ORBIT companion before reporting season</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#start">Start Checklist →</a>
-        <a class="btn-role" href="#pathway">View 90-Day Pathway →</a>
-      </div>
-    </div>
-
-    <!-- RETURNING POCs -->
-    <div class="role-card">
-      <div class="role-card-title">Returning PoCs</div>
-      <p class="role-card-desc">Use the hub to find resources, align work to deliverables, and share examples from your IU.</p>
-      <ul class="role-entry-list">
-        <li>Review the SoW Menu</li>
-        <li>Use ORBIT sample language</li>
-        <li>Find workgroup connections</li>
-        <li>Share resources or examples</li>
-        <li>Contribute impact stories</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#sow">Open SoW Menu →</a>
-        <a class="btn-role" href="#orbit">Use ORBIT Companion →</a>
-      </div>
-    </div>
-
-    <!-- WORKGROUP LEADS -->
-    <div class="role-card">
-      <div class="role-card-title">Workgroup Leads</div>
-      <p class="role-card-desc">Use the hub to make workgroups easier to join, follow, document, and sustain.</p>
-      <ul class="role-entry-list">
-        <li>Link agendas and shared folders</li>
-        <li>Tag work to deliverables</li>
-        <li>Add workgroup resources</li>
-        <li>Surface meeting cadence</li>
-        <li>Recruit collaborators across IUs</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#workgroups">View Workgroups →</a>
-        <a class="btn-role" href="#resources">Open Resource Hub →</a>
-      </div>
-    </div>
-
-    <!-- LEAD TEAM / PAIMS -->
-    <div class="role-card">
-      <div class="role-card-title">Lead Team / PAIMS</div>
-      <p class="role-card-desc">Use the hub as a shared infrastructure layer for onboarding, statewide coherence, reporting support, and network storytelling.</p>
-      <ul class="role-entry-list">
-        <li>Support new PoC onboarding</li>
-        <li>Align meetings and messages</li>
-        <li>Gather ORBIT examples</li>
-        <li>Identify statewide patterns</li>
-        <li>Build the annual impact narrative</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#orbit">Review ORBIT →</a>
-        <a class="btn-role" href="#future">View Future Builds →</a>
-      </div>
-    </div>
-
-  </div><!-- end .role-grid -->
+  <div class="coming-soon">
+    <strong>COMING — PATCH 2:</strong> Four role cards — New PoCs, Returning PoCs, Workgroup Leads, and Lead Team / PAIMS — each with tailored entry points into the hub.
+  </div>
 </div>
 
 <!-- 90-DAY PATHWAY -->
@@ -2445,8 +2291,8 @@
 
 </div>
 
-<!-- MEETING OS — hidden temporarily, content preserved, restore by removing hidden-section class -->
-<div class="section reveal hidden-section" id="meeting-os">
+<!-- MEETING OS -->
+<div class="section reveal" id="meeting-os">
   <div class="section-header">
     <span class="section-num">11 //</span>
     <h2 class="section-title">MONTHLY MEETING OS</h2>
