@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PA STEM PoC Hub — Statewide Command Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --blue: #1a3a6b;
+    --accent: #f4a11d;
+    --green: #2ecc8a;
+    --red: #e8433a;
+    --light: #f0f4ff;
+    --muted: #8a9bbf;
+    --card: #111e36;
+    --border: rgba(244,161,29,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26,58,107,0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,58,107,0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,22,40,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+
+  .nav-logo span { color: var(--light); }
+
+  .nav-links {
+    display: flex;
+    gap: 0.1rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 0.35rem 0.45rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 1.1rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    background: rgba(244,161,29,0.1);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(46,204,138,0.12);
+    border: 1px solid rgba(46,204,138,0.3);
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .accent { color: var(--accent); }
+  .hero h1 .dim { color: var(--muted); }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.2rem;
+  }
+
+  /* SECTION WRAPPER */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+  }
+
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  /* START HERE CHECKLIST */
+  .checklist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .check-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .check-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .check-item:hover { border-color: rgba(244,161,29,0.5); transform: translateY(-2px); }
+  .check-item:hover::before { opacity: 1; }
+  .check-item.done { border-color: rgba(46,204,138,0.4); }
+  .check-item.done::before { background: var(--green); opacity: 1; }
+
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--muted);
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 2px;
+  }
+
+  .check-item.done .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .check-box svg { display: none; }
+  .check-item.done .check-box svg { display: block; }
+
+  .check-content h4 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .check-content p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .check-content a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+  }
+
+  .check-content a:hover { text-decoration: underline; }
+
+  /* DELIVERABLE MAP */
+  .deliverable-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .del-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .del-card:hover { border-color: rgba(244,161,29,0.5); transform: translateY(-2px); }
+
+  .del-card.expanded { border-color: var(--accent); }
+
+  .del-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .del-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    background: rgba(244,161,29,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(244,161,29,0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+
+  .del-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .del-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .del-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    background: rgba(26,58,107,0.6);
+    border: 1px solid rgba(140,155,191,0.2);
+    color: var(--muted);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+  }
+
+  .del-expand {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .del-card.expanded .del-expand { display: block; }
+
+  /* WORKGROUP TABLE */
+  .wg-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .wg-row {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    transition: all 0.2s;
+  }
+
+  .wg-row:hover { border-color: rgba(244,161,29,0.4); }
+
+  .wg-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+  }
+
+  .wg-lead {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .wg-del {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: rgba(244,161,29,0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* DIRECTORY */
+  .dir-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .dir-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .dir-card:hover { border-color: rgba(244,161,29,0.4); transform: translateY(-2px); }
+
+  .dir-card.placeholder {
+    border-style: dashed;
+    border-color: rgba(244,161,29,0.3);
+    opacity: 0.7;
+  }
+
+  .dir-iu {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .dir-poc {
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .dir-tac {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .dir-expertise {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+  }
+
+  .dir-tag {
+    font-size: 0.65rem;
+    background: rgba(46,204,138,0.1);
+    border: 1px solid rgba(46,204,138,0.2);
+    color: var(--green);
+    padding: 0.15rem 0.4rem;
+    border-radius: 20px;
+  }
+
+  .placeholder-label {
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-style: italic;
+    margin-top: 0.5rem;
+  }
+
+  /* BUDDY SYSTEM */
+  .buddy-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .buddy-intro {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+  }
+
+  .buddy-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group select, .form-group input {
+    width: 100%;
+    background: rgba(26,58,107,0.4);
+    border: 1px solid rgba(140,155,191,0.3);
+    border-radius: 6px;
+    color: var(--light);
+    padding: 0.6rem 0.8rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group select:focus, .form-group input:focus {
+    border-color: var(--accent);
+  }
+
+  .btn-match {
+    background: var(--accent);
+    color: var(--navy);
+    border: none;
+    border-radius: 6px;
+    padding: 0.65rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-match:hover { background: #ffb830; transform: translateY(-1px); }
+
+  .match-result {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: rgba(46,204,138,0.08);
+    border: 1px solid rgba(46,204,138,0.25);
+    border-radius: 8px;
+    display: none;
+  }
+
+  .match-result.show { display: block; }
+
+  .match-result h4 {
+    color: var(--green);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ORIGIN STORY */
+  .story-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .story-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .story-beat {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .story-beat::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 0.4rem;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--navy);
+  }
+
+  .story-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .story-beat h4 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .story-beat p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ORBIT CALLOUT */
+  .orbit-box {
+    background: rgba(232,67,58,0.08);
+    border: 1px solid rgba(232,67,58,0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .orbit-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .orbit-box h4 {
+    color: #e8433a;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+  }
+
+  .orbit-box p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* COMING SOON BANNER */
+  .coming-soon {
+    background: rgba(244,161,29,0.08);
+    border: 1px dashed rgba(244,161,29,0.4);
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .coming-soon strong { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed;
+    top: 60px; left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 99;
+    transition: width 0.1s;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 60px; left: 0; right: 0;
+      background: rgba(10,22,40,0.98);
+      flex-direction: column;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      gap: 0.25rem;
+    }
+    .nav-links.open { display: flex; }
+    .nav-toggle { display: block; }
+    .buddy-form { grid-template-columns: 1fr; }
+    .wg-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav>
+  <div class="nav-logo">PA STEM <span>PoC</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#story">Origin</a></li>
+    <li><a href="#start">Start Here</a></li>
+    <li><a href="#audience">Who It's For</a></li>
+    <li><a href="#pathway">90-Day</a></li>
+    <li><a href="#sow">SoW Menu</a></li>
+    <li><a href="#deliverables">Deliverables</a></li>
+    <li><a href="#workgroups">Workgroups</a></li>
+    <li><a href="#directory">Directory</a></li>
+    <li><a href="#orbit">ORBIT</a></li>
+    <li><a href="#meetings">Meeting OS</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#buddy">Buddy</a></li>
+    <li><a href="#future">Future</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero reveal">
+  <div class="hero-badge">STEM POC NETWORK — LIVING COMMAND CENTER</div>
+  <h1>
+    PA STEM<br>
+    <span class="accent">PoC HUB.</span><br>
+    <span class="dim">BUILT STATEWIDE.</span>
+  </h1>
+  <p class="hero-sub">
+    A living command center for onboarding, collaboration, deliverable planning, and statewide STEM impact. Built for the network, by the network — from orientation to contribution.
+  </p>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">29</span>
+      <span class="stat-label">IUs in Network</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">90</span>
+      <span class="stat-label">Day Onboarding</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">7+</span>
+      <span class="stat-label">SoW Deliverables</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">12+</span>
+      <span class="stat-label">Workgroups</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Resource Hub</span>
+    </div>
+  </div>
+</div>
+
+<!-- ORIGIN STORY -->
+<div class="section reveal" id="story">
+  <div class="section-header">
+    <span class="section-num">01 //</span>
+    <h2 class="section-title">THE ORIGIN STORY</h2>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+    <div>
+      <p style="font-size:0.9rem; color:var(--muted); line-height:1.7; margin-bottom:1.5rem;">
+        The PA STEM PoC Network didn't start as a formal structure — it grew from a shared problem: IUs across the commonwealth were doing great STEM work in isolation. The PAsmart grant ecosystem created the infrastructure to change that. Today, this network is one of the most active cross-IU collaboration spaces in Pennsylvania education.
+      </p>
+      <p style="font-size:0.9rem; color:var(--muted); line-height:1.7; margin-bottom:1.5rem;">
+        Your role as a PoC (Point of Contact) is to be the STEM connective tissue for your IU — linking PDE priorities, statewide resources, and your local districts into something coherent and useful.
+      </p>
+      <div style="background:rgba(244,161,29,0.08); border:1px solid var(--border); border-radius:8px; padding:1.25rem; margin-top:1rem;">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:600;">The Org Triangle</p>
+        <p style="font-size:0.82rem; color:var(--light); line-height:1.6;">
+          <strong style="color:var(--accent)">PAIMS</strong> (ed tech + instructional media) ·
+          <strong style="color:var(--accent)">PAIUCC</strong> (curriculum coordinators) ·
+          <strong style="color:var(--accent)">STEM PoC</strong> (you) — these three groups share an annual joint meeting every March and increasingly overlap in mission.
+        </p>
+      </div>
+    </div>
+    <div class="story-timeline">
+      <div class="story-beat">
+        <div class="story-year">FOUNDATION</div>
+        <h4>PAsmart Launches STEMinPA</h4>
+        <p>Federal grant funding creates the framework for statewide IU collaboration around STEM, CS, and student-centered learning.</p>
+      </div>
+      <div class="story-beat">
+        <div class="story-year">GROWTH</div>
+        <h4>Workgroups Proliferate</h4>
+        <p>Science, T&E, Environmental Literacy, CS, Student Competitions, Equity/TaC/Inclusion — the network self-organizes around real practitioner needs.</p>
+      </div>
+      <div class="story-beat">
+        <div class="story-year">NOW</div>
+        <h4>Full Ecosystem Integration</h4>
+        <p>STEM PoCs are embedded in ORBIT data reporting, WestEd CoPs, STEELS rollout, and the emerging AI/CS frontier. You're joining at a pivotal moment.</p>
+      </div>
+      <div class="story-beat">
+        <div class="story-year">NEXT</div>
+        <h4>Better Onboarding. Better Handoffs.</h4>
+        <p>[PLACEHOLDER — Add the network's vision for 2026-27 here once confirmed with Nicole Bond and the lead team.]</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- START HERE -->
+<div class="section reveal" id="start">
+  <div class="section-header">
+    <span class="section-num">02 //</span>
+    <h2 class="section-title">START HERE — YOUR CHECKLIST</h2>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Click each item to mark it complete. Do these in order — access to the Shared Drive unlocks most other resources.</p>
+
+  <div class="checklist" id="checklist">
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Join the Email Listserv</h4>
+        <p>All statewide communications come through here. Don't skip this one.</p>
+        <a href="#">→ Signup Form [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Request Shared Drive Access</h4>
+        <p>The Shared Drive is the mothership. Workgroup folders, meeting agendas, resources — all here.</p>
+        <a href="#">→ Access Request Form [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Subscribe to the STEM Calendar</h4>
+        <p>Hold dates, workgroup meetings, statewide PLs — add this to your Google Calendar now.</p>
+        <a href="#">→ STEM Calendar [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Copy Your SoW Tracking Tool</h4>
+        <p>Your Statement of Work is how you document deliverable progress. Make a copy and own it.</p>
+        <a href="#">→ SoW Tracking Tool [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Identify Your TaC</h4>
+        <p>Your Technical Assistance Coach is your implementation partner for grant deliverables. Know who they are.</p>
+        <a href="#directory">→ See the Directory ↓</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Read the Q&A Sharing Doc</h4>
+        <p>Answers to the questions every new PoC asks. Read before your first meeting.</p>
+        <a href="#">→ STEM PoC Q&A Doc [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Access ORBIT 1.0</h4>
+        <p>This is where your STEMinPA data lives. You'll report expenditures and qualitative progress here.</p>
+        <a href="#">→ ORBIT Tool [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="check-item" onclick="toggleCheck(this)">
+      <div class="check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="check-content">
+        <h4>Join Your First Workgroup</h4>
+        <p>Pick one that aligns with your IU's strengths. You can always add more.</p>
+        <a href="#workgroups">→ See Workgroups ↓</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="orbit-box" style="margin-top:1.5rem;">
+    <div class="orbit-icon">⚠️</div>
+    <div>
+      <h4>ORBIT Tool — Know Before You Go</h4>
+      <p>ORBIT is where you document your STEMinPA work against deliverables. It's not obvious at first. IU6 runs office hours during the year — check the calendar. Final Expenditure Reports and Qualitative Reports are both due July 15 each year. See sample entries from other IUs in the Deliverables section below.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DELIVERABLES -->
+<div class="section reveal" id="deliverables">
+  <div class="section-header">
+    <span class="section-num">03 //</span>
+    <h2 class="section-title">THE DELIVERABLE MAP</h2>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Click any deliverable to expand details. These are the buckets your PAsmart work gets organized into.</p>
+
+  <div class="deliverable-grid">
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL A</span>
+        <span class="del-title">STEM PoC Network</span>
+      </div>
+      <p class="del-desc">Participation in the statewide PoC network — meetings, workgroups, collaboration.</p>
+      <div class="del-tags">
+        <span class="tag">PoC Meetings</span>
+        <span class="tag">Workgroups</span>
+        <span class="tag">Statewide PLCs</span>
+      </div>
+      <div class="del-expand">
+        This is your baseline deliverable. Showing up to PoC meetings, joining workgroups, and contributing to shared resources all count here. Your TaC also plays a role in supporting your workgroup participation. <br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER — Add anonymized example of how IUs log Deliverable A in ORBIT]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL B</span>
+        <span class="del-title">STEELS Standards</span>
+      </div>
+      <p class="del-desc">Supporting PA Science/STEM standards implementation across your IU and districts.</p>
+      <div class="del-tags">
+        <span class="tag">Science</span>
+        <span class="tag">T&E</span>
+        <span class="tag">EL&S</span>
+        <span class="tag">MWEE</span>
+        <span class="tag">PENNSEL</span>
+      </div>
+      <div class="del-expand">
+        STEELS is the big one. Most of the statewide professional learning (WestEd CoPs, PaTTAN institutes) connects here. Your TaC often co-facilitates STEELS PD. The Equity/TaC/Inclusion workgroup is building UDL-integrated resources to make STEELS accessible for ALL learners.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL C</span>
+        <span class="del-title">Computer Science Education</span>
+      </div>
+      <p class="del-desc">CS integration, CSTA standards, AI/ML literacy, computational thinking.</p>
+      <div class="del-tags">
+        <span class="tag">CS Workgroup</span>
+        <span class="tag">AI Taskforce</span>
+        <span class="tag">Comp Thinking</span>
+      </div>
+      <div class="del-expand">
+        CS + AI is the fastest-moving deliverable right now. New CSTA standards are shifting toward AI/ML process understanding (not just tool use). IUs doing tiered AI PD models, CT cohorts, and district AI workshops all log here.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL D</span>
+        <span class="del-title">Student-Centered Learning</span>
+      </div>
+      <p class="del-desc">Advancing SCL approaches in STEM contexts across districts.</p>
+      <div class="del-tags">
+        <span class="tag">STEM Pals</span>
+        <span class="tag">PASCL CoP</span>
+        <span class="tag">StartSOLE</span>
+      </div>
+      <div class="del-expand">
+        SCL overlaps heavily with PASCL CoP work. STEM Pals is the think-tank workgroup for collaboratively building shared PD materials. StartSOLE is a student-driven inquiry model that fits here.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL E</span>
+        <span class="del-title">STEM Ecosystems</span>
+      </div>
+      <p class="del-desc">Building and sustaining regional STEM ecosystems through partnerships.</p>
+      <div class="del-tags">
+        <span class="tag">PSSE Workgroup</span>
+        <span class="tag">Ecosystem Convenings</span>
+      </div>
+      <div class="del-expand">
+        Ecosystems work is now housed in the PSSE Workgroup (led by Abbey Hathaway, IU12). This involves connecting schools, businesses, community orgs, and higher ed into functioning regional STEM ecosystems.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL F</span>
+        <span class="del-title">Student Competitions</span>
+      </div>
+      <p class="del-desc">Coordinating and supporting regional and statewide STEM competitions.</p>
+      <div class="del-tags">
+        <span class="tag">Keystone STEM</span>
+        <span class="tag">Sea Air & Land</span>
+        <span class="tag">Invention Convention</span>
+        <span class="tag">Esports</span>
+      </div>
+      <div class="del-expand">
+        This is one of the most tangible deliverables for districts — they can see and feel it. Jillian Darlington leads the statewide Student Competitions Workgroup. Competitions Kick-Off is typically late October.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL G</span>
+        <span class="del-title">Coherent Integrative STEM / COE</span>
+      </div>
+      <p class="del-desc">Resources for accelerated learning, math integration, UDL + STEM connections.</p>
+      <div class="del-tags">
+        <span class="tag">STEM Toolkit</span>
+        <span class="tag">Equity/TaC</span>
+        <span class="tag">Lending Library</span>
+        <span class="tag">Math Focus</span>
+      </div>
+      <div class="del-expand">
+        G is the catch-all for integrative work — UDL + STEM, math + STEM, equity + STEM. The Equity/TaC/Inclusion workgroup has been doing deep work here this year, including drafting STEELS guides for Special Education teachers.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WORKGROUPS -->
+<div class="section reveal" id="workgroups">
+  <div class="section-header">
+    <span class="section-num">04 //</span>
+    <h2 class="section-title">WORKGROUP HUB</h2>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">All active workgroups — leads, meeting cadence, and deliverable alignment.</p>
+
+  <div class="wg-list">
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Science</div>
+        <div class="wg-lead">Colleen Epler-Ruths · Jen Sciacca (CAIU)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 12–1pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">3D learning, STEELS standards implementation, statewide PLCs (last: May 27)</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Technology & Engineering</div>
+        <div class="wg-lead">Diane McGaffic (MIU4) · Alyssa Moore (IU1)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">T&E in STEELS, EbD curriculum, EiE resources. Sign up on running agenda.</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Environmental Literacy & Sustainability</div>
+        <div class="wg-lead">Sara Jeffries (DCIU) · Jen Sciacca (CAIU)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">2nd Thursdays, 9am</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">ELS + careers, student ambassador programs, MWEE connections</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">PA Smart & CS</div>
+        <div class="wg-lead">Kendy Schiffert · Jigar Patel · Greg Macer (IU29) · Sara Frey</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">Next: May 18, 10–11am</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">CS education, PAsmart policy, CSinPA monthly updates, AI integration</div>
+      <div class="wg-del">DEL C</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Equity, TaC & Inclusion</div>
+        <div class="wg-lead">Peney Wright (TIU11)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2–2:55pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">STEELS for ALL students, Special Ed guides, UDL integration, accessibility</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Student Competitions</div>
+        <div class="wg-lead">Jillian Darlington (Berks IU14)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">4th Tuesdays, 1pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Keystone STEM, Sea Air & Land, Invention Convention, regional coordination</div>
+      <div class="wg-del">DEL F</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Esports</div>
+        <div class="wg-lead">Matt Swan (CCIU) · Tony Mirabito (CLIU)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Regional leads, STEMinPA projects, Minecraft Statewide — pselesports.org</div>
+      <div class="wg-del">DEL F</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Lending Libraries</div>
+        <div class="wg-lead">Sarah Brambley (IU8) · Christina Sanders (IU5)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Statewide STEM lending library platform, equipment sharing, AT devices</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">STEM Toolkit</div>
+        <div class="wg-lead">Diane McGaffic (MIU4) · Alexandra Konsur-Grushinski (IU19)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Coherent STEM resources, integrative PD materials</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Math Focus</div>
+        <div class="wg-lead">Kristina Fulton (IU13)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Math + STEM integration, UDL + math PD, coherent math resources</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">STEM Pals</div>
+        <div class="wg-lead">Jigar Patel (TIU11)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Think-tank for STEM PD — collaborative resource creation, shared materials</div>
+      <div class="wg-del">DEL D</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Ecosystems (PSSE)</div>
+        <div class="wg-lead">Abbey Hathaway (IU12)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Regional STEM ecosystem development, PSSE leadership summits</div>
+      <div class="wg-del">DEL E</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Remake Learning Days</div>
+        <div class="wg-lead">Kelsi Wilcox Boyles (RIU6) · Sarah Brambley (IU8)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Career Ready PA Backpack Challenge, regional RLD events, Ambassador network</div>
+      <div class="wg-del">DEL D</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIRECTORY -->
+<div class="section reveal" id="directory">
+  <div class="section-header">
+    <span class="section-num">05 //</span>
+    <h2 class="section-title">IU DIRECTORY</h2>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Who's who across the 29 IUs. Click your IU to expand. <span style="color:var(--accent)">★ Placeholders need to be filled in.</span></p>
+
+  <div class="dir-grid">
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 1</div>
+      <div class="dir-poc">Meghan McAnulty</div>
+      <div class="dir-tac">Curriculum Specialist · Emily Hughes, Ron Gallagher</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">STEM</span>
+        <span class="dir-tag">Curriculum</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 3</div>
+      <div class="dir-poc">Brian Stamford · Kristen Rice</div>
+      <div class="dir-tac">Math & Science Collaborative, TransformED</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Math</span>
+        <span class="dir-tag">Science</span>
+        <span class="dir-tag">AI</span>
+        <span class="dir-tag">Assistive Tech</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 5</div>
+      <div class="dir-poc">Joy Shaffer</div>
+      <div class="dir-tac">Rebecca Schauffele · Christina Sanders + 7 TaC staff</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Lending Library</span>
+        <span class="dir-tag">CS</span>
+        <span class="dir-tag">AI</span>
+        <span class="dir-tag">EL&S</span>
+        <span class="dir-tag">Esports</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 6</div>
+      <div class="dir-poc">Kelsi Wilcox Boyles</div>
+      <div class="dir-tac">Ben Brobst</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Remake Learning</span>
+        <span class="dir-tag">Drones</span>
+        <span class="dir-tag">Lending Library</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 7</div>
+      <div class="dir-poc">Julie Kolano</div>
+      <div class="dir-tac">Sarah Wagner</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">3D Learning</span>
+        <span class="dir-tag">STEELS PD</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 8</div>
+      <div class="dir-poc">Sarah Brambley</div>
+      <div class="dir-tac">Amanda Williamson · Elizabeth Caton</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Lending Library</span>
+        <span class="dir-tag">MTSS</span>
+        <span class="dir-tag">Inclusive Practices</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 10</div>
+      <div class="dir-poc">Melissa Duckworth</div>
+      <div class="dir-tac">Stephanie King · Karen Woods</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Arts Integration</span>
+        <span class="dir-tag">MWEE</span>
+        <span class="dir-tag">Assistive Tech</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 12</div>
+      <div class="dir-poc">Nicole Bond</div>
+      <div class="dir-tac">Abbey Hathaway · Autumn Zaminski</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">CS</span>
+        <span class="dir-tag">AI</span>
+        <span class="dir-tag">Ecosystems</span>
+        <span class="dir-tag">Tiered PD</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 20</div>
+      <div class="dir-poc">Heather Heimer</div>
+      <div class="dir-tac">Kendyle Mills · Samantha Siegfried</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">UDL</span>
+        <span class="dir-tag">Multilingual</span>
+        <span class="dir-tag">AI</span>
+        <span class="dir-tag">Drones</span>
+      </div>
+    </div>
+
+    <div class="dir-card">
+      <div class="dir-iu">IU 21</div>
+      <div class="dir-poc">Eric Lech</div>
+      <div class="dir-tac">Tony Mirabito · Monica Pangaio · Melissa Volcskai</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">Esports</span>
+        <span class="dir-tag">AI</span>
+        <span class="dir-tag">Student Competitions</span>
+        <span class="dir-tag">MWEE</span>
+      </div>
+    </div>
+
+    <div class="dir-card" style="border-color:rgba(244,161,29,0.5);">
+      <div class="dir-iu" style="color:var(--accent);">IU 29 ★</div>
+      <div class="dir-poc">Greg Macer</div>
+      <div class="dir-tac">Supervisor of STEM & District Support</div>
+      <div class="dir-expertise">
+        <span class="dir-tag">AI PD</span>
+        <span class="dir-tag">Keystone STEM</span>
+        <span class="dir-tag">Sea Air & Land</span>
+        <span class="dir-tag">CS</span>
+      </div>
+      <div class="placeholder-label">★ Full profile to be completed</div>
+    </div>
+
+    <div class="dir-card placeholder">
+      <div class="dir-iu">IUs 2, 4, 9,<br>11, 13–19,<br>22–28</div>
+      <div class="placeholder-label" style="margin-top:0.75rem;">★ Directory entries to be collected via updated PPTX or intake form</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BUDDY SYSTEM -->
+<div class="section reveal" id="buddy">
+  <div class="section-header">
+    <span class="section-num">06 //</span>
+    <h2 class="section-title">BUDDY SYSTEM</h2>
+  </div>
+
+  <div class="buddy-section">
+    <p class="buddy-intro">
+      New PoCs get paired with an experienced PoC from a nearby or similar-size IU. Your buddy is your first call when you're not sure how something works — before you ask on the listserv, before you dig through the Drive. This is a placeholder for the matching logic — the network will build this out for 2026-27.
+    </p>
+
+    <div class="buddy-form">
+      <div class="form-group">
+        <label>Your IU</label>
+        <select id="myIU">
+          <option value="">Select your IU...</option>
+          <option>IU 1</option><option>IU 2</option><option>IU 3</option>
+          <option>IU 4</option><option>IU 5</option><option>IU 6</option>
+          <option>IU 7</option><option>IU 8</option><option>IU 9</option>
+          <option>IU 10</option><option>IU 11</option><option>IU 12</option>
+          <option>IU 13</option><option>IU 14</option><option>IU 15</option>
+          <option>IU 16</option><option>IU 17</option><option>IU 18</option>
+          <option>IU 19</option><option>IU 20</option><option>IU 21</option>
+          <option>IU 22</option><option>IU 23</option><option>IU 24</option>
+          <option>IU 25</option><option>IU 26</option><option>IU 27</option>
+          <option>IU 28</option><option>IU 29</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Focus Area</label>
+        <select id="focusArea">
+          <option value="">Select focus...</option>
+          <option>STEELS / Science</option>
+          <option>Computer Science / AI</option>
+          <option>Student Competitions</option>
+          <option>Student-Centered Learning</option>
+          <option>Ecosystems</option>
+          <option>Equity / UDL</option>
+          <option>General / Not Sure Yet</option>
+        </select>
+      </div>
+      <button class="btn-match" onclick="findBuddy()">Find My Buddy →</button>
+    </div>
+
+    <div class="match-result" id="matchResult">
+      <h4>🎯 Suggested Buddy Match</h4>
+      <p id="matchText"></p>
+    </div>
+
+    <div class="coming-soon" style="margin-top:1.5rem;">
+      <strong>PLACEHOLDER:</strong> Full buddy matching will be built out with the lead team before 2026-27 onboarding. The logic will factor in IU region, IU size, deliverable focus, and years of experience. Interested in coordinating this? Talk to Nicole Bond.
+    </div>
+  </div>
+</div>
+
+<!-- WHO IT'S FOR -->
+<div class="section reveal" id="audience">
+  <div class="section-header">
+    <span class="section-num">07 //</span>
+    <h2 class="section-title">WHO THIS HUB IS FOR</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 2:</strong> Four role cards — New PoCs, Returning PoCs, Workgroup Leads, and Lead Team / PAIMS — each with tailored entry points into the hub.
+  </div>
+</div>
+
+<!-- 90-DAY PATHWAY -->
+<div class="section reveal" id="pathway">
+  <div class="section-header">
+    <span class="section-num">08 //</span>
+    <h2 class="section-title">90-DAY ONBOARDING PATHWAY</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 3:</strong> Interactive 30 / 60 / 90-day phase cards with expandable checklists — Day 0–14 access setup, Day 15–30 first meeting and workgroup, Day 31–60 first contribution, Day 61–90 active member graduation.
+  </div>
+</div>
+
+<!-- SOW MENU -->
+<div class="section reveal" id="sow">
+  <div class="section-header">
+    <span class="section-num">09 //</span>
+    <h2 class="section-title">SOW MENU — IMPLEMENTATION PLANNER</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 4:</strong> Six implementation theme cards aligned to Deliverables B–G — STEELS, AI / CS, Student-Centered Learning, Ecosystems, Student Competitions, and Coherent Integrative STEM — each with sample activities, ORBIT examples, and resource placeholders. Turn the SoW from compliance into strategy.
+  </div>
+</div>
+
+<!-- ORBIT -->
+<div class="section reveal" id="orbit">
+  <div class="section-header">
+    <span class="section-num">10 //</span>
+    <h2 class="section-title">ORBIT &amp; REPORTING</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 5:</strong> Dedicated ORBIT guidance section — what to log, how to log it, sample entries by deliverable, office hours calendar, and July 15 reporting checklist. See the Start Here section for the current ORBIT callout while this builds out.
+  </div>
+</div>
+
+<!-- MEETING OS -->
+<div class="section reveal" id="meetings">
+  <div class="section-header">
+    <span class="section-num">11 //</span>
+    <h2 class="section-title">MEETING OPERATING SYSTEM</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 6:</strong> A redesigned 60-minute PoC meeting structure — Connection Opener, Network Pulse, Working Protocol, State Updates, Commitments, Closing Round — plus protocol cards (1-2-4-All, Troika Consulting, Shift &amp; Share, Consultancy Protocol) and the Rotating Host IU model.
+  </div>
+</div>
+
+<!-- RESOURCE HUB -->
+<div class="section reveal" id="resources">
+  <div class="section-header">
+    <span class="section-num">12 //</span>
+    <h2 class="section-title">RESOURCE HUB</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 7:</strong> Category cards for Onboarding, Shared Drive, ORBIT, SoW Tracking, STEELS, CS / AI, Ecosystems, Student Competitions, Equity / UDL, Meeting Protocols, Annual Impact Stories, and IU Examples — each with Open Resource, Add Example, and View Templates actions.
+  </div>
+</div>
+
+<!-- FUTURE BUILDS -->
+<div class="section reveal" id="future">
+  <div class="section-header">
+    <span class="section-num">13 //</span>
+    <h2 class="section-title">FUTURE BUILDS</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 8:</strong> Roadmap cards for Searchable IU Directory, Workgroup Dashboards, ORBIT Example Bank, Shared Resource Library, Annual Impact Narrative Builder, Buddy Match Logic, Meeting Agenda Generator, IU Collaboration Pitch Board, and Contribution / Microbadge Tracker — each with status (Prototype / Planned / Future), why it matters, and next build step.
+  </div>
+</div>
+
+<footer>
+  PA STEM PoC HUB · LIVING COMMAND CENTER · 2026-27 · Built for the network, by the network
+</footer>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Nav active state
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+
+  // Checklist toggle
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.check-item').length;
+    const done = document.querySelectorAll('.check-item.done').length;
+    // Could add a progress counter here
+  }
+
+  // Deliverable expand
+  function toggleDel(el) {
+    const wasExpanded = el.classList.contains('expanded');
+    document.querySelectorAll('.del-card').forEach(c => c.classList.remove('expanded'));
+    if (!wasExpanded) el.classList.add('expanded');
+  }
+
+  // Buddy finder (demo logic)
+  function findBuddy() {
+    const iu = document.getElementById('myIU').value;
+    const focus = document.getElementById('focusArea').value;
+    const result = document.getElementById('matchResult');
+    const text = document.getElementById('matchText');
+
+    if (!iu || !focus) {
+      text.textContent = 'Please select both your IU and a focus area.';
+      result.classList.add('show');
+      return;
+    }
+
+    const matches = {
+      'STEELS / Science': 'Colleen Epler-Ruths (Science Workgroup) or Jen Sciacca (CAIU) — both lead the statewide Science workgroup and have deep STEELS experience.',
+      'Computer Science / AI': 'Nicole Bond (IU12) or Greg Macer (IU29) — both running active CS/AI PD programs with tiered models. Great starting points.',
+      'Student Competitions': 'Jillian Darlington (Berks IU14) — leads the statewide competitions workgroup. Melissa Volcskai (IU21) also runs competitions at IU level.',
+      'Student-Centered Learning': 'Jigar Patel (TIU11) — STEM Pals lead, active in SCL and CT work. Good connector.',
+      'Ecosystems': 'Abbey Hathaway (IU12) — leads the PSSE Ecosystems workgroup. First call for anything ecosystem-related.',
+      'Equity / UDL': 'Peney Wright (TIU11) — leads Equity, TaC & Inclusion workgroup. Literally building the resources you need.',
+      'General / Not Sure Yet': 'Start with your regional neighbors. Check the directory for IUs close to yours. If still unsure, email the listserv — this network is responsive.'
+    };
+
+    text.textContent = `Based on ${iu} + focus on ${focus}: ${matches[focus] || 'Placeholder match logic — to be built out with lead team.'}`;
+    result.classList.add('show');
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Mobile nav toggle
+  function toggleMobileNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+
+  // Close mobile nav on link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Initial reveal for hero
+  document.querySelector('.hero').classList.add('visible');
+</script>
+</body>
+</html>
