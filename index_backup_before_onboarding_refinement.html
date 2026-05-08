@@ -1606,450 +1606,6 @@
     .nav-toggle { display: block; }
     .buddy-form { grid-template-columns: 1fr; }
     .wg-row { grid-template-columns: 1fr; }
-    .resource-grid { grid-template-columns: 1fr; }
-    .priority-grid { grid-template-columns: 1fr; }
-    .flow-steps { flex-direction: column; }
-    .flow-step { width: 100%; }
-    .flow-arrow { transform: rotate(90deg); margin: 0 auto; }
-  }
-
-  /* SOW PHILOSOPHY CALLOUT */
-  .sow-philosophy {
-    background: rgba(244,161,29,0.07);
-    border: 1px solid rgba(244,161,29,0.3);
-    border-left: 4px solid var(--accent);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .sow-philosophy-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  .sow-philosophy p {
-    font-size: 0.85rem;
-    color: var(--light);
-    line-height: 1.7;
-    margin-bottom: 0.5rem;
-  }
-  .sow-philosophy .sow-phil-sub {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    line-height: 1.6;
-    border-top: 1px solid rgba(244,161,29,0.15);
-    padding-top: 0.6rem;
-    margin-top: 0.25rem;
-  }
-
-  /* SOW FAQ / COLLAPSIBLE */
-  .sow-faq {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-  }
-  .sow-faq-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.9rem 1.25rem;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-  }
-  .sow-faq-header:hover { background: rgba(244,161,29,0.06); }
-  .sow-faq-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .sow-faq-chevron { color: var(--muted); font-size: 14px; transition: transform 0.3s; }
-  .sow-faq.open .sow-faq-chevron { transform: rotate(180deg); }
-  .sow-faq-body {
-    display: none;
-    padding: 0 1.25rem 1.25rem;
-    border-top: 1px solid var(--border);
-  }
-  .sow-faq.open .sow-faq-body { display: block; }
-  .sow-faq-body ul { list-style: none; padding: 0; margin: 0.75rem 0; }
-  .sow-faq-body ul li {
-    font-size: 0.8rem;
-    color: var(--muted);
-    padding: 0.25rem 0 0.25rem 1rem;
-    position: relative;
-    line-height: 1.5;
-  }
-  .sow-faq-body ul li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
-  .sow-faq-body ul li.check-yes::before { content: '✓'; color: var(--green); }
-  .sow-faq-body .faq-rule {
-    font-size: 0.82rem;
-    color: var(--light);
-    background: rgba(46,204,138,0.07);
-    border: 1px solid rgba(46,204,138,0.2);
-    border-radius: 5px;
-    padding: 0.5rem 0.85rem;
-    margin-top: 0.75rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
-    color: var(--green);
-  }
-
-  /* PRIORITY DASHBOARD */
-  .priority-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.75rem;
-  }
-  .priority-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.1rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .priority-card:hover { border-color: rgba(244,161,29,0.35); }
-  .priority-icon { font-size: 1.6rem; }
-  .priority-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-  .priority-tagline {
-    font-size: 0.82rem;
-    color: var(--light);
-    line-height: 1.5;
-    font-weight: 500;
-  }
-  .priority-examples {
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.6;
-    border-top: 1px solid var(--border);
-    padding-top: 0.5rem;
-    margin-top: 0.25rem;
-  }
-
-  /* CROSS-DELIVERABLE MINI-BADGES */
-  .del-connects {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: 0.5rem;
-    align-items: center;
-  }
-  .del-connects-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-right: 0.15rem;
-  }
-  .mini-del {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 2px 7px;
-    border-radius: 3px;
-    border: 1px solid rgba(244,161,29,0.25);
-    background: rgba(244,161,29,0.08);
-    color: var(--accent);
-    text-decoration: none;
-    cursor: default;
-  }
-
-  /* LOCAL→STATEWIDE FLOW */
-  .flow-wrap {
-    margin: 1.75rem 0;
-  }
-  .flow-steps {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
-  }
-  .flow-step {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.65rem 0.9rem;
-    text-align: center;
-    min-width: 110px;
-    flex-shrink: 0;
-  }
-  .flow-step:hover { border-color: rgba(244,161,29,0.35); }
-  .flow-step-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    margin-bottom: 3px;
-  }
-  .flow-step-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    line-height: 1.3;
-  }
-  .flow-arrow {
-    font-size: 1rem;
-    color: var(--muted);
-    flex-shrink: 0;
-    padding: 0 0.35rem;
-    opacity: 0.5;
-  }
-
-  /* EVIDENCE MINDSET CALLOUT */
-  .evidence-mindset {
-    background: rgba(46,204,138,0.06);
-    border: 1px solid rgba(46,204,138,0.25);
-    border-left: 4px solid var(--green);
-    border-radius: 8px;
-    padding: 1.1rem 1.4rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .evidence-mindset h4 {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--green);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-  }
-  .evidence-mindset ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem 1.25rem;
-    margin-bottom: 0.6rem;
-  }
-  .evidence-mindset ul li {
-    font-size: 0.78rem;
-    color: var(--muted);
-    padding-left: 0.85rem;
-    position: relative;
-    line-height: 1.5;
-  }
-  .evidence-mindset ul li::before { content: '→'; position: absolute; left: 0; color: var(--green); opacity: 0.7; }
-  .evidence-mindset .em-footer {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--green);
-    opacity: 0.8;
-    border-top: 1px solid rgba(46,204,138,0.15);
-    padding-top: 0.5rem;
-    margin-top: 0.15rem;
-  }
-
-  /* NETWORK CARD */
-  .network-card {
-    background: rgba(26,58,107,0.45);
-    border: 1px solid rgba(244,161,29,0.2);
-    border-radius: 10px;
-    padding: 1.5rem 1.75rem;
-    max-width: 700px;
-    margin-top: 1rem;
-  }
-  .network-card h3 {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .network-card p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 0.75rem;
-  }
-  .network-card .network-footer {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    opacity: 0.75;
-    border-top: 1px solid rgba(244,161,29,0.15);
-    padding-top: 0.6rem;
-  }
-
-  /* SHARE STATEWIDE CARDS */
-  .share-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
-  .share-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 0.85rem 1rem;
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .share-card-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-  }
-  .share-note {
-    font-size: 0.78rem;
-    color: var(--muted);
-    background: rgba(244,161,29,0.05);
-    border: 1px solid rgba(244,161,29,0.15);
-    border-radius: 6px;
-    padding: 0.65rem 1rem;
-    margin-top: 1rem;
-    line-height: 1.6;
-  }
-
-  /* CHECK PROGRESS COUNTER */
-  .check-progress {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 6px;
-    padding: 0.5rem 1rem;
-    margin-bottom: 1rem;
-    letter-spacing: 0.04em;
-    transition: border-color 0.3s, color 0.3s;
-  }
-  .check-progress.complete {
-    border-left-color: var(--green);
-    color: var(--green);
-  }
-
-  /* REALITY CHECK CARD */
-  .reality-check {
-    background: rgba(26,58,107,0.4);
-    border: 1px solid rgba(244,161,29,0.15);
-    border-left: 3px solid var(--accent);
-    border-radius: 8px;
-    padding: 1.1rem 1.25rem;
-    margin-top: 1.25rem;
-  }
-  .reality-check h4 {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-  .reality-check p {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  /* ACCESS CALLOUT (above checklist) */
-  .access-callout {
-    background: rgba(46,204,138,0.06);
-    border: 1px solid rgba(46,204,138,0.25);
-    border-left: 3px solid var(--green);
-    border-radius: 6px;
-    padding: 0.65rem 1rem;
-    margin-bottom: 1.25rem;
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .access-callout strong { color: var(--green); }
-
-  /* RESOURCE HUB GRID */
-  .resource-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .resource-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.1rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-  }
-  .resource-card:hover { border-color: rgba(244,161,29,0.4); transform: translateY(-2px); }
-  .resource-card-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .resource-card-desc {
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.5;
-    flex: 1;
-  }
-  .resource-card-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.72rem;
-    font-family: 'Space Mono', monospace;
-    color: var(--accent);
-    text-decoration: none;
-    border: 1px solid rgba(244,161,29,0.3);
-    border-radius: 4px;
-    padding: 0.3rem 0.65rem;
-    margin-top: 0.25rem;
-    transition: background 0.2s;
-    width: fit-content;
-  }
-  .resource-card-btn:hover { background: rgba(244,161,29,0.1); }
-  .needs-link {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: rgba(138,155,191,0.12);
-    color: var(--muted);
-    border: 1px solid rgba(138,155,191,0.25);
-    border-radius: 3px;
-    padding: 2px 6px;
   }
 </style>
 </head>
@@ -2163,13 +1719,9 @@
 <div class="section reveal" id="start">
   <div class="section-header">
     <span class="section-num">02 //</span>
-    <h2 class="section-title">START HERE — ACCESS FIRST, THEN ACTION</h2>
+    <h2 class="section-title">START HERE — YOUR CHECKLIST</h2>
   </div>
-  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1rem;">Click each item to mark it complete. Do these in order — access to the Shared Drive unlocks most other resources.</p>
-
-  <div class="access-callout"><strong>Access note:</strong> Most links in this hub depend on Shared Drive access. If something looks broken, request access first before assuming the resource is missing.</div>
-
-  <div class="check-progress" id="checkProgress">0 of 10 onboarding steps complete</div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Click each item to mark it complete. Do these in order — access to the Shared Drive unlocks most other resources.</p>
 
   <div class="checklist" id="checklist">
 
@@ -2206,19 +1758,6 @@
         </svg>
       </div>
       <div class="check-content">
-        <h4>Confirm Link Access</h4>
-        <p>Open at least one Shared Drive folder, one workgroup agenda, and one resource document to confirm your permissions are working before your first PoC meeting.</p>
-        <a href="#resources">→ Check Resource Hub ↓</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
         <h4>Subscribe to the STEM Calendar</h4>
         <p>Hold dates, workgroup meetings, statewide PLs — add this to your Google Calendar now.</p>
         <a href="#">→ STEM Calendar [LINK PLACEHOLDER]</a>
@@ -2234,7 +1773,6 @@
       <div class="check-content">
         <h4>Copy Your SoW Tracking Tool</h4>
         <p>Your Statement of Work is how you document deliverable progress. Make a copy and own it.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL A</span><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span><span class="mini-del">DEL D</span><span class="mini-del">DEL E</span><span class="mini-del">DEL F</span><span class="mini-del">DEL G</span></div>
         <a href="#">→ SoW Tracking Tool [LINK PLACEHOLDER]</a>
       </div>
     </div>
@@ -2249,20 +1787,6 @@
         <h4>Identify Your TaC</h4>
         <p>Your Technical Assistance Coach is your implementation partner for grant deliverables. Know who they are.</p>
         <a href="#directory">→ See the Directory ↓</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Understand the TaC Partnership</h4>
-        <p>TaC support is not an add-on. The STEM SOW expects inclusive access, UDL, and collaboration so STEM/CS learning works for students with diverse cognitive and physical abilities.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL G</span><span class="mini-del">DEL B</span><span class="mini-del">DEL D</span></div>
-        <a href="#who-for">→ See TaC Role Guidance ↓</a>
       </div>
     </div>
 
@@ -2288,7 +1812,6 @@
       <div class="check-content">
         <h4>Access ORBIT 1.0</h4>
         <p>This is where your STEMinPA data lives. You'll report expenditures and qualitative progress here.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL A</span><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span><span class="mini-del">DEL D</span><span class="mini-del">DEL E</span><span class="mini-del">DEL F</span><span class="mini-del">DEL G</span></div>
         <a href="#">→ ORBIT Tool [LINK PLACEHOLDER]</a>
       </div>
     </div>
@@ -2308,16 +1831,11 @@
 
   </div>
 
-  <div class="reality-check">
-    <h4>New PoC Reality Check</h4>
-    <p>You do not need to understand the whole network on day one. Your first job is to get access, understand the deliverables, find your people, and start documenting evidence. The rest becomes clearer once you attend meetings and join one workgroup.</p>
-  </div>
-
   <div class="orbit-box" style="margin-top:1.5rem;">
     <div class="orbit-icon">⚠️</div>
     <div>
       <h4>ORBIT Tool — Know Before You Go</h4>
-      <p>ORBIT is where you document your STEMinPA work against deliverables. It's not obvious at first. IU6 runs office hours during the year — check the calendar. Final Expenditure Reports and Qualitative Reports are both due July 15 each year. See sample entries from other IUs in the Deliverables section below. Use the SoW and ORBIT sections together: the SoW tells you what the work is, ORBIT helps you document the evidence.</p>
+      <p>ORBIT is where you document your STEMinPA work against deliverables. It's not obvious at first. IU6 runs office hours during the year — check the calendar. Final Expenditure Reports and Qualitative Reports are both due July 15 each year. See sample entries from other IUs in the Deliverables section below.</p>
     </div>
   </div>
 </div>
@@ -2399,23 +1917,6 @@
       <div class="role-actions">
         <a class="btn-role" href="#orbit">Review ORBIT →</a>
         <a class="btn-role" href="#future">View Future Builds →</a>
-      </div>
-    </div>
-
-    <!-- TAC / INCLUSION PARTNERS -->
-    <div class="role-card">
-      <div class="role-card-title">TaC / Inclusion Partners</div>
-      <p class="role-card-desc">Use the hub to connect inclusive practices, UDL, assistive technology, and accessibility to STEM/CS implementation.</p>
-      <ul class="role-entry-list">
-        <li>Review the STEM SOW inclusion expectations</li>
-        <li>Connect with your IU STEM PoC</li>
-        <li>Join or follow the Equity, TaC &amp; Inclusion workgroup</li>
-        <li>Look for UDL evidence in resources and student experiences</li>
-        <li>Help translate STEM opportunities into accessible learning pathways</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#workgroups">Find Inclusion Workgroup →</a>
-        <a class="btn-role" href="#sow">Review SoW Alignment →</a>
       </div>
     </div>
 
@@ -2639,7 +2140,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 12–1pm</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">3D learning, STEELS standards implementation, statewide PLCs (last: May 27)</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL A</span></div><a href="workgroup-science.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><a href="workgroup-science.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2647,7 +2148,7 @@
         <div class="wg-lead">Diane McGaffic (MIU4) · Alyssa Moore (IU1)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">T&E in STEELS, EbD curriculum, EiE resources. Sign up on running agenda.</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL C</span></div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2656,7 +2157,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">2nd Thursdays, 9am</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">ELS + careers, student ambassador programs, MWEE connections</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL E</span></div><a href="workgroup-careers-els.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL B</div><a href="workgroup-careers-els.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2665,7 +2166,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">Next: May 18, 10–11am</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">CS education, PAsmart policy, CSinPA monthly updates, AI integration</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL C</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL B</span></div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL C</div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2674,7 +2175,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2–2:55pm</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">STEELS for ALL students, Special Ed guides, UDL integration, accessibility</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL B</span><span class="mini-del">DEL D</span></div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2683,7 +2184,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">4th Tuesdays, 1pm</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Keystone STEM, Sea Air & Land, Invention Convention, regional coordination</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL F</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL D</span></div><a href="workgroup-student-competitions.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL F</div><a href="workgroup-student-competitions.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2691,7 +2192,7 @@
         <div class="wg-lead">Matt Swan (CCIU) · Tony Mirabito (CLIU)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Regional leads, STEMinPA projects, Minecraft Statewide — pselesports.org</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL F</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL C</span></div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL F</div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2700,7 +2201,7 @@
         <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2pm</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Statewide STEM lending library platform, equipment sharing, AT devices</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL F</span></div><a href="workgroup-stem-lending-libraries.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><a href="workgroup-stem-lending-libraries.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2708,7 +2209,7 @@
         <div class="wg-lead">Diane McGaffic (MIU4) · Alexandra Konsur-Grushinski (IU19)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Coherent STEM resources, integrative PD materials</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span></div><a href="workgroup-stem-toolkit.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><a href="workgroup-stem-toolkit.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2716,7 +2217,7 @@
         <div class="wg-lead">Kristina Fulton (IU13)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Math + STEM integration, UDL + math PD, coherent math resources</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL D</span></div><a href="workgroup-math.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL G</div><a href="workgroup-math.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2724,7 +2225,7 @@
         <div class="wg-lead">Jigar Patel (TIU11)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Think-tank for STEM PD — collaborative resource creation, shared materials</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL D</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL G</span></div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL D</div><span style="font-size:0.65rem;color:var(--muted);font-family:monospace;white-space:nowrap;opacity:0.6;">Profile Coming Soon</span></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2732,7 +2233,7 @@
         <div class="wg-lead">Abbey Hathaway (IU12)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Regional STEM ecosystem development, PSSE leadership summits</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL E</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL B</span></div><a href="workgroup-ecosystems.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL E</div><a href="workgroup-ecosystems.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
     <div class="wg-row">
       <div>
@@ -2740,7 +2241,7 @@
         <div class="wg-lead">Kelsi Wilcox Boyles (RIU6) · Sarah Brambley (IU8)</div>
       </div>
       <div style="font-size:0.78rem;color:var(--muted);">Career Ready PA Backpack Challenge, regional RLD events, Ambassador network</div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL D</div><div style="display:flex;gap:0.3rem;justify-content:flex-end;"><span class="mini-del">DEL E</span><span class="mini-del">DEL F</span></div><a href="workgroup-remake-learning-days.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.35rem;"><div class="wg-del">DEL D</div><a href="workgroup-remake-learning-days.html" style="font-size:0.7rem;color:var(--green);font-family:monospace;text-decoration:none;white-space:nowrap;">View Profile →</a></div>
     </div>
   </div>
   <p style="font-size:0.76rem;color:var(--muted);margin-top:1rem;opacity:0.75;">Profile pages are now available for <a href="workgroup-science.html" style="color:var(--green);text-decoration:none;">Science</a>, <a href="workgroup-student-competitions.html" style="color:var(--green);text-decoration:none;">Student Competitions</a>, <a href="workgroup-ecosystems.html" style="color:var(--green);text-decoration:none;">Ecosystems / PSSE</a>, <a href="workgroup-remake-learning-days.html" style="color:var(--green);text-decoration:none;">Remake Learning Days</a>, <a href="workgroup-careers-els.html" style="color:var(--green);text-decoration:none;">Careers &amp; EL&amp;S</a>, <a href="workgroup-stem-lending-libraries.html" style="color:var(--green);text-decoration:none;">STEM Lending Libraries</a>, <a href="workgroup-math.html" style="color:var(--green);text-decoration:none;">Math Focus</a>, and <a href="workgroup-stem-toolkit.html" style="color:var(--green);text-decoration:none;">STEM Toolkit</a>. Additional workgroup profiles will be added as running notes are converted.</p>
@@ -2752,102 +2253,9 @@
     <span class="section-num">07 //</span>
     <h2 class="section-title">STATEMENT OF WORK MENU</h2>
   </div>
-  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.25rem;">
+  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.75rem;">
     The SoW Menu helps PoCs connect local STEM work to statewide STEMinPA priorities. Think of it as the bridge between what you are already doing, what the grant expects, and what eventually needs to be documented in ORBIT. <strong style="color:var(--light);">Turn the SoW from compliance into strategy.</strong>
   </p>
-
-  <!-- SOW PHILOSOPHY -->
-  <div class="sow-philosophy">
-    <div class="sow-philosophy-title">// The SOW Is Designed to Overlap</div>
-    <p>The interconnected and overlapping nature of STEM work means activities often align with multiple deliverables — this is by design. The goal is not to silo work into isolated buckets, but to build coherent systems that connect STEM, CS, workforce, student-centered learning, inclusion, and ecosystem development.</p>
-    <div class="sow-phil-sub">The focus should remain on impact, collaboration, and evidence — not strict accounting of days.</div>
-  </div>
-
-  <!-- WHAT COUNTS AS A DAY? -->
-  <div class="sow-faq" id="sowFaqDay">
-    <div class="sow-faq-header" onclick="toggleSowFaq('sowFaqDay')">
-      <span class="sow-faq-title">// What Actually Counts as a STEM Day?</span>
-      <span class="sow-faq-chevron">▾</span>
-    </div>
-    <div class="sow-faq-body">
-      <ul>
-        <li>A day = minimum 7 hours of STEM-related work</li>
-        <li>Hours can be consecutive or non-consecutive across a calendar day</li>
-        <li>Activities may align to multiple deliverables simultaneously — log them all</li>
-        <li>Cross-collaborative work with partners, TaC, or other PoCs counts</li>
-        <li>IU leaders have flexibility to apply days based on local context and priorities</li>
-      </ul>
-      <p style="font-size:0.78rem;color:var(--muted);margin:0.75rem 0 0.35rem;">Examples of qualifying work:</p>
-      <ul>
-        <li class="check-yes">Planning a regional STEM ecosystem convening</li>
-        <li class="check-yes">Designing AI professional learning tied to STEELS</li>
-        <li class="check-yes">Running a student competition planning meeting</li>
-        <li class="check-yes">Building statewide workgroup resources</li>
-        <li class="check-yes">Supporting district strategic planning for STEM</li>
-        <li class="check-yes">Collaborating with TaC on inclusive STEM access</li>
-      </ul>
-      <div class="faq-rule">Impact matters more than perfect categorization.</div>
-    </div>
-  </div>
-
-  <!-- STATEWIDE PRIORITIES DASHBOARD -->
-  <p style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">// 2025–2026 Statewide Priorities</p>
-  <div class="priority-grid">
-    <div class="priority-card">
-      <div class="priority-icon">🎓</div>
-      <div class="priority-label">Students</div>
-      <div class="priority-tagline">Increase and broaden student participation in STEM/CS experiences.</div>
-      <div class="priority-examples">Competitions · Camps · STEM Nights · CS events · Maker experiences · Student leadership programs · Esports</div>
-    </div>
-    <div class="priority-card">
-      <div class="priority-icon">👩‍🏫</div>
-      <div class="priority-label">Educators</div>
-      <div class="priority-tagline">Increase educator participation in STEM/CS professional learning.</div>
-      <div class="priority-examples">STEELS PD · AI literacy · CS coaching · UDL integration · District strategic planning · Workgroup PLCs · TaC collaboration</div>
-    </div>
-    <div class="priority-card">
-      <div class="priority-icon">🏭</div>
-      <div class="priority-label">Workforce</div>
-      <div class="priority-tagline">Increase workforce-connected partnerships and engagement.</div>
-      <div class="priority-examples">Industry partnerships · Ecosystem convenings · Green careers · Higher ed connections · Community STEM events · MWEE pathways</div>
-    </div>
-  </div>
-
-  <!-- LOCAL → STATEWIDE FLOW -->
-  <div class="flow-wrap">
-    <p style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">// How Local Work Becomes Statewide Impact</p>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-step-num">01</div>
-        <div class="flow-step-label">Local IU Work</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-step-num">02</div>
-        <div class="flow-step-label">Regional Collaboration</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-step-num">03</div>
-        <div class="flow-step-label">Workgroup Sharing</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-step-num">04</div>
-        <div class="flow-step-label">PAIU Hub / OER Commons</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-step-num">05</div>
-        <div class="flow-step-label">Statewide Impact</div>
-      </div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-step">
-        <div class="flow-step-num">06</div>
-        <div class="flow-step-label">PDE / PAsmart Priorities</div>
-      </div>
-    </div>
-  </div>
 
   <div class="sow-grid">
 
@@ -2879,12 +2287,6 @@
             <li>Resource links</li>
           </ul>
         </div>
-      </div>
-      <div class="del-connects">
-        <span class="del-connects-label">Also connects:</span>
-        <span class="mini-del">DEL C</span>
-        <span class="mini-del">DEL D</span>
-        <span class="mini-del">DEL G</span>
       </div>
       <div class="sow-card-footer">
         <a class="btn-sow" href="#orbit">View ORBIT Examples →</a>
@@ -2920,12 +2322,6 @@
           </ul>
         </div>
       </div>
-      <div class="del-connects">
-        <span class="del-connects-label">Also connects:</span>
-        <span class="mini-del">DEL A</span>
-        <span class="mini-del">DEL B</span>
-        <span class="mini-del">DEL G</span>
-      </div>
       <div class="sow-card-footer">
         <a class="btn-sow" href="#orbit">View ORBIT Examples →</a>
       </div>
@@ -2959,12 +2355,6 @@
             <li>Photos or showcase links</li>
           </ul>
         </div>
-      </div>
-      <div class="del-connects">
-        <span class="del-connects-label">Also connects:</span>
-        <span class="mini-del">DEL B</span>
-        <span class="mini-del">DEL C</span>
-        <span class="mini-del">DEL E</span>
       </div>
       <div class="sow-card-footer">
         <a class="btn-sow" href="#orbit">View ORBIT Examples →</a>
@@ -3000,12 +2390,6 @@
           </ul>
         </div>
       </div>
-      <div class="del-connects">
-        <span class="del-connects-label">Also connects:</span>
-        <span class="mini-del">DEL A</span>
-        <span class="mini-del">DEL C</span>
-        <span class="mini-del">DEL D</span>
-      </div>
       <div class="sow-card-footer">
         <a class="btn-sow" href="#orbit">View ORBIT Examples →</a>
       </div>
@@ -3039,12 +2423,6 @@
             <li>Student participation totals</li>
           </ul>
         </div>
-      </div>
-      <div class="del-connects">
-        <span class="del-connects-label">Also connects:</span>
-        <span class="mini-del">DEL A</span>
-        <span class="mini-del">DEL D</span>
-        <span class="mini-del">DEL E</span>
       </div>
       <div class="sow-card-footer">
         <a class="btn-sow" href="#orbit">View ORBIT Examples →</a>
@@ -3208,21 +2586,6 @@
     </div>
   </div>
 
-  <div class="evidence-mindset">
-    <h4>Think in Evidence, Not Just Events</h4>
-    <p style="font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:0.6rem;">Strong reporting is not just listing activities. It captures what the work actually accomplished:</p>
-    <ul>
-      <li><strong>Educator impact</strong> — who was reached, what shifted in practice</li>
-      <li><strong>Student reach</strong> — direct or indirect contact with learners</li>
-      <li><strong>Workforce engagement</strong> — partners, employers, industry connections</li>
-      <li><strong>Systems change</strong> — district plans, policies, or structural shifts</li>
-      <li><strong>Resource creation</strong> — tools, guides, or materials that persist after the event</li>
-      <li><strong>Collaboration growth</strong> — new partnerships, cross-IU connections, network depth</li>
-      <li><strong>Implementation progress</strong> — evidence that work led to sustained follow-through</li>
-    </ul>
-    <div class="em-footer">Good evidence tells the story of why the work mattered.</div>
-  </div>
-
 </div>
 
 <!-- RESOURCE HUB -->
@@ -3231,145 +2594,9 @@
     <span class="section-num">09 //</span>
     <h2 class="section-title">RESOURCE HUB</h2>
   </div>
-  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:0.25rem;">Central access point for shared resources across the PoC network. All links are placeholders until connected to live Shared Drive folders.</p>
-
-  <div class="resource-grid">
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Onboarding Access</div>
-      <p class="resource-card-desc">New PoC onboarding documents, access request forms, and orientation materials.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Shared Drive</div>
-      <p class="resource-card-desc">The central STEMinPA Shared Drive — workgroup folders, meeting agendas, and statewide documents.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">ORBIT</div>
-      <p class="resource-card-desc">Access the ORBIT 1.0 reporting tool, sample entries, and Qualitative Report guidance.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">SoW Tracking</div>
-      <p class="resource-card-desc">Your Statement of Work tracking tool — make a copy and use it to align activity to deliverables.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Workgroup Agendas</div>
-      <p class="resource-card-desc">Running agendas and meeting notes for all active PoC workgroups in the Shared Drive.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <div class="resource-card-title">STEM Toolkit</div>
-      <p class="resource-card-desc">PA STEM Toolkit on OER Commons — vetted resources organized by pathway level and user profile.</p>
-      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.5rem;"><span class="mini-del">DEL G</span><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span></div>
-      <a class="resource-card-btn" href="workgroup-stem-toolkit.html">View Workgroup Profile →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Lending Library</div>
-      <p class="resource-card-desc">Statewide STEM lending library inventory — equipment sharing across IU regions.</p>
-      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.5rem;"><span class="mini-del">DEL G</span><span class="mini-del">DEL F</span></div>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <div class="resource-card-title">Student Competitions</div>
-      <p class="resource-card-desc">Keystone STEM, Sea Air &amp; Land, Invention Convention, and regional competition coordination resources.</p>
-      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.5rem;"><span class="mini-del">DEL F</span><span class="mini-del">DEL D</span></div>
-      <a class="resource-card-btn" href="workgroup-student-competitions.html">View Workgroup Profile →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Equity / UDL</div>
-      <p class="resource-card-desc">UDL resources, STEELS for ALL students guides, SpEd science materials, and TaC partnership tools.</p>
-      <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.5rem;"><span class="mini-del">DEL G</span><span class="mini-del">DEL B</span><span class="mini-del">DEL D</span></div>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">Meeting Protocols</div>
-      <p class="resource-card-desc">Facilitation templates, agenda formats, and norms documents used across PoC meetings and workgroups.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
-    <div class="resource-card">
-      <span class="needs-link">Needs Link</span>
-      <div class="resource-card-title">IU Examples</div>
-      <p class="resource-card-desc">Shared ORBIT examples, STEM PoC impact stories, and replicable practices from across Pennsylvania.</p>
-      <a class="resource-card-btn" href="#">Open Resource →</a>
-    </div>
-
+  <div class="coming-soon">
+    <strong>COMING — PATCH 7:</strong> Category cards for Onboarding, Shared Drive, ORBIT, SoW Tracking, STEELS, CS / AI, Ecosystems, Student Competitions, Equity / UDL, Meeting Protocols, Annual Impact Stories, and IU Examples — each with Open Resource, Add Example, and View Templates actions.
   </div>
-
-  <div class="orbit-subsection-title" style="margin-top:1.75rem;">RESOURCES WORTH SHARING ACROSS PENNSYLVANIA</div>
-  <p style="font-size:0.82rem;color:var(--muted);max-width:700px;line-height:1.7;margin-bottom:0.75rem;">When you build something useful — a tool, a template, a lesson model, a process — share it with the network. These categories represent active contribution opportunities. Adding to OER Commons or the PAIU Hub counts toward your DEL G evidence.</p>
-
-  <div class="share-grid">
-    <div class="share-card">
-      <div class="share-card-title">District Implementation Tools</div>
-      Planning guides, rollout templates, and capacity-building frameworks for taking STEM work to scale at the district level.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Strategic Planning Templates</div>
-      STEM strategic planning worksheets, logic models, and multi-year roadmap formats used across IUs.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Competition Guides</div>
-      Keystone STEM, Invention Convention, Sea Air &amp; Land, and regional competition start-up packets and logistics resources.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">STEM Night Resources</div>
-      Family STEM event planning kits, station templates, and community engagement models from across the network.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">AI / CS Lesson Models</div>
-      Instructional units and lesson examples connecting AI literacy, computational thinking, and CS integration to STEELS and core content.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Ecosystem Planning Tools</div>
-      Partner mapping tools, MWEE planning resources, and cross-sector ecosystem engagement frameworks.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Inclusion / UDL Supports</div>
-      STEELS for ALL materials, SpEd science resources, TaC partnership tools, and UDL-forward STEM lesson adaptations.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">MWEE Resources</div>
-      Place-based learning guides, environmental literacy connections, and watershed/land use investigation resources aligned to STEELS.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Data Literacy Examples</div>
-      Data science classroom examples, real-world data sets, DS4E resources, and statistical reasoning instructional supports.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">Advisor / Coach Guides</div>
-      PoC onboarding supplements, coaching models, STEM coordinator role definitions, and advisor support tools.
-    </div>
-    <div class="share-card">
-      <div class="share-card-title">ORBIT Exemplars</div>
-      Strong ORBIT entry examples, Qualitative Report excerpts, and evidence write-up models for each deliverable.
-    </div>
-  </div>
-
-  <div class="share-note">
-    <strong>How to contribute:</strong> Add resources to the PA STEM Toolkit on OER Commons or the PAIU Hub. Tag by deliverable, pathway level, and audience type. Resources shared with the network count toward DEL G evidence — and help every PoC who finds them later.
-  </div>
-
 </div>
 
 <!-- STEM INTELLIGENCE LAYER -->
@@ -4008,13 +3235,7 @@
     <span class="section-num">11 //</span>
     <h2 class="section-title">FUTURE BUILDS</h2>
   </div>
-  <div class="network-card">
-    <h3>// The Work Is the Network</h3>
-    <p>The SOW is more than a compliance document — it is a statewide coordination framework. Every PoC working their deliverables is simultaneously building a shared professional infrastructure for Pennsylvania STEM: shared resources, shared learning, shared evidence, shared momentum.</p>
-    <p>When you log ORBIT entries, attend workgroup meetings, contribute to the STEM Toolkit, or show up to a regional PLC — you are not just doing your job. You are contributing to a network that would not exist without each of its nodes showing up.</p>
-    <div class="network-footer">The network itself is one of Pennsylvania's most important STEM resources.</div>
-  </div>
-  <div class="coming-soon" style="margin-top:1.25rem;">
+  <div class="coming-soon">
     <strong>COMING — PATCH 8:</strong> Roadmap cards for Searchable IU Directory, Workgroup Dashboards, ORBIT Example Bank, Shared Resource Library, Annual Impact Narrative Builder, Buddy Match Logic, Meeting Agenda Generator, IU Collaboration Pitch Board, and Contribution / Microbadge Tracker — each with status (Prototype / Planned / Future), why it matters, and next build step.
   </div>
 </div>
@@ -4211,31 +3432,8 @@
   function updateProgress() {
     const total = document.querySelectorAll('.check-item').length;
     const done = document.querySelectorAll('.check-item.done').length;
-    const el = document.getElementById('checkProgress');
-    if (!el) return;
-    if (done === total) {
-      el.textContent = 'Onboarding access complete — you are cleared for launch.';
-      el.classList.add('complete');
-    } else {
-      el.textContent = done + ' of ' + total + ' onboarding steps complete';
-      el.classList.remove('complete');
-    }
+    // Could add a progress counter here
   }
-
-  const hubLinks = {
-    listserv: "#",
-    sharedDriveAccess: "#",
-    slack: "#",
-    calendar: "#",
-    sowTracking: "#",
-    orbit: "#",
-    qaDoc: "#",
-    workgroupSignup: "#",
-    stemToolkit: "#",
-    lendingLibrary: "#",
-    competitions: "#",
-    equityTacInclusion: "#"
-  };
 
   // Deliverable expand
   function toggleDel(el) {
@@ -4383,12 +3581,6 @@
     evEl.textContent = match.evidence;
     sampleEl.textContent = match.sample;
     result.classList.add('show');
-  }
-
-  // SoW FAQ toggle
-  function toggleSowFaq(id) {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('open');
   }
 
   // Mobile nav toggle
