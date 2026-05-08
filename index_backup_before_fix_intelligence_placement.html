@@ -1617,15 +1617,18 @@
   <div class="nav-logo">PA STEM <span>PoC</span></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#story">Origin</a></li>
-    <li><a href="#start">Start</a></li>
-    <li><a href="#who-for">Roles</a></li>
-    <li><a href="#directory">Directory</a></li>
-    <li><a href="#buddy">Buddy</a></li>
+    <li><a href="#start">Start Here</a></li>
+    <li><a href="#who-for">Who It's For</a></li>
+    <li><a href="#pathway">90-Day</a></li>
+    <li><a href="#sow">SoW Menu</a></li>
+    <li><a href="#deliverables">Deliverables</a></li>
     <li><a href="#workgroups">Workgroups</a></li>
-    <li><a href="#sow">SoW</a></li>
-    <li><a href="#orbit">ORBIT</a></li>
-    <li><a href="#resources">Resources</a></li>
     <li><a href="#intelligence">STEM Intel</a></li>
+    <li><a href="#directory">Directory</a></li>
+    <li><a href="#orbit">ORBIT</a></li>
+    <!-- Meeting OS nav link hidden temporarily: <li><a href="#meeting-os">Meeting OS</a></li> -->
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#buddy">Buddy</a></li>
     <li><a href="#future">Future</a></li>
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
@@ -1840,93 +1843,267 @@
   </div>
 </div>
 
-<!-- WHO IT'S FOR -->
-<div class="section reveal" id="who-for">
+<!-- DELIVERABLES -->
+<div class="section reveal" id="deliverables">
   <div class="section-header">
     <span class="section-num">03 //</span>
-    <h2 class="section-title">WHO THIS HUB IS FOR</h2>
+    <h2 class="section-title">THE DELIVERABLE MAP</h2>
   </div>
-  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.75rem;">
-    The PA STEM PoC Hub is designed for different kinds of users across the network. Start where you are, then move deeper as you connect your local work to statewide collaboration, reporting, and impact.
-  </p>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Click any deliverable to expand details. These are the buckets your PAsmart work gets organized into.</p>
 
-  <div class="role-grid">
+  <div class="deliverable-grid">
 
-    <!-- NEW POCs -->
-    <div class="role-card">
-      <div class="role-card-title">New PoCs</div>
-      <p class="role-card-desc">Start here if you are new to the STEM PoC role and need a clear path into the network.</p>
-      <ul class="role-entry-list">
-        <li>Complete the Start Here checklist</li>
-        <li>Follow the 90-Day Pathway</li>
-        <li>Learn the SoW deliverables</li>
-        <li>Find your TaC and buddy</li>
-        <li>Use the ORBIT companion before reporting season</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#start">Start Checklist →</a>
-        <a class="btn-role" href="#pathway">View 90-Day Pathway →</a>
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL A</span>
+        <span class="del-title">STEM PoC Network</span>
+      </div>
+      <p class="del-desc">Participation in the statewide PoC network — meetings, workgroups, collaboration.</p>
+      <div class="del-tags">
+        <span class="tag">PoC Meetings</span>
+        <span class="tag">Workgroups</span>
+        <span class="tag">Statewide PLCs</span>
+      </div>
+      <div class="del-expand">
+        This is your baseline deliverable. Showing up to PoC meetings, joining workgroups, and contributing to shared resources all count here. Your TaC also plays a role in supporting your workgroup participation. <br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER — Add anonymized example of how IUs log Deliverable A in ORBIT]
       </div>
     </div>
 
-    <!-- RETURNING POCs -->
-    <div class="role-card">
-      <div class="role-card-title">Returning PoCs</div>
-      <p class="role-card-desc">Use the hub to find resources, align work to deliverables, and share examples from your IU.</p>
-      <ul class="role-entry-list">
-        <li>Review the SoW Menu</li>
-        <li>Use ORBIT sample language</li>
-        <li>Find workgroup connections</li>
-        <li>Share resources or examples</li>
-        <li>Contribute impact stories</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#sow">Open SoW Menu →</a>
-        <a class="btn-role" href="#orbit">Use ORBIT Companion →</a>
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL B</span>
+        <span class="del-title">STEELS Standards</span>
+      </div>
+      <p class="del-desc">Supporting PA Science/STEM standards implementation across your IU and districts.</p>
+      <div class="del-tags">
+        <span class="tag">Science</span>
+        <span class="tag">T&E</span>
+        <span class="tag">EL&S</span>
+        <span class="tag">MWEE</span>
+        <span class="tag">PENNSEL</span>
+      </div>
+      <div class="del-expand">
+        STEELS is the big one. Most of the statewide professional learning (WestEd CoPs, PaTTAN institutes) connects here. Your TaC often co-facilitates STEELS PD. The Equity/TaC/Inclusion workgroup is building UDL-integrated resources to make STEELS accessible for ALL learners.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
       </div>
     </div>
 
-    <!-- WORKGROUP LEADS -->
-    <div class="role-card">
-      <div class="role-card-title">Workgroup Leads</div>
-      <p class="role-card-desc">Use the hub to make workgroups easier to join, follow, document, and sustain.</p>
-      <ul class="role-entry-list">
-        <li>Link agendas and shared folders</li>
-        <li>Tag work to deliverables</li>
-        <li>Add workgroup resources</li>
-        <li>Surface meeting cadence</li>
-        <li>Recruit collaborators across IUs</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#workgroups">View Workgroups →</a>
-        <a class="btn-role" href="#resources">Open Resource Hub →</a>
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL C</span>
+        <span class="del-title">Computer Science Education</span>
+      </div>
+      <p class="del-desc">CS integration, CSTA standards, AI/ML literacy, computational thinking.</p>
+      <div class="del-tags">
+        <span class="tag">CS Workgroup</span>
+        <span class="tag">AI Taskforce</span>
+        <span class="tag">Comp Thinking</span>
+      </div>
+      <div class="del-expand">
+        CS + AI is the fastest-moving deliverable right now. New CSTA standards are shifting toward AI/ML process understanding (not just tool use). IUs doing tiered AI PD models, CT cohorts, and district AI workshops all log here.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
       </div>
     </div>
 
-    <!-- LEAD TEAM / PAIMS -->
-    <div class="role-card">
-      <div class="role-card-title">Lead Team / PAIMS</div>
-      <p class="role-card-desc">Use the hub as a shared infrastructure layer for onboarding, statewide coherence, reporting support, and network storytelling.</p>
-      <ul class="role-entry-list">
-        <li>Support new PoC onboarding</li>
-        <li>Align meetings and messages</li>
-        <li>Gather ORBIT examples</li>
-        <li>Identify statewide patterns</li>
-        <li>Build the annual impact narrative</li>
-      </ul>
-      <div class="role-actions">
-        <a class="btn-role" href="#orbit">Review ORBIT →</a>
-        <a class="btn-role" href="#future">View Future Builds →</a>
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL D</span>
+        <span class="del-title">Student-Centered Learning</span>
+      </div>
+      <p class="del-desc">Advancing SCL approaches in STEM contexts across districts.</p>
+      <div class="del-tags">
+        <span class="tag">STEM Pals</span>
+        <span class="tag">PASCL CoP</span>
+        <span class="tag">StartSOLE</span>
+      </div>
+      <div class="del-expand">
+        SCL overlaps heavily with PASCL CoP work. STEM Pals is the think-tank workgroup for collaboratively building shared PD materials. StartSOLE is a student-driven inquiry model that fits here.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
       </div>
     </div>
 
-  </div><!-- end .role-grid -->
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL E</span>
+        <span class="del-title">STEM Ecosystems</span>
+      </div>
+      <p class="del-desc">Building and sustaining regional STEM ecosystems through partnerships.</p>
+      <div class="del-tags">
+        <span class="tag">PSSE Workgroup</span>
+        <span class="tag">Ecosystem Convenings</span>
+      </div>
+      <div class="del-expand">
+        Ecosystems work is now housed in the PSSE Workgroup (led by Abbey Hathaway, IU12). This involves connecting schools, businesses, community orgs, and higher ed into functioning regional STEM ecosystems.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL F</span>
+        <span class="del-title">Student Competitions</span>
+      </div>
+      <p class="del-desc">Coordinating and supporting regional and statewide STEM competitions.</p>
+      <div class="del-tags">
+        <span class="tag">Keystone STEM</span>
+        <span class="tag">Sea Air & Land</span>
+        <span class="tag">Invention Convention</span>
+        <span class="tag">Esports</span>
+      </div>
+      <div class="del-expand">
+        This is one of the most tangible deliverables for districts — they can see and feel it. Jillian Darlington leads the statewide Student Competitions Workgroup. Competitions Kick-Off is typically late October.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+    <div class="del-card" onclick="toggleDel(this)">
+      <div class="del-header">
+        <span class="del-badge">DEL G</span>
+        <span class="del-title">Coherent Integrative STEM / COE</span>
+      </div>
+      <p class="del-desc">Resources for accelerated learning, math integration, UDL + STEM connections.</p>
+      <div class="del-tags">
+        <span class="tag">STEM Toolkit</span>
+        <span class="tag">Equity/TaC</span>
+        <span class="tag">Lending Library</span>
+        <span class="tag">Math Focus</span>
+      </div>
+      <div class="del-expand">
+        G is the catch-all for integrative work — UDL + STEM, math + STEM, equity + STEM. The Equity/TaC/Inclusion workgroup has been doing deep work here this year, including drafting STEELS guides for Special Education teachers.<br><br>
+        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WORKGROUPS -->
+<div class="section reveal" id="workgroups">
+  <div class="section-header">
+    <span class="section-num">04 //</span>
+    <h2 class="section-title">WORKGROUP HUB</h2>
+  </div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">All active workgroups — leads, meeting cadence, and deliverable alignment.</p>
+
+  <div class="wg-list">
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Science</div>
+        <div class="wg-lead">Colleen Epler-Ruths · Jen Sciacca (CAIU)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 12–1pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">3D learning, STEELS standards implementation, statewide PLCs (last: May 27)</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Technology & Engineering</div>
+        <div class="wg-lead">Diane McGaffic (MIU4) · Alyssa Moore (IU1)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">T&E in STEELS, EbD curriculum, EiE resources. Sign up on running agenda.</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Environmental Literacy & Sustainability</div>
+        <div class="wg-lead">Sara Jeffries (DCIU) · Jen Sciacca (CAIU)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">2nd Thursdays, 9am</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">ELS + careers, student ambassador programs, MWEE connections</div>
+      <div class="wg-del">DEL B</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">PA Smart & CS</div>
+        <div class="wg-lead">Kendy Schiffert · Jigar Patel · Greg Macer (IU29) · Sara Frey</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">Next: May 18, 10–11am</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">CS education, PAsmart policy, CSinPA monthly updates, AI integration</div>
+      <div class="wg-del">DEL C</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Equity, TaC & Inclusion</div>
+        <div class="wg-lead">Peney Wright (TIU11)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2–2:55pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">STEELS for ALL students, Special Ed guides, UDL integration, accessibility</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Student Competitions</div>
+        <div class="wg-lead">Jillian Darlington (Berks IU14)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">4th Tuesdays, 1pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Keystone STEM, Sea Air & Land, Invention Convention, regional coordination</div>
+      <div class="wg-del">DEL F</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Esports</div>
+        <div class="wg-lead">Matt Swan (CCIU) · Tony Mirabito (CLIU)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Regional leads, STEMinPA projects, Minecraft Statewide — pselesports.org</div>
+      <div class="wg-del">DEL F</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Lending Libraries</div>
+        <div class="wg-lead">Sarah Brambley (IU8) · Christina Sanders (IU5)</div>
+        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2pm</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Statewide STEM lending library platform, equipment sharing, AT devices</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">STEM Toolkit</div>
+        <div class="wg-lead">Diane McGaffic (MIU4) · Alexandra Konsur-Grushinski (IU19)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Coherent STEM resources, integrative PD materials</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Math Focus</div>
+        <div class="wg-lead">Kristina Fulton (IU13)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Math + STEM integration, UDL + math PD, coherent math resources</div>
+      <div class="wg-del">DEL G</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">STEM Pals</div>
+        <div class="wg-lead">Jigar Patel (TIU11)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Think-tank for STEM PD — collaborative resource creation, shared materials</div>
+      <div class="wg-del">DEL D</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Ecosystems (PSSE)</div>
+        <div class="wg-lead">Abbey Hathaway (IU12)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Regional STEM ecosystem development, PSSE leadership summits</div>
+      <div class="wg-del">DEL E</div>
+    </div>
+    <div class="wg-row">
+      <div>
+        <div class="wg-name">Remake Learning Days</div>
+        <div class="wg-lead">Kelsi Wilcox Boyles (RIU6) · Sarah Brambley (IU8)</div>
+      </div>
+      <div style="font-size:0.78rem;color:var(--muted);">Career Ready PA Backpack Challenge, regional RLD events, Ambassador network</div>
+      <div class="wg-del">DEL D</div>
+    </div>
+  </div>
 </div>
 
 <!-- DIRECTORY -->
 <div class="section reveal" id="directory">
   <div class="section-header">
-    <span class="section-num">04 //</span>
+    <span class="section-num">05 //</span>
     <h2 class="section-title">IU DIRECTORY</h2>
   </div>
   <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Who's who across the 29 IUs. Click your IU to expand. <span style="color:var(--accent)">★ Placeholders need to be filled in.</span></p>
@@ -2071,7 +2248,7 @@
 <!-- BUDDY SYSTEM -->
 <div class="section reveal" id="buddy">
   <div class="section-header">
-    <span class="section-num">05 //</span>
+    <span class="section-num">06 //</span>
     <h2 class="section-title">BUDDY SYSTEM</h2>
   </div>
 
@@ -2124,132 +2301,104 @@
   </div>
 </div>
 
-<!-- WORKGROUPS -->
-<div class="section reveal" id="workgroups">
+<!-- WHO IT'S FOR -->
+<div class="section reveal" id="who-for">
   <div class="section-header">
-    <span class="section-num">06 //</span>
-    <h2 class="section-title">WORKGROUP HUB</h2>
+    <span class="section-num">07 //</span>
+    <h2 class="section-title">WHO THIS HUB IS FOR</h2>
   </div>
-  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">All active workgroups — leads, meeting cadence, and deliverable alignment.</p>
+  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.75rem;">
+    The PA STEM PoC Hub is designed for different kinds of users across the network. Start where you are, then move deeper as you connect your local work to statewide collaboration, reporting, and impact.
+  </p>
 
-  <div class="wg-list">
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Science</div>
-        <div class="wg-lead">Colleen Epler-Ruths · Jen Sciacca (CAIU)</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 12–1pm</div>
+  <div class="role-grid">
+
+    <!-- NEW POCs -->
+    <div class="role-card">
+      <div class="role-card-title">New PoCs</div>
+      <p class="role-card-desc">Start here if you are new to the STEM PoC role and need a clear path into the network.</p>
+      <ul class="role-entry-list">
+        <li>Complete the Start Here checklist</li>
+        <li>Follow the 90-Day Pathway</li>
+        <li>Learn the SoW deliverables</li>
+        <li>Find your TaC and buddy</li>
+        <li>Use the ORBIT companion before reporting season</li>
+      </ul>
+      <div class="role-actions">
+        <a class="btn-role" href="#start">Start Checklist →</a>
+        <a class="btn-role" href="#pathway">View 90-Day Pathway →</a>
       </div>
-      <div style="font-size:0.78rem;color:var(--muted);">3D learning, STEELS standards implementation, statewide PLCs (last: May 27)</div>
-      <div class="wg-del">DEL B</div>
     </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Technology & Engineering</div>
-        <div class="wg-lead">Diane McGaffic (MIU4) · Alyssa Moore (IU1)</div>
+
+    <!-- RETURNING POCs -->
+    <div class="role-card">
+      <div class="role-card-title">Returning PoCs</div>
+      <p class="role-card-desc">Use the hub to find resources, align work to deliverables, and share examples from your IU.</p>
+      <ul class="role-entry-list">
+        <li>Review the SoW Menu</li>
+        <li>Use ORBIT sample language</li>
+        <li>Find workgroup connections</li>
+        <li>Share resources or examples</li>
+        <li>Contribute impact stories</li>
+      </ul>
+      <div class="role-actions">
+        <a class="btn-role" href="#sow">Open SoW Menu →</a>
+        <a class="btn-role" href="#orbit">Use ORBIT Companion →</a>
       </div>
-      <div style="font-size:0.78rem;color:var(--muted);">T&E in STEELS, EbD curriculum, EiE resources. Sign up on running agenda.</div>
-      <div class="wg-del">DEL B</div>
     </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Environmental Literacy & Sustainability</div>
-        <div class="wg-lead">Sara Jeffries (DCIU) · Jen Sciacca (CAIU)</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">2nd Thursdays, 9am</div>
+
+    <!-- WORKGROUP LEADS -->
+    <div class="role-card">
+      <div class="role-card-title">Workgroup Leads</div>
+      <p class="role-card-desc">Use the hub to make workgroups easier to join, follow, document, and sustain.</p>
+      <ul class="role-entry-list">
+        <li>Link agendas and shared folders</li>
+        <li>Tag work to deliverables</li>
+        <li>Add workgroup resources</li>
+        <li>Surface meeting cadence</li>
+        <li>Recruit collaborators across IUs</li>
+      </ul>
+      <div class="role-actions">
+        <a class="btn-role" href="#workgroups">View Workgroups →</a>
+        <a class="btn-role" href="#resources">Open Resource Hub →</a>
       </div>
-      <div style="font-size:0.78rem;color:var(--muted);">ELS + careers, student ambassador programs, MWEE connections</div>
-      <div class="wg-del">DEL B</div>
     </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">PA Smart & CS</div>
-        <div class="wg-lead">Kendy Schiffert · Jigar Patel · Greg Macer (IU29) · Sara Frey</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">Next: May 18, 10–11am</div>
+
+    <!-- LEAD TEAM / PAIMS -->
+    <div class="role-card">
+      <div class="role-card-title">Lead Team / PAIMS</div>
+      <p class="role-card-desc">Use the hub as a shared infrastructure layer for onboarding, statewide coherence, reporting support, and network storytelling.</p>
+      <ul class="role-entry-list">
+        <li>Support new PoC onboarding</li>
+        <li>Align meetings and messages</li>
+        <li>Gather ORBIT examples</li>
+        <li>Identify statewide patterns</li>
+        <li>Build the annual impact narrative</li>
+      </ul>
+      <div class="role-actions">
+        <a class="btn-role" href="#orbit">Review ORBIT →</a>
+        <a class="btn-role" href="#future">View Future Builds →</a>
       </div>
-      <div style="font-size:0.78rem;color:var(--muted);">CS education, PAsmart policy, CSinPA monthly updates, AI integration</div>
-      <div class="wg-del">DEL C</div>
     </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Equity, TaC & Inclusion</div>
-        <div class="wg-lead">Peney Wright (TIU11)</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2–2:55pm</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">STEELS for ALL students, Special Ed guides, UDL integration, accessibility</div>
-      <div class="wg-del">DEL G</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Student Competitions</div>
-        <div class="wg-lead">Jillian Darlington (Berks IU14)</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">4th Tuesdays, 1pm</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Keystone STEM, Sea Air & Land, Invention Convention, regional coordination</div>
-      <div class="wg-del">DEL F</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Esports</div>
-        <div class="wg-lead">Matt Swan (CCIU) · Tony Mirabito (CLIU)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Regional leads, STEMinPA projects, Minecraft Statewide — pselesports.org</div>
-      <div class="wg-del">DEL F</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Lending Libraries</div>
-        <div class="wg-lead">Sarah Brambley (IU8) · Christina Sanders (IU5)</div>
-        <div class="wg-lead" style="margin-top:0.2rem;">1st Tuesday monthly, 2pm</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Statewide STEM lending library platform, equipment sharing, AT devices</div>
-      <div class="wg-del">DEL G</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">STEM Toolkit</div>
-        <div class="wg-lead">Diane McGaffic (MIU4) · Alexandra Konsur-Grushinski (IU19)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Coherent STEM resources, integrative PD materials</div>
-      <div class="wg-del">DEL G</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Math Focus</div>
-        <div class="wg-lead">Kristina Fulton (IU13)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Math + STEM integration, UDL + math PD, coherent math resources</div>
-      <div class="wg-del">DEL G</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">STEM Pals</div>
-        <div class="wg-lead">Jigar Patel (TIU11)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Think-tank for STEM PD — collaborative resource creation, shared materials</div>
-      <div class="wg-del">DEL D</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Ecosystems (PSSE)</div>
-        <div class="wg-lead">Abbey Hathaway (IU12)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Regional STEM ecosystem development, PSSE leadership summits</div>
-      <div class="wg-del">DEL E</div>
-    </div>
-    <div class="wg-row">
-      <div>
-        <div class="wg-name">Remake Learning Days</div>
-        <div class="wg-lead">Kelsi Wilcox Boyles (RIU6) · Sarah Brambley (IU8)</div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--muted);">Career Ready PA Backpack Challenge, regional RLD events, Ambassador network</div>
-      <div class="wg-del">DEL D</div>
-    </div>
+
+  </div><!-- end .role-grid -->
+</div>
+
+<!-- 90-DAY PATHWAY -->
+<div class="section reveal" id="pathway">
+  <div class="section-header">
+    <span class="section-num">08 //</span>
+    <h2 class="section-title">90-DAY ONBOARDING PATHWAY</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 3:</strong> Interactive 30 / 60 / 90-day phase cards with expandable checklists — Day 0–14 access setup, Day 15–30 first meeting and workgroup, Day 31–60 first contribution, Day 61–90 active member graduation.
   </div>
 </div>
 
 <!-- SOW MENU -->
 <div class="section reveal" id="sow">
   <div class="section-header">
-    <span class="section-num">07 //</span>
+    <span class="section-num">09 //</span>
     <h2 class="section-title">STATEMENT OF WORK MENU</h2>
   </div>
   <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:1.75rem;">
@@ -2469,7 +2618,7 @@
 <!-- ORBIT -->
 <div class="section reveal" id="orbit">
   <div class="section-header">
-    <span class="section-num">08 //</span>
+    <span class="section-num">10 //</span>
     <h2 class="section-title">ORBIT REPORTING COMPANION</h2>
   </div>
   <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:0.5rem;">
@@ -2587,21 +2736,247 @@
 
 </div>
 
-<!-- RESOURCE HUB -->
-<div class="section reveal" id="resources">
+<!-- MEETING OS — hidden temporarily, content preserved, restore by removing hidden-section class -->
+<div class="section reveal hidden-section" id="meeting-os">
   <div class="section-header">
-    <span class="section-num">09 //</span>
-    <h2 class="section-title">RESOURCE HUB</h2>
+    <span class="section-num">11 //</span>
+    <h2 class="section-title">MONTHLY MEETING OS</h2>
   </div>
-  <div class="coming-soon">
-    <strong>COMING — PATCH 7:</strong> Category cards for Onboarding, Shared Drive, ORBIT, SoW Tracking, STEELS, CS / AI, Ecosystems, Student Competitions, Equity / UDL, Meeting Protocols, Annual Impact Stories, and IU Examples — each with Open Resource, Add Example, and View Templates actions.
+  <p style="font-size:0.88rem; color:var(--muted); max-width:680px; line-height:1.7; margin-bottom:0.4rem;">
+    The STEM PoC monthly meeting should not feel like one more status-update Zoom. This structure turns the hour into a working session: connection, shared pulse, peer problem-solving, focused updates, commitments, and a clean close.
+  </p>
+  <p style="font-size:0.88rem; color:var(--accent); font-weight:600; margin-bottom:1.75rem; font-family:'Space Mono',monospace;">Less sit-and-get. More network intelligence.</p>
+
+  <!-- PART 1: 60-MINUTE STRUCTURE -->
+  <div class="meeting-os-sub">60-MINUTE STRUCTURE</div>
+
+  <div class="meeting-timeline">
+
+    <div class="meeting-block">
+      <div class="meeting-time">0:00<br>–<br>0:08</div>
+      <div>
+        <div class="meeting-block-title">Connection Opener</div>
+        <div class="meeting-block-purpose">Get every voice into the room quickly. No one should sit through 50 minutes without speaking.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag">One STEM win from your IU this month?</span>
+          <span class="meeting-prompt-tag">One thing you are currently stuck on?</span>
+          <span class="meeting-prompt-tag">One resource you wish existed?</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-block">
+      <div class="meeting-time">0:08<br>–<br>0:13</div>
+      <div>
+        <div class="meeting-block-title">Network Pulse</div>
+        <div class="meeting-block-purpose">Surface what is happening across the network — quick, high-signal, actionable items only.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag">IU spotlight</span>
+          <span class="meeting-prompt-tag">New shared resource</span>
+          <span class="meeting-prompt-tag">Upcoming deadline</span>
+          <span class="meeting-prompt-tag">Workgroup update</span>
+          <span class="meeting-prompt-tag">"This came from IU ___" shoutout</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-block" style="border-color:rgba(46,204,138,0.3);">
+      <div class="meeting-time" style="color:var(--green); background:rgba(46,204,138,0.08); border-color:rgba(46,204,138,0.25);">0:13<br>–<br>0:38</div>
+      <div>
+        <div class="meeting-block-title" style="color:var(--green);">Working Protocol <span style="font-size:0.72rem; font-weight:400; color:var(--muted); font-family:'Space Mono',monospace;">— the heart of the meeting</span></div>
+        <div class="meeting-block-purpose">Use the middle of the meeting for actual peer problem-solving — not updates. A structured protocol protects this time.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag" style="border-color:rgba(46,204,138,0.2); color:var(--green);">Tune a draft plan</span>
+          <span class="meeting-prompt-tag" style="border-color:rgba(46,204,138,0.2); color:var(--green);">Consult on a dilemma</span>
+          <span class="meeting-prompt-tag" style="border-color:rgba(46,204,138,0.2); color:var(--green);">Share and improve a resource</span>
+          <span class="meeting-prompt-tag" style="border-color:rgba(46,204,138,0.2); color:var(--green);">Generate ideas around a statewide priority</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-block">
+      <div class="meeting-time">0:38<br>–<br>0:50</div>
+      <div>
+        <div class="meeting-block-title">State / Funder Updates</div>
+        <div class="meeting-block-purpose">Keep required updates tight and useful — not a reading of slides.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag">PDE / PAsmart updates</span>
+          <span class="meeting-prompt-tag">ORBIT / reporting reminders</span>
+          <span class="meeting-prompt-tag">Grant deadlines</span>
+          <span class="meeting-prompt-tag">Statewide PL opportunities</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-block">
+      <div class="meeting-time">0:50<br>–<br>0:57</div>
+      <div>
+        <div class="meeting-block-title">Commitments &amp; Next Steps</div>
+        <div class="meeting-block-purpose">Move from discussion to action. Name one real next step before you close the room.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag">One thing I will try</span>
+          <span class="meeting-prompt-tag">One resource I will share</span>
+          <span class="meeting-prompt-tag">One person I will follow up with</span>
+          <span class="meeting-prompt-tag">One question I still need answered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="meeting-block">
+      <div class="meeting-time">0:57<br>–<br>1:00</div>
+      <div>
+        <div class="meeting-block-title">Closing Round</div>
+        <div class="meeting-block-purpose">Give the meeting a clean landing. One voice, one line — everyone out on time.</div>
+        <div class="meeting-prompts">
+          <span class="meeting-prompt-tag">One word checkout</span>
+          <span class="meeting-prompt-tag">Biggest takeaway</span>
+          <span class="meeting-prompt-tag">What should we carry forward?</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .meeting-timeline -->
+
+  <!-- PART 2: PROTOCOL CARDS -->
+  <div class="meeting-os-sub">PROTOCOL CARDS</div>
+  <p style="font-size:0.82rem; color:var(--muted); max-width:620px; line-height:1.6; margin-bottom:1.25rem;">Use these when the meeting needs more than updates. Protocols create structure, protect time, and make sure the same five voices do not carry the whole network.</p>
+
+  <div class="protocol-grid">
+
+    <div class="protocol-card">
+      <div class="protocol-name">1-2-4-All</div>
+      <div class="protocol-meta">
+        <span class="protocol-badge badge-green">Idea generation</span>
+        <span class="protocol-badge badge-orange">10–15 min</span>
+      </div>
+      <dl class="protocol-body">
+        <dt>How it works</dt>
+        <dd>Think alone, pair up, combine into groups of four, then share the strongest ideas with the full group.</dd>
+        <dt>Use when</dt>
+        <dd>The network needs broad input or fast idea generation — everyone participates, not just the loud voices.</dd>
+      </dl>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-name">Troika Consulting</div>
+      <div class="protocol-meta">
+        <span class="protocol-badge badge-green">Problem of practice</span>
+        <span class="protocol-badge badge-orange">18–25 min</span>
+      </div>
+      <dl class="protocol-body">
+        <dt>How it works</dt>
+        <dd>Triads rotate through short consultation rounds. One person shares a challenge while the other two offer questions, ideas, and possible next steps.</dd>
+        <dt>Use when</dt>
+        <dd>PoCs are stuck, designing something new, or need peer advice before moving forward.</dd>
+      </dl>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-name">Shift &amp; Share</div>
+      <div class="protocol-meta">
+        <span class="protocol-badge badge-green">Multiple IU examples</span>
+        <span class="protocol-badge badge-orange">20–30 min</span>
+      </div>
+      <dl class="protocol-body">
+        <dt>How it works</dt>
+        <dd>Several hosts share examples in small rotating groups. Participants move between examples and collect ideas from each.</dd>
+        <dt>Use when</dt>
+        <dd>Multiple IUs have resources, events, or models worth seeing — and the network needs inspiration, not just information.</dd>
+      </dl>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-name">Consultancy Protocol</div>
+      <div class="protocol-meta">
+        <span class="protocol-badge badge-green">Deep feedback</span>
+        <span class="protocol-badge badge-orange">25–40 min</span>
+      </div>
+      <dl class="protocol-body">
+        <dt>How it works</dt>
+        <dd>One IU presents a real challenge, the group asks clarifying questions, discusses possibilities while the presenter listens, then the presenter reflects on what they heard.</dd>
+        <dt>Use when</dt>
+        <dd>A workgroup, IU, or lead team needs thoughtful feedback on a draft plan or dilemma before moving forward.</dd>
+      </dl>
+    </div>
+
+  </div><!-- end .protocol-grid -->
+
+  <!-- PART 3: ROTATING HOST IU -->
+  <div class="meeting-os-sub">ROTATING HOST IU MODEL</div>
+  <p style="font-size:0.82rem; color:var(--muted); max-width:620px; line-height:1.6; margin-bottom:1.25rem;">Instead of the same lead team carrying every meeting, a rotating host IU model gives members voice, ownership, and a reason to contribute. Statewide coherence, regional flexibility.</p>
+
+  <div class="host-grid">
+
+    <div class="host-card">
+      <div class="host-phase">Before the Meeting</div>
+      <h4>Host IU Prepares</h4>
+      <ul>
+        <li>Choose the working question</li>
+        <li>Share one resource or challenge</li>
+        <li>Coordinate with lead team</li>
+        <li>Send any pre-read 48 hours ahead</li>
+      </ul>
+    </div>
+
+    <div class="host-card">
+      <div class="host-phase">During the Meeting</div>
+      <h4>Host IU Leads</h4>
+      <ul>
+        <li>Open the Network Pulse</li>
+        <li>Frame the Working Protocol</li>
+        <li>Share local context briefly</li>
+        <li>Invite others into the problem</li>
+      </ul>
+    </div>
+
+    <div class="host-card">
+      <div class="host-phase">After the Meeting</div>
+      <h4>Host IU Closes the Loop</h4>
+      <ul>
+        <li>Share artifacts in the Shared Drive</li>
+        <li>Capture next steps</li>
+        <li>Tag resources by IU</li>
+        <li>Identify one possible impact story</li>
+      </ul>
+    </div>
+
+  </div><!-- end .host-grid -->
+
+  <div class="host-benefits">
+    <h4>Why It Works — Host IU Benefits</h4>
+    <ul>
+      <li>Builds distributed leadership across the network</li>
+      <li>Makes veteran PoC contributions visible</li>
+      <li>Helps new PoCs see real examples from real IUs</li>
+      <li>Turns meetings into shared ownership — not passive attendance</li>
+    </ul>
   </div>
+
+  <!-- PART 4: SAMPLE AGENDA -->
+  <div class="meeting-os-sub">SAMPLE AGENDA TEMPLATE</div>
+  <p style="font-size:0.82rem; color:var(--muted); margin-bottom:0.75rem;">Copy this into your next meeting invite or agenda doc.</p>
+
+  <div class="agenda-template">
+    <pre><span class="agenda-time">0:00–0:08</span>  Connection Opener
+<span class="agenda-time">0:08–0:13</span>  Network Pulse
+<span class="agenda-time">0:13–0:38</span>  Working Protocol
+<span class="agenda-time">0:38–0:50</span>  State / Funder Updates
+<span class="agenda-time">0:50–0:57</span>  Commitments &amp; Next Steps
+<span class="agenda-time">0:57–1:00</span>  Closing Round
+
+<span class="agenda-field">Host IU:</span>         ___________________________
+<span class="agenda-field">Working Question:</span> ___________________________
+<span class="agenda-field">Protocol:</span>        ___________________________
+<span class="agenda-field">Shared Resource:</span> ___________________________
+<span class="agenda-field">Next Step Owner:</span> ___________________________</pre>
+  </div>
+
 </div>
 
 <!-- STEM INTELLIGENCE LAYER -->
-<div class="section" id="intelligence">
+<div class="section reveal" id="intelligence">
   <div class="section-header">
-    <span class="section-num">10 //</span>
+    <span class="section-num">14 //</span>
     <h2 class="section-title">STEM INTELLIGENCE LAYER</h2>
   </div>
   <p style="font-size:0.88rem;color:var(--muted);max-width:700px;line-height:1.7;margin-bottom:1rem;">The workgroups generate more than meeting notes. They generate statewide implementation intelligence: recurring needs, active projects, shared resources, leadership patterns, action items, and evidence of impact. This layer turns workgroup activity into something searchable, useful, and strategic.</p>
@@ -3228,163 +3603,25 @@
 
 </div><!-- end #intelligence -->
 
+<!-- RESOURCE HUB -->
+<div class="section reveal" id="resources">
+  <div class="section-header">
+    <span class="section-num">12 //</span>
+    <h2 class="section-title">RESOURCE HUB</h2>
+  </div>
+  <div class="coming-soon">
+    <strong>COMING — PATCH 7:</strong> Category cards for Onboarding, Shared Drive, ORBIT, SoW Tracking, STEELS, CS / AI, Ecosystems, Student Competitions, Equity / UDL, Meeting Protocols, Annual Impact Stories, and IU Examples — each with Open Resource, Add Example, and View Templates actions.
+  </div>
+</div>
+
 <!-- FUTURE BUILDS -->
 <div class="section reveal" id="future">
   <div class="section-header">
-    <span class="section-num">11 //</span>
+    <span class="section-num">13 //</span>
     <h2 class="section-title">FUTURE BUILDS</h2>
   </div>
   <div class="coming-soon">
     <strong>COMING — PATCH 8:</strong> Roadmap cards for Searchable IU Directory, Workgroup Dashboards, ORBIT Example Bank, Shared Resource Library, Annual Impact Narrative Builder, Buddy Match Logic, Meeting Agenda Generator, IU Collaboration Pitch Board, and Contribution / Microbadge Tracker — each with status (Prototype / Planned / Future), why it matters, and next build step.
-  </div>
-</div>
-
-
-<!-- === APPENDIX SECTIONS — not in main nav === -->
-
-<!-- DELIVERABLES -->
-<div class="section reveal" id="deliverables">
-  <div class="section-header">
-    <span class="section-num">EXTRA //</span>
-    <h2 class="section-title">THE DELIVERABLE MAP</h2>
-  </div>
-  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Click any deliverable to expand details. These are the buckets your PAsmart work gets organized into.</p>
-
-  <div class="deliverable-grid">
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL A</span>
-        <span class="del-title">STEM PoC Network</span>
-      </div>
-      <p class="del-desc">Participation in the statewide PoC network — meetings, workgroups, collaboration.</p>
-      <div class="del-tags">
-        <span class="tag">PoC Meetings</span>
-        <span class="tag">Workgroups</span>
-        <span class="tag">Statewide PLCs</span>
-      </div>
-      <div class="del-expand">
-        This is your baseline deliverable. Showing up to PoC meetings, joining workgroups, and contributing to shared resources all count here. Your TaC also plays a role in supporting your workgroup participation. <br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER — Add anonymized example of how IUs log Deliverable A in ORBIT]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL B</span>
-        <span class="del-title">STEELS Standards</span>
-      </div>
-      <p class="del-desc">Supporting PA Science/STEM standards implementation across your IU and districts.</p>
-      <div class="del-tags">
-        <span class="tag">Science</span>
-        <span class="tag">T&E</span>
-        <span class="tag">EL&S</span>
-        <span class="tag">MWEE</span>
-        <span class="tag">PENNSEL</span>
-      </div>
-      <div class="del-expand">
-        STEELS is the big one. Most of the statewide professional learning (WestEd CoPs, PaTTAN institutes) connects here. Your TaC often co-facilitates STEELS PD. The Equity/TaC/Inclusion workgroup is building UDL-integrated resources to make STEELS accessible for ALL learners.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL C</span>
-        <span class="del-title">Computer Science Education</span>
-      </div>
-      <p class="del-desc">CS integration, CSTA standards, AI/ML literacy, computational thinking.</p>
-      <div class="del-tags">
-        <span class="tag">CS Workgroup</span>
-        <span class="tag">AI Taskforce</span>
-        <span class="tag">Comp Thinking</span>
-      </div>
-      <div class="del-expand">
-        CS + AI is the fastest-moving deliverable right now. New CSTA standards are shifting toward AI/ML process understanding (not just tool use). IUs doing tiered AI PD models, CT cohorts, and district AI workshops all log here.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL D</span>
-        <span class="del-title">Student-Centered Learning</span>
-      </div>
-      <p class="del-desc">Advancing SCL approaches in STEM contexts across districts.</p>
-      <div class="del-tags">
-        <span class="tag">STEM Pals</span>
-        <span class="tag">PASCL CoP</span>
-        <span class="tag">StartSOLE</span>
-      </div>
-      <div class="del-expand">
-        SCL overlaps heavily with PASCL CoP work. STEM Pals is the think-tank workgroup for collaboratively building shared PD materials. StartSOLE is a student-driven inquiry model that fits here.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL E</span>
-        <span class="del-title">STEM Ecosystems</span>
-      </div>
-      <p class="del-desc">Building and sustaining regional STEM ecosystems through partnerships.</p>
-      <div class="del-tags">
-        <span class="tag">PSSE Workgroup</span>
-        <span class="tag">Ecosystem Convenings</span>
-      </div>
-      <div class="del-expand">
-        Ecosystems work is now housed in the PSSE Workgroup (led by Abbey Hathaway, IU12). This involves connecting schools, businesses, community orgs, and higher ed into functioning regional STEM ecosystems.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL F</span>
-        <span class="del-title">Student Competitions</span>
-      </div>
-      <p class="del-desc">Coordinating and supporting regional and statewide STEM competitions.</p>
-      <div class="del-tags">
-        <span class="tag">Keystone STEM</span>
-        <span class="tag">Sea Air & Land</span>
-        <span class="tag">Invention Convention</span>
-        <span class="tag">Esports</span>
-      </div>
-      <div class="del-expand">
-        This is one of the most tangible deliverables for districts — they can see and feel it. Jillian Darlington leads the statewide Student Competitions Workgroup. Competitions Kick-Off is typically late October.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-    <div class="del-card" onclick="toggleDel(this)">
-      <div class="del-header">
-        <span class="del-badge">DEL G</span>
-        <span class="del-title">Coherent Integrative STEM / COE</span>
-      </div>
-      <p class="del-desc">Resources for accelerated learning, math integration, UDL + STEM connections.</p>
-      <div class="del-tags">
-        <span class="tag">STEM Toolkit</span>
-        <span class="tag">Equity/TaC</span>
-        <span class="tag">Lending Library</span>
-        <span class="tag">Math Focus</span>
-      </div>
-      <div class="del-expand">
-        G is the catch-all for integrative work — UDL + STEM, math + STEM, equity + STEM. The Equity/TaC/Inclusion workgroup has been doing deep work here this year, including drafting STEELS guides for Special Education teachers.<br><br>
-        <strong style="color:var(--accent)">ORBIT Sample:</strong> [PLACEHOLDER]
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- 90-DAY PATHWAY -->
-<div class="section reveal" id="pathway">
-  <div class="section-header">
-    <span class="section-num">EXTRA //</span>
-    <h2 class="section-title">90-DAY ONBOARDING PATHWAY</h2>
-  </div>
-  <div class="coming-soon">
-    <strong>COMING — PATCH 3:</strong> Interactive 30 / 60 / 90-day phase cards with expandable checklists — Day 0–14 access setup, Day 15–30 first meeting and workgroup, Day 31–60 first contribution, Day 61–90 active member graduation.
   </div>
 </div>
 
@@ -3405,7 +3642,7 @@
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0 });
+  }, { threshold: 0.1 });
   reveals.forEach(r => observer.observe(r));
 
   // Nav active state
