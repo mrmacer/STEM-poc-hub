@@ -1,0 +1,765 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Focus Workgroup — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --gold: #f5c842;
+    --gold-dim: rgba(245,200,66,0.14);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num { font-size: 11px; color: rgba(245,200,66,0.5); }
+  .section-label .slash { color: rgba(245,200,66,0.5); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-active { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(245,200,66,0.3); }
+  .status-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  .highlight-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--gold); font-weight: 600; }
+  .highlight-amber { background: var(--amber-glow); border-color: rgba(245,166,35,0.2); border-left-color: var(--amber); }
+  .highlight-amber strong { color: var(--amber); }
+  .highlight-teal { background: var(--teal-dim); border-color: rgba(62,207,178,0.2); border-left-color: var(--teal); }
+  .highlight-teal strong { color: var(--teal); }
+  .highlight-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.2); border-left-color: var(--purple); }
+  .highlight-purple strong { color: var(--purple); }
+
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+
+  .focus-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .focus-icon.gold   { background: var(--gold-dim);   color: var(--gold);   border: 1px solid rgba(245,200,66,0.25); }
+  .focus-icon.amber  { background: var(--amber-glow); color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .focus-icon.teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .focus-icon.blue   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+  .focus-icon.purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+  .focus-icon.green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+
+  .focus-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-active   { background: var(--gold-dim);   color: var(--gold); }
+  .tag-emerging { background: var(--amber-glow);  color: var(--amber); }
+  .tag-planning { background: var(--purple-dim);  color: var(--purple); }
+  .tag-resource { background: var(--teal-dim);    color: var(--teal); }
+  .tag-data     { background: var(--blue-dim);    color: var(--blue); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+
+  .focus-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+
+  .focus-body-text {
+    padding-top: 1rem;
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .focus-body-text ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .focus-body-text ul li { padding: 3px 0 3px 14px; position: relative; }
+  .focus-body-text ul li::before { content: '–'; position: absolute; left: 0; color: var(--gold); opacity: 0.6; }
+  .focus-body-text p { margin-bottom: 0.5rem; }
+  .focus-body-text strong { color: var(--white-80); font-weight: 500; }
+
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot { position: absolute; left: -4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy-deepest); border: 2px solid var(--gold); }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu { font-size: 11px; color: var(--white-25); }
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .access-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .access-notice .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .del-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 2px;
+  }
+  .del-tag-g { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(62,207,178,0.25); }
+  .del-tag-d { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .resource-label { color: var(--white-80); font-weight: 500; }
+  .resource-sub { color: var(--white-25); font-size: 11px; }
+
+  /* mobile: sidebar stacks above, table scrolls */
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; padding: 2rem 1rem; }
+    .sidebar { order: -1; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
+
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Math Focus</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-MATH</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Math Focus Workgroup</h1>
+  <p style="max-width: 680px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    Creating statewide collaboration for IU math consultants and strengthening the "M" in STEM — through shared events, math identity work, data science integration, and a sustained professional learning network across Pennsylvania.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Lead:</strong> Kristina Fulton (IU13)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Deliverables:</strong> DEL G · DEL D</span>
+    </div>
+    <span class="status-badge status-active">Active / Emerging STEM Integration</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>What This Group Does</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box" style="margin-bottom:1.25rem;">
+        <strong>Focus:</strong> This workgroup is evolving into a statewide math collaboration space — moving beyond individual IU silos toward shared infrastructure for math events, professional learning, and resources that every PA IU math consultant can draw on. The vision is a sustained network that persists beyond any one grant or leadership change.
+      </div>
+
+      <div class="focus-card open" id="purpose">
+        <div class="focus-card-header" onclick="toggleCard('purpose')">
+          <div class="focus-icon gold">WHY</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Purpose &amp; Intent</div>
+            <div class="focus-sub">Strengthening the M in STEM — statewide</div>
+          </div>
+          <span class="focus-tag tag-active">Core</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Math consultants across PA IUs often work in isolation — solving the same problems independently, duplicating resources, and missing the compound benefits of statewide collaboration. This workgroup builds the network that lets them share, align, and amplify their work.</p>
+            <p>The math-in-STEM framing matters too: math is often the forgotten letter. This group advocates for math's role in integrative STEM, connects math to data science and computational thinking, and makes the case that strong math identity is a prerequisite for STEM participation — especially for historically underserved students.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="events">
+        <div class="focus-card-header" onclick="toggleCard('events')">
+          <div class="focus-icon gold">EVT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Math Events Coordination</div>
+            <div class="focus-sub">Shared calendar and visibility across IUs</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Building a shared layer for 2026–2027 IU math events — so consultants across the state can see what's happening, avoid scheduling conflicts, and connect their local work to a statewide calendar. Includes a newsletter events space for distribution across the network.</p>
+            <ul>
+              <li>2026–2027 IU Math Events sharing space</li>
+              <li>Newsletter events space for statewide distribution</li>
+              <li>Curating math events across IUs — conferences, summits, PLs</li>
+              <li>Building PAIU-wide math resource lists</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="identity">
+        <div class="focus-card-header" onclick="toggleCard('identity')">
+          <div class="focus-icon purple">ID</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Math Identity &amp; Narrative</div>
+            <div class="focus-sub">Shifting who sees themselves as a math person</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The "math people" narrative is one of the most damaging in education — it convinces students and teachers alike that math ability is fixed and innate. This workgroup takes math identity seriously as an equity issue, using narrative-forward tools to shift that story.</p>
+            <ul>
+              <li><strong>Counted Out</strong> — film screening connected to math identity and equity</li>
+              <li><strong>Story Tables</strong> — math identity narrative project for students and educators</li>
+              <li><strong>First in Math / Love Math Challenge</strong> — engagement and identity-building resources</li>
+              <li>Supporting math identity and narrative work across IUs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="datascience">
+        <div class="focus-card-header" onclick="toggleCard('datascience')">
+          <div class="focus-icon blue">DS</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Data Science Integration</div>
+            <div class="focus-sub">Connecting math to real-world data and DS4E</div>
+          </div>
+          <span class="focus-tag tag-data">Emerging</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Data science is the fastest-growing lane where math, computing, and real-world application converge. This workgroup connects IU math consultants to the DS4E movement, supporting data literacy, computational thinking integration, and the growing overlap between math and CS/AI work.</p>
+            <ul>
+              <li><strong>Data Science 4 Everyone (DS4E) Summit</strong> — supporting and connecting to the DS4E movement</li>
+              <li>Computational thinking and real-world data application</li>
+              <li>Connecting math to STEM, data science, and Del G</li>
+              <li>Overlap with PA Smart &amp; CS on AI literacy and CT</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="finance">
+        <div class="focus-card-header" onclick="toggleCard('finance')">
+          <div class="focus-icon teal">FIN</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Personal Finance &amp; Applied Math</div>
+            <div class="focus-sub">Real-world math connections for student relevance</div>
+          </div>
+          <span class="focus-tag tag-emerging">Developing</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Building math connections to financial literacy and real-world application — supporting IUs in connecting math standards to personal finance, economic reasoning, and career-relevant quantitative skills. Strengthens the relevance argument for math with students and families.</p>
+            <ul>
+              <li>Personal finance resources for IU math consultants</li>
+              <li>Connecting math standards to financial literacy frameworks</li>
+              <li>Career-relevant quantitative skills pathways</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Active Projects</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">2026–2027 IU Math Events Sharing Space</div>
+        <div class="meeting-detail">Building a shared calendar and coordination layer for math events across PA IUs — conferences, summits, PLs, and statewide math events visible to every consultant.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">Newsletter &amp; Events Distribution</div>
+        <div class="meeting-detail">Curating and distributing math-relevant events, resources, and updates across the statewide network. Goal is a regular cadence that every IU math consultant finds useful.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">IN PROGRESS</div>
+        <div class="meeting-summary">Data Science 4 Everyone Summit Connections</div>
+        <div class="meeting-detail">Supporting IU math consultants in connecting to the DS4E movement — linking math work to data literacy, computational thinking, and the growing data science in K-12 space.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">ONGOING</div>
+        <div class="meeting-summary">Math Identity &amp; Narrative Work</div>
+        <div class="meeting-detail">Using Counted Out screenings, Story Tables, and narrative-forward tools to shift how students and educators relate to math — framing math identity as an equity issue, not just a pedagogy preference.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">DEVELOPING</div>
+        <div class="meeting-summary">PAIU-Wide Math Resource Lists</div>
+        <div class="meeting-detail">Building shared, curated resource lists that IU math consultants across the state can draw from — reducing duplication and creating a shared foundation for professional learning.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>ORBIT &amp; Deliverable Connections</h2>
+        <div class="line"></div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <span class="del-tag del-tag-g">DEL G — Math Integration &amp; Coherent STEM</span>
+        <span class="del-tag del-tag-d">DEL D — Student-Centered Math Learning</span>
+      </div>
+      <div class="table-wrap" style="margin-bottom:1rem;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--navy-border);">
+              <th style="text-align:left;padding:6px 12px 6px 0;color:var(--white-25);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;">Deliverable</th>
+              <th style="text-align:left;padding:6px 0;color:var(--white-25);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;">Connection</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--navy-border);">
+              <td style="padding:8px 12px 8px 0;color:var(--teal);font-family:'Space Mono',monospace;font-size:11px;white-space:nowrap;">DEL G</td>
+              <td style="padding:8px 0;color:var(--white-50);">Math integration, UDL + math, coherent STEM resources</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 12px 8px 0;color:var(--purple);font-family:'Space Mono',monospace;font-size:11px;white-space:nowrap;">DEL D</td>
+              <td style="padding:8px 0;color:var(--white-50);">Student-centered math learning, math identity, engagement</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="highlight-box highlight-amber">
+        <strong>ORBIT tip:</strong> Math events, DS4E participation, Counted Out screenings, and professional learning all generate Del G evidence. Student-facing math identity work (Story Tables, First in Math) connects to Del D. Document headcounts, educator reach, and any cross-IU collaboration for the strongest narrative.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Workgroup Lead</div>
+      <div class="member-row">
+        <div class="member-avatar">KF</div>
+        <div class="member-info">
+          <div class="member-name">Kristina Fulton</div>
+          <div class="member-iu">IU13</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Meeting Access</div>
+      <div class="access-notice">
+        <span class="icon">📅</span>
+        <span>Meeting links available through PAIMS / workgroup calendar. Contact through PA STEM PoC network.</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Key Resources</div>
+      <div class="resource-item">
+        <span class="resource-icon">🎬</span>
+        <div>
+          <div class="resource-label">Counted Out</div>
+          <div class="resource-sub">Film screening · math identity &amp; equity</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📖</span>
+        <div>
+          <div class="resource-label">Story Tables</div>
+          <div class="resource-sub">Math identity narrative project</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🔢</span>
+        <div>
+          <div class="resource-label">First in Math / Love Math</div>
+          <div class="resource-sub">Engagement and identity-building</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📊</span>
+        <div>
+          <div class="resource-label">Data Science 4 Everyone</div>
+          <div class="resource-sub">DS4E Summit resources</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📅</span>
+        <div>
+          <div class="resource-label">PAIU Math Events Calendar</div>
+          <div class="resource-sub">Statewide coordination — in development</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Related Workgroups</div>
+      <div class="resource-item">
+        <span class="resource-icon">📦</span>
+        <div>
+          <div class="resource-label">STEM Toolkit</div>
+          <div class="resource-sub">Math resources on OER Commons</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">♿</span>
+        <div>
+          <div class="resource-label">Equity, TaC &amp; Inclusion</div>
+          <div class="resource-sub">Math identity, UDL, inclusive STEM</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">💻</span>
+        <div>
+          <div class="resource-label">PA Smart &amp; CS</div>
+          <div class="resource-sub">Data science and CT overlap</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM PoC Hub &nbsp;·&nbsp; Math Focus Workgroup &nbsp;·&nbsp; <a href="index.html" style="color:var(--white-25);text-decoration:none;">← Hub Home</a>
+</footer>
+
+<script>
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
