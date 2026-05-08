@@ -1,0 +1,779 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Workgroup — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --sky: #38bdf8;
+    --sky-dim: rgba(56,189,248,0.14);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--sky); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--sky);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num { font-size: 11px; color: rgba(56,189,248,0.5); }
+  .section-label .slash { color: rgba(56,189,248,0.5); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sky); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-active { background: var(--sky-dim); color: var(--sky); border: 1px solid rgba(56,189,248,0.3); }
+  .status-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sky); }
+
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  .highlight-box {
+    background: var(--sky-dim);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-left: 3px solid var(--sky);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--sky); font-weight: 600; }
+  .highlight-amber { background: var(--amber-glow); border-color: rgba(245,166,35,0.2); border-left-color: var(--amber); }
+  .highlight-amber strong { color: var(--amber); }
+  .highlight-teal { background: var(--teal-dim); border-color: rgba(62,207,178,0.2); border-left-color: var(--teal); }
+  .highlight-teal strong { color: var(--teal); }
+  .highlight-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.2); border-left-color: var(--purple); }
+  .highlight-purple strong { color: var(--purple); }
+  .highlight-green { background: var(--green-dim); border-color: rgba(92,217,138,0.2); border-left-color: var(--green); }
+  .highlight-green strong { color: var(--green); }
+
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+
+  .focus-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .focus-icon.sky    { background: var(--sky-dim);    color: var(--sky);    border: 1px solid rgba(56,189,248,0.25); }
+  .focus-icon.teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .focus-icon.amber  { background: var(--amber-glow); color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .focus-icon.green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+  .focus-icon.purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+  .focus-icon.blue   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+
+  .focus-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-active   { background: var(--sky-dim);    color: var(--sky); }
+  .tag-momentum { background: var(--teal-dim);   color: var(--teal); }
+  .tag-emerging { background: var(--amber-glow); color: var(--amber); }
+  .tag-planning { background: var(--purple-dim); color: var(--purple); }
+  .tag-resource { background: var(--green-dim);  color: var(--green); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+
+  .focus-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+
+  .focus-body-text {
+    padding-top: 1rem;
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .focus-body-text ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .focus-body-text ul li { padding: 3px 0 3px 14px; position: relative; }
+  .focus-body-text ul li::before { content: '–'; position: absolute; left: 0; color: var(--sky); opacity: 0.6; }
+  .focus-body-text p { margin-bottom: 0.5rem; }
+  .focus-body-text strong { color: var(--white-80); font-weight: 500; }
+
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot { position: absolute; left: -4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy-deepest); border: 2px solid var(--sky); }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--sky); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--sky);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu { font-size: 11px; color: var(--white-25); }
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--sky-dim);
+    color: var(--sky);
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .access-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .access-notice .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .del-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 2px;
+  }
+  .del-tag-b { background: var(--sky-dim);    color: var(--sky);    border: 1px solid rgba(56,189,248,0.25); }
+  .del-tag-a { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .resource-label { color: var(--white-80); font-weight: 500; }
+  .resource-sub { color: var(--white-25); font-size: 11px; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; padding: 2rem 1rem; }
+    .sidebar { order: -1; }
+  }
+
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Science</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-SCI</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Science Workgroup</h1>
+  <p style="max-width: 680px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    The statewide home for STEELS implementation support — building teacher and administrator PLCs, developing assessment tools, surfacing classroom implementation examples, and sustaining the science leadership network across Pennsylvania.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Leads:</strong> Colleen Epler-Ruths · Jen Sciacca (CAIU)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Cadence:</strong> 1st Tuesday monthly, 12–1pm</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Deliverable:</strong> DEL B · DEL A</span>
+    </div>
+    <span class="status-badge status-active">Active / High Momentum</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>What This Group Does</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box" style="margin-bottom:1.25rem;">
+        <strong>Focus:</strong> This workgroup is the statewide engine for STEELS implementation — supporting PoCs as they help districts, schools, and teachers navigate 3D teaching and learning, new assessment approaches, and the leadership infrastructure needed to make STEELS stick beyond the first year of rollout.
+      </div>
+
+      <div class="focus-card open" id="purpose">
+        <div class="focus-card-header" onclick="toggleCard('purpose')">
+          <div class="focus-icon sky">WHY</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Purpose &amp; Intent</div>
+            <div class="focus-sub">The statewide STEELS implementation network</div>
+          </div>
+          <span class="focus-tag tag-active">Core</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>STEELS is the most significant science standards shift in Pennsylvania in a generation. The Science Workgroup exists to ensure PoCs across all 29 IUs are supported in helping their districts make that shift — not just in compliance, but in actual instructional change.</p>
+            <p>The workgroup brings together science consultants to share what's working, surface strong classroom examples, build shared resources, and sustain a statewide professional learning community that goes deeper than any single PaTTAN institute or WestEd CoP session can go.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="plcs">
+        <div class="focus-card-header" onclick="toggleCard('plcs')">
+          <div class="focus-icon sky">PLC</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Statewide STEELS PLCs</div>
+            <div class="focus-sub">Teacher and administrator professional learning communities</div>
+          </div>
+          <span class="focus-tag tag-momentum">High Momentum</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The workgroup runs parallel PLCs for teachers and administrators — recognizing that instructional change requires both classroom-level support and building/district-level leadership alignment. These aren't one-and-done sessions; they're designed as ongoing communities that build relationships and shared practice over time.</p>
+            <ul>
+              <li>Statewide STEELS teacher PLCs — 3D teaching focus</li>
+              <li>Statewide STEELS administrator PLCs — look-fors and leadership support</li>
+              <li>Identifying teachers for PLC panels and case studies</li>
+              <li>Surfacing strong classroom implementation examples statewide</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="framework">
+        <div class="focus-card-header" onclick="toggleCard('framework')">
+          <div class="focus-icon teal">FRMK</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Science Curriculum Framework</div>
+            <div class="focus-sub">Statewide curriculum alignment workgroup</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The Science Curriculum Framework Workgroup addresses a critical gap: districts need guidance on curriculum adoption and alignment to STEELS, but there's no single statewide answer. This subgroup gathers data on what districts are adopting, surfaces strong curriculum examples, and develops guidance IUs can use in their local curriculum conversations.</p>
+            <ul>
+              <li>Gathering science curriculum and resource adoption data across IUs</li>
+              <li>Developing curriculum alignment guidance for STEELS</li>
+              <li>Connecting IU science consultants to shared curriculum work</li>
+              <li>Supporting districts in evaluating instructional materials</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="leadership">
+        <div class="focus-card-header" onclick="toggleCard('leadership')">
+          <div class="focus-icon amber">LEAD</div>
+          <div class="focus-title-block">
+            <div class="focus-name">PA Science Leadership Collaborative</div>
+            <div class="focus-sub">Cross-sector science leadership network</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The PA Science Leadership Collaborative connects science leaders across IUs, PaTTAN, WestEd, and the broader statewide network. It's the layer above workgroup meetings where strategy, advocacy, and cross-sector coordination happen — ensuring STEELS work has the leadership infrastructure to be sustained.</p>
+            <ul>
+              <li>Cross-IU science leadership coordination</li>
+              <li>Connecting PoC science work to PaTTAN and WestEd CoP</li>
+              <li>Advocacy for STEELS implementation resources and policy</li>
+              <li>Sustaining science leadership beyond grant cycles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="assessment">
+        <div class="focus-card-header" onclick="toggleCard('assessment')">
+          <div class="focus-icon purple">ASMT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Assessment &amp; Implementation Tools</div>
+            <div class="focus-sub">Tools that make STEELS visible in classrooms</div>
+          </div>
+          <span class="focus-tag tag-resource">Resources</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Assessment in 3D science is one of the hardest shifts for teachers and districts. The workgroup has developed and curated tools that help educators understand what STEELS should look like in classrooms — and how to assess it without defaulting to recall-based testing.</p>
+            <ul>
+              <li><strong>STEELS Assessment Toolkit</strong> — resources for building STEELS-aligned assessments</li>
+              <li><strong>Classroom Implementation Descriptors</strong> — what 3D teaching looks like at different levels</li>
+              <li><strong>Foundation Boxes</strong> — anchoring resources for STEELS storylines</li>
+              <li><strong>Science discourse resources</strong> — supporting argument from evidence and sense-making</li>
+              <li>Possible shared async STEELS 101 modules for new PoCs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="async">
+        <div class="focus-card-header" onclick="toggleCard('async')">
+          <div class="focus-icon green">101</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Async STEELS 101 Modules</div>
+            <div class="focus-sub">On-demand onboarding for new PoCs and teachers</div>
+          </div>
+          <span class="focus-tag tag-emerging">In Development</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>New PoCs and teachers entering STEELS work mid-cycle don't have time to wait for the next live PLC session. The shared async STEELS 101 module concept gives them a self-paced foundation — covering the key shifts, the framework, and what IU support looks like — so they arrive at live sessions ready to go deeper.</p>
+            <ul>
+              <li>Self-paced STEELS foundations modules</li>
+              <li>Shared across IUs to reduce duplication</li>
+              <li>Designed for both new PoCs and new-to-STEELS teachers</li>
+              <li>Status: concept in development — being scoped by the workgroup</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Active Projects</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">Statewide STEELS Teacher &amp; Admin PLCs</div>
+        <div class="meeting-detail">Running parallel professional learning communities for teachers and administrators — building 3D teaching capacity and leadership alignment for STEELS implementation across all IU regions.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">Science Curriculum Framework Workgroup</div>
+        <div class="meeting-detail">Gathering curriculum adoption data across IUs and developing shared guidance for districts navigating STEELS-aligned instructional materials selection.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">PA Science Leadership Collaborative</div>
+        <div class="meeting-detail">Cross-sector leadership coordination connecting IU science consultants, PaTTAN, WestEd CoP, and statewide science leadership for strategic alignment and advocacy.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">IN PROGRESS</div>
+        <div class="meeting-summary">Identifying Teachers for PLC Panels</div>
+        <div class="meeting-detail">Recruiting teachers with strong STEELS classroom implementation to serve on PLC panels — surfacing real classroom examples that consultants can use in their own IU professional learning.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">DEVELOPING</div>
+        <div class="meeting-summary">Shared Async STEELS 101 Modules</div>
+        <div class="meeting-detail">Scoping a shared set of self-paced onboarding modules for new PoCs and teachers — reducing the burden on individual IUs to build their own STEELS foundations resources from scratch.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>ORBIT &amp; Deliverable Connections</h2>
+        <div class="line"></div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <span class="del-tag del-tag-b">DEL B — STEELS Implementation</span>
+        <span class="del-tag del-tag-a">DEL A — Statewide Collaboration</span>
+      </div>
+      <div class="highlight-box highlight-amber">
+        <strong>ORBIT tip:</strong> PLC participation, curriculum framework contributions, and classroom implementation support all generate Del B evidence. Cross-IU coordination and PA Science Leadership Collaborative involvement connect to Del A. Document educator headcounts, IU reach, and any administrator PLC participation — those are strong impact story elements.
+      </div>
+      <div class="highlight-box highlight-teal" style="margin-top:0.75rem;">
+        <strong>Strong narrative angle:</strong> STEELS is the highest-priority science initiative in PA. Any IU work that moves teachers or districts from awareness to implementation — lesson planning, PLC facilitation, curriculum review — is core Del B evidence. Surface specific classroom examples and grade-band reach when possible.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Workgroup Leads</div>
+      <div class="member-row">
+        <div class="member-avatar">CE</div>
+        <div class="member-info">
+          <div class="member-name">Colleen Epler-Ruths</div>
+          <div class="member-iu">Statewide Lead</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">JS</div>
+        <div class="member-info">
+          <div class="member-name">Jen Sciacca</div>
+          <div class="member-iu">CAIU</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Meeting Access</div>
+      <div class="access-notice">
+        <span class="icon">📅</span>
+        <span>Meeting links available through PAIMS / workgroup calendar. Contact through PA STEM PoC network.</span>
+      </div>
+      <div style="font-size:12px; color:var(--white-25); line-height:1.5;">1st Tuesday monthly, 12–1pm</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Key Resources</div>
+      <div class="resource-item">
+        <span class="resource-icon">📋</span>
+        <div>
+          <div class="resource-label">STEELS Assessment Toolkit</div>
+          <div class="resource-sub">3D assessment resources</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🔭</span>
+        <div>
+          <div class="resource-label">Classroom Implementation Descriptors</div>
+          <div class="resource-sub">What 3D teaching looks like</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📦</span>
+        <div>
+          <div class="resource-label">Foundation Boxes</div>
+          <div class="resource-sub">Anchoring resources for storylines</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">💬</span>
+        <div>
+          <div class="resource-label">Science Discourse Resources</div>
+          <div class="resource-sub">Argument, evidence, sense-making</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Connected Networks</div>
+      <div class="resource-item">
+        <span class="resource-icon">🏛</span>
+        <div>
+          <div class="resource-label">PaTTAN Science</div>
+          <div class="resource-sub">Statewide STEELS professional learning</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🌐</span>
+        <div>
+          <div class="resource-label">WestEd STEELS CoP</div>
+          <div class="resource-sub">National 3D science CoP</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🌿</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-careers-els.html" style="color:var(--sky);text-decoration:none;">EL&amp;S Workgroup</a></div>
+          <div class="resource-sub">Environmental literacy &amp; MWEE</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM PoC Hub &nbsp;·&nbsp; Science Workgroup &nbsp;·&nbsp; <a href="index.html" style="color:var(--white-25);text-decoration:none;">← Hub Home</a>
+</footer>
+
+<script>
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

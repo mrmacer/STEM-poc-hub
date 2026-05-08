@@ -1,0 +1,1142 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEM Toolkit Workgroup — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --orange: #fb923c;
+    --orange-dim: rgba(251,146,60,0.14);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--orange); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num { font-size: 11px; color: rgba(251,146,60,0.5); }
+  .section-label .slash { color: rgba(251,146,60,0.5); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-active { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+  .status-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  .highlight-box {
+    background: var(--orange-dim);
+    border: 1px solid rgba(251,146,60,0.2);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--orange); font-weight: 600; }
+  .highlight-amber { background: var(--amber-glow); border-color: rgba(245,166,35,0.2); border-left-color: var(--amber); }
+  .highlight-amber strong { color: var(--amber); }
+  .highlight-teal { background: var(--teal-dim); border-color: rgba(62,207,178,0.2); border-left-color: var(--teal); }
+  .highlight-teal strong { color: var(--teal); }
+  .highlight-green { background: var(--green-dim); border-color: rgba(92,217,138,0.2); border-left-color: var(--green); }
+  .highlight-green strong { color: var(--green); }
+
+  /* FOCUS / EXPANDABLE CARDS */
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+
+  .focus-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .focus-icon.orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(251,146,60,0.25); }
+  .focus-icon.amber  { background: var(--amber-glow); color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .focus-icon.teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .focus-icon.green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+  .focus-icon.blue   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+  .focus-icon.purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+
+  .focus-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-active   { background: var(--orange-dim); color: var(--orange); }
+  .tag-core     { background: var(--teal-dim);   color: var(--teal); }
+  .tag-emerging { background: var(--amber-glow); color: var(--amber); }
+  .tag-resource { background: var(--green-dim);  color: var(--green); }
+  .tag-planning { background: var(--purple-dim); color: var(--purple); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+
+  .focus-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+
+  .focus-body-text {
+    padding-top: 1rem;
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .focus-body-text ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .focus-body-text ul li { padding: 3px 0 3px 14px; position: relative; }
+  .focus-body-text ul li::before { content: '–'; position: absolute; left: 0; color: var(--orange); opacity: 0.6; }
+  .focus-body-text p { margin-bottom: 0.5rem; }
+  .focus-body-text strong { color: var(--white-80); font-weight: 500; }
+
+  /* PATHWAY MODEL */
+  .pathway-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .pathway-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.1rem 1.25rem;
+  }
+  .pathway-card:hover { border-color: var(--navy-border-strong); }
+  .pathway-level {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pathway-card.duct-tape  .pathway-level { color: var(--orange); }
+  .pathway-card.tool-box   .pathway-level { color: var(--amber); }
+  .pathway-card.power-tools .pathway-level { color: var(--teal); }
+  .pathway-card.contractor  .pathway-level { color: var(--purple); }
+  .pathway-card.duct-tape  { border-left: 3px solid var(--orange); }
+  .pathway-card.tool-box   { border-left: 3px solid var(--amber); }
+  .pathway-card.power-tools { border-left: 3px solid var(--teal); }
+  .pathway-card.contractor  { border-left: 3px solid var(--purple); }
+  .pathway-icon { font-size: 22px; margin-bottom: 6px; display: block; }
+  .pathway-desc { font-size: 12px; color: var(--white-50); line-height: 1.55; }
+
+  /* USER PROFILE CARDS */
+  .user-profile-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+  .user-profile-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+  }
+  .user-profile-item .up-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .user-profile-item strong { color: var(--white-80); }
+
+  /* MEETING LOG */
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot { position: absolute; left: -4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy-deepest); border: 2px solid var(--orange); }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--orange); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  /* NOTES ACCORDION (meeting details) */
+  .notes-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: var(--white-50);
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+    margin-top: 6px;
+  }
+  .notes-toggle:hover { border-color: var(--navy-border-strong); color: var(--white-80); background: var(--white-10); }
+  .notes-toggle .chev { margin-left: auto; transition: transform 0.3s; }
+  .notes-toggle.open .chev { transform: rotate(180deg); }
+  .notes-body {
+    display: none;
+    background: var(--navy-deep);
+    border: 1px solid var(--navy-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 0.75rem 1rem;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .notes-body.open { display: block; }
+  .notes-body ul { list-style: none; padding: 0; margin: 0.4rem 0; }
+  .notes-body ul li { padding: 2px 0 2px 14px; position: relative; }
+  .notes-body ul li::before { content: '›'; position: absolute; left: 0; color: var(--orange); opacity: 0.6; }
+
+  /* SIDEBAR */
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu { font-size: 11px; color: var(--white-25); }
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--orange-dim);
+    color: var(--orange);
+    border: 1px solid rgba(251,146,60,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .access-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .access-notice .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .del-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 2px;
+  }
+  .del-g { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .del-b { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+  .del-d { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+  .del-c { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+  .del-a { background: var(--amber-glow); color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .del-f { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(251,146,60,0.25); }
+
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .resource-label { color: var(--white-80); font-weight: 500; }
+  .resource-sub { color: var(--white-25); font-size: 11px; }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; padding: 2rem 1rem; }
+    .sidebar { order: -1; }
+    .pathway-grid { grid-template-columns: 1fr; }
+  }
+
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">STEM Toolkit</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-TK</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>STEM Toolkit Workgroup</h1>
+  <p style="max-width: 700px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    A statewide STEM PoC / TaC subgroup focused on organizing, curating, and sustaining high-quality STEM resources through the PA STEM Toolkit and OER Commons.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Leads:</strong> Diane McGaffic (MIU4) · Lexie Konsur-Grushinski (IU19)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Cadence:</strong> Monthly work sessions</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Primary Deliverable:</strong> DEL G</span>
+    </div>
+    <span class="status-badge status-active">Active · Resource Infrastructure</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <!-- ABOUT -->
+    <div class="section">
+      <div class="section-header">
+        <h2>About This Group</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box" style="margin-bottom:1.25rem;">
+        <strong>Mission:</strong> Create equitable access for all Pennsylvanians to high-quality educational resources. The STEM Toolkit Workgroup supports the PA STEM Toolkit as a statewide clearinghouse of vetted, accessible resources connected to STEM in PA initiatives — including UDL, STEELS, Computer Science, 3D teaching and learning, Esports, Student-Centered Learning, and other statewide priorities.
+      </div>
+
+      <div class="focus-card open" id="purpose">
+        <div class="focus-card-header" onclick="toggleCard('purpose')">
+          <div class="focus-icon orange">WHY</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Purpose &amp; Strategic Role</div>
+            <div class="focus-sub">Why this workgroup exists in the network</div>
+          </div>
+          <span class="focus-tag tag-core">Core</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Every PoC and TaC eventually hears the same question from teachers: <strong>"Where do I start?"</strong> The STEM Toolkit is the statewide answer — a curated, navigable resource system that gives educators an on-ramp to 3D science, CS, UDL, and STEM integration without requiring PoCs to build everything from scratch at the IU level.</p>
+            <p>The workgroup's deeper mission is to make the Toolkit usable for <em>the hardest-to-reach users</em> — emergency-certified science teachers, reassigned staff, special education educators, and teachers who don't identify as STEM people. That equity lens shapes every organizational and design decision the group makes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="focus2526">
+        <div class="focus-card-header" onclick="toggleCard('focus2526')">
+          <div class="focus-icon orange">2526</div>
+          <div class="focus-title-block">
+            <div class="focus-name">2025–2026 Focus</div>
+            <div class="focus-sub">This year's organizing priority</div>
+          </div>
+          <span class="focus-tag tag-active">Current</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p><strong>Create resources aligned to user profiles to support more personalized and sustainable training.</strong></p>
+            <p>The workgroup is designing three specific user pathways so educators see themselves in the Toolkit — and can quickly find what applies to their situation:</p>
+            <div class="user-profile-row">
+              <div class="user-profile-item">
+                <span class="up-icon">🆕</span>
+                <div><strong>Teacher new to science without certification</strong> — an emergency-certified or long-term sub who needs an immediate starting point and basic support</div>
+              </div>
+              <div class="user-profile-item">
+                <span class="up-icon">🔄</span>
+                <div><strong>Certified teacher with a new science assignment</strong> — an experienced teacher who is newly responsible for a course they haven't taught before</div>
+              </div>
+              <div class="user-profile-item">
+                <span class="up-icon">♿</span>
+                <div><strong>Teacher in a special needs classroom</strong> — a special education educator or inclusion teacher who needs STEELS-aligned, UDL-ready resources designed for their students</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATHWAY MODEL -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Toolkit Pathway Model</h2>
+        <div class="line"></div>
+      </div>
+
+      <p style="font-size:13px; color:var(--white-50); margin-bottom:1rem; line-height:1.6;">Resources in the PA STEM Toolkit are organized by complexity and user readiness — four levels that help educators self-select an entry point without needing to know the whole framework first.</p>
+
+      <div class="pathway-grid">
+        <div class="pathway-card duct-tape">
+          <span class="pathway-icon">🩹</span>
+          <div class="pathway-level">Duct Tape</div>
+          <div class="pathway-desc">Need-it-now support for educators who need an immediate starting point. Minimal context, maximum utility — built for survival mode.</div>
+        </div>
+        <div class="pathway-card tool-box">
+          <span class="pathway-icon">🧰</span>
+          <div class="pathway-level">Tool Box</div>
+          <div class="pathway-desc">Foundational instructional elements, STEELS 101, and basic navigation support. Builds understanding alongside immediate usefulness.</div>
+        </div>
+        <div class="pathway-card power-tools">
+          <span class="pathway-icon">⚡</span>
+          <div class="pathway-level">Power Tools</div>
+          <div class="pathway-desc">Deeper implementation resources — phenomena, foundation boxes, learning progressions, evidence statements, assessment toolkit, and OER authoring resources.</div>
+        </div>
+        <div class="pathway-card contractor">
+          <span class="pathway-icon">🏗</span>
+          <div class="pathway-level">Contractor</div>
+          <div class="pathway-desc">More robust programs, larger offerings, or deeper implementation support. For educators and systems doing sustained, high-complexity STEM work.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVE PROJECTS -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Active Projects</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="focus-card" id="starthere">
+        <div class="focus-card-header" onclick="toggleCard('starthere')">
+          <div class="focus-icon teal">START</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Start Here Folder</div>
+            <div class="focus-sub">OER Commons entry point for new users</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The Start Here folder inside OER Commons is the front door for educators coming to the Toolkit for the first time. The workgroup is building and refining this space to be genuinely usable — not just a list of links, but a guided entry into the right resources for each user type.</p>
+            <ul>
+              <li>Clear pathway entry points for the three user profiles</li>
+              <li>"How to Use the Toolkit" resource — scoped and in development</li>
+              <li>Navigation flowchart for self-directed users</li>
+              <li>OER Commons / Open Author training and support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="spreadsheet">
+        <div class="focus-card-header" onclick="toggleCard('spreadsheet')">
+          <div class="focus-icon green">RORG</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Resource Reorganization</div>
+            <div class="focus-sub">Spreadsheet redesign and four-category realignment</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>A major workgroup effort: taking the existing resource inventory and reallocating resources into the Duct Tape / Tool Box / Power Tools / Contractor framework. This makes the Toolkit navigable by user readiness rather than requiring educators to understand the full architecture before they can find anything useful.</p>
+            <ul>
+              <li>Resource spreadsheet redesign for clarity and usability</li>
+              <li>Reallocating existing resources into the four pathway levels</li>
+              <li>Aligning training items with user profiles</li>
+              <li>Removing or archiving outdated materials</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="marketing">
+        <div class="focus-card-header" onclick="toggleCard('marketing')">
+          <div class="focus-icon amber">MRKT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Teacher-Facing Marketing</div>
+            <div class="focus-sub">Making the Toolkit visible and usable for teachers</div>
+          </div>
+          <span class="focus-tag tag-emerging">Developing</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The Toolkit is only as useful as the number of educators who know it exists and know how to enter it. The workgroup is building teacher-facing marketing resources that PoCs and TaCs can use to introduce the Toolkit in professional learning sessions, onboarding, and IU communications.</p>
+            <ul>
+              <li>Teacher-facing marketing materials for the Toolkit</li>
+              <li>One-pagers and slide templates for PoC/TaC use</li>
+              <li>TaC / STEM PoC implementation pathway conversations</li>
+              <li>Possible audio/video support for key resources</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="equity">
+        <div class="focus-card-header" onclick="toggleCard('equity')">
+          <div class="focus-icon purple">EQT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">SpEd &amp; Equity Pathways</div>
+            <div class="focus-sub">Resources for special education, UDL, and inclusive STEM</div>
+          </div>
+          <span class="focus-tag tag-emerging">Developing</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Building pathways for the educators who most often get left out of STEM resource design: special education teachers, inclusion educators, and teachers supporting multilingual learners. This connects to PaTTAN / DLM partnerships and the Equity, TaC &amp; Inclusion Workgroup.</p>
+            <ul>
+              <li>Connect with PaTTAN / DLM partners around SpEd science resources</li>
+              <li>Build pathways for emergency-certified or reassigned teachers</li>
+              <li>Consider AI-supported navigation pathways for complex resource sets</li>
+              <li>UDL integration across Toolkit levels</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION ITEMS -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Action Items &amp; Next Steps</h2>
+        <div class="line"></div>
+      </div>
+      <div class="highlight-box highlight-teal">
+        <strong>Priority work:</strong> Reallocating resources into the four pathway categories and aligning all training content to the three user profiles are the highest-leverage actions for making the Toolkit genuinely usable at scale.
+      </div>
+      <div class="focus-card" id="actions">
+        <div class="focus-card-header" onclick="toggleCard('actions')">
+          <div class="focus-icon orange">TODO</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Current Action List</div>
+            <div class="focus-sub">Open items from 2025–2026 work sessions</div>
+          </div>
+          <span class="focus-tag tag-active">Open</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <ul>
+              <li>Reallocate resources into the four pathway categories (Duct Tape through Contractor)</li>
+              <li>Align all training items with the three learner / user profiles</li>
+              <li>Create or finalize "How to Use the Toolkit" resource</li>
+              <li>Update Open Author review and training materials</li>
+              <li>Create teacher-facing marketing for the Toolkit</li>
+              <li>Build pathways for emergency-certified or reassigned teachers</li>
+              <li>Connect with PaTTAN / DLM partners around special education science resources</li>
+              <li>Consider AI-supported navigation pathways</li>
+              <li>Continue developing the Toolkit Start Here folder</li>
+              <li>Record updated Toolkit overview / orientation resource</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEETING LOG -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Meeting Log — 2025–2026</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">MAY 4, 2026 (WORK SESSION)</div>
+        <div class="meeting-summary">Pathway model finalization &amp; user profile mapping</div>
+        <div class="meeting-detail">Continued work on aligning resources to the four pathway categories. Focus on the Duct Tape and Tool Box layers for the new-to-science teacher profile. Discussed teacher-facing marketing language.</div>
+        <button class="notes-toggle" onclick="toggleNotes('may26')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="may26">
+          <ul>
+            <li>Resource realignment to four-category structure ongoing</li>
+            <li>Duct Tape and Tool Box layers prioritized for new-to-science user</li>
+            <li>Marketing language draft in progress</li>
+            <li>AI-navigation pathway concept revisited</li>
+            <li>PaTTAN / DLM SpEd connection still open action item</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">APR 7, 2026 (WORK SESSION)</div>
+        <div class="meeting-summary">Spreadsheet redesign &amp; Open Author review</div>
+        <div class="meeting-detail">Worked through the resource spreadsheet redesign — categorizing by pathway level. Reviewed Open Author processes and identified gaps in current training documentation.</div>
+        <button class="notes-toggle" onclick="toggleNotes('apr26')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="apr26">
+          <ul>
+            <li>Spreadsheet redesign mapped to four pathway levels</li>
+            <li>Open Author training review — gaps identified in documentation</li>
+            <li>User profile pathways: SpEd educator track scoped</li>
+            <li>Audio/video support for key resources discussed — feasibility check assigned</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">MAR 5, 2026</div>
+        <div class="meeting-summary">User profile pathways &amp; TaC implementation conversations</div>
+        <div class="meeting-detail">Deepened the three user profile framework. Discussed how TaC and PoC roles intersect with Toolkit use in the field — and what implementation pathways look like from a TaC perspective.</div>
+        <button class="notes-toggle" onclick="toggleNotes('mar26')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="mar26">
+          <ul>
+            <li>Three user profiles further developed and validated</li>
+            <li>TaC implementation pathway conversation — distinguishing PoC vs. TaC Toolkit use</li>
+            <li>Emergency-certified teacher pathway scoped</li>
+            <li>Connected Toolkit work to STEM PoC ORBIT documentation needs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">FEB 9, 2026</div>
+        <div class="meeting-summary">Navigation flowchart &amp; Start Here folder refinement</div>
+        <div class="meeting-detail">Reviewed the navigation flowchart draft and identified friction points for first-time users. Refined the Start Here folder structure to match the updated user profiles. Discussed possible AI-supported navigation paths.</div>
+        <button class="notes-toggle" onclick="toggleNotes('feb26')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="feb26">
+          <ul>
+            <li>Navigation flowchart draft reviewed — friction points identified</li>
+            <li>Start Here folder refined to align with user profile entry points</li>
+            <li>AI-supported navigation pathway concept introduced</li>
+            <li>OER Commons authoring documentation gap noted</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">JAN 6, 2026 (WORK SESSION)</div>
+        <div class="meeting-summary">Resource categorization &amp; Duct Tape / Contractor model refinement</div>
+        <div class="meeting-detail">Working session focused on sorting existing resources into the four pathway levels. Clarified definitions for each level and began the spreadsheet redesign to reflect the new categorization.</div>
+        <button class="notes-toggle" onclick="toggleNotes('jan26')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="jan26">
+          <ul>
+            <li>Four-level model (Duct Tape → Contractor) definitions finalized</li>
+            <li>Existing resource inventory sorted into level categories</li>
+            <li>Spreadsheet redesign started</li>
+            <li>Identified resources needing updates before re-listing</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">DEC 15, 2025</div>
+        <div class="meeting-summary">User profile development &amp; equity lens discussion</div>
+        <div class="meeting-detail">Dedicated session on building out the three user profiles. Group discussed the equity argument for prioritizing emergency-certified and SpEd teachers as primary user profiles — not afterthoughts.</div>
+        <button class="notes-toggle" onclick="toggleNotes('dec25')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="dec25">
+          <ul>
+            <li>Three user profiles drafted and discussed</li>
+            <li>Equity framing: emergency-certified / SpEd users as primary, not secondary</li>
+            <li>PaTTAN / DLM partnership for SpEd science resources identified as priority</li>
+            <li>Connected user profiles to the 2025–2026 focus statement</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">NOV 20, 2025</div>
+        <div class="meeting-summary">Toolkit marketing strategy &amp; teacher awareness</div>
+        <div class="meeting-detail">Discussed what it takes for teachers to discover and use the Toolkit. Identified gaps between what PoCs know and what teachers encounter. Began scoping teacher-facing marketing materials.</div>
+        <button class="notes-toggle" onclick="toggleNotes('nov25')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="nov25">
+          <ul>
+            <li>Gap analysis: PoC Toolkit knowledge vs. teacher exposure</li>
+            <li>Teacher-facing marketing materials scoped</li>
+            <li>One-pager and slide template formats proposed</li>
+            <li>Connection to TaC role in Toolkit promotion discussed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">OCT 15, 2025</div>
+        <div class="meeting-summary">Pathway model introduction &amp; OER Commons orientation</div>
+        <div class="meeting-detail">Introduced the four-level pathway model concept to the group. Reviewed the current OER Commons structure and identified what works, what's confusing, and what needs to change for the user profile approach to function.</div>
+        <button class="notes-toggle" onclick="toggleNotes('oct25')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="oct25">
+          <ul>
+            <li>Four-level pathway model introduced to workgroup</li>
+            <li>OER Commons current structure audited — usability issues noted</li>
+            <li>Duct Tape level seen as highest-priority immediate need</li>
+            <li>Open Author access and training gaps surfaced</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">SEP 8, 2025</div>
+        <div class="meeting-summary">Kickoff — 2025–2026 focus and priority setting</div>
+        <div class="meeting-detail">Year kickoff meeting. Set the 2025–2026 focus: create resources aligned to user profiles. Reviewed where the Toolkit stood at end of 2024–2025 and identified the highest-priority gaps to address this year.</div>
+        <button class="notes-toggle" onclick="toggleNotes('sep25')">Meeting Details <span class="chev">▾</span></button>
+        <div class="notes-body" id="sep25">
+          <ul>
+            <li>2025–2026 focus set: user profile–aligned resource pathways</li>
+            <li>End-of-year review of 2024–2025 Toolkit state</li>
+            <li>Priority gaps identified: Start Here folder, user pathways, SpEd resources</li>
+            <li>Group agreed on four-level pathway model as organizing framework</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORBIT / SoW -->
+    <div class="section">
+      <div class="section-header">
+        <h2>ORBIT &amp; SoW Connections</h2>
+        <div class="line"></div>
+      </div>
+      <div style="margin-bottom:1rem; line-height:2;">
+        <span class="del-tag del-g">DEL G</span>
+        <span class="del-tag del-b">DEL B</span>
+        <span class="del-tag del-c">DEL C</span>
+        <span class="del-tag del-d">DEL D</span>
+        <span class="del-tag del-f">DEL F</span>
+        <span class="del-tag del-a">DEL A</span>
+      </div>
+      <div class="focus-card" id="orbit">
+        <div class="focus-card-header" onclick="toggleCard('orbit')">
+          <div class="focus-icon teal">ORBT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Deliverable Mapping</div>
+            <div class="focus-sub">How Toolkit work connects to ORBIT documentation</div>
+          </div>
+          <span class="focus-tag tag-core">Reference</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <ul>
+              <li><strong>Del G</strong> — statewide resource sharing, Toolkit curation, inclusive practices, UDL integration</li>
+              <li><strong>Del B</strong> — STEELS-aligned resources, science implementation support materials</li>
+              <li><strong>Del C</strong> — CS, AI, drones, cybersecurity resources within the Toolkit when applicable</li>
+              <li><strong>Del D</strong> — student-centered learning resources, SCL-aligned materials</li>
+              <li><strong>Del F</strong> — student competition resources and connections (Esports, competitions)</li>
+              <li><strong>Del A</strong> — workgroup participation, cross-IU collaboration on resource development</li>
+            </ul>
+            <p style="margin-top:0.75rem;"><strong>ORBIT tip:</strong> Toolkit contributions count when they are documented — OER Commons additions, resource reviews, and user pathway development all qualify. Track what you added or improved and connect it to the deliverable where it lives.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Workgroup Leads</div>
+      <div class="member-row">
+        <div class="member-avatar">DM</div>
+        <div class="member-info">
+          <div class="member-name">Diane McGaffic</div>
+          <div class="member-iu">MIU4</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">LK</div>
+        <div class="member-info">
+          <div class="member-name">Lexie Konsur-Grushinski</div>
+          <div class="member-iu">IU19</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Meeting Access</div>
+      <div class="access-notice">
+        <span class="icon">📅</span>
+        <span>Meeting links available through PAIMS / workgroup calendar. Contact through PA STEM PoC network.</span>
+      </div>
+      <div style="font-size:12px; color:var(--white-25); line-height:1.5;">Monthly work sessions</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Deliverable Alignment</div>
+      <div style="line-height:2.2;">
+        <span class="del-tag del-g">DEL G — Primary</span><br>
+        <span class="del-tag del-b">DEL B</span>
+        <span class="del-tag del-d">DEL D</span><br>
+        <span class="del-tag del-c">DEL C</span>
+        <span class="del-tag del-f">DEL F</span><br>
+        <span class="del-tag del-a">DEL A</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Current Focus</div>
+      <div style="font-size:12px; color:var(--white-50); line-height:1.6;">
+        Building user profile–aligned resource pathways for:<br><br>
+        <span style="color:var(--orange);">①</span> New-to-science / uncertified teachers<br>
+        <span style="color:var(--orange);">②</span> Certified teachers with new assignments<br>
+        <span style="color:var(--orange);">③</span> SpEd / inclusive STEM educators
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Quick Links</div>
+      <div class="resource-item">
+        <span class="resource-icon">📦</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">PA STEM Toolkit — OER Commons</a></div>
+          <div class="resource-sub">Start Here folder entry point</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📊</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">Resource Spreadsheet</a></div>
+          <div class="resource-sub">Categorized inventory — in redesign</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🗺</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">Navigation Flowchart</a></div>
+          <div class="resource-sub">Self-directed Toolkit pathway</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🤖</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">STEM Toolkit Journey AI Notes</a></div>
+          <div class="resource-sub">AI-assisted navigation concept</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📖</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">How to Use the Toolkit</a></div>
+          <div class="resource-sub">In development</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">✍️</span>
+        <div>
+          <div class="resource-label"><a href="#" style="color:var(--orange);text-decoration:none;">OER Commons / Open Author</a></div>
+          <div class="resource-sub">Authoring and review support</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Related Workgroups</div>
+      <div class="resource-item">
+        <span class="resource-icon">🔬</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-science.html" style="color:var(--orange);text-decoration:none;">Science Workgroup</a></div>
+          <div class="resource-sub">STEELS-aligned resources</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📚</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-stem-lending-libraries.html" style="color:var(--orange);text-decoration:none;">Lending Libraries</a></div>
+          <div class="resource-sub">Equipment access &amp; resource sharing</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">➗</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-math.html" style="color:var(--orange);text-decoration:none;">Math Focus</a></div>
+          <div class="resource-sub">Math resources on OER Commons</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM PoC Hub &nbsp;·&nbsp; STEM Toolkit Workgroup &nbsp;·&nbsp; <a href="index.html" style="color:var(--white-25);text-decoration:none;">← Hub Home</a>
+</footer>
+
+<script>
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+  function toggleNotes(id) {
+    const body = document.getElementById(id);
+    const btn = body.previousElementSibling;
+    body.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
