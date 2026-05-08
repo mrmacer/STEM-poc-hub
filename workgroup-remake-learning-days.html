@@ -1,0 +1,855 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remake Learning Days — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --accent: #f97316;
+    --accent-dim: rgba(249,115,22,0.14);
+    --accent-border: rgba(249,115,22,0.28);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --amber: #f5a623;
+    --amber-glow: rgba(245,166,35,0.12);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --red: #e05c5c;
+    --red-dim: rgba(224,92,92,0.15);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 2rem;
+    height: 52px;
+  }
+  .nav-brand { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: 0.05em; text-decoration: none; }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px; margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem;
+  }
+  .section-label .num  { color: rgba(249,115,22,0.45); font-size: 11px; }
+  .section-label .slash{ color: rgba(249,115,22,0.45); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+    color: var(--white); letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; align-items: center; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--white-50); }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-seasonal {
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--accent-border);
+  }
+  .status-seasonal::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  .main {
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid; grid-template-columns: 1fr 300px; gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 1.25rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px; font-weight: 700; color: var(--white);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace; white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  /* HIGHLIGHT BOXES */
+  .hl {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-dim);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px; color: var(--white-80); line-height: 1.6;
+    border-top: 1px solid var(--accent-border);
+    border-right: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border);
+  }
+  .hl strong { color: var(--accent); font-weight: 600; }
+  .hl-teal  { border-left-color: var(--teal);  background: var(--teal-dim);  border-color: rgba(62,207,178,0.2);  }
+  .hl-teal  strong { color: var(--teal); }
+  .hl-amber { border-left-color: var(--amber); background: var(--amber-glow); border-color: rgba(245,166,35,0.2); }
+  .hl-amber strong { color: var(--amber); }
+  .hl-green { border-left-color: var(--green); background: var(--green-dim);  border-color: rgba(92,217,138,0.2); }
+  .hl-green strong { color: var(--green); }
+
+  /* PROGRAM PILLARS */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .pillar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .pillar-card:hover { border-color: var(--navy-border-strong); background: var(--navy-elevated); }
+  .pillar-icon {
+    font-size: 11px; font-weight: 700; font-family: 'Space Mono', monospace;
+    padding: 3px 8px; border-radius: 4px; display: inline-block;
+    margin-bottom: 0.6rem;
+  }
+  .pi-orange { background: var(--accent-dim);  color: var(--accent); border: 1px solid var(--accent-border); }
+  .pi-teal   { background: var(--teal-dim);    color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .pi-amber  { background: var(--amber-glow);  color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .pi-green  { background: var(--green-dim);   color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+  .pi-blue   { background: var(--blue-dim);    color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+  .pi-red    { background: var(--red-dim);     color: var(--red);    border: 1px solid rgba(224,92,92,0.25);  }
+
+  .pillar-title { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .pillar-body  { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  /* FOCUS CARDS — collapsible */
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 1rem 1.5rem; cursor: pointer; user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+  .focus-icon {
+    width: 36px; height: 36px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    flex-shrink: 0; text-align: center; line-height: 1.2;
+  }
+  .fi-orange { background: var(--accent-dim);  color: var(--accent); border: 1px solid var(--accent-border); }
+  .fi-teal   { background: var(--teal-dim);    color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .fi-amber  { background: var(--amber-glow);  color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .fi-green  { background: var(--green-dim);   color: var(--green);  border: 1px solid rgba(92,217,138,0.25); }
+  .fi-blue   { background: var(--blue-dim);    color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+  .f-tag {
+    padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.06em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .ft-active  { background: var(--green-dim); color: var(--green); }
+  .ft-ops     { background: var(--accent-dim); color: var(--accent); }
+  .ft-role    { background: var(--blue-dim);  color: var(--blue); }
+  .ft-program { background: var(--teal-dim);  color: var(--teal); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+  .focus-card-body {
+    display: none; padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+  .fbd {
+    padding-top: 1rem; font-size: 13px; color: var(--white-50); line-height: 1.7;
+  }
+  .fbd ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .fbd ul li { padding: 3px 0 3px 14px; position: relative; }
+  .fbd ul li::before { content: '–'; position: absolute; left: 0; color: var(--accent); opacity: 0.7; }
+  .fbd strong { color: var(--white-80); font-weight: 500; }
+  .fbd p { margin-bottom: 0.5rem; }
+
+  /* ROLE CLARITY TABLE */
+  .role-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 12px; }
+  .role-table th {
+    text-align: left; padding: 8px 12px;
+    font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--white-25);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .role-table td { padding: 8px 12px; color: var(--white-50); border-bottom: 1px solid var(--navy-border); vertical-align: top; line-height: 1.5; }
+  .role-table tr:last-child td { border-bottom: none; }
+  .role-table td:first-child { color: var(--white-80); font-weight: 500; white-space: nowrap; }
+
+  /* MEETING LOG */
+  .meeting-entry { position: relative; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+  .meeting-entry::before {
+    content: ''; position: absolute; left: 0; top: 8px; bottom: -1.5rem;
+    width: 1px; background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot {
+    position: absolute; left: -4px; top: 7px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--navy-deepest); border: 2px solid var(--accent);
+  }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail  { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  /* NOTES ACCORDION */
+  .notes-accordion { margin-top: 0.75rem; }
+  .notes-toggle {
+    display: flex; align-items: center; gap: 8px;
+    background: none; border: 1px solid var(--navy-border);
+    border-radius: 6px; padding: 8px 14px;
+    color: var(--white-50); font-size: 12px;
+    font-family: 'Space Mono', monospace; letter-spacing: 0.06em;
+    cursor: pointer; transition: all 0.2s; width: 100%; text-align: left;
+  }
+  .notes-toggle:hover { border-color: var(--navy-border-strong); color: var(--white-80); background: var(--white-10); }
+  .notes-toggle .cs { margin-left: auto; transition: transform 0.3s; }
+  .notes-toggle.open .cs { transform: rotate(180deg); }
+  .notes-full {
+    display: none; background: var(--navy-deep);
+    border: 1px solid var(--navy-border); border-top: none;
+    border-radius: 0 0 6px 6px; padding: 1rem 1.25rem;
+    font-size: 12px; color: var(--white-50); line-height: 1.7;
+  }
+  .notes-full.open { display: block; }
+  .notes-full ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .notes-full ul li { padding: 2px 0 2px 14px; position: relative; }
+  .notes-full ul li::before { content: '›'; position: absolute; left: 0; color: var(--accent); opacity: 0.6; }
+  .nh { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; display: block; margin: 0.75rem 0 0.25rem; }
+  .nh:first-child { margin-top: 0; }
+
+  /* SIDEBAR */
+  .sidebar-card {
+    background: var(--navy-card); border: 1px solid var(--navy-border);
+    border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem;
+  }
+  .sct {
+    font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700;
+    color: var(--white-25); letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--navy-border); }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--navy-elevated); border: 1px solid var(--navy-border-strong);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--accent);
+    font-family: 'Space Mono', monospace; flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu   { font-size: 11px; color: var(--white-25); }
+  .lead-tag {
+    font-size: 10px; background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--accent-border); border-radius: 3px;
+    padding: 1px 6px; font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em; white-space: nowrap; flex-shrink: 0;
+  }
+
+  .quick-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 0; border-bottom: 1px solid var(--navy-border);
+    font-size: 12px; color: var(--white-80); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .quick-link:last-child { border-bottom: none; }
+  .quick-link:hover { color: var(--accent); }
+  .quick-link .ql-icon { font-size: 14px; flex-shrink: 0; }
+  .quick-link .ql-label { flex: 1; }
+  .quick-link .ql-arrow { color: var(--white-25); font-size: 11px; }
+
+  .season-block {
+    background: var(--accent-dim); border: 1px solid var(--accent-border);
+    border-radius: 8px; padding: 1rem 1.25rem;
+  }
+  .season-block p { font-size: 12px; color: var(--white-50); margin-bottom: 10px; line-height: 1.5; }
+  .cta-btn {
+    display: inline-block; background: var(--accent); color: #0c0906;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 8px 18px; border-radius: 5px; text-decoration: none; transition: opacity 0.2s;
+  }
+  .cta-btn:hover { opacity: 0.85; }
+
+  footer {
+    border-top: 1px solid var(--navy-border); padding: 2rem; text-align: center;
+    font-size: 11px; color: var(--white-25);
+    font-family: 'Space Mono', monospace; letter-spacing: 0.06em;
+    max-width: 1100px; margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .pillar-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Remake Learning Days</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-04</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Remake Learning Days</h1>
+  <p style="max-width:640px;color:var(--white-50);font-size:15px;margin-top:0.75rem;line-height:1.7;">
+    Statewide coordination for Pennsylvania's Remake Learning Days festival — a network of IU Regional Leads working to grow events, support hosts, distribute materials, and connect districts to Career Ready PA programming.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="dot"></span><span><strong>Leads:</strong> Kelsi Wilcox Boyles (RIU6) · Sarah Brambley (IU8)</span></div>
+    <div class="meta-item"><span class="dot"></span><span><strong>Cadence:</strong> Monthly, 60 min · Seasonal sprint cadence</span></div>
+    <div class="meta-item"><span class="dot"></span><span><strong>Members:</strong> 9 IU representatives</span></div>
+    <span class="status-badge status-seasonal">Seasonal · Active Apr–May</span>
+  </div>
+</div>
+
+<div class="main">
+  <div>
+
+    <!-- WHAT RLD IS -->
+    <div class="section">
+      <div class="section-header"><h2>What This Group Coordinates</h2><div class="line"></div></div>
+
+      <div class="hl" style="margin-bottom:1.25rem;">
+        <strong>Mission:</strong> Support the growth of Remake Learning Days across Pennsylvania — connecting IU Regional Leads, event hosts, school districts, Career Ready PA liaisons, and youth/parent ambassadors into a coordinated statewide festival.
+      </div>
+
+      <div class="pillar-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon pi-orange">EVENTS</div>
+          <div class="pillar-title">Event Host Support</div>
+          <div class="pillar-body">Coordinate host submissions, funding distribution, materials logistics, and communications for RLD events across all IU regions.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-teal">MKTG</div>
+          <div class="pillar-title">Marketing &amp; Materials</div>
+          <div class="pillar-body">Posters, yard signs, rack cards, postcards, and county-wide flyers distributed through the IU to hosts. Multi-page flyers go directly to hosts.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-amber">CR PA</div>
+          <div class="pillar-title">Career Ready PA</div>
+          <div class="pillar-body">Backpack Challenge, Mega Events, sticker distribution, and artifact submission — coordinated between RLD Regional Leads and Career Ready Liaisons.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-green">AMB</div>
+          <div class="pillar-title">Ambassadors</div>
+          <div class="pillar-body">Youth Ambassadors (140 apps received) and Parent/Teacher Ambassadors (120 apps) — application, selection, and deployment across regions.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-blue">DISC</div>
+          <div class="pillar-title">DiscoverEd</div>
+          <div class="pillar-body">Statewide challenge open to all 1st &amp; 2nd grade classrooms. Aligned to STEELS, begins with a phenomenon to investigate.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pi-red">VIRTUAL</div>
+          <div class="pillar-title">Virtual Events</div>
+          <div class="pillar-body">IU12/FrAY (Abbey) hosting virtual student events. Kelsi building a Smore of virtual events for the network to share out.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATIONS -->
+    <div class="section">
+      <div class="section-header"><h2>How It Works — Ops &amp; Roles</h2><div class="line"></div></div>
+
+      <div class="focus-card" id="logistics">
+        <div class="focus-card-header" onclick="toggleCard('logistics')">
+          <div class="focus-icon fi-orange">OPS</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Materials &amp; Logistics Flow</div>
+            <div class="focus-sub">How stuff gets from RLD to hosts — who does what</div>
+          </div>
+          <span class="f-tag ft-ops">Operations</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="fbd">
+            <p>The general rule: <strong>everything flows through the IU</strong> except the multi-page flyer, which goes directly to hosts (if requested).</p>
+            <ul>
+              <li>Posters, yard signs, postcards, rack cards → sorted at IU → hosts pick up or IU delivers</li>
+              <li>Rack cards for CCIU: they print their own — order separately</li>
+              <li>Multi-page flyers: go directly from RLD to event hosts who requested them</li>
+              <li>IU notifies hosts when funding has been sent (this has been an ongoing communication gap to close)</li>
+            </ul>
+            <strong>Open logistics questions from the group:</strong>
+            <ul>
+              <li>Why can't IU3 pay event hosts directly rather than routing through individual IUs? (They take a fiscal manager cut)</li>
+              <li>Do we want lower funding for private events?</li>
+              <li>CCIU model worth stealing: use photography funds to send staff to events to capture content</li>
+              <li>Items were slow to arrive close to the May 1 deadline in 25-26 — can we get these out earlier next year?</li>
+              <li>Some IUs still waiting on stickers (Career Ready &amp; NWPA Regional) as of April 2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="roles">
+        <div class="focus-card-header" onclick="toggleCard('roles')">
+          <div class="focus-icon fi-blue">ROLES</div>
+          <div class="focus-title-block">
+            <div class="focus-name">RLD Regional Lead vs. Career Ready Liaison</div>
+            <div class="focus-sub">Who owns what in the Mega Challenge ecosystem</div>
+          </div>
+          <span class="f-tag ft-role">Role Clarity</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="fbd">
+            <p>Clarified via Cari's email from Laura Fridici and RLD national. The handoff point is <strong>form completion</strong>.</p>
+            <table class="role-table">
+              <thead>
+                <tr>
+                  <th>Who</th>
+                  <th>Owns</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>RLD Regional Lead</td>
+                  <td>Encourage everyone to participate. Share the Mega Challenge qualifier form with potential hosts. That's where your job ends on Mega Events.</td>
+                </tr>
+                <tr>
+                  <td>Career Ready PA Liaison</td>
+                  <td>Takes over once the form is submitted. Handles: school artifact registration, written confirmation with host, supporting registered schools, must be at the event, sends stickers after, manages all artifact submission logistics.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="backpack">
+        <div class="focus-card-header" onclick="toggleCard('backpack')">
+          <div class="focus-icon fi-amber">PACK</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Career Ready PA Backpack Challenge</div>
+            <div class="focus-sub">Statewide student challenge · Each region running it differently</div>
+          </div>
+          <span class="f-tag ft-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="fbd">
+            <p>The Backpack Challenge is a Career Ready PA program running in parallel with RLD events. As of the April 2026 meeting, the group is still sorting out which schools and districts have registered.</p>
+            <ul>
+              <li>Registration tracked via shared spreadsheet — check there for current participation</li>
+              <li>Each region is handling it differently — no unified playbook yet; this is a known gap</li>
+              <li>Career Ready Regional Leads are responsible for sharing the challenge and registration emails</li>
+              <li>Abbey (IU12/FrAY) also hosting virtual events for students tied to this work</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="dashboard">
+        <div class="focus-card-header" onclick="toggleCard('dashboard')">
+          <div class="focus-icon fi-teal">DASH</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Dashboard Idea (Proposed)</div>
+            <div class="focus-sub">Unified visibility across all RLD tracks — still on the wish list</div>
+          </div>
+          <span class="f-tag ft-program">Proposed</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="fbd">
+            <p>Surfaced in March 2025 — the group wants a single dashboard showing where each IU stands across all the moving parts. Nobody's built it yet.</p>
+            <strong>Proposed buckets:</strong>
+            <ul>
+              <li>DiscoverEd status</li>
+              <li>Event Host registrations + funding status</li>
+              <li>Advertisement/marketing (quantities, delivery status)</li>
+              <li>Proclamations (by county)</li>
+              <li>Youth ambassadors (by region)</li>
+              <li>Parent/Teacher ambassadors</li>
+              <li>Grants</li>
+              <li>Videographer/photographer assignments</li>
+              <li>Total events by county</li>
+              <li>IU-specific asks with deadlines and contracts</li>
+              <li>Mega events / Backpack Challenge status</li>
+              <li>Host awards — where each IU is in the process</li>
+            </ul>
+            <p>Each bucket should include: relevant email, flyer, and any forms. This would dramatically reduce the "where are we?" questions each meeting.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEETING LOG -->
+    <div class="section">
+      <div class="section-header"><h2>Meeting Log — 25-26 SY</h2><div class="line"></div></div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">April 28, 2026</div>
+        <div class="meeting-summary">End-of-season logistics · Backpack Challenge check-in · Virtual events roundup</div>
+        <div class="meeting-detail">Late-arriving items flagged as a recurring issue — push for earlier distribution next year. Abbey hosting virtual student events via FrAY ecosystem site. Kelsi building a Smore of virtual events to share across the network.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Apr 28</span>
+            <span class="cs">▾</span>
+          </button>
+          <div class="notes-full">
+            <ul>
+              <li>Items slow to arrive close to May 1 — can we get things out earlier next year?</li>
+              <li>Some IUs still waiting on stickers (Career Ready &amp; NWPA Regional)</li>
+              <li>Everything comes to the IU except multi-page flyers (go directly to hosts who requested them)</li>
+              <li>Backpack Challenge: which schools/districts are registered? → check the spreadsheet</li>
+              <li>Abbey hosting virtual student events: sites.google.com/iu12gmail.org/fray-ecosystem/events</li>
+              <li>Kelsi may build a Smore of virtual events for the whole network to share out</li>
+              <li>Email Sample Text to LEAs about RLD — share widely</li>
+              <li>Career Ready Schools — update/check your list</li>
+              <li>Email to event hosts — confirm sends</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">March 24, 2026</div>
+        <div class="meeting-summary">Chronological event list compiled by RLD region</div>
+        <div class="meeting-detail">Working session to build a chronological list of events per RLD region for coordination and visibility. Attendance not recorded in the agenda.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">April 11, 2025</div>
+        <div class="meeting-summary">Materials logistics · Host payment communication · Backpack challenge coordination</div>
+        <div class="meeting-detail">Deep dive into distribution logistics — how materials flow from RLD to hosts, the fiscal manager cut issue with IU3, and how IUs are supporting the Backpack Challenge differently across regions.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Apr 11</span>
+            <span class="cs">▾</span>
+          </button>
+          <div class="notes-full">
+            <ul>
+              <li>Figuring out event schedules and RLD office hours (2PM–3PM)</li>
+              <li>Rack cards for CCIU: they print their own — needs separate order</li>
+              <li>Raised: why can't IU3 pay event hosts directly vs. routing through individual IUs? They take a fiscal manager cut.</li>
+              <li>CCIU using photography funds to staff events for content capture — great model, worth stealing</li>
+              <li>IUs need to let RLD know which events they're attending</li>
+              <li>Question: lower funding tier for private events?</li>
+              <li>Backpack Challenge: each region doing it differently — no unified approach</li>
+              <li>Materials distribution: spreadsheet + sorting + hosts pick up at IU; exceptions handled case by case</li>
+              <li>Next step: choose events to attend, sort yard signs/posters/postcards</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">March 10, 2025</div>
+        <div class="meeting-summary">Marketing numbers · Dashboard concept · Ambassador updates</div>
+        <div class="meeting-detail">First major coordination meeting of the 24-25 season. Ambassador applications closed (140 youth, 120 parent/teacher). Dashboard concept proposed to track all RLD tracks in one place — still outstanding.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Mar 10</span>
+            <span class="cs">▾</span>
+          </button>
+          <div class="notes-full">
+            <ul>
+              <li>Advertising/Marketing: need poster and yard sign counts + delivery addresses for Yu-Ling ASAP</li>
+              <li>County-wide flyers coming soon — can go directly to schools</li>
+              <li>Dashboard concept proposed: DiscoverEd, Event Host, advertisement, proclamations, youth &amp; parent ambassadors, grants, videographer/photographer, total events by county, IU asks with deadlines, Mega events/Backpack, host awards</li>
+              <li>Each bucket should have: email, flyer, forms</li>
+              <li>Youth Ambassadors: 140 applications received — now closed, emails sent</li>
+              <li>Parent/Teacher Ambassadors: 120 applications — now closed, emails sent</li>
+              <li>Event Host Submissions: still open, no funding available</li>
+              <li>DiscoverEd: statewide challenge for all 1st &amp; 2nd grade classrooms, STEELS-aligned, phenomena-based</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">February 14, 2025</div>
+        <div class="meeting-summary">Deadline roundup · Mega Event role clarity · PETE&amp;C presentations shared</div>
+        <div class="meeting-detail">Key deadline day — Youth and Parent/Teacher Ambassador applications closed. Event Host Submissions open until Feb 28. Mega Event role distinction between RLD Regional Leads and Career Ready Liaisons formally clarified via Cari's email.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Feb 14</span>
+            <span class="cs">▾</span>
+          </button>
+          <div class="notes-full">
+            <ul>
+              <li>Youth Ambassador apps: closed today</li>
+              <li>Parent/Teacher Ambassador apps: closed today</li>
+              <li>Event Host Submissions: open until Feb 28</li>
+              <li>Event Host Funding: open until Feb 28</li>
+              <li>DiscoverEd: statewide challenge, STEELS-aligned, 1st &amp; 2nd grade</li>
+              <li>Career Ready PA Backpack Challenge: registration open</li>
+              <li>PETE&amp;C Presentations: "RLD Overview Slides" and "Remaking the Magic of Your School" — both presented at PETE 2025</li>
+              <li>Mega Events: RLD Regional Lead = encourage participation + share form. Career Ready Liaison = takes over after form submitted, handles all artifact/school logistics, must be at event, sends stickers after.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">February 24, 2025</div>
+        <div class="meeting-summary">Ambassador counts by region · Events per region · Mini-grant congratulations</div>
+        <div class="meeting-detail">Kelsi shared updated ambassador distribution by region and event counts. Sent congratulations emails for mini-grant award recipients.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">May 29, 2025</div>
+        <div class="meeting-summary">End-of-season reflection — Glows &amp; Grows</div>
+        <div class="meeting-detail">Post-festival reflection using the Glows &amp; Grows format. Event Host Submissions still open but no funding available. Reflection document compiled for planning next cycle.</div>
+      </div>
+    </div>
+
+    <!-- HORIZON -->
+    <div class="section">
+      <div class="section-header"><h2>On the Horizon</h2><div class="line"></div></div>
+      <div class="hl hl-green">
+        <strong>Earlier materials distribution:</strong> Flagged in April 2026 — items trickling in too close to the May 1 deadline. Planning goal for 26-27: get stickers, rack cards, and marketing materials out significantly earlier in the season.
+      </div>
+      <div class="hl hl-amber">
+        <strong>Dashboard build:</strong> The proposed tracker (first surfaced March 2025) remains unbuilt. A Google Sheet or Smore-based version tracking all IU positions across DiscoverEd, events, ambassadors, Backpack Challenge, and materials would cut meeting overhead substantially.
+      </div>
+      <div class="hl hl-teal">
+        <strong>Backpack Challenge unification:</strong> Each region running the Career Ready PA Backpack Challenge differently. An opportunity for the group to align on a shared playbook before the 26-27 season opens.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sct">Meeting Cadence</div>
+      <div style="font-size:12px;color:var(--white-50);margin-bottom:12px;line-height:1.5;">Monthly, 60 min. Peak activity Jan–May aligning with RLD season. Zoom link varies — check with Kelsi or Sarah.</div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div class="meeting-entry" style="margin-bottom:1rem;">
+          <div class="meeting-dot" style="border-color:var(--accent)"></div>
+          <div class="meeting-date">April 28, 2026</div>
+          <div class="meeting-detail">End-of-season logistics</div>
+        </div>
+        <div class="meeting-entry" style="margin-bottom:1rem;">
+          <div class="meeting-dot" style="border-color:var(--accent)"></div>
+          <div class="meeting-date">March 24, 2026</div>
+          <div class="meeting-detail">Chronological events by region</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--white-25);font-family:'Space Mono',monospace;letter-spacing:.05em;margin-top:4px;">25-26 MEETINGS WRAPPED</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sct">Workgroup Members</div>
+      <div class="member-row">
+        <div class="member-avatar">KW</div>
+        <div class="member-info">
+          <div class="member-name">Kelsi Wilcox Boyles</div>
+          <div class="member-iu">RIU6 · kboyles@riu6.org</div>
+        </div>
+        <span class="lead-tag">LEAD</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">SB</div>
+        <div class="member-info">
+          <div class="member-name">Sarah Brambley</div>
+          <div class="member-iu">IU8 · sbrambley@iu08.org</div>
+        </div>
+        <span class="lead-tag">LEAD</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">AH</div>
+        <div class="member-info">
+          <div class="member-name">Abbey Hathaway</div>
+          <div class="member-iu">IU12 · Virtual events lead</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">BC</div>
+        <div class="member-info">
+          <div class="member-name">Brenda Calhoun</div>
+          <div class="member-iu">IU8</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">KS</div>
+        <div class="member-info">
+          <div class="member-name">Kendy Schiffert</div>
+          <div class="member-iu">Berks IU14</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">JS</div>
+        <div class="member-info">
+          <div class="member-name">Jen Sciacca</div>
+          <div class="member-iu">CAIU</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">SS</div>
+        <div class="member-info">
+          <div class="member-name">Samantha Siegfried</div>
+          <div class="member-iu">CIU20</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">JO</div>
+        <div class="member-info">
+          <div class="member-name">Joy Shaffer</div>
+          <div class="member-iu">IU5</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">CD</div>
+        <div class="member-info">
+          <div class="member-name">Cynthia Dragan</div>
+          <div class="member-iu">IU27 SW</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sct">Key Links</div>
+      <a href="#" class="quick-link">
+        <span class="ql-icon" style="color:var(--accent)">◈</span>
+        <div>
+          <div class="ql-label">Find RLD Events</div>
+          <div style="font-size:11px;color:var(--white-25);">remakelearningdays.org</div>
+        </div>
+        <span class="ql-arrow">↗</span>
+      </a>
+      <a href="#" class="quick-link">
+        <span class="ql-icon" style="color:var(--amber)">◈</span>
+        <div>
+          <div class="ql-label">Career Ready PA Backpack Challenge</div>
+          <div style="font-size:11px;color:var(--white-25);">Registration link</div>
+        </div>
+        <span class="ql-arrow">↗</span>
+      </a>
+      <a href="#" class="quick-link">
+        <span class="ql-icon" style="color:var(--teal)">◈</span>
+        <div>
+          <div class="ql-label">DiscoverEd Statewide Challenge</div>
+          <div style="font-size:11px;color:var(--white-25);">1st &amp; 2nd grade · STEELS-aligned</div>
+        </div>
+        <span class="ql-arrow">↗</span>
+      </a>
+      <a href="https://sites.google.com/iu12gmail.org/fray-ecosystem/events" class="quick-link" target="_blank">
+        <span class="ql-icon" style="color:var(--green)">◈</span>
+        <div>
+          <div class="ql-label">FrAY Virtual Student Events</div>
+          <div style="font-size:11px;color:var(--white-25);">Abbey Hathaway · IU12</div>
+        </div>
+        <span class="ql-arrow">↗</span>
+      </a>
+      <a href="#" class="quick-link">
+        <span class="ql-icon" style="color:var(--blue)">◈</span>
+        <div>
+          <div class="ql-label">County Proclamations</div>
+          <div style="font-size:11px;color:var(--white-25);">Template + tracking</div>
+        </div>
+        <span class="ql-arrow">↗</span>
+      </a>
+    </div>
+
+    <div class="season-block">
+      <p>Interested in hosting an RLD event in your region or connecting your district to the Backpack Challenge?</p>
+      <span class="cta-btn" style="display:inline-block;">Contact through PA STEM PoC network</span>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM POC NETWORK &nbsp;·&nbsp; WORKGROUP DIRECTORY &nbsp;·&nbsp; LAST UPDATED MAY 2026
+</footer>
+
+<script>
+  function toggleCard(id) { document.getElementById(id).classList.toggle('open'); }
+  function toggleNotes(btn) { btn.classList.toggle('open'); btn.nextElementSibling.classList.toggle('open'); }
+</script>
+</body>
+</html>

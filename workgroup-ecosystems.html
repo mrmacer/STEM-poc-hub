@@ -1,0 +1,999 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecosystems Workgroup — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-dim: #c47d0e;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --red: #e05c5c;
+    --red-dim: rgba(224,92,92,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num { font-size: 11px; color: rgba(62,207,178,0.5); }
+  .section-label .slash { color: rgba(62,207,178,0.5); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-active { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(62,207,178,0.3); }
+  .status-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+  .status-transition { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+  .status-transition::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--purple); }
+
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  /* HIGHLIGHT BOXES */
+  .highlight-box {
+    background: var(--teal-dim);
+    border: 1px solid rgba(62,207,178,0.2);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--teal); font-weight: 600; }
+  .highlight-amber { background: var(--amber-glow); border-color: rgba(245,166,35,0.2); border-left-color: var(--amber); }
+  .highlight-amber strong { color: var(--amber); }
+  .highlight-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.2); border-left-color: var(--purple); }
+  .highlight-purple strong { color: var(--purple); }
+
+  /* FOCUS AREA CARDS */
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+
+  .focus-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .focus-icon.teal  { background: var(--teal-dim);   color: var(--teal);   border: 1px solid rgba(62,207,178,0.25); }
+  .focus-icon.amber { background: var(--amber-glow); color: var(--amber);  border: 1px solid rgba(245,166,35,0.25); }
+  .focus-icon.purple{ background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+  .focus-icon.blue  { background: var(--blue-dim);   color: var(--blue);   border: 1px solid rgba(79,163,232,0.25); }
+
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+
+  .focus-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-active   { background: var(--teal-dim);   color: var(--teal); }
+  .tag-emerging { background: var(--amber-glow);  color: var(--amber); }
+  .tag-planning { background: var(--purple-dim);  color: var(--purple); }
+  .tag-resource { background: var(--blue-dim);    color: var(--blue); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+
+  .focus-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+
+  .focus-body-text {
+    padding-top: 1rem;
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .focus-body-text ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .focus-body-text ul li { padding: 3px 0 3px 14px; position: relative; }
+  .focus-body-text ul li::before { content: '–'; position: absolute; left: 0; color: var(--teal); opacity: 0.6; }
+  .focus-body-text p { margin-bottom: 0.5rem; }
+  .focus-body-text strong { color: var(--white-80); font-weight: 500; }
+
+  /* MEETING LOG */
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot { position: absolute; left: -4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy-deepest); border: 2px solid var(--teal); }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--teal); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  /* NOTES ACCORDION */
+  .notes-accordion { margin-top: 0.75rem; }
+  .notes-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    color: var(--white-50);
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+  .notes-toggle:hover { border-color: var(--navy-border-strong); color: var(--white-80); background: var(--white-10); }
+  .notes-toggle .chevron-small { margin-left: auto; transition: transform 0.3s; }
+  .notes-toggle.open .chevron-small { transform: rotate(180deg); }
+  .notes-full {
+    display: none;
+    background: var(--navy-deep);
+    border: 1px solid var(--navy-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 1rem 1.25rem;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .notes-full.open { display: block; }
+  .notes-full ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .notes-full ul li { padding: 2px 0 2px 14px; position: relative; }
+  .notes-full ul li::before { content: '›'; position: absolute; left: 0; color: var(--teal); opacity: 0.6; }
+  .notes-heading { color: var(--teal); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; display: block; margin: 0.75rem 0 0.25rem; }
+  .notes-heading:first-child { margin-top: 0; }
+
+  /* SIDEBAR */
+  .sidebar {}
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu { font-size: 11px; color: var(--white-25); }
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--teal-dim);
+    color: var(--teal);
+    border: 1px solid rgba(62,207,178,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .zoom-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-dim);
+    border: 1px solid rgba(62,207,178,0.25);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-bottom: 0.75rem;
+  }
+  .zoom-link:hover { background: rgba(62,207,178,0.22); }
+
+  .meeting-date-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .meeting-date-pill:last-child { border-bottom: none; }
+  .pill-date { color: var(--white-80); }
+  .pill-tag { font-size: 10px; font-family: 'Space Mono', monospace; padding: 2px 7px; border-radius: 3px; }
+  .pill-psse  { background: var(--teal-dim);   color: var(--teal); }
+  .pill-zoom  { background: var(--blue-dim);   color: var(--blue); }
+
+  .psse-link-card {
+    background: var(--purple-dim);
+    border: 1px solid rgba(167,139,250,0.25);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+  .psse-link-card p { font-size: 12px; color: var(--white-50); margin-bottom: 10px; line-height: 1.5; }
+  .psse-btn {
+    display: inline-block;
+    background: var(--purple);
+    color: #0d0820;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .psse-btn:hover { opacity: 0.85; }
+
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .resource-label { color: var(--white-80); font-weight: 500; }
+  .resource-sub { color: var(--white-25); font-size: 11px; }
+
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Ecosystems</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-02</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Ecosystems Workgroup</h1>
+  <p style="max-width: 640px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    A think tank for ecosystem builders across PA — sharing ideas, war stories, and strategies for growing and sustaining regional STEM ecosystems. Connected to PSSE but grounded in the day-to-day reality of IU-level ecosystem work.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Lead:</strong> Abbey Hathaway (IU12)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Cadence:</strong> Monthly, ~1 hour · STEM PoC days preferred</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Members:</strong> 15 IU representatives</span>
+    </div>
+    <span class="status-badge status-transition">Transitioning → PSSE</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <!-- WHAT THIS GROUP IS -->
+    <div class="section">
+      <div class="section-header">
+        <h2>What This Group Does</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box highlight-purple" style="margin-bottom:1.25rem;">
+        <strong>Governance note:</strong> As of February 2026, the group consensus is to move this workgroup under the PSSE umbrella rather than STEM PoC — better fit for longevity, scope, and access. Abbey continues to lead; leadership will be revisited in a year.
+      </div>
+
+      <div class="focus-card" id="purpose">
+        <div class="focus-card-header" onclick="toggleCard('purpose')">
+          <div class="focus-icon teal">WHY</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Purpose &amp; Intent</div>
+            <div class="focus-sub">What we're here to do — and what this space is for</div>
+          </div>
+          <span class="focus-tag tag-active">Core</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>This is a peer support network for ecosystem builders — not a delivery vehicle for statewide initiatives. The vibe is <strong>think tank, not task force</strong>. Any ecosystem is welcome, whether you've been at it for a decade or just inherited the role from someone who left.</p>
+            <ul>
+              <li>Ecosystems seeking support from other ecosystems — share ideas, collaborate, commiserate</li>
+              <li>Space to talk through the management and growth challenges that don't have textbook answers</li>
+              <li>Help each IU build a clearer vision of where their ecosystem is headed</li>
+              <li>Break down what PSSE statewide priorities actually mean at the regional level</li>
+              <li>Build collective skill at convening disparate groups — what models exist? What communication tools work?</li>
+            </ul>
+            <p style="margin-top:0.75rem;">Deliverables are mostly TBD intentionally — this is a space for shared resources, shared ideas, and collecting real stories of ecosystem growth oriented around <strong>the problem and how it's still being solved</strong> (Paul Smith framework).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="minigrants">
+        <div class="focus-card-header" onclick="toggleCard('minigrants')">
+          <div class="focus-icon amber">$</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Mini-Grant Design</div>
+            <div class="focus-sub">Building ecosystem mini-grant frameworks · STEMinPA funding</div>
+          </div>
+          <span class="focus-tag tag-emerging">Active Discussion</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>A major thread since January 2026 — how to structure mini-grants that actually build the ecosystem rather than just fund IU-adjacent projects.</p>
+            <strong>Design principles emerging from the group:</strong>
+            <ul>
+              <li>Keep applications short — long applications are prohibitive and kill participation</li>
+              <li>Require partnership between at least 2 organizations (list sector examples to spark thinking)</li>
+              <li>Align to ecosystem priorities — must include cross-sector partnership requirements</li>
+              <li>Think beyond K-12: OST providers, higher ed, industry partners are the point — <em>ecosystem perspective, not IU perspective</em></li>
+              <li>Specify clearly: can funds go to individuals or organizations only?</li>
+              <li>Be prepared to distribute funds differently by district or partner type</li>
+            </ul>
+            <strong>Stipend vs. reimbursement debate:</strong>
+            <ul>
+              <li>Reimbursement = teacher/district fronts money, then submits receipts — more admin burden</li>
+              <li>Stipend = issued as requirements are completed, with MOU and accountability measures</li>
+              <li>Remake Learning model: no receipt requirement, accountability = event is held, called "awards" not grants</li>
+              <li>W-9s required regardless; 1099-NEC limit increasing to $2000 for 2026</li>
+            </ul>
+            <strong>Open questions:</strong>
+            <ul>
+              <li>Does all money have to be spent before end of fiscal year?</li>
+              <li>Tax question — who pays? How do we keep this from being a barrier to participation?</li>
+              <li>Could a Remake Learning event serve as an accountability measure?</li>
+              <li>OST partners (Boys &amp; Girls Clubs, libraries) are hurting but have the deepest community reach — how do we include them?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="backcasting">
+        <div class="focus-card-header" onclick="toggleCard('backcasting')">
+          <div class="focus-icon purple">BACK</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Backcasting as a Facilitation Tool</div>
+            <div class="focus-sub">Rapid future-visioning sprint · Ecosystem convening methodology</div>
+          </div>
+          <span class="focus-tag tag-resource">Tool / Method</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Surfaced at the October STEM Ecosystem Convening via Steph Schwab. A <strong>Rapid Backcasting Sprint</strong> sets a vision for an ideal state in 2050, then works backward — "what would need to be done in 2040, 2030, 2025 to get there?" — broken down across sectors: policy, innovation, social capital, resources.</p>
+            <ul>
+              <li>Structured conversation with timed discussion for each sector</li>
+              <li>Encourages thinking past barriers rather than getting hung up on them</li>
+              <li>Steph recommends an outside facilitator</li>
+              <li>AI can generate scenario frameworks tailored to your ecosystem's needs and goals</li>
+              <li>Scenarios can be revised to align with PA statewide goals</li>
+            </ul>
+            <p>The group discussed running this at a PSSE Convening (Jan or June) with a facilitation debrief so IUs can bring it back to their regions. Longer-term goal: build a <strong>toolkit of community-building activities</strong> for ecosystem leaders, starting with Backcasting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="stemingrants">
+        <div class="focus-card-header" onclick="toggleCard('stemingrants')">
+          <div class="focus-icon blue">GRANT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">STEMinPA Grant Project Ideas</div>
+            <div class="focus-sub">What IUs are funding with their ecosystem grant dollars</div>
+          </div>
+          <span class="focus-tag tag-resource">Reference</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>From the September 2025 kickoff — IUs sharing what they're using STEMinPA grant funds for:</p>
+            <ul>
+              <li><strong>Berks (Kendy):</strong> Industry + internship coordinator + STEM teacher panel events; steering committee supplies &amp; food; rebranding Career Ready Berks. Career Ready sites are a huge lift — is there a role for PSSE to step in?</li>
+              <li><strong>FrAY / IU12 (Abbey):</strong> CTE panel event; DC Convening expenses</li>
+              <li><strong>Mini-grants (Jen, IU15 model):</strong> Budget + proposal → district buys supplies → submits receipts → reimbursement follows. Used for EL&amp;S — required lesson plan aligned to STEELS + ELIT PD attendance + receipts + action photos as accountability</li>
+              <li><strong>BCIU:</strong> AI and careers-focused panel event</li>
+              <li><strong>IU5 + IU4:</strong> Partnering with Penn West — AI in industry event</li>
+              <li><strong>DCIU:</strong> AI panel with student-generated questions; leveraged ecosystem for panelists</li>
+            </ul>
+            <p>Pattern emerging: <strong>ecosystem engagements (panels, competitions, judges)</strong> are creating an industry pipeline that benefits other IU events too.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEETING LOG -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Meeting Log</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">February 9, 2026</div>
+        <div class="meeting-summary">Future of workgroup clarified · Purpose &amp; intent re-scoped · Scheduling settled</div>
+        <div class="meeting-detail">Most substantive governance meeting to date. Group aligned on moving under PSSE. Purpose reframed as a peer support think-tank, not a delivery vehicle. Deliverables intentionally kept open-ended.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Feb 9</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <span class="notes-heading">Future of workgroup</span>
+            <ul>
+              <li>General feeling: move under PSSE umbrella — better fit for longevity and access</li>
+              <li>Abbey continues to lead, will revisit leadership in ~1 year</li>
+            </ul>
+            <span class="notes-heading">Purpose and intent</span>
+            <ul>
+              <li>Ecosystems seeking support from other ecosystems</li>
+              <li>Any ecosystem welcome — experienced and ground-floor alike</li>
+              <li>Space to talk about the management of growing an ecosystem</li>
+              <li>"Think tank vibe"</li>
+              <li>Help everyone get a clearer vision of where their ecosystem is headed</li>
+              <li>How do we break down PSSE statewide priorities into meaningful pieces for each ecosystem?</li>
+              <li>Collectively build skill at convening disparate groups</li>
+            </ul>
+            <span class="notes-heading">Deliverables</span>
+            <ul>
+              <li>TBD mostly — shared resources, shared ideas</li>
+              <li>Collect real stories of ecosystem growth across the state</li>
+              <li>Paul Smith framework: orient stories around the PROBLEM and how it's still being solved</li>
+              <li>Tell the story of work in progress, always thinking about what's next</li>
+            </ul>
+            <span class="notes-heading">Scheduling</span>
+            <ul>
+              <li>STEM PoC days are good meeting days</li>
+              <li>1 hour per month</li>
+            </ul>
+            <span class="notes-heading">Other items</span>
+            <ul>
+              <li>Resources from Bald Eagle 2025: Ecosystem Leadership Workbook, Spud's Poem, Photos &amp; Videos from the Retreat</li>
+              <li>Career Ready Berks discussed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">January 6, 2026</div>
+        <div class="meeting-summary">Mini-grant design deep dive · PSSE Leadership Summit logistics</div>
+        <div class="meeting-detail">Detailed discussion of mini-grant structures using the Remake Learning model as a reference. PSSE January Leadership Summit (Jan 28–29 at PaTTAN Harrisburg) shared — not everyone had received the email.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Jan 6</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <span class="notes-heading">Mini-grant application design</span>
+            <ul>
+              <li>Gemini-generated draft from Abbey shared as starting point</li>
+              <li>Leftover funds: idea to revisit accepted projects and offer more; option to return funds if project can't be completed</li>
+              <li>Include rubric/criteria so evaluation is transparent</li>
+              <li>Stipend: issued as requirements are completed; MOU required; requirements = training, accountability, reporting</li>
+              <li>1099-NEC limit increasing to $2000 for 2026</li>
+              <li>Remake model: no receipts required; accountability = event held; called "awards" not grants; W-9s required</li>
+              <li>Open: does all money have to be spent before fiscal year end? Who pays taxes?</li>
+            </ul>
+            <span class="notes-heading">PSSE Leadership Summit (Jan 28–29)</span>
+            <ul>
+              <li>Not everyone received the announcement email — circulate widely</li>
+              <li>Location: PaTTAN Harrisburg — 6340 Flank Drive</li>
+              <li>Goal: statewide STEM data mapping, 3–5 STEM priorities for next 5 years</li>
+              <li>Each ecosystem: send 3–5 core leaders (cross-sector perspective encouraged)</li>
+              <li>Cost: free; IU employees use STEMinPA funds for travel</li>
+            </ul>
+            <span class="notes-heading">Fun and exciting things</span>
+            <ul>
+              <li>BCIU: AI and careers panel event</li>
+              <li>IU5 + IU4 + Penn West: AI in industry event</li>
+              <li>DCIU: AI panel with student-generated questions, ecosystem-sourced panelists</li>
+              <li>Pattern: ecosystem industry engagements creating a pipeline that benefits other IU events</li>
+              <li>PSSE webinar series live — spread the word</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">October 31, 2025</div>
+        <div class="meeting-summary">STEM Ecosystem Convening debrief · Backcasting introduced · Mini-grant design from experience</div>
+        <div class="meeting-detail">Abbey and Steph shared takeaways from the DC STEM Ecosystem Convening. Rapid Backcasting Sprint methodology introduced — could be run at a future PSSE Convening. IU15 mini-grant model (EL&amp;S) detailed as a template others can adapt.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Oct 31</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <span class="notes-heading">Backcasting (Steph Schwab)</span>
+            <ul>
+              <li>Sets vision for ideal state in 2050; group works backward in decade increments</li>
+              <li>Sectors: policy, innovation, social capital, resources — timed discussion for each</li>
+              <li>Encourages thinking past barriers</li>
+              <li>Outside facilitator recommended</li>
+              <li>AI can generate pre-built scenarios aligned to ecosystem goals</li>
+              <li>Discussed running at PSSE Convening (Jan or June) with debrief</li>
+              <li>Goal: build a broader toolkit of community-building activities for ecosystem leaders</li>
+            </ul>
+            <span class="notes-heading">Mini-grant design advice (from those who've done it)</span>
+            <ul>
+              <li>Don't make application too long — prohibitive</li>
+              <li>Align to ecosystem priorities; require partnership</li>
+              <li>Be flexible with fund distribution (district vs. teacher varies)</li>
+              <li>Great way to grow ecosystem in underserved areas — require industry partner to apply</li>
+              <li>IU15 EL&amp;S model: supplies tied to lesson plan + STEELS alignment; PD attendance required; receipt + action photos as accountability; LEAs only, no individual stipends</li>
+              <li>Think beyond K-12: OST, higher ed, industry — ecosystem perspective, not IU perspective</li>
+              <li>Could Remake Learning event serve as accountability measure?</li>
+              <li>OST partners (Boys &amp; Girls Clubs, libraries) face barriers but reach the community members who need these opportunities most</li>
+            </ul>
+            <span class="notes-heading">Mini-grant application qualities</span>
+            <ul>
+              <li>Requires partnership between at least 2 organizations</li>
+              <li>List partner sector examples to help people think broadly</li>
+              <li>Short, sweet, and to the point</li>
+              <li>Specify whether funds can go to individuals or organizations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">September 16, 2025</div>
+        <div class="meeting-summary">Kickoff — goals, cadence, STEMinPA grant project ideas shared</div>
+        <div class="meeting-detail">Founding meeting. Each member shared what they needed from the group — ranged from "I just inherited an ecosystem and have no idea what I need" (Kendy) to "we're at the ground floor trying to define what ours even is" (Eric &amp; Sarah, TIU11). Cadence set to every-other-month-ish.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — Sep 16</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <span class="notes-heading">What everyone needs</span>
+            <ul>
+              <li>Kendy: Recently inherited ecosystem from Lyn — doesn't know what she needs yet, that's why she's here</li>
+              <li>Kelsi: Hosted first convening last spring; needs to keep momentum going; building a calendar</li>
+              <li>Eric &amp; Sarah (TIU11): Ground floor — untapped potential; partnered with ENGINE</li>
+              <li>Jen (CAIU): Also with ENGINE; wants to see how other ecosystems function successfully</li>
+              <li>Lexie: Leading a regional ecosystem AND directing PSSE — looking for peer support at IU level AND statewide lens; can pull in TIES folks</li>
+            </ul>
+            <span class="notes-heading">What we're here for</span>
+            <ul>
+              <li>Idea sharing and hearing what others are doing</li>
+              <li>Big ideas: how to convene people and keep them; programming that leads to buy-in</li>
+            </ul>
+            <span class="notes-heading">STEMinPA grant ideas shared</span>
+            <ul>
+              <li>Berks: Industry + internship coordinator + STEM teacher panel; Career Ready Berks rebrand; Career Ready sites need a dedicated person — PSSE role?</li>
+              <li>FrAY (IU12): CTE panel event; DC Convening</li>
+              <li>Mini-grants (Jen, IU15 model): budget + proposal; district buys → submits receipts → reimbursement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HORIZON -->
+    <div class="section">
+      <div class="section-header">
+        <h2>On the Horizon</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box">
+        <strong>PSSE transition:</strong> Formal move under PSSE umbrella likely in 25-26 or 26-27 SY. Keeps the work alive longer-term and connects to broader statewide STEM infrastructure. Abbey stays at the helm in the near term.
+      </div>
+
+      <div class="highlight-box highlight-amber">
+        <strong>Facilitation toolkit:</strong> Backcasting is the first candidate for a shared community-building toolkit for ecosystem leaders. If you've got methods that work for convening disparate groups, bring them — the group is explicitly building this library.
+      </div>
+
+      <div class="highlight-box highlight-purple">
+        <strong>AI ecosystem pattern:</strong> Multiple IUs are using their ecosystems to source AI industry panelists and competition judges — creating a two-way pipeline. Worth documenting as a replicable model (BCIU, DCIU, IU5/IU4 are proof of concept).
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Zoom &amp; Meetings</div>
+      <div class="zoom-link" style="cursor:default;opacity:0.7;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        Meeting links available through PAIMS / workgroup calendar
+      </div>
+      <div style="font-size:11px;color:var(--white-25);font-family:'Space Mono',monospace;letter-spacing:.05em;margin-bottom:8px;">STEM POC DAYS PREFERRED</div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Mar 3, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Feb 9, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Jan 6, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Oct 31, 2025</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Sep 16, 2025</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Members</div>
+      <div class="member-row">
+        <div class="member-avatar">AH</div>
+        <div class="member-info">
+          <div class="member-name">Abbey Hathaway</div>
+          <div class="member-iu">IU12 · alhathaway@iu12.org</div>
+        </div>
+        <span class="member-lead-tag">LEAD</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">JS</div>
+        <div class="member-info">
+          <div class="member-name">Jen Sciacca</div>
+          <div class="member-iu">CAIU · ENGINE</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">KS</div>
+        <div class="member-info">
+          <div class="member-name">Kendy Schiffert</div>
+          <div class="member-iu">Berks IU14</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">KB</div>
+        <div class="member-info">
+          <div class="member-name">Kelsi Wilcox Boyles</div>
+          <div class="member-iu">RIU6</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">SS</div>
+        <div class="member-info">
+          <div class="member-name">Steph Schwab</div>
+          <div class="member-iu">MCIU · Backcasting lead</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">EL</div>
+        <div class="member-info">
+          <div class="member-name">Eric Lech</div>
+          <div class="member-iu">CLIU21</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">SB</div>
+        <div class="member-info">
+          <div class="member-name">Sarah Brambley</div>
+          <div class="member-iu">IU8</div>
+        </div>
+      </div>
+      <div style="padding-top:8px;font-size:11px;color:var(--white-25);text-align:center;">+ 8 more IU representatives</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Key Resources</div>
+      <div class="resource-item">
+        <div class="resource-icon" style="color:var(--purple)">◈</div>
+        <div>
+          <div class="resource-label">Ecosystem Leadership Workbook</div>
+          <div class="resource-sub">From Bald Eagle 2025 Retreat</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <div class="resource-icon" style="color:var(--teal)">◈</div>
+        <div>
+          <div class="resource-label">PSSE Webinar Series</div>
+          <div class="resource-sub">Spread the word to your network</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <div class="resource-icon" style="color:var(--amber)">◈</div>
+        <div>
+          <div class="resource-label">Remake Learning Mini-Grant Model</div>
+          <div class="resource-sub">Reference for award vs. grant framing</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <div class="resource-icon" style="color:var(--blue)">◈</div>
+        <div>
+          <div class="resource-label">Notes Doc in PSSE Folder</div>
+          <div class="resource-sub">Canonical running notes live here</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="psse-link-card">
+      <p>This workgroup connects directly to PSSE statewide ecosystem infrastructure. Interested in joining or linking your ecosystem to the network?</p>
+      <span class="psse-btn" style="display:inline-block;">Contact through PA STEM PoC network</span>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM POC NETWORK &nbsp;·&nbsp; WORKGROUP DIRECTORY &nbsp;·&nbsp; LAST UPDATED MAY 2026
+</footer>
+
+<script>
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+  function toggleNotes(btn) {
+    btn.classList.toggle('open');
+    btn.nextElementSibling.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
