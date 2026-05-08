@@ -1,0 +1,1300 @@
+<!--
+WORKGROUP PROFILE TEMPLATE
+Use this page structure as the model for future workgroup profile pages.
+Recommended future files:
+- workgroup-science.html
+- workgroup-cs.html
+- workgroup-math.html
+- workgroup-stem-toolkit.html
+- workgroup-remake-learning-days.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Competitions — PA STEM POC Workgroups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-dim: #c47d0e;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --red: #e05c5c;
+    --red-dim: rgba(224,92,92,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-brand span { color: var(--amber); }
+
+  .nav-back {
+    font-size: 12px;
+    color: var(--white-50);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .nav-back:hover { color: var(--white-80); }
+
+  .nav-sep {
+    color: var(--white-25);
+    font-size: 12px;
+  }
+
+  .nav-current {
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-label .num {
+    font-size: 11px;
+    color: var(--amber-dim);
+  }
+
+  .section-label .slash { color: var(--amber-dim); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+
+  .meta-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+  }
+
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .status-active {
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(92,217,138,0.3);
+  }
+
+  .status-active::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 3rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: var(--navy-border);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--navy-border-strong);
+    background: var(--navy-elevated);
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-body {
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.6;
+  }
+
+  /* COMPETITION CARDS */
+  .comp-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .comp-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .comp-card-header:hover { background: var(--navy-elevated); }
+
+  .comp-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .comp-icon.amber { background: var(--amber-glow); color: var(--amber); border: 1px solid rgba(245,166,35,0.25); }
+  .comp-icon.teal  { background: var(--teal-dim);   color: var(--teal);  border: 1px solid rgba(62,207,178,0.25); }
+  .comp-icon.blue  { background: var(--blue-dim);   color: var(--blue);  border: 1px solid rgba(79,163,232,0.25); }
+  .comp-icon.green { background: var(--green-dim);  color: var(--green); border: 1px solid rgba(92,217,138,0.25); }
+  .comp-icon.red   { background: var(--red-dim);    color: var(--red);   border: 1px solid rgba(224,92,92,0.25); }
+
+  .comp-title-block { flex: 1; min-width: 0; }
+
+  .comp-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  .comp-sub {
+    font-size: 12px;
+    color: var(--white-50);
+  }
+
+  .comp-badge {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .badge-active  { background: var(--green-dim);  color: var(--green); }
+  .badge-pause   { background: var(--red-dim);    color: var(--red); }
+  .badge-upcoming{ background: var(--blue-dim);   color: var(--blue); }
+  .badge-revamp  { background: var(--amber-glow); color: var(--amber); }
+
+  .chevron {
+    color: var(--white-25);
+    font-size: 16px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .comp-card.open .chevron { transform: rotate(180deg); }
+
+  .comp-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+    margin-top: 0;
+  }
+
+  .comp-card.open .comp-card-body { display: block; }
+
+  .comp-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 2rem;
+    padding-top: 1rem;
+  }
+
+  .comp-detail-item { }
+
+  .comp-detail-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 3px;
+  }
+
+  .comp-detail-value {
+    font-size: 13px;
+    color: var(--white-80);
+  }
+
+  .comp-notes {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--navy-border);
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.6;
+  }
+
+  .comp-notes ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .comp-notes ul li {
+    padding: 3px 0 3px 14px;
+    position: relative;
+  }
+
+  .comp-notes ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--amber-dim);
+  }
+
+  /* MEETING LOG */
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+
+  .meeting-entry:last-child::before { display: none; }
+
+  .meeting-dot {
+    position: absolute;
+    left: -4px;
+    top: 7px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--navy-deepest);
+    border: 2px solid var(--amber);
+  }
+
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+
+  .meeting-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .meeting-date.dim { color: var(--white-25); }
+
+  .meeting-summary {
+    font-size: 13px;
+    color: var(--white-80);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .meeting-detail {
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+  }
+
+  /* FULL NOTES ACCORDION */
+  .notes-accordion {
+    margin-top: 0.75rem;
+  }
+
+  .notes-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    color: var(--white-50);
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+
+  .notes-toggle:hover {
+    border-color: var(--navy-border-strong);
+    color: var(--white-80);
+    background: var(--white-10);
+  }
+
+  .notes-toggle .chevron-small {
+    margin-left: auto;
+    transition: transform 0.3s;
+  }
+
+  .notes-toggle.open .chevron-small { transform: rotate(180deg); }
+
+  .notes-full {
+    display: none;
+    background: var(--navy-deep);
+    border: 1px solid var(--navy-border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    padding: 1rem 1.25rem;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+
+  .notes-full.open { display: block; }
+
+  .notes-full ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+
+  .notes-full ul li {
+    padding: 2px 0 2px 14px;
+    position: relative;
+  }
+
+  .notes-full ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--amber-dim);
+  }
+
+  /* SIDEBAR */
+  .sidebar { }
+
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .member-row:last-child { border-bottom: none; }
+
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .member-info { min-width: 0; }
+
+  .member-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white-80);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .member-iu {
+    font-size: 11px;
+    color: var(--white-25);
+  }
+
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--amber-glow);
+    color: var(--amber);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .zoom-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--teal-dim);
+    border: 1px solid rgba(62,207,178,0.25);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: var(--teal);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-bottom: 0.75rem;
+  }
+
+  .zoom-link:hover {
+    background: rgba(62,207,178,0.22);
+  }
+
+  .meeting-date-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+
+  .meeting-date-pill:last-child { border-bottom: none; }
+
+  .pill-date { color: var(--white-80); }
+
+  .pill-tag {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  .pill-paims { background: var(--amber-glow); color: var(--amber); }
+  .pill-zoom  { background: var(--blue-dim); color: var(--blue); }
+
+  .join-cta {
+    background: var(--amber-glow);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+  }
+
+  .join-cta p {
+    font-size: 12px;
+    color: var(--white-50);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    background: var(--amber);
+    color: #080f1c;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .cta-btn:hover { opacity: 0.85; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: var(--teal-dim);
+    border: 1px solid rgba(62,207,178,0.2);
+    border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.5;
+  }
+
+  .highlight-box strong { color: var(--teal); font-weight: 600; }
+
+  .highlight-amber {
+    background: var(--amber-glow);
+    border-color: rgba(245,166,35,0.2);
+    border-left-color: var(--amber);
+  }
+
+  .highlight-amber strong { color: var(--amber); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+    .comp-detail-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Student Competitions</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-05</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Student Competitions</h1>
+  <p style="max-width: 640px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    Statewide coordination for PA student competitions — managing regional and state-level events across STEM, media, invention, and academic challenge categories. Works across all 29 IUs.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Lead:</strong> Jill Darlington (BCIU 14)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Zoom:</strong> Monthly + PAIMS sessions</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Members:</strong> 20+ IU representatives</span>
+    </div>
+    <span class="status-badge status-active">Active</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <!-- ACTIVE COMPETITIONS -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Active Competitions</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box highlight-amber">
+        <strong>Coming up:</strong> STEM Design Challenge State Competition — May 8, 2026 at Harrisburg Farm Show Complex. Submit regional winners to Amy McShane &amp; Courtney Stein by early-mid April.
+      </div>
+
+      <!-- Keystone Competition -->
+      <div class="comp-card" id="keystone">
+        <div class="comp-card-header" onclick="toggleComp('keystone')">
+          <div class="comp-icon amber">KEY</div>
+          <div class="comp-title-block">
+            <div class="comp-name">Keystone Competition</div>
+            <div class="comp-sub">Regional IU-run · Hackathon-style · All grade bands</div>
+          </div>
+          <span class="comp-badge badge-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="comp-card-body">
+          <div class="comp-detail-grid">
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">State Launch</div>
+              <div class="comp-detail-value">Virtual keynote Oct 14, 2025</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Regional Deadline</div>
+              <div class="comp-detail-value">March 30, 2026</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Winner Submission</div>
+              <div class="comp-detail-value">End of February (winners sent power banks)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Primary Contact</div>
+              <div class="comp-detail-value">Nicole Bond (LIU12) · Sarah Brambley (IU8)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">IU29 Status</div>
+              <div class="comp-detail-value">Participating — Greg Macer, IU29</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Funding</div>
+              <div class="comp-detail-value">STEMinPA Grant</div>
+            </div>
+          </div>
+          <div class="comp-notes">
+            <ul>
+              <li>Challenge announced day-of — hackathon style. Physical model, app, or e-model accepted.</li>
+              <li>20 IUs submitted intent to participate in 25-26 SY</li>
+              <li>Materials: cardboard, chomp saws/makedo kits, devices for research</li>
+              <li>Cap registration by capacity — most IUs limit to 1 team per school per grade band</li>
+              <li>Prize power banks distributed via PAIMS March meeting to coordinators</li>
+            </ul>
+          </div>
+          <div class="notes-accordion">
+            <button class="notes-toggle" onclick="toggleNotes(this)">
+              <span>Full meeting notes</span>
+              <span class="chevron-small">▾</span>
+            </button>
+            <div class="notes-full">
+              <strong style="color:var(--amber);font-size:11px;text-transform:uppercase;letter-spacing:.08em;">Oct 2025</strong>
+              <ul>
+                <li>Livestream on 10/14 — invite to Zoom, sign up via email from 10/7</li>
+                <li>100+ registrations per IU hosting</li>
+                <li>Challenge announced day-of so students can't pre-build exact solution</li>
+              </ul>
+              <strong style="color:var(--amber);font-size:11px;text-transform:uppercase;letter-spacing:.08em;">Nov 2025</strong>
+              <ul>
+                <li>Teachers happy about limited prep on their end</li>
+                <li>Cardboard most popular supply; chomp saws &amp; makedo kits a hit at IU12</li>
+                <li>Consider acknowledging virtual teams during live event</li>
+                <li>Question: how to include students of all abilities, not just gifted programs?</li>
+              </ul>
+              <strong style="color:var(--amber);font-size:11px;text-transform:uppercase;letter-spacing:.08em;">Jan 2026</strong>
+              <ul>
+                <li>Submit winners — order placed early Feb, prizes handed out at PAIMS March</li>
+                <li>Think about team size — maybe reduce to 4 to ease transition to other competitions</li>
+              </ul>
+              <strong style="color:var(--amber);font-size:11px;text-transform:uppercase;letter-spacing:.08em;">Mar 2026</strong>
+              <ul>
+                <li>Prizes distributed — see Sarah Brambley for your IU's prizes</li>
+                <li>Ideas for student downtime: interview other presenting teams, paper airplane competition</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEM Design Challenge -->
+      <div class="comp-card" id="stemdesign">
+        <div class="comp-card-header" onclick="toggleComp('stemdesign')">
+          <div class="comp-icon teal">SDC</div>
+          <div class="comp-title-block">
+            <div class="comp-name">STEM Design Challenge</div>
+            <div class="comp-sub">K'Nex/Engino · Elem &amp; MS · Regional + State</div>
+          </div>
+          <span class="comp-badge badge-upcoming">State May 8</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="comp-card-body">
+          <div class="comp-detail-grid">
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">2026 Challenge</div>
+              <div class="comp-detail-value">Eco-Factory: Build a Sustainable Production Machine</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">State Date</div>
+              <div class="comp-detail-value">May 8, 2026 — Harrisburg Farm Show Complex</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Regional Deadline</div>
+              <div class="comp-detail-value">April 8, 2026 (host by this date)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Submit Winners To</div>
+              <div class="comp-detail-value">Amy McShane &amp; Courtney Stein — early-mid April</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Stipend</div>
+              <div class="comp-detail-value">No ThermoFisher funding 25-26 SY — use Deliverable F (F14)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Contacts</div>
+              <div class="comp-detail-value">amy.mcshane@aiu3.net</div>
+            </div>
+          </div>
+          <div class="comp-notes">
+            <ul>
+              <li>K'Nex and/or Engino both accepted — Engino kits available in lending libraries</li>
+              <li>Focus on the machine and the product it produces (sustainable factory theme)</li>
+              <li>No mini-grant funding available in 2026 or going forward</li>
+              <li>Recycled materials ok; backdrops/base boards can't assist functionality</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PA Invention Convention -->
+      <div class="comp-card" id="invention">
+        <div class="comp-card-header" onclick="toggleComp('invention')">
+          <div class="comp-icon blue">INV</div>
+          <div class="comp-title-block">
+            <div class="comp-name">PA Invention Convention</div>
+            <div class="comp-sub">K–4, 5–8, 9–12 bands · Virtual + In-person · Nationals pathway</div>
+          </div>
+          <span class="comp-badge badge-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="comp-card-body">
+          <div class="comp-detail-grid">
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">2026 State Date</div>
+              <div class="comp-detail-value">February 4, 2026 — Hershey Lodge (at PETE&amp;C)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Nationals</div>
+              <div class="comp-detail-value">Henry Ford Museum, Michigan — June 3–6, 2026</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Nationals Qualifiers</div>
+              <div class="comp-detail-value">1st &amp; 2nd place winners (all grade bands) invited</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Primary Contacts</div>
+              <div class="comp-detail-value">Brenda Calhoun (IU8), Jill Darlington (IU14), Kendy Schiffert (IU14)</div>
+            </div>
+          </div>
+          <div class="comp-notes">
+            <strong style="color:var(--white-50);font-size:12px;">2026 State Winners:</strong>
+            <ul>
+              <li><strong style="color:var(--white-80)">HS 1st:</strong> "Operation: Falcon Nation" — Lower Dauphin SD</li>
+              <li><strong style="color:var(--white-80)">MS 1st:</strong> "Spoil Alert" — Yough SD</li>
+              <li><strong style="color:var(--white-80)">ES 1st:</strong> "Terra-Dri-Vator-Pro" — Governor Mifflin SD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SeAL Challenge -->
+      <div class="comp-card" id="seal">
+        <div class="comp-card-header" onclick="toggleComp('seal')">
+          <div class="comp-icon green">SeAL</div>
+          <div class="comp-title-block">
+            <div class="comp-name">Sea, Air &amp; Land Challenge</div>
+            <div class="comp-sub">PSU-partnered · Drone, sea, land vehicles · CTC-friendly</div>
+          </div>
+          <span class="comp-badge badge-upcoming">Apr 30 — Berks</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="comp-card-body">
+          <div class="comp-detail-grid">
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Next Event</div>
+              <div class="comp-detail-value">April 30, 2026 — BCTC West Campus, 8:30am–2pm</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Host</div>
+              <div class="comp-detail-value">Berks IU (Jill Darlington)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">PSU Contact</div>
+              <div class="comp-detail-value">Susan Zingaro — smz20@arl.psu.edu</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">IU29 Note</div>
+              <div class="comp-detail-value">IU29 has historically partnered with Berks for this event</div>
+            </div>
+          </div>
+          <div class="comp-notes">
+            <ul>
+              <li>Contact Susan to start your own regional event — she provides course materials and scoring support</li>
+              <li>CTCs tend to field the strongest teams</li>
+              <li>Drone flights outdoors require notifying nearby airports</li>
+              <li>Observers/judges welcome — contact Jill to attend</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- MADCom -->
+      <div class="comp-card" id="madcom">
+        <div class="comp-card-header" onclick="toggleComp('madcom')">
+          <div class="comp-icon red">MAD</div>
+          <div class="comp-title-block">
+            <div class="comp-name">PA Media &amp; Design Competition (MADCom)</div>
+            <div class="comp-sub">27-year-old competition · MS + HS · Revamp planned</div>
+          </div>
+          <span class="comp-badge badge-revamp">26-27 Pause</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="comp-card-body">
+          <div class="highlight-box highlight-amber">
+            <strong>Heads up:</strong> MADCom will pause in 26-27 SY for a full revamp, returning in 27-28 with a modernized format. The 25-26 competition runs as planned on <strong>May 19, 2026</strong> at Elizabethtown College.
+          </div>
+          <div class="comp-detail-grid">
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">25-26 State Date</div>
+              <div class="comp-detail-value">May 19, 2026 — Elizabethtown College (one day)</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Participation</div>
+              <div class="comp-detail-value">74 projects — MS &amp; HS combined this year</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Judges Needed</div>
+              <div class="comp-detail-value">~60 needed; only 6 outside IU network so far</div>
+            </div>
+            <div class="comp-detail-item">
+              <div class="comp-detail-label">Winner Deadline</div>
+              <div class="comp-detail-value">End of April 2026</div>
+            </div>
+          </div>
+          <div class="comp-notes">
+            <strong style="color:var(--amber);font-size:12px;">Revamp ideas on the table for 27-28:</strong>
+            <ul>
+              <li>Add podcast category</li>
+              <li>AI Hackathon integration — teams receive a prompt, build with AI, present output</li>
+              <li>More scalable structure; reduce paper/narrative burden on students</li>
+              <li>PAIMS funding repurposed to support committee work and relaunch</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MEETING LOG -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Meeting Log</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">April 8, 2026</div>
+        <div class="meeting-summary">Math 24, Reading Competition, eSports, What's So Cool About Manufacturing</div>
+        <div class="meeting-detail">Covered academic competitions: Math 24 structures by IU, Reading Olympics book list finalization (30-book list going forward, April 23 finalization meeting), eSports via PSEL free for all PA students. MADCom awards ceremony update — Berks/Schuylkill on April 14.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — April 8</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <strong style="color:var(--amber);font-size:11px;">Math 24</strong>
+            <ul>
+              <li>IU21 limits to 4 students per building per grade band; requires school-level competition first</li>
+              <li>IU9 limits to 6 students per district</li>
+              <li>IU12 limits and asks teams to bring judges per district</li>
+            </ul>
+            <strong style="color:var(--amber);font-size:11px;">Reading Competition</strong>
+            <ul>
+              <li>IU19 runs 1st round virtually</li>
+              <li>Book list template shared to reduce parent/community complaints</li>
+              <li>Reading Olympics book list: 30-book list going forward (no more 25 or 45 options)</li>
+            </ul>
+            <strong style="color:var(--amber);font-size:11px;">eSports</strong>
+            <ul>
+              <li>Totally free to compete in PSEL for all PA students (public, private, charter)</li>
+              <li>Teams need their own equipment</li>
+            </ul>
+            <strong style="color:var(--amber);font-size:11px;">MADCom</strong>
+            <ul>
+              <li>26-27 school year: pause, revamp, restructure for 27-28 — planning in late summer/early fall</li>
+              <li>74 projects total MS and HS; lunch not an issue at this size (400 max cap)</li>
+              <li>Stephanie sending another judge recruitment email — only 6 outside-IU judges confirmed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">March 12, 2026 — At PAIMS</div>
+        <div class="meeting-summary">Competition overlap discussion, MADCom revamp proposal formalized, SeAL/Keystone logistics</div>
+        <div class="meeting-detail">Group discussed consolidating overlapping competitions. MADCom pause-and-revamp formally proposed: start as Computer Fair 27 years ago, now needs modernization. AI Hackathon format and podcast category identified as potential replacements.</div>
+        <div class="notes-accordion">
+          <button class="notes-toggle" onclick="toggleNotes(this)">
+            <span>Full notes — March 12</span>
+            <span class="chevron-small">▾</span>
+          </button>
+          <div class="notes-full">
+            <ul>
+              <li>Overlap discussion: can we look at commonalities and combine any competitions?</li>
+              <li>MADCom: started as The Computer Fair, now 27 years old. Large participation decrease.</li>
+              <li>Proposal: skip 26-27 to build committee and redo — goal to make it more relevant and scaleable</li>
+              <li>Suggestions: podcast category, AI integration into projects</li>
+              <li>PAIMS funding question: could it support committee time and effort? Could some fund the relaunch?</li>
+              <li>Keystone prizes — distribute to 1st place winning teams (see Sarah Brambley for prizes)</li>
+              <li>SeAL: Berks IU hosts Apr 30 at BCTC West. Contact Jill to observe or judge (8:30am–2pm)</li>
+              <li>Invention Convention: all 1st &amp; 2nd place winners invited to nationals at Henry Ford Museum</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">February 11, 2026</div>
+        <div class="meeting-summary">Invention Convention winners announced, MADCom judge recruitment, STEM Design update</div>
+        <div class="meeting-detail">PA Invention Convention 2026 state winners named. MADCom consolidated to one day May 19; judge signup going out mid-February. AI Hackathon concept introduced as potential MADCom revamp direction.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">January 22, 2026 — At PAIMS</div>
+        <div class="meeting-summary">AI Hackathon concept surfaces; MADCom revamp discussion; Keystone winner submissions</div>
+        <div class="meeting-detail">First formal discussion of AI Hackathon as a competition model — teams receive starting prompt, build for ~90 min, present in any format. Identified as potential MADCom redesign direction. Also discussed vibe-coding and Prompt-a-thon formats. IU29 listed as Calcusolv participant.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">November 13, 2025 — At PAIMS</div>
+        <div class="meeting-summary">Keystone reflections, Invention Convention virtual judging, MADCom re-envision discussion</div>
+        <div class="meeting-detail">Post-Keystone reflection: teachers loved the limited prep model. IU12 cardboard cutting stations were a hit. First discussion of whether MADCom needs a full re-envision — AI disclaimer confirmed needed for competition categories.</div>
+      </div>
+
+    </div>
+
+    <!-- LOOKING AHEAD -->
+    <div class="section">
+      <div class="section-header">
+        <h2>On the Horizon</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box">
+        <strong>AI Hackathon Format:</strong> Emerging competition concept discussed at Jan–Feb meetings. Teams receive a starting prompt, build for ~90 minutes, present output in any format. Being explored as a MADCom replacement category or standalone event. Matt Karabinos (IU8) is the point of contact for IUs exploring this.
+      </div>
+
+      <div class="highlight-box">
+        <strong>First Lego League Overhaul:</strong> Spike/Foundation kits being retired by 2028. New era includes robotics and AI components. Don't buy old robot versions going forward.
+      </div>
+
+      <div class="highlight-box">
+        <strong>PA State Academic Competition:</strong> May 1, 2026 at the PA State Capitol in Harrisburg. Submit winning team via the linked form. Questions sources vary by IU — NAQT, CCIU, Long Island Quiz Bowl, or retired teachers.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Zoom &amp; Meetings</div>
+      <div class="zoom-link" style="cursor:default;opacity:0.7;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+        Zoom link available through PAIMS / workgroup calendar
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">May 13, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Apr 8, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Mar 12, 2026</span>
+        <span class="pill-tag pill-paims">PAIMS</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Feb 11, 2026</span>
+        <span class="pill-tag pill-zoom">Zoom</span>
+      </div>
+      <div class="meeting-date-pill">
+        <span class="pill-date">Jan 22, 2026</span>
+        <span class="pill-tag pill-paims">PAIMS</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Workgroup Members</div>
+      <div class="member-row">
+        <div class="member-avatar">JD</div>
+        <div class="member-info">
+          <div class="member-name">Jill Darlington</div>
+          <div class="member-iu">BCIU 14</div>
+        </div>
+        <span class="member-lead-tag">LEAD</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">NB</div>
+        <div class="member-info">
+          <div class="member-name">Nicole Bond</div>
+          <div class="member-iu">LIU 12</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">BC</div>
+        <div class="member-info">
+          <div class="member-name">Brenda Calhoun</div>
+          <div class="member-iu">IU 8</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">KS</div>
+        <div class="member-info">
+          <div class="member-name">Kendy Schiffert</div>
+          <div class="member-iu">BCIU 14</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">GM</div>
+        <div class="member-info">
+          <div class="member-name">Greg Macer</div>
+          <div class="member-iu">IU 29</div>
+        </div>
+        <span class="member-lead-tag" style="background:var(--teal-dim);color:var(--teal);border-color:rgba(62,207,178,0.25);">YOU</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">AZ</div>
+        <div class="member-info">
+          <div class="member-name">Autumn Zaminski</div>
+          <div class="member-iu">LIU 12</div>
+        </div>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">SB</div>
+        <div class="member-info">
+          <div class="member-name">Sarah Brambley</div>
+          <div class="member-iu">IU 8</div>
+        </div>
+      </div>
+      <div style="padding-top:8px;font-size:11px;color:var(--white-25);text-align:center;">+ 13 more IU representatives</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Key Contacts by Competition</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;">
+        <div>
+          <div style="color:var(--amber);font-size:10px;font-family:'Space Mono',monospace;letter-spacing:.08em;margin-bottom:2px;">STEM DESIGN CHALLENGE</div>
+          <div style="color:var(--white-80);">Amy McShane — AIU3</div>
+          <div style="color:var(--white-25);">amy.mcshane@aiu3.net</div>
+        </div>
+        <div>
+          <div style="color:var(--amber);font-size:10px;font-family:'Space Mono',monospace;letter-spacing:.08em;margin-bottom:2px;">SEAL CHALLENGE (PSU)</div>
+          <div style="color:var(--white-80);">Susan Zingaro — PSU ARL</div>
+          <div style="color:var(--white-25);">smz20@arl.psu.edu</div>
+        </div>
+        <div>
+          <div style="color:var(--amber);font-size:10px;font-family:'Space Mono',monospace;letter-spacing:.08em;margin-bottom:2px;">MADCOM</div>
+          <div style="color:var(--white-80);">Stephanie Williams — IU19</div>
+          <div style="color:var(--white-25);">swilliams@iu19.org</div>
+        </div>
+        <div>
+          <div style="color:var(--amber);font-size:10px;font-family:'Space Mono',monospace;letter-spacing:.08em;margin-bottom:2px;">AI HACKATHON (EXPLORING)</div>
+          <div style="color:var(--white-80);">Matt Karabinos — IU8</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="join-cta">
+      <p>New to this workgroup? Meetings are open to all IU representatives involved in student competitions.</p>
+      <span class="cta-btn" style="display:inline-block;">Contact through PA STEM PoC network</span>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM POC NETWORK &nbsp;·&nbsp; WORKGROUP DIRECTORY &nbsp;·&nbsp; LAST UPDATED MAY 2026
+</footer>
+
+<script>
+  function toggleComp(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  function toggleNotes(btn) {
+    btn.classList.toggle('open');
+    const notesEl = btn.nextElementSibling;
+    notesEl.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
