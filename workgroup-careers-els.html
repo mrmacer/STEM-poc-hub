@@ -1,0 +1,701 @@
+<!--
+WORKGROUP PROFILE PAGE
+Based on the PA STEM PoC profile page pattern.
+Linked from index.html Workgroups and STEM Intelligence sections.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careers &amp; EL&amp;S Workgroup — PA STEM POC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy-deepest: #080f1c;
+    --navy-deep: #0d1829;
+    --navy-mid: #121f35;
+    --navy-card: #162340;
+    --navy-elevated: #1c2d50;
+    --navy-border: rgba(255,255,255,0.08);
+    --navy-border-strong: rgba(255,255,255,0.14);
+    --amber: #f5a623;
+    --amber-dim: #c47d0e;
+    --amber-glow: rgba(245,166,35,0.12);
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.82);
+    --white-50: rgba(255,255,255,0.5);
+    --white-25: rgba(255,255,255,0.25);
+    --white-10: rgba(255,255,255,0.1);
+    --teal: #3ecfb2;
+    --teal-dim: rgba(62,207,178,0.15);
+    --green: #5cd98a;
+    --green-dim: rgba(92,217,138,0.15);
+    --blue: #4fa3e8;
+    --blue-dim: rgba(79,163,232,0.15);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.15);
+    --grid-line: rgba(255,255,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy-deepest);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--white-80);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,15,28,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .nav-back { font-size: 12px; color: var(--white-50); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .nav-back:hover { color: var(--white-80); }
+  .nav-sep { color: var(--white-25); font-size: 12px; }
+  .nav-current { font-size: 12px; color: var(--green); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--navy-border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .section-label .num { font-size: 11px; color: rgba(92,217,138,0.5); }
+  .section-label .slash { color: rgba(92,217,138,0.5); }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white-50);
+  }
+  .meta-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .meta-item strong { color: var(--white-80); font-weight: 500; }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .status-active { background: var(--green-dim); color: var(--green); border: 1px solid rgba(92,217,138,0.3); }
+  .status-active::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .section-header .line { flex: 1; height: 1px; background: var(--navy-border); }
+
+  .highlight-box {
+    background: var(--green-dim);
+    border: 1px solid rgba(92,217,138,0.2);
+    border-left: 3px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 13px;
+    color: var(--white-80);
+    line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--green); font-weight: 600; }
+  .highlight-amber { background: var(--amber-glow); border-color: rgba(245,166,35,0.2); border-left-color: var(--amber); }
+  .highlight-amber strong { color: var(--amber); }
+  .highlight-purple { background: var(--purple-dim); border-color: rgba(167,139,250,0.2); border-left-color: var(--purple); }
+  .highlight-purple strong { color: var(--purple); }
+
+  .focus-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .focus-card-header:hover { background: var(--navy-elevated); }
+
+  .focus-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .focus-icon.green  { background: var(--green-dim);   color: var(--green);   border: 1px solid rgba(92,217,138,0.25); }
+  .focus-icon.amber  { background: var(--amber-glow);  color: var(--amber);   border: 1px solid rgba(245,166,35,0.25); }
+  .focus-icon.purple { background: var(--purple-dim);  color: var(--purple);  border: 1px solid rgba(167,139,250,0.25); }
+  .focus-icon.blue   { background: var(--blue-dim);    color: var(--blue);    border: 1px solid rgba(79,163,232,0.25); }
+  .focus-icon.teal   { background: var(--teal-dim);    color: var(--teal);    border: 1px solid rgba(62,207,178,0.25); }
+
+  .focus-title-block { flex: 1; min-width: 0; }
+  .focus-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .focus-sub  { font-size: 12px; color: var(--white-50); }
+
+  .focus-tag {
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-active   { background: var(--green-dim);  color: var(--green); }
+  .tag-emerging { background: var(--amber-glow);  color: var(--amber); }
+  .tag-planning { background: var(--purple-dim);  color: var(--purple); }
+  .tag-resource { background: var(--blue-dim);    color: var(--blue); }
+
+  .chevron { color: var(--white-25); font-size: 16px; transition: transform 0.3s; flex-shrink: 0; }
+  .focus-card.open .chevron { transform: rotate(180deg); }
+
+  .focus-card-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  .focus-card.open .focus-card-body { display: block; }
+
+  .focus-body-text {
+    padding-top: 1rem;
+    font-size: 13px;
+    color: var(--white-50);
+    line-height: 1.7;
+  }
+  .focus-body-text ul { list-style: none; padding: 0; margin: 0.5rem 0; }
+  .focus-body-text ul li { padding: 3px 0 3px 14px; position: relative; }
+  .focus-body-text ul li::before { content: '–'; position: absolute; left: 0; color: var(--green); opacity: 0.6; }
+  .focus-body-text p { margin-bottom: 0.5rem; }
+  .focus-body-text strong { color: var(--white-80); font-weight: 500; }
+
+  .meeting-entry {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .meeting-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--navy-border);
+  }
+  .meeting-entry:last-child::before { display: none; }
+  .meeting-dot { position: absolute; left: -4px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--navy-deepest); border: 2px solid var(--green); }
+  .meeting-dot.dim { border-color: var(--navy-border-strong); }
+  .meeting-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--green); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .meeting-date.dim { color: var(--white-25); }
+  .meeting-summary { font-size: 13px; color: var(--white-80); font-weight: 500; margin-bottom: 4px; }
+  .meeting-detail { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  .sidebar {}
+  .sidebar-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .sidebar-card-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--white-25);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .member-row:last-child { border-bottom: none; }
+  .member-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--navy-elevated);
+    border: 1px solid var(--navy-border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    flex-shrink: 0;
+  }
+  .member-info { min-width: 0; flex: 1; }
+  .member-name { font-size: 12px; font-weight: 500; color: var(--white-80); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-iu { font-size: 11px; color: var(--white-25); }
+  .member-lead-tag {
+    font-size: 10px;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(92,217,138,0.25);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .access-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--white-50);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .access-notice .icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  .del-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(92,217,138,0.25);
+    margin: 2px;
+  }
+  .del-tag-b { background: var(--blue-dim); color: var(--blue); border-color: rgba(79,163,232,0.25); }
+  .del-tag-e { background: var(--purple-dim); color: var(--purple); border-color: rgba(167,139,250,0.25); }
+
+  .resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--navy-border);
+    font-size: 12px;
+  }
+  .resource-item:last-child { border-bottom: none; }
+  .resource-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .resource-label { color: var(--white-80); font-weight: 500; }
+  .resource-sub { color: var(--white-25); font-size: 11px; }
+
+  footer {
+    border-top: 1px solid var(--navy-border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 11px;
+    color: var(--white-25);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.06em;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><span>PA</span> STEM POC</a>
+  <span class="nav-sep">/</span>
+  <a href="index.html#workgroups" class="nav-back">← Back to Workgroups</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">Careers &amp; EL&amp;S</span>
+</nav>
+
+<div class="hero">
+  <div class="section-label">
+    <span class="num">WG-ELS</span>
+    <span class="slash">//</span>
+    WORKGROUP PROFILE
+  </div>
+  <h1>Environmental Literacy &amp; Sustainability / Careers &amp; EL&amp;S</h1>
+  <p style="max-width: 680px; color: var(--white-50); font-size: 15px; margin-top: 0.75rem; line-height: 1.7;">
+    Building sustainable statewide EL&S systems — MWEE pathways, green careers, ELIT hubs, student ambassador programs, and equitable place-based learning experiences across Pennsylvania.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Leads:</strong> Sara Jeffries (DCIU) · Jen Sciacca (CAIU)</span>
+    </div>
+    <div class="meta-item">
+      <span class="dot"></span>
+      <span><strong>Cadence:</strong> 2nd Thursdays, 9am</span>
+    </div>
+    <span class="status-badge status-active">Active / System-Building</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- LEFT COLUMN -->
+  <div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>What This Group Does</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="highlight-box" style="margin-bottom:1.25rem;">
+        <strong>Focus:</strong> This workgroup moves beyond one-off environmental education into statewide systems — building MWEE pathways, connecting EL&S to green careers and workforce development, supporting ELIT hubs, and integrating environmental literacy with the ecosystems and sustainability lens across the PoC network.
+      </div>
+
+      <div class="focus-card open" id="purpose">
+        <div class="focus-card-header" onclick="toggleCard('purpose')">
+          <div class="focus-icon green">WHY</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Purpose &amp; Intent</div>
+            <div class="focus-sub">What we're here to do</div>
+          </div>
+          <span class="focus-tag tag-active">Core</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>Environmental literacy and sustainability work is scattered across IUs — every region has something, but there's no connective tissue. This workgroup builds that tissue: shared frameworks, shared resources, and shared strategy so place-based EL&S work adds up to something statewide.</p>
+            <p>The Careers &amp; EL&S subgroup specifically works to connect students to green career pathways, integrate workforce development into environmental education, and make EL&S visible as an economic and equity issue — not just a science topic.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="mwee">
+        <div class="focus-card-header" onclick="toggleCard('mwee')">
+          <div class="focus-icon amber">MWEE</div>
+          <div class="focus-title-block">
+            <div class="focus-name">MWEE Pathways</div>
+            <div class="focus-sub">Meaningful Watershed Educational Experiences — beyond the 101</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The MWEE 101 has been delivered widely, but the question now is: what comes next? This workgroup is building the pathway beyond 101 — deeper implementation, teacher-ready resources, and MWEE Ambassador Day toolkits that IUs can adapt regionally.</p>
+            <ul>
+              <li>MWEE Ambassador Day toolkit development</li>
+              <li>Eco-Themed MWEE Ambassador Day model</li>
+              <li>Shared Waters and watershed connections</li>
+              <li>STEELS in Your Schoolyard integration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="careers">
+        <div class="focus-card-header" onclick="toggleCard('careers')">
+          <div class="focus-icon green">CRGR</div>
+          <div class="focus-title-block">
+            <div class="focus-name">Green Careers &amp; Workforce</div>
+            <div class="focus-sub">Connecting EL&S to student futures</div>
+          </div>
+          <span class="focus-tag tag-active">Active</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>The green careers lane connects environmental literacy directly to workforce development and student futures. The Green Careers Day template gives IUs a replicable event model; the Careers &amp; EL&S subgroup is building the connective tissue between student experiences and employer/community pathways.</p>
+            <ul>
+              <li>Green Careers Day template — replicable event model</li>
+              <li>Student ambassador programs and career exposure</li>
+              <li>MWEE connections to CTE and workforce pipelines</li>
+              <li>Regional employer and community partnership maps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="focus-card" id="elit">
+        <div class="focus-card-header" onclick="toggleCard('elit')">
+          <div class="focus-icon blue">ELIT</div>
+          <div class="focus-title-block">
+            <div class="focus-name">ELIT Hubs &amp; Coordination</div>
+            <div class="focus-sub">Environmental Literacy Integration Teams statewide</div>
+          </div>
+          <span class="focus-tag tag-resource">Infrastructure</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="focus-card-body">
+          <div class="focus-body-text">
+            <p>ELIT hubs are the organizational home for place-based environmental literacy work at the regional level. This workgroup supports their development and helps PoCs understand how ELIT connects to STEELS implementation, MWEE pathways, and statewide EL&S strategy.</p>
+            <ul>
+              <li>ELIT hub coordination and capacity-building</li>
+              <li>Connecting IU PoCs to regional ELIT structures</li>
+              <li>Ecosystem and community partnership integration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>Active Projects</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">CURRENT</div>
+        <div class="meeting-summary">MWEE Ambassador Day Toolkit</div>
+        <div class="meeting-detail">Building a teacher-ready, IU-adaptable toolkit for running MWEE Ambassador Days with an eco-themed design. Goal is a replicable regional event model.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot"></div>
+        <div class="meeting-date">IN PROGRESS</div>
+        <div class="meeting-summary">Green Careers Day Template</div>
+        <div class="meeting-detail">Developing a replicable event template connecting students to green career pathways — employer panels, site visits, and workforce exposure models that PoCs can adapt regionally.</div>
+      </div>
+
+      <div class="meeting-entry">
+        <div class="meeting-dot dim"></div>
+        <div class="meeting-date dim">ONGOING</div>
+        <div class="meeting-summary">Careers &amp; EL&S Subgroup</div>
+        <div class="meeting-detail">Active subgroup within the broader EL&S workgroup, focused specifically on linking environmental literacy to career readiness, workforce development, and student ambassador programs.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2>ORBIT &amp; Deliverable Connections</h2>
+        <div class="line"></div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <span class="del-tag del-tag-b">DEL B — EL&S / STEELS</span>
+        <span class="del-tag del-tag-e">DEL E — Ecosystem Partnerships</span>
+      </div>
+      <div class="highlight-box highlight-amber">
+        <strong>ORBIT tip:</strong> MWEE participation, Green Careers Day events, and ELIT hub coordination all generate strong Del B and Del E impact stories. Document student headcounts, partner organizations, and regional reach for your ORBIT narrative.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Workgroup Leads</div>
+      <div class="member-row">
+        <div class="member-avatar">SJ</div>
+        <div class="member-info">
+          <div class="member-name">Sara Jeffries</div>
+          <div class="member-iu">DCIU</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+      <div class="member-row">
+        <div class="member-avatar">JS</div>
+        <div class="member-info">
+          <div class="member-name">Jen Sciacca</div>
+          <div class="member-iu">CAIU</div>
+        </div>
+        <span class="member-lead-tag">Lead</span>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Meeting Access</div>
+      <div class="access-notice">
+        <span class="icon">📅</span>
+        <span>Meeting links available through PAIMS / workgroup calendar. Contact through PA STEM PoC network.</span>
+      </div>
+      <div style="font-size:12px; color:var(--white-25); line-height:1.5;">2nd Thursdays, 9am</div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Key Resources</div>
+      <div class="resource-item">
+        <span class="resource-icon">🌿</span>
+        <div>
+          <div class="resource-label">Green Careers Day Template</div>
+          <div class="resource-sub">Replicable regional event model</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">💧</span>
+        <div>
+          <div class="resource-label">MWEE Ambassador Day Toolkit</div>
+          <div class="resource-sub">Eco-themed, IU-adaptable</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">📚</span>
+        <div>
+          <div class="resource-label">Shared Waters Resources</div>
+          <div class="resource-sub">Watershed educational connections</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🏫</span>
+        <div>
+          <div class="resource-label">STEELS in Your Schoolyard</div>
+          <div class="resource-sub">Standards integration</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Related Workgroups</div>
+      <div class="resource-item">
+        <span class="resource-icon">🌱</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-ecosystems.html" style="color:var(--green);text-decoration:none;">Ecosystems / PSSE</a></div>
+          <div class="resource-sub">Community and ecosystem partnerships</div>
+        </div>
+      </div>
+      <div class="resource-item">
+        <span class="resource-icon">🎓</span>
+        <div>
+          <div class="resource-label"><a href="workgroup-remake-learning-days.html" style="color:var(--green);text-decoration:none;">Remake Learning Days</a></div>
+          <div class="resource-sub">Career Ready PA Backpack Challenge</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  PA STEM PoC Hub &nbsp;·&nbsp; Careers &amp; EL&amp;S Workgroup &nbsp;·&nbsp; <a href="index.html" style="color:var(--white-25);text-decoration:none;">← Hub Home</a>
+</footer>
+
+<script>
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
