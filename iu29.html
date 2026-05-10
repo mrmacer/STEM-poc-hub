@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IU29 Regional Innovation Node | PA STEM PoC Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #071522;
+      --card:   #12243d;
+      --card2:  #172b48;
+      --text:   #f4f7fb;
+      --muted:  #9aa8c5;
+      --accent: #f5a623;
+      --green:  #2bd69d;
+      --blue:   #4fa3e8;
+      --purple: #a78bfa;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+    a:hover { color: var(--text); }
+
+    #progressBar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--accent); z-index: 200;
+      transition: width 0.1s linear; pointer-events: none;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    .iu-nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(7,21,34,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,166,35,0.2);
+      padding: 0.7rem 2rem;
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .iu-nav-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; color: var(--text);
+      letter-spacing: 2px; margin-right: auto; white-space: nowrap;
+    }
+    .iu-nav-brand span { color: var(--accent); }
+    .iu-nav-links {
+      display: flex; gap: 1.2rem; list-style: none;
+      align-items: center; flex-wrap: wrap;
+    }
+    .iu-nav-links a {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .iu-nav-links a:hover { color: var(--accent); }
+    .iu-back-link {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px; transition: all 0.15s; white-space: nowrap;
+    }
+    .iu-back-link:hover { color: var(--accent); border-color: rgba(245,166,35,0.3); }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .iu-hero {
+      max-width: 1100px; margin: 0 auto;
+      padding: 3rem 2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .iu-hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 2rem; align-items: start;
+    }
+    .iu-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.6rem; opacity: 0.8;
+    }
+    .iu-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 6.5rem);
+      color: var(--accent); line-height: 0.9; letter-spacing: 2px;
+    }
+    .iu-region-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--text); letter-spacing: 1px;
+      margin-bottom: 0.85rem; line-height: 1.1;
+    }
+    .iu-subtitle {
+      font-size: 0.87rem; color: var(--muted);
+      line-height: 1.75; max-width: 600px; margin-bottom: 1rem;
+    }
+    .iu-hero-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .iu-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      padding: 0.15rem 0.5rem; border-radius: 20px;
+      background: rgba(43,214,157,0.08); border: 1px solid rgba(43,214,157,0.22);
+      color: var(--green); letter-spacing: 0.03em;
+    }
+
+    /* Hero stats sidebar */
+    .iu-stat-panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.25rem; margin-top: 0.5rem;
+    }
+    .iu-stat-label {
+      font-family: 'Space Mono', monospace; font-size: 0.56rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 0.85rem; opacity: 0.7; display: block;
+    }
+    .iu-stat-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 0.5rem; margin-bottom: 0.65rem; padding-bottom: 0.65rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .iu-stat-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .iu-stat-key {
+      font-family: 'Space Mono', monospace; font-size: 0.56rem;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.06em; flex-shrink: 0;
+    }
+    .iu-stat-val {
+      font-size: 0.73rem; color: var(--text);
+      text-align: right; line-height: 1.4;
+    }
+    .stat-pilot {
+      font-family: 'Space Mono', monospace; font-size: 0.55rem;
+      color: var(--accent); background: rgba(245,166,35,0.08);
+      border: 1px solid rgba(245,166,35,0.22); border-radius: 4px;
+      padding: 0.1rem 0.4rem;
+    }
+
+    /* ── SECTION WRAPPER ───────────────────────────────── */
+    .iu-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .iu-section:last-of-type { border-bottom: none; }
+
+    .section-hd { margin-bottom: 1.25rem; }
+    .section-eyebrow {
+      font-family: 'Space Mono', monospace; font-size: 0.58rem;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em;
+      opacity: 0.8; margin-bottom: 0.2rem; display: flex;
+      align-items: center; gap: 0.35rem;
+    }
+    .section-eyebrow::before { content: '//'; opacity: 0.4; }
+    .section-title-h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      color: var(--text); letter-spacing: 1px; line-height: 1.1;
+    }
+
+    /* ── MISSION ───────────────────────────────────────── */
+    .mission-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .mission-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem;
+      border-top: 3px solid var(--accent);
+    }
+    .mission-card h3 {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.65rem;
+    }
+    .mission-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+
+    /* ── PRIORITY CARDS ────────────────────────────────── */
+    .priority-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .priority-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.2rem; border-left: 4px solid var(--accent);
+    }
+    .priority-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
+      color: var(--accent); line-height: 1; margin-bottom: 0.3rem;
+    }
+    .priority-card h3 {
+      font-size: 0.9rem; font-weight: 600; color: var(--text);
+      margin-bottom: 0.35rem;
+    }
+    .priority-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.65rem; }
+    .priority-list { list-style: none; padding: 0; }
+    .priority-list li {
+      font-size: 0.74rem; color: var(--muted);
+      padding: 0.15rem 0 0.15rem 0.8rem; position: relative; line-height: 1.5;
+    }
+    .priority-list li::before {
+      content: '→'; position: absolute; left: 0;
+      color: rgba(245,166,35,0.45); font-size: 0.62rem;
+    }
+
+    /* ── TEAM ──────────────────────────────────────────── */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .team-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.35rem; text-align: center;
+    }
+    .team-photo-wrap {
+      width: 64px; height: 64px; border-radius: 50%;
+      margin: 0 auto 0.75rem; overflow: hidden;
+      border: 2px solid rgba(245,166,35,0.35);
+      background: rgba(26,58,107,0.6);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .team-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .team-initials {
+      font-family: 'Space Mono', monospace; font-size: 0.9rem;
+      font-weight: 700; color: var(--accent); width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(26,58,107,0.8);
+    }
+    .team-name { font-weight: 600; font-size: 0.88rem; margin-bottom: 0.2rem; }
+    .team-role {
+      font-family: 'Space Mono', monospace; font-size: 0.58rem;
+      color: var(--accent); text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.65rem; line-height: 1.5;
+    }
+    .team-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: center; }
+    .team-tag {
+      font-family: 'Space Mono', monospace; font-size: 0.55rem;
+      padding: 0.12rem 0.42rem; border-radius: 20px;
+      background: rgba(43,214,157,0.07); border: 1px solid rgba(43,214,157,0.2);
+      color: var(--green); letter-spacing: 0.03em;
+    }
+    .team-card.add-card {
+      border-style: dashed; opacity: 0.65;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .team-card.add-card p { font-size: 0.77rem; color: var(--muted); line-height: 1.6; }
+    .iu-btn {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      color: var(--accent); background: rgba(245,166,35,0.08);
+      border: 1px solid rgba(245,166,35,0.22); border-radius: 6px;
+      padding: 0.4rem 0.85rem; cursor: pointer; display: inline-block;
+      transition: all 0.15s; margin-top: 0.5rem;
+    }
+    .iu-btn:hover { background: rgba(245,166,35,0.14); color: var(--text); border-color: rgba(245,166,35,0.4); }
+
+    /* ── INITIATIVES ───────────────────────────────────── */
+    .initiative-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1rem;
+    }
+    .init-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.25rem;
+      border-left: 4px solid var(--accent);
+    }
+    .init-card.init-active    { border-left-color: var(--green); }
+    .init-card.init-building  { border-left-color: var(--accent); }
+    .init-card.init-growing   { border-left-color: var(--blue); }
+    .init-card.init-emerging  { border-left-color: var(--purple); }
+
+    .init-meta { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.45rem; }
+    .init-status {
+      font-family: 'Space Mono', monospace; font-size: 0.53rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 0.1rem 0.45rem; border-radius: 20px; font-weight: 700;
+    }
+    .s-active   { color: var(--green);  background: rgba(43,214,157,0.08);  border: 1px solid rgba(43,214,157,0.25);  }
+    .s-building { color: var(--accent); background: rgba(245,166,35,0.08);  border: 1px solid rgba(245,166,35,0.25);  }
+    .s-growing  { color: var(--blue);   background: rgba(79,163,232,0.08);  border: 1px solid rgba(79,163,232,0.25);  }
+    .s-emerging { color: var(--purple); background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.25); }
+
+    .init-card h3 { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+    .init-card p  { font-size: 0.78rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── STRENGTHS / CHALLENGES ────────────────────────── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .sc-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem;
+    }
+    .sc-card h3 {
+      font-family: 'Space Mono', monospace; font-size: 0.62rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .sc-card.strengths h3 { color: var(--green); }
+    .sc-card.challenges h3 { color: var(--accent); }
+    .sc-list { list-style: none; padding: 0; }
+    .sc-list li {
+      font-size: 0.77rem; color: var(--muted);
+      padding: 0.25rem 0 0.25rem 1rem; position: relative; line-height: 1.5;
+    }
+    .strengths  .sc-list li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-size: 0.7rem; }
+    .challenges .sc-list li::before { content: '◎'; position: absolute; left: 0; color: var(--accent); font-size: 0.65rem; }
+
+    /* ── SOW / WORKGROUP SIGNALS ───────────────────────── */
+    .sow-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; align-items: start;
+    }
+    .sow-bars { display: flex; flex-direction: column; gap: 0.6rem; }
+    .sow-row { display: flex; align-items: center; gap: 0.65rem; }
+    .sow-row-label {
+      font-family: 'Space Mono', monospace; font-size: 0.59rem;
+      color: var(--muted); width: 110px; flex-shrink: 0;
+    }
+    .sow-bar {
+      flex: 1; height: 5px; background: rgba(255,255,255,0.07);
+      border-radius: 3px; overflow: hidden;
+    }
+    .sow-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, rgba(43,214,157,0.6), rgba(43,214,157,0.9));
+    }
+    .sow-pct {
+      font-family: 'Space Mono', monospace; font-size: 0.57rem;
+      color: var(--muted); width: 26px; text-align: right; flex-shrink: 0;
+    }
+
+    .wg-panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.1rem;
+    }
+    .wg-panel-label {
+      font-family: 'Space Mono', monospace; font-size: 0.57rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.65rem; opacity: 0.75;
+    }
+    .wg-chip-list { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .wg-chip {
+      font-family: 'Space Mono', monospace; font-size: 0.57rem;
+      padding: 0.15rem 0.5rem; border-radius: 4px;
+      background: rgba(79,163,232,0.08); border: 1px solid rgba(79,163,232,0.22);
+      color: var(--blue); letter-spacing: 0.03em;
+    }
+
+    /* ── WHAT IU29 CAN SHARE ───────────────────────────── */
+    .share-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.85rem;
+    }
+    .share-card {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.1rem;
+    }
+    .share-card h4 {
+      font-family: 'Space Mono', monospace; font-size: 0.63rem;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em;
+      margin-bottom: 0.4rem;
+    }
+    .share-card p { font-size: 0.76rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── FUTURE NOTE ───────────────────────────────────── */
+    .future-note {
+      background: rgba(245,166,35,0.04);
+      border: 1px dashed rgba(245,166,35,0.28);
+      border-radius: 10px; padding: 1.25rem 1.5rem;
+    }
+    .future-note h3 {
+      font-family: 'Space Mono', monospace; font-size: 0.65rem;
+      color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+    }
+    .future-note p { font-size: 0.81rem; color: var(--muted); line-height: 1.75; }
+    .future-note a { color: var(--accent); }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    .iu-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.35rem 2rem; text-align: center;
+    }
+    .iu-footer p {
+      font-family: 'Space Mono', monospace; font-size: 0.6rem;
+      color: var(--muted); line-height: 1.9; opacity: 0.7;
+    }
+
+    /* ── REVEAL ────────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(10px); transition: opacity 0.35s ease, transform 0.35s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ────────────────────────────────────────── */
+    @media (max-width: 820px) {
+      .iu-hero-layout { grid-template-columns: 1fr; }
+      .iu-stat-panel { margin-top: 0; }
+      .mission-grid, .two-col, .sow-grid { grid-template-columns: 1fr; }
+      .iu-section { padding: 1.5rem 1.25rem 1.25rem; }
+      .iu-hero { padding: 2rem 1.25rem 1.75rem; }
+      .iu-nav { padding: 0.6rem 1rem; gap: 0.75rem; }
+      .iu-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────── -->
+<nav class="iu-nav">
+  <div class="iu-nav-brand">PA STEM <span>POC</span></div>
+  <ul class="iu-nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#directory">Directory</a></li>
+    <li><a href="index.html#workgroups">Workgroups</a></li>
+    <li><a href="index.html#intelligence">STEM Intel</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <a class="iu-back-link" href="index.html#directory">← Back to Statewide Network</a>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<header class="iu-hero">
+  <div class="iu-hero-layout">
+    <div>
+      <div class="iu-eyebrow">Regional Innovation Node &middot; PA STEM PoC Hub &middot; Pilot Profile</div>
+      <div class="iu-number">IU29</div>
+      <div class="iu-region-name">Schuylkill Region Node</div>
+      <p class="iu-subtitle">Connecting STEM, workforce, ecosystems, AI, student-centered learning, and community partnerships across Schuylkill County.</p>
+      <div class="iu-hero-tags">
+        <span class="iu-tag">STEELS</span>
+        <span class="iu-tag">AI</span>
+        <span class="iu-tag">Makerspaces</span>
+        <span class="iu-tag">Workforce</span>
+        <span class="iu-tag">Transition</span>
+        <span class="iu-tag">Competitions</span>
+        <span class="iu-tag">Community Partnerships</span>
+        <span class="iu-tag">Ecosystems</span>
+      </div>
+    </div>
+
+    <div class="iu-stat-panel">
+      <span class="iu-stat-label">Node Status</span>
+      <div class="iu-stat-row">
+        <span class="iu-stat-key">Collaboration</span>
+        <span class="iu-stat-val">🟢 Building Connections</span>
+      </div>
+      <div class="iu-stat-row">
+        <span class="iu-stat-key">Regional Focus</span>
+        <span class="iu-stat-val">STEM + Workforce + Ecosystem</span>
+      </div>
+      <div class="iu-stat-row">
+        <span class="iu-stat-key">Strategic Lens</span>
+        <span class="iu-stat-val">Stakeholder Engagement</span>
+      </div>
+      <div class="iu-stat-row">
+        <span class="iu-stat-key">Page Role</span>
+        <span class="iu-stat-val"><span class="stat-pilot">IU Pilot Profile</span></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── MISSION SNAPSHOT ─────────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Mission &amp; Vision</div>
+    <h2 class="section-title-h2">Mission Snapshot</h2>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-card">
+      <h3>Mission</h3>
+      <p>IU29 works with school entities, community agencies, businesses, and government partnerships to serve changing educational needs through services, program improvement, and new initiatives.</p>
+    </div>
+    <div class="mission-card">
+      <h3>Vision</h3>
+      <p>IU29 envisions meaningful, purposeful, achievement-oriented learning supported by effective and sustainable partnerships with schools, businesses, industry, and community.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── STRATEGIC PRIORITIES ─────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Organizational Direction</div>
+    <h2 class="section-title-h2">Strategic Priorities</h2>
+  </div>
+  <div class="priority-grid">
+
+    <div class="priority-card">
+      <div class="priority-num">01</div>
+      <h3>Stakeholder Engagement</h3>
+      <p>Increase participation of necessary stakeholders across committees and initiatives.</p>
+      <ul class="priority-list">
+        <li>Multiple delivery modes for broader participation</li>
+        <li>Quarterly stakeholder meetings</li>
+        <li>Parent and community input structures</li>
+        <li>Stronger communication across stakeholder groups</li>
+      </ul>
+    </div>
+
+    <div class="priority-card">
+      <div class="priority-num">02</div>
+      <h3>Safety Improvements</h3>
+      <p>Modernize access, fixtures, and security systems to improve health and safety.</p>
+      <ul class="priority-list">
+        <li>Building walkthroughs and facilities assessments</li>
+        <li>Threat assessment analysis</li>
+        <li>Facilities modernization planning</li>
+        <li>Cross-department coordination</li>
+      </ul>
+    </div>
+
+    <div class="priority-card">
+      <div class="priority-num">03</div>
+      <h3>Transition Pathways</h3>
+      <p>Increase student participation in transition and workforce readiness opportunities.</p>
+      <ul class="priority-list">
+        <li>Community and industry partner development</li>
+        <li>Work-based learning opportunities</li>
+        <li>Skill readiness curriculum integration</li>
+        <li>Post-secondary readiness and student outcomes</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── TEAM ──────────────────────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">People &amp; Contacts</div>
+    <h2 class="section-title-h2">IU29 STEM + PAIMS Team</h2>
+  </div>
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-photo-wrap">
+        <img class="team-photo" src="assests/paiu-photos/Macer-Greg.jpeg" alt="Greg Macer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="team-initials" style="display:none">GM</div>
+      </div>
+      <div class="team-name">Greg Macer</div>
+      <div class="team-role">Supervisor of STEM &amp;<br>District Support</div>
+      <div class="team-tags">
+        <span class="team-tag">AI</span>
+        <span class="team-tag">Makerspaces</span>
+        <span class="team-tag">Ecosystems</span>
+        <span class="team-tag">Competitions</span>
+        <span class="team-tag">District Support</span>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-photo-wrap">
+        <div class="team-initials">DM</div>
+      </div>
+      <div class="team-name">Doreen Milot</div>
+      <div class="team-role">TaC / Inclusive STEM<br>Connection</div>
+      <div class="team-tags">
+        <span class="team-tag">UDL</span>
+        <span class="team-tag">Transition</span>
+        <span class="team-tag">Toolkit</span>
+        <span class="team-tag">Inclusive STEM</span>
+      </div>
+    </div>
+
+    <div class="team-card add-card">
+      <div class="team-photo-wrap" style="border-style:dashed;opacity:0.5;">
+        <div class="team-initials" style="font-size:1.2rem;opacity:0.4;">+</div>
+      </div>
+      <p>PAIMS, curriculum, technology, transition, and ecosystem collaborators.</p>
+      <a class="iu-btn" href="index.html#directory">View Full Directory</a>
+    </div>
+
+  </div>
+  <p style="font-size:0.7rem;color:var(--muted);margin-top:0.85rem;font-style:italic;opacity:0.7;">Contact through the PA STEM PoC network. No private contact information is listed on this page.</p>
+</section>
+
+<!-- ── ACTIVE INITIATIVES ────────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Current Work</div>
+    <h2 class="section-title-h2">Active Initiatives</h2>
+  </div>
+  <div class="initiative-grid">
+
+    <div class="init-card init-active">
+      <div class="init-meta">
+        <span class="init-status s-active">Active</span>
+      </div>
+      <h3>STEM@Skook29</h3>
+      <p>Regional STEM identity and website hub connecting district support, STEM events, PD, and public-facing resources across the Schuylkill region.</p>
+    </div>
+
+    <div class="init-card init-building">
+      <div class="init-meta">
+        <span class="init-status s-building">Building</span>
+      </div>
+      <h3>AI Literacy</h3>
+      <p>Supporting districts as they navigate AI policy, classroom use, ethics, productivity, and instructional design. Building district-level capacity and educator confidence.</p>
+    </div>
+
+    <div class="init-card init-active">
+      <div class="init-meta">
+        <span class="init-status s-active">Active</span>
+      </div>
+      <h3>Student Competitions</h3>
+      <p>Supporting STEM Design Challenge, media and design competitions, engineering challenges, and regional student showcases that connect learning to real audiences.</p>
+    </div>
+
+    <div class="init-card init-growing">
+      <div class="init-meta">
+        <span class="init-status s-growing">Growing</span>
+      </div>
+      <h3>Workforce + Transition</h3>
+      <p>Connecting student pathways, industry partners, job readiness, transition programming, and real-world learning experiences across the region.</p>
+    </div>
+
+    <div class="init-card init-emerging">
+      <div class="init-meta">
+        <span class="init-status s-emerging">Emerging</span>
+      </div>
+      <h3>Schuylkill STEM Ecosystem</h3>
+      <p>Building bridges between districts, higher ed, employers, nature and community partners, and regional innovation efforts toward a coherent STEM ecosystem.</p>
+    </div>
+
+    <div class="init-card init-active">
+      <div class="init-meta">
+        <span class="init-status s-active">Active</span>
+      </div>
+      <h3>Makerspace / Hands-On Learning</h3>
+      <p>Expanding creative, student-centered learning through design challenges, tools, prototyping, and community-connected projects that make learning visible.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── STRENGTHS + CHALLENGES ────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Regional Intelligence</div>
+    <h2 class="section-title-h2">Strengths + Challenges</h2>
+  </div>
+  <div class="two-col">
+
+    <div class="sc-card strengths">
+      <h3>Regional Strength Signals</h3>
+      <ul class="sc-list">
+        <li>Strong community partnerships</li>
+        <li>Grant-writing capacity</li>
+        <li>Standards-aligned professional development</li>
+        <li>Curriculum and TaC collaboration</li>
+        <li>Responsive district support</li>
+        <li>Skilled staff with diversified knowledge</li>
+      </ul>
+    </div>
+
+    <div class="sc-card challenges">
+      <h3>Current Challenges</h3>
+      <ul class="sc-list">
+        <li>Consistent stakeholder attendance</li>
+        <li>Staff onboarding and scheduling</li>
+        <li>Resource allocation decisions</li>
+        <li>Transition opportunities for students</li>
+        <li>Infrastructure modernization</li>
+        <li>Coordinating time across needed staff</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SOW + WORKGROUP SIGNALS ───────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">SoW Alignment &amp; Network Connections</div>
+    <h2 class="section-title-h2">Deliverable + Workgroup Signals</h2>
+  </div>
+  <div class="sow-grid">
+
+    <div>
+      <div class="sow-bars">
+        <div class="sow-row">
+          <span class="sow-row-label">STEELS</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:85%"></div></div>
+          <span class="sow-pct">85%</span>
+        </div>
+        <div class="sow-row">
+          <span class="sow-row-label">AI / CS / CT</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:80%"></div></div>
+          <span class="sow-pct">80%</span>
+        </div>
+        <div class="sow-row">
+          <span class="sow-row-label">Ecosystems</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:90%"></div></div>
+          <span class="sow-pct">90%</span>
+        </div>
+        <div class="sow-row">
+          <span class="sow-row-label">Competitions</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:75%"></div></div>
+          <span class="sow-pct">75%</span>
+        </div>
+        <div class="sow-row">
+          <span class="sow-row-label">Equity / UDL</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:70%"></div></div>
+          <span class="sow-pct">70%</span>
+        </div>
+        <div class="sow-row">
+          <span class="sow-row-label">Workforce</span>
+          <div class="sow-bar"><div class="sow-fill" style="width:85%"></div></div>
+          <span class="sow-pct">85%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wg-panel">
+      <div class="wg-panel-label">Connected Workgroups</div>
+      <div class="wg-chip-list">
+        <span class="wg-chip">Science &amp; STEELS</span>
+        <span class="wg-chip">STEM Toolkit</span>
+        <span class="wg-chip">Student Competitions</span>
+        <span class="wg-chip">Ecosystems / PSSE</span>
+        <span class="wg-chip">Remake Learning</span>
+        <span class="wg-chip">AI / CS</span>
+        <span class="wg-chip">Equity &amp; Inclusion</span>
+        <span class="wg-chip">Student-Centered Learning</span>
+      </div>
+      <div style="margin-top:1rem;">
+        <a class="iu-btn" href="workgroups.html">View All Workgroups →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── WHAT IU29 CAN SHARE ───────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Network Contributions</div>
+    <h2 class="section-title-h2">What IU29 Can Share</h2>
+  </div>
+  <div class="share-grid">
+
+    <div class="share-card">
+      <h4>Event Models</h4>
+      <p>Competition logistics, STEM nights, challenge structures, and student showcase formats developed through regional events.</p>
+    </div>
+
+    <div class="share-card">
+      <h4>AI PD</h4>
+      <p>Practical frameworks for educators, administrators, and district teams beginning AI implementation — from policy to classroom practice.</p>
+    </div>
+
+    <div class="share-card">
+      <h4>Ecosystem Building</h4>
+      <p>Templates and strategies for convening regional partners around STEM, workforce, and community needs into sustained collaboration.</p>
+    </div>
+
+    <div class="share-card">
+      <h4>Makerspace / Design Challenges</h4>
+      <p>Hands-on learning models, design challenge structures, and student-centered creation experiences adaptable for any district.</p>
+    </div>
+
+    <div class="share-card">
+      <h4>Transition Connections</h4>
+      <p>Examples for connecting workforce readiness, community partnerships, and student pathways in rural and small-district contexts.</p>
+    </div>
+
+    <div class="share-card">
+      <h4>ORBIT / SoW Storytelling</h4>
+      <p>Ways to turn regional activity into meaningful evidence, ORBIT entries, and impact narratives that align with SoW deliverables.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FUTURE BUILD NOTE ─────────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="future-note">
+    <h3>// Pilot Profile — Future Build Note</h3>
+    <p>This IU29 page is a pilot layout for future IU profile pages across the PA STEM PoC network. The long-term goal is for each IU to have a regional node page that connects people, projects, priorities, workgroups, resources, and collaboration opportunities in one place.</p>
+    <p style="margin-top:0.75rem;">Future IU profile pages will include full dossier content, team profiles, project portfolios, ORBIT alignment signals, and live workgroup connections. <a href="about.html">Learn more about the network story →</a></p>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+<footer class="iu-footer">
+  <p>
+    IU29 &middot; Regional Innovation Node &middot; PA STEM PoC Hub<br>
+    <a href="index.html#directory">← Back to Statewide Network Directory</a> &middot; <a href="index.html">Main Hub</a><br>
+    Contact through the PA STEM PoC network. No private contact information is listed on this page.
+  </p>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const p = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
+    document.getElementById('progressBar').style.width = (p * 100) + '%';
+  });
+
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(r => ro.observe(r));
+</script>
+</body>
+</html>

@@ -894,209 +894,55 @@
     letter-spacing: 0.5px;
   }
 
-  /* STORY OF THE NETWORK — TIMELINE */
+  /* ORIGIN STORY */
   .story-timeline {
     position: relative;
-    padding-left: 2.5rem;
-    margin: 1.75rem 0 1.75rem 0.75rem;
+    padding-left: 2rem;
   }
 
   .story-timeline::before {
     content: '';
     position: absolute;
-    left: 0.5rem;
-    top: 0.5rem; bottom: 0.5rem;
+    left: 0;
+    top: 0; bottom: 0;
     width: 2px;
-    background: linear-gradient(to bottom, rgba(244,161,29,0.7), rgba(244,161,29,0.06));
+    background: linear-gradient(to bottom, var(--accent), transparent);
   }
 
-  .story-era {
+  .story-beat {
     position: relative;
-    margin-bottom: 1.25rem;
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
   }
 
-  .story-era::before {
+  .story-beat::before {
     content: '';
     position: absolute;
-    left: -2.3rem;
-    top: 1rem;
-    width: 12px; height: 12px;
+    left: -2.35rem;
+    top: 0.4rem;
+    width: 10px; height: 10px;
     background: var(--accent);
     border-radius: 50%;
     border: 2px solid var(--navy);
-    box-shadow: 0 0 8px rgba(244,161,29,0.55);
-    z-index: 1;
   }
 
-  .story-era-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    border-left-width: 4px;
-    border-left-style: solid;
-    transition: box-shadow 0.2s;
-  }
-
-  .story-era-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.25); }
-
-  .era-foundation { border-left-color: var(--accent); }
-  .era-resilience { border-left-color: #6495ed; }
-  .era-infrastructure { border-left-color: var(--green); }
-  .era-transformation { border-left-color: #b464f0; }
-
-  .era-card-top { padding: 1rem 1.25rem 0.85rem; }
-
-  .era-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 0.55rem;
-  }
-
-  .era-badge {
+  .story-year {
     font-family: 'Space Mono', monospace;
-    font-size: 0.57rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.15rem 0.55rem;
-    border-radius: 20px;
-    font-weight: 700;
+    font-size: 0.72rem;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
   }
 
-  .badge-foundation { background: rgba(244,161,29,0.1); border: 1px solid rgba(244,161,29,0.28); color: var(--accent); }
-  .badge-resilience { background: rgba(100,149,237,0.09); border: 1px solid rgba(100,149,237,0.28); color: #6495ed; }
-  .badge-infrastructure { background: rgba(46,204,138,0.09); border: 1px solid rgba(46,204,138,0.28); color: var(--green); }
-  .badge-transformation { background: rgba(180,100,240,0.09); border: 1px solid rgba(180,100,240,0.28); color: #b464f0; }
-
-  .era-years {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.63rem;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-  }
-
-  .era-title {
-    font-size: 0.93rem;
+  .story-beat h4 {
     font-weight: 600;
-    color: var(--text);
-    line-height: 1.35;
-    margin-bottom: 0.45rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
   }
 
-  .era-summary {
-    font-size: 0.79rem;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .era-toggle-btn {
-    display: inline-block;
-    margin-top: 0.7rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.59rem;
-    color: var(--accent);
-    background: rgba(244,161,29,0.06);
-    border: 1px solid rgba(244,161,29,0.2);
-    border-radius: 5px;
-    padding: 0.28rem 0.65rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .era-toggle-btn:hover { background: rgba(244,161,29,0.12); border-color: rgba(244,161,29,0.4); }
-
-  .era-details {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-    background: rgba(0,0,0,0.12);
-    border-top: 0px solid rgba(255,255,255,0.06);
-  }
-  .era-details.open { border-top-width: 1px; }
-
-  .era-details-inner { padding: 1rem 1.25rem; }
-
-  .story-signal-list { list-style: none; padding: 0; margin: 0 0 0.85rem; }
-  .story-signal-list li {
-    font-size: 0.75rem;
-    color: var(--muted);
-    padding: 0.2rem 0 0.2rem 0.9rem;
-    position: relative;
-    line-height: 1.55;
-  }
-  .story-signal-list li::before { content: '→'; position: absolute; left: 0; color: rgba(244,161,29,0.45); font-size: 0.62rem; }
-
-  .era-what-changed {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.61rem;
-    color: var(--text);
-    background: rgba(26,58,107,0.28);
-    border: 1px solid rgba(100,149,237,0.14);
-    border-left: 3px solid rgba(100,149,237,0.4);
-    border-radius: 5px;
-    padding: 0.55rem 0.8rem;
-    line-height: 1.6;
-  }
-
-  .story-thesis {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--accent);
-    background: rgba(244,161,29,0.06);
-    border: 1px solid rgba(244,161,29,0.18);
-    border-left: 4px solid var(--accent);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    margin: 0.85rem 0 1.5rem;
-    letter-spacing: 0.02em;
-    line-height: 1.5;
-  }
-
-  .story-impact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 0.75rem;
-    margin: 0.85rem 0 1.1rem;
-  }
-
-  .story-impact-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.9rem 1.05rem;
-  }
-  .story-impact-card h4 {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.62rem;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    margin-bottom: 0.35rem;
-  }
-  .story-impact-card p {
-    font-size: 0.77rem;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .story-final-callout {
+  .story-beat p {
     font-size: 0.82rem;
     color: var(--muted);
-    background: rgba(26,58,107,0.18);
-    border: 1px solid rgba(100,149,237,0.11);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    line-height: 1.8;
-    font-style: italic;
-    margin-top: 0.25rem;
-  }
-  .story-final-callout strong { color: var(--text); font-style: normal; }
-
-  @media (max-width: 600px) {
-    .story-timeline { padding-left: 1.75rem; margin-left: 0.25rem; }
-    .story-era::before { left: -1.85rem; }
-    .story-impact-grid { grid-template-columns: 1fr; }
+    line-height: 1.5;
   }
 
   /* ORBIT CALLOUT */
@@ -2546,7 +2392,7 @@
 <nav>
   <div class="nav-logo">PA STEM <span>PoC</span></div>
   <ul class="nav-links" id="navLinks">
-    <li><a href="about.html">About</a></li>
+    <li><a href="#story">Origin</a></li>
     <li><a href="#start">Start</a></li>
     <li><a href="#who-for">Roles</a></li>
     <li><a href="#directory">Directory</a></li>
@@ -2555,7 +2401,6 @@
     <li><a href="#sow">SoW</a></li>
     <li><a href="#orbit">ORBIT</a></li>
     <li><a href="#resources">Resources</a></li>
-    <li><a href="#intelligence">STEM Intel</a></li>
     <li><a href="#future">Future</a></li>
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
@@ -2600,156 +2445,49 @@
 <div class="section reveal" id="story">
   <div class="section-header">
     <span class="section-num">01 //</span>
-    <h2 class="section-title">THE STORY OF THE NETWORK</h2>
+    <h2 class="section-title">THE ORIGIN STORY</h2>
   </div>
 
-  <p style="font-size:0.87rem;color:var(--muted);line-height:1.75;margin-bottom:0.75rem;max-width:800px;">The PA STEM PoC Network did not begin as a finished system. It grew through real statewide needs: grant support, computer science expansion, crisis response, standards implementation, ecosystem building, and now AI-era transformation. This hub exists because the network itself evolved from isolated regional work into shared statewide infrastructure.</p>
-
-  <div class="story-thesis">From managing programs &rarr; to building Pennsylvania&rsquo;s STEM innovation infrastructure.</div>
-
-  <div class="story-timeline">
-
-    <!-- ERA 1: FOUNDATION -->
-    <div class="story-era">
-      <div class="story-era-card era-foundation">
-        <div class="era-card-top">
-          <div class="era-meta">
-            <span class="era-badge badge-foundation">FOUNDATION</span>
-            <span class="era-years">2018&ndash;2019</span>
-          </div>
-          <h3 class="era-title">PAsmart, SCRIPT, and the First Statewide STEM Support Layer</h3>
-          <p class="era-summary">The early STEM PoC Network formed around PAsmart grants, district support, and the need to help schools understand what high-quality STEM and computer science implementation could look like across Pennsylvania.</p>
-          <button class="era-toggle-btn" onclick="toggleEraDetails('era1-details')">View Era Signals &#9660;</button>
-        </div>
-        <div class="era-details" id="era1-details">
-          <div class="era-details-inner">
-            <ul class="story-signal-list">
-              <li>PAsmart grants created the first statewide coordination pressure point</li>
-              <li>Carnegie STEM Pathway helped districts diagnose STEM readiness</li>
-              <li>SCRIPT training supported K&ndash;12 computer science planning</li>
-              <li>STEM Toolkit conversations began shifting from &ldquo;activities&rdquo; to vetted instructional resources</li>
-              <li>IUs started acting as statewide connectors, not just regional service providers</li>
-            </ul>
-            <div class="era-what-changed">What changed: District support became more coherent, and the network began forming a shared language for STEM implementation.</div>
-          </div>
-        </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+    <div>
+      <p style="font-size:0.9rem; color:var(--muted); line-height:1.7; margin-bottom:1.5rem;">
+        The PA STEM PoC Network didn't start as a formal structure — it grew from a shared problem: IUs across the commonwealth were doing great STEM work in isolation. The PAsmart grant ecosystem created the infrastructure to change that. Today, this network is one of the most active cross-IU collaboration spaces in Pennsylvania education.
+      </p>
+      <p style="font-size:0.9rem; color:var(--muted); line-height:1.7; margin-bottom:1.5rem;">
+        Your role as a PoC (Point of Contact) is to be the STEM connective tissue for your IU — linking PDE priorities, statewide resources, and your local districts into something coherent and useful.
+      </p>
+      <div style="background:rgba(244,161,29,0.08); border:1px solid var(--border); border-radius:8px; padding:1.25rem; margin-top:1rem;">
+        <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px; font-weight:600;">The Org Triangle</p>
+        <p style="font-size:0.82rem; color:var(--light); line-height:1.6;">
+          <strong style="color:var(--accent)">PAIMS</strong> (ed tech + instructional media) ·
+          <strong style="color:var(--accent)">PAIUCC</strong> (curriculum coordinators) ·
+          <strong style="color:var(--accent)">STEM PoC</strong> (you) — these three groups share an annual joint meeting every March and increasingly overlap in mission.
+        </p>
       </div>
     </div>
-
-    <!-- ERA 2: RESILIENCE -->
-    <div class="story-era">
-      <div class="story-era-card era-resilience">
-        <div class="era-card-top">
-          <div class="era-meta">
-            <span class="era-badge badge-resilience">RESILIENCE</span>
-            <span class="era-years">2020</span>
-          </div>
-          <h3 class="era-title">Remote Learning, Human-First Support, and Lending Library Reinvention</h3>
-          <p class="era-summary">The pandemic forced the network to pivot quickly. The PoC meetings became more than updates &mdash; they became a statewide support system for educators navigating uncertainty, remote learning, technology access, and safe hands-on STEM.</p>
-          <button class="era-toggle-btn" onclick="toggleEraDetails('era2-details')">View Era Signals &#9660;</button>
-        </div>
-        <div class="era-details" id="era2-details">
-          <div class="era-details-inner">
-            <ul class="story-signal-list">
-              <li>Human-first check-ins became essential to every meeting</li>
-              <li>Remote learning and virtual STEM support moved to the center of the work</li>
-              <li>Lending libraries had to adapt around sanitization, logistics, and access</li>
-              <li>Equity and access became immediate operational questions, not aspirational ones</li>
-              <li>The Statement of Work began turning informal support into clearer deliverables</li>
-            </ul>
-            <div class="era-what-changed">What changed: The network proved it could respond to crisis, not just manage programs.</div>
-          </div>
-        </div>
+    <div class="story-timeline">
+      <div class="story-beat">
+        <div class="story-year">FOUNDATION</div>
+        <h4>PAsmart Launches STEMinPA</h4>
+        <p>Federal grant funding creates the framework for statewide IU collaboration around STEM, CS, and student-centered learning.</p>
       </div>
-    </div>
-
-    <!-- ERA 3: INFRASTRUCTURE -->
-    <div class="story-era">
-      <div class="story-era-card era-infrastructure">
-        <div class="era-card-top">
-          <div class="era-meta">
-            <span class="era-badge badge-infrastructure">INFRASTRUCTURE</span>
-            <span class="era-years">2021&ndash;2022</span>
-          </div>
-          <h3 class="era-title">From Programs to Systems</h3>
-          <p class="era-summary">After the crisis response, the network began building more durable infrastructure: onboarding supports, clearer deliverables, workgroups, standards transition support, and shared statewide systems.</p>
-          <button class="era-toggle-btn" onclick="toggleEraDetails('era3-details')">View Era Signals &#9660;</button>
-        </div>
-        <div class="era-details" id="era3-details">
-          <div class="era-details-inner">
-            <ul class="story-signal-list">
-              <li>Buddy System emerged to support new PoCs entering the network</li>
-              <li>Statement of Work deliverables became organizing structures for the whole network</li>
-              <li>Datacasting and PA PBS work highlighted support for offline and rural learners</li>
-              <li>STEELS transition work began intensifying as Pennsylvania prepared for new science standards</li>
-              <li>Technology &amp; Engineering immersive experiences pushed engineering beyond isolated activities</li>
-              <li>Workgroups became the network&rsquo;s distributed implementation engine</li>
-            </ul>
-            <div class="era-what-changed">What changed: The network moved from event and program coordination toward repeatable systems and shared capacity.</div>
-          </div>
-        </div>
+      <div class="story-beat">
+        <div class="story-year">GROWTH</div>
+        <h4>Workgroups Proliferate</h4>
+        <p>Science, T&E, Environmental Literacy, CS, Student Competitions, Equity/TaC/Inclusion — the network self-organizes around real practitioner needs.</p>
       </div>
-    </div>
-
-    <!-- ERA 4: TRANSFORMATION -->
-    <div class="story-era">
-      <div class="story-era-card era-transformation">
-        <div class="era-card-top">
-          <div class="era-meta">
-            <span class="era-badge badge-transformation">TRANSFORMATION</span>
-            <span class="era-years">2023&ndash;2025</span>
-          </div>
-          <h3 class="era-title">STEELS, AI, Ecosystems, and the Statewide Innovation Hub</h3>
-          <p class="era-summary">The current phase is defined by convergence. STEELS implementation, AI literacy, environmental literacy, ecosystems, workforce partnerships, competitions, and inclusive STEM are no longer separate efforts. The PoC Network increasingly functions as Pennsylvania&rsquo;s STEM implementation nervous system.</p>
-          <button class="era-toggle-btn" onclick="toggleEraDetails('era4-details')">View Era Signals &#9660;</button>
-        </div>
-        <div class="era-details" id="era4-details">
-          <div class="era-details-inner">
-            <ul class="story-signal-list">
-              <li>STEELS rollout became the center of statewide science and STEM support</li>
-              <li>AI literacy and responsible use emerged as urgent statewide needs</li>
-              <li>Environmental Literacy &amp; Sustainability hubs connected STEM to place, climate, and community</li>
-              <li>Ecosystem and workforce partnerships expanded the network&rsquo;s role beyond schools</li>
-              <li>ORBIT and SoW reporting became opportunities for impact storytelling, not just compliance</li>
-              <li>Workgroups generated statewide implementation intelligence across 13 active groups</li>
-            </ul>
-            <div class="era-what-changed">What changed: The network transitioned from managing initiatives to shaping the future of STEM learning across Pennsylvania.</div>
-          </div>
-        </div>
+      <div class="story-beat">
+        <div class="story-year">NOW</div>
+        <h4>Full Ecosystem Integration</h4>
+        <p>STEM PoCs are embedded in ORBIT data reporting, WestEd CoPs, STEELS rollout, and the emerging AI/CS frontier. You're joining at a pivotal moment.</p>
       </div>
-    </div>
-
-  </div><!-- end .story-timeline -->
-
-  <div class="orbit-subsection-title" style="margin-top:1.75rem;">WHY THIS STORY MATTERS</div>
-  <div class="story-impact-grid">
-    <div class="story-impact-card">
-      <h4>It Preserves Memory</h4>
-      <p>This network has years of learning that should not disappear when roles, grants, or leadership change.</p>
-    </div>
-    <div class="story-impact-card">
-      <h4>It Accelerates Onboarding</h4>
-      <p>New PoCs need more than a contact list. They need context, pathways, and a sense of how the work evolved.</p>
-    </div>
-    <div class="story-impact-card">
-      <h4>It Reveals Patterns</h4>
-      <p>Across years of agendas and minutes, the same needs keep resurfacing: implementation support, equity, translation, resources, and coherence.</p>
-    </div>
-    <div class="story-impact-card">
-      <h4>It Builds Identity</h4>
-      <p>The network is not just a meeting series. It is a statewide infrastructure for STEM collaboration, innovation, and impact.</p>
+      <div class="story-beat">
+        <div class="story-year">NEXT</div>
+        <h4>Better Onboarding. Better Handoffs.</h4>
+        <p>[PLACEHOLDER — Add the network's vision for 2026-27 here once confirmed with Nicole Bond and the lead team.]</p>
+      </div>
     </div>
   </div>
-
-  <div class="story-final-callout">
-    <strong>Without this network,</strong> districts would solve the same problems in isolation.<br>
-    <strong>With this network,</strong> Pennsylvania can learn in public, share faster, and build smarter together.
-  </div>
-
-  <div style="margin-top:1.1rem;">
-    <a href="about.html" style="font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--accent);background:rgba(244,161,29,0.07);border:1px solid rgba(244,161,29,0.22);border-radius:6px;padding:0.5rem 1rem;display:inline-block;transition:all 0.15s;" onmouseover="this.style.background='rgba(244,161,29,0.13)'" onmouseout="this.style.background='rgba(244,161,29,0.07)'">Explore the Full Network Story &#8594;</a>
-  </div>
-
 </div>
 
 <!-- START HERE -->
@@ -3023,11 +2761,6 @@
   </div>
   <p style="font-size:0.9rem;color:var(--text);font-weight:500;margin-bottom:0.4rem;">A living collaboration layer connecting expertise, initiatives, ecosystems, and implementation support across Pennsylvania.</p>
   <div class="network-callout"><em>Not a contact sheet.</em> A statewide STEM intelligence network.<br>Click any mission node to open its intelligence dossier. <span style="color:var(--accent);">★ Dossier content being collected — profiles expand as data arrives.</span></div>
-  <div class="network-callout" style="margin-top:0.6rem;border-color:rgba(244,161,29,0.3);background:rgba(244,161,29,0.06);">
-    <span style="color:var(--accent);font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;">PILOT IU PROFILE</span>&nbsp;&nbsp;
-    IU profile pages are being piloted with IU29. Future IU pages will connect leadership, STEM/PAIMS contacts, active initiatives, workgroup connections, and regional collaboration opportunities.&nbsp;&nbsp;
-    <a href="iu29.html" style="color:var(--accent);text-decoration:none;font-family:'Space Mono',monospace;font-size:0.68rem;border-bottom:1px solid rgba(244,161,29,0.4);">IU29 — Schuylkill Region Node &#8594;</a>
-  </div>
 
   <!-- Directory Controls -->
   <div class="directory-controls">
@@ -3897,7 +3630,7 @@
       </div>
     </div>
 
-    <!-- ── IU 29 ── PILOT PROFILE AVAILABLE ── -->
+    <!-- ── IU 29 ── -->
     <div class="network-card mission-node"
          data-tags="AI CS Competitions STEM"
          data-collab="open"
@@ -3969,7 +3702,7 @@
           <div class="dossier-section" onclick="event.stopPropagation()">
             <div class="dossier-label">Quick Actions</div>
             <div class="node-actions">
-              <a class="node-action-btn" href="iu29.html" style="color:var(--accent);border-color:rgba(244,161,29,0.4);">View IU Profile &#8594;</a>
+              <a class="node-action-btn" href="#">View IU Initiatives</a>
               <a class="node-action-btn" href="#">View Shared Resources</a>
               <a class="node-action-btn" href="workgroups.html">Workgroup Activity</a>
             </div>
@@ -5105,25 +4838,6 @@
     document.querySelectorAll('.filter-chip[data-filtertype="collab"]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     filterNetworkCards();
-  }
-
-  // Story of the Network — era detail toggle
-  function toggleEraDetails(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const btn = el.closest('.story-era-card')?.querySelector('.era-toggle-btn');
-    const isOpen = el.classList.contains('open');
-    document.querySelectorAll('.era-details.open').forEach(d => {
-      d.classList.remove('open');
-      d.style.maxHeight = '0';
-      const b = d.closest('.story-era-card')?.querySelector('.era-toggle-btn');
-      if (b) b.innerHTML = b.innerHTML.replace('&#9650;', '&#9660;').replace('Collapse', 'View Era Signals');
-    });
-    if (!isOpen) {
-      el.classList.add('open');
-      el.style.maxHeight = (el.scrollHeight + 60) + 'px';
-      if (btn) btn.innerHTML = 'Collapse &#9650;';
-    }
   }
 
   // SoW FAQ toggle

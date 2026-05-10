@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PA STEM PoC Hub | About the Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #071522;
+      --panel:  #10223a;
+      --panel2: #152944;
+      --accent: #f5a623;
+      --green:  #2bd69d;
+      --blue:   #38bdf8;
+      --purple: #a78bfa;
+      --text:   #f4f7fb;
+      --muted:  #9aa8c5;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--text); }
+
+    #progressBar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: var(--accent);
+      width: 0%;
+      z-index: 200;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    .about-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7,21,34,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,166,35,0.18);
+      padding: 0.7rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .about-nav-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: 2px;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+    .about-nav-brand span { color: var(--accent); }
+
+    .about-nav-links {
+      display: flex;
+      gap: 1.2rem;
+      list-style: none;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .about-nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      transition: color 0.15s;
+    }
+    .about-nav-links a:hover { color: var(--accent); }
+
+    .about-back-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .about-back-link:hover { color: var(--accent); border-color: rgba(245,166,35,0.3); }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .about-hero {
+      padding: 3rem 2rem 2.5rem;
+      max-width: 920px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .about-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--text);
+      line-height: 1.05;
+      letter-spacing: 1px;
+      margin-bottom: 0.9rem;
+    }
+    .about-hero h1 em { color: var(--accent); font-style: normal; }
+
+    .about-hero-subtitle {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 1.1rem;
+    }
+
+    .about-thesis {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--accent);
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.18);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 0.7rem 1rem;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-narrative {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.35rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 720px;
+    }
+
+    /* ── LAYOUT ────────────────────────────────────────── */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 255px 1fr;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR ───────────────────────────────────────── */
+    .about-sidebar {
+      position: sticky;
+      top: 53px;
+      padding: 1.75rem 1.35rem;
+      border-right: 1px solid var(--border);
+      max-height: calc(100vh - 53px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .sidebar-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.56rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.45rem;
+      display: block;
+      opacity: 0.7;
+    }
+
+    .about-search {
+      width: 100%;
+      background: rgba(10,20,45,0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .about-search:focus { outline: none; border-color: rgba(245,166,35,0.4); }
+    .about-search::placeholder { color: var(--muted); opacity: 0.55; }
+
+    .filter-group { margin-bottom: 1.25rem; }
+
+    .thread-filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: 100%;
+      text-align: left;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.57rem;
+      padding: 0.28rem 0.6rem;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 0.15rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .thread-filter-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .thread-filter-btn.active {
+      background: rgba(245,166,35,0.08);
+      border-color: rgba(245,166,35,0.22);
+      color: var(--accent);
+    }
+    .thread-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    .pulse-stats {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .pulse-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.57rem;
+      color: var(--muted);
+      padding: 0.18rem 0;
+    }
+    .pulse-row strong { color: var(--accent); font-size: 0.8rem; }
+
+    .source-note {
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0.55;
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    /* ── TIMELINE ──────────────────────────────────────── */
+    .about-timeline-wrap { padding: 2rem 2.25rem 5rem; }
+
+    .about-timeline {
+      position: relative;
+      padding-left: 2.75rem;
+      margin-left: 0.35rem;
+    }
+
+    .about-timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.55rem;
+      top: 0.6rem; bottom: 0.6rem;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        rgba(245,166,35,0.8) 0%,
+        rgba(56,189,248,0.5) 20%,
+        rgba(43,214,157,0.5) 40%,
+        rgba(167,139,250,0.5) 55%,
+        rgba(245,166,35,0.5) 65%,
+        rgba(43,214,157,0.5) 75%,
+        rgba(245,166,35,0.5) 83%,
+        rgba(56,189,248,0.5) 90%,
+        rgba(167,139,250,0.6) 95%,
+        rgba(43,214,157,0.8) 100%
+      );
+    }
+
+    .timeline-event {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+    .timeline-event.hidden { display: none; }
+
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      left: -2.42rem;
+      top: 1.05rem;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--dot-color, var(--accent));
+      border: 2px solid var(--navy);
+      box-shadow: 0 0 10px var(--dot-color, rgba(245,166,35,0.5));
+      z-index: 1;
+    }
+
+    /* ── EVENT CARD ────────────────────────────────────── */
+    .event-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      border-left-width: 4px;
+      border-left-style: solid;
+      border-left-color: var(--dot-color, var(--accent));
+      transition: box-shadow 0.2s;
+    }
+    .event-card:hover { box-shadow: 0 4px 22px rgba(0,0,0,0.32); }
+
+    .event-card-top { padding: 1rem 1.25rem 0.9rem; }
+
+    .event-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .event-year {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      color: var(--text);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .event-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.57rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .event-thread-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.54rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding: 0.12rem 0.48rem;
+      border-radius: 20px;
+      border: 1px solid;
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    .badge-orange { color: var(--accent); background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.25); }
+    .badge-blue   { color: var(--blue);   background: rgba(56,189,248,0.08);  border-color: rgba(56,189,248,0.25); }
+    .badge-green  { color: var(--green);  background: rgba(43,214,157,0.08);  border-color: rgba(43,214,157,0.25); }
+    .badge-purple { color: var(--purple); background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.25); }
+
+    .event-title {
+      font-size: 0.93rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 0.45rem;
+    }
+
+    .event-summary {
+      font-size: 0.79rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .event-toggle-btn {
+      display: inline-block;
+      margin-top: 0.65rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.57rem;
+      color: var(--accent);
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.18);
+      border-radius: 5px;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .event-toggle-btn:hover { background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.35); }
+
+    .event-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.38s ease;
+      background: rgba(0,0,0,0.13);
+      border-top: 0px solid rgba(255,255,255,0.06);
+    }
+    .event-details.open { border-top-width: 1px; }
+
+    .event-details-inner { padding: 0.9rem 1.25rem; }
+
+    .event-detail-list { list-style: none; padding: 0; margin: 0 0 0.7rem; }
+    .event-detail-list li {
+      font-size: 0.74rem;
+      color: var(--muted);
+      padding: 0.18rem 0 0.18rem 0.85rem;
+      position: relative;
+      line-height: 1.55;
+    }
+    .event-detail-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: rgba(245,166,35,0.45);
+      font-size: 0.62rem;
+    }
+
+    .event-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      padding-top: 0.4rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .event-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem;
+      padding: 0.1rem 0.42rem;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── REVEAL ────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    .about-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.35rem 2rem;
+      text-align: center;
+    }
+    .about-footer p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      line-height: 1.9;
+      opacity: 0.7;
+    }
+    .about-footer a { color: var(--accent); }
+
+    /* ── MOBILE ────────────────────────────────────────── */
+    @media (max-width: 820px) {
+      .about-layout { grid-template-columns: 1fr; }
+      .about-sidebar {
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1.25rem;
+        max-height: none;
+      }
+      .about-timeline-wrap { padding: 1.25rem 1rem 3rem; }
+      .about-timeline { padding-left: 2rem; }
+      .timeline-event::before { left: -1.85rem; }
+      .about-hero { padding: 2rem 1.25rem 1.5rem; }
+      .about-nav { padding: 0.6rem 1rem; gap: 0.75rem; }
+      .about-nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progressBar"></div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────── -->
+<nav class="about-nav">
+  <div class="about-nav-brand">PA STEM <span>POC</span></div>
+  <ul class="about-nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#directory">Directory</a></li>
+    <li><a href="index.html#workgroups">Workgroups</a></li>
+    <li><a href="index.html#intelligence">STEM Intel</a></li>
+  </ul>
+  <a class="about-back-link" href="index.html">← Back to Hub</a>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<section class="about-hero">
+  <div class="about-hero-eyebrow">PAIMS / STEM PoC Network Story &middot; 2018&ndash;Present</div>
+  <h1>The story of a statewide network <em>learning out loud.</em></h1>
+  <p class="about-hero-subtitle">The PA STEM PoC Network grew from grant coordination, computer science planning, and regional STEM support into a statewide implementation infrastructure for STEELS, AI literacy, ecosystems, competitions, environmental literacy, workforce pathways, and shared professional learning.</p>
+  <div class="about-thesis">From meetings &rarr; to workgroups &rarr; to statewide STEM intelligence.</div>
+  <div class="about-narrative">
+    This is not just the story of a meeting series. It is the story of how Pennsylvania&rsquo;s Intermediate Units built a shared learning infrastructure for STEM implementation. Across years of agendas, workgroups, initiatives, and statewide conversations, the network moved from isolated regional support toward a more connected system for solving problems, sharing resources, and building collective capacity.
+  </div>
+</section>
+
+<!-- ── MAIN LAYOUT ───────────────────────────────────────────────────── -->
+<div class="about-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="about-sidebar">
+    <span class="sidebar-label">Search the Story</span>
+    <input class="about-search" id="aboutSearch" type="text" placeholder="Search moments, themes, tags..." oninput="filterAboutTimeline()">
+
+    <div class="filter-group">
+      <span class="sidebar-label">Filter by Thread</span>
+      <button class="thread-filter-btn active" onclick="setAboutThread(this,'all')">
+        <span class="thread-dot" style="background:#9aa8c5"></span>All Threads
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'foundation')">
+        <span class="thread-dot" style="background:var(--accent)"></span>Foundation
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'resilience')">
+        <span class="thread-dot" style="background:var(--blue)"></span>Resilience
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'recovery')">
+        <span class="thread-dot" style="background:var(--green)"></span>Recovery
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'culture')">
+        <span class="thread-dot" style="background:var(--purple)"></span>Culture
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'structure')">
+        <span class="thread-dot" style="background:var(--accent)"></span>Structure
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'steels')">
+        <span class="thread-dot" style="background:var(--green)"></span>STEELS
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'leadership')">
+        <span class="thread-dot" style="background:var(--accent)"></span>Leadership
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'ai')">
+        <span class="thread-dot" style="background:var(--blue)"></span>AI
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'intelligence')">
+        <span class="thread-dot" style="background:var(--purple)"></span>Intelligence
+      </button>
+      <button class="thread-filter-btn" onclick="setAboutThread(this,'hub')">
+        <span class="thread-dot" style="background:var(--green)"></span>Hub Build
+      </button>
+    </div>
+
+    <div class="pulse-stats">
+      <span class="sidebar-label" style="margin-bottom:0.4rem;">Timeline Pulse</span>
+      <div class="pulse-row">
+        <span>Visible moments</span>
+        <strong id="visibleCount">10</strong>
+      </div>
+      <div class="pulse-row">
+        <span>Story threads</span>
+        <strong>10</strong>
+      </div>
+    </div>
+
+    <p class="source-note">Designed as a narrative artifact, onboarding tool, and institutional memory layer for the PA STEM PoC Hub.</p>
+  </aside>
+
+  <!-- TIMELINE -->
+  <main class="about-timeline-wrap">
+    <div class="about-timeline">
+
+      <!-- ── EVENT 1: FOUNDATION ── -->
+      <div class="timeline-event reveal" data-thread="foundation" data-searchtext="foundation pasmart script carnegie stem pathway cs computer science curriculum iu connectors 2018 2019" style="--dot-color: var(--accent)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2018</span>
+              <span class="event-date">&ndash;2019</span>
+              <span class="event-thread-badge badge-orange">Foundation</span>
+            </div>
+            <h3 class="event-title">The network begins naming its shared work</h3>
+            <p class="event-summary">PAsmart grants created the first statewide coordination infrastructure. IUs began meeting regularly around STEM, computer science, and student-centered learning. Carnegie STEM Pathway helped districts assess readiness. SCRIPT spread K&ndash;12 CS planning across the state. The network didn&rsquo;t yet have a name for what it was building &mdash; but it was beginning.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev1-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev1-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>PAsmart grants funded IU coordination around STEM and CS</li>
+                <li>Carnegie STEM Pathway introduced structured district readiness conversations</li>
+                <li>SCRIPT (Strategies for Creating Inclusive and Progressive Technology) spread statewide</li>
+                <li>STEM Toolkit conversations began shifting from activities to vetted instructional resources</li>
+                <li>IUs started functioning as statewide connectors, not just regional service providers</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">PAsmart</span>
+                <span class="event-tag">SCRIPT</span>
+                <span class="event-tag">Carnegie</span>
+                <span class="event-tag">CS</span>
+                <span class="event-tag">STEM Toolkit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 2: RESILIENCE ── -->
+      <div class="timeline-event reveal" data-thread="resilience" data-searchtext="resilience pandemic remote learning lending library equity access 2020 covid crisis" style="--dot-color: var(--blue)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2020</span>
+              <span class="event-date">Pandemic Response</span>
+              <span class="event-thread-badge badge-blue">Resilience</span>
+            </div>
+            <h3 class="event-title">Pandemic turns collaboration into survival infrastructure</h3>
+            <p class="event-summary">The pandemic forced an emergency pivot. PoC meetings became something more than coordination &mdash; they became a statewide support system. Every IU was solving the same problems simultaneously. The network&rsquo;s collaborative instincts turned out to be its most important asset.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev2-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev2-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>Human-first check-ins became structural, not occasional</li>
+                <li>Remote STEM support and virtual delivery became immediate operational challenges</li>
+                <li>Lending libraries adapted to new access and sanitization logistics</li>
+                <li>Equity and access moved from aspirational to operational</li>
+                <li>The Statement of Work began crystallizing informal support into defined deliverables</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Pandemic</span>
+                <span class="event-tag">Remote Learning</span>
+                <span class="event-tag">Equity</span>
+                <span class="event-tag">Lending Library</span>
+                <span class="event-tag">SoW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 3: RECOVERY ── -->
+      <div class="timeline-event reveal" data-thread="recovery" data-searchtext="recovery professional learning pd rebuild hybrid datacasting pbs inclusion mtss udl buddy 2021" style="--dot-color: var(--green)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2021</span>
+              <span class="event-date">Recovery Phase</span>
+              <span class="event-thread-badge badge-green">Recovery</span>
+            </div>
+            <h3 class="event-title">Professional learning gets rebuilt in public</h3>
+            <p class="event-summary">With schools re-opening, the network rebuilt professional learning in real time. Not just returning to old formats, but rethinking what STEM PD could be in a changed landscape. Lessons from remote delivery shaped in-person practice.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev3-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev3-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>Hybrid and in-person PD models rebuilt with new insights from remote delivery</li>
+                <li>Datacasting and PA PBS work highlighted support for offline and rural learners</li>
+                <li>Inclusive practice work deepened &mdash; MTSS, UDL, and accessibility in STEM</li>
+                <li>IUs shared tactics, templates, and lessons learned across regions in real time</li>
+                <li>The buddy system concept began taking shape as onboarding support emerged as a need</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">PD</span>
+                <span class="event-tag">Hybrid</span>
+                <span class="event-tag">Inclusion</span>
+                <span class="event-tag">PBS</span>
+                <span class="event-tag">MTSS</span>
+                <span class="event-tag">UDL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 4: CULTURE ── -->
+      <div class="timeline-event reveal" data-thread="culture" data-searchtext="open space culture self-organizing working conversations workgroups emerging themes practitioner 2021 2022" style="--dot-color: var(--purple)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2021</span>
+              <span class="event-date">&ndash;2022 &middot; Open Spaces</span>
+              <span class="event-thread-badge badge-purple">Culture</span>
+            </div>
+            <h3 class="event-title">Open Spaces become the engine room</h3>
+            <p class="event-summary">Open Space sessions emerged as one of the network&rsquo;s most generative formats. Instead of structured agendas, participants named their own working conversations. The network discovered it could self-organize around real practitioner needs &mdash; not just pre-planned topics.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev4-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev4-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>Open Space sessions surfaced topics the network hadn&rsquo;t formally named before</li>
+                <li>Practitioner-generated conversations replaced top-down agendas in key meetings</li>
+                <li>Persistent themes began organizing naturally into proto-workgroups</li>
+                <li>Topics emerged organically: lending libraries, competitions, math identity, ecosystems</li>
+                <li>The format revealed that the network held more distributed knowledge than any agenda could capture</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Open Space</span>
+                <span class="event-tag">Self-Organizing</span>
+                <span class="event-tag">Culture</span>
+                <span class="event-tag">Workgroups</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 5: STRUCTURE ── -->
+      <div class="timeline-event reveal" data-thread="structure" data-searchtext="structure workgroups sow deliverables orbit cross-iu collaboration 2022 meetings work streams" style="--dot-color: var(--accent)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2022</span>
+              <span class="event-date">Workgroup Formation</span>
+              <span class="event-thread-badge badge-orange">Structure</span>
+            </div>
+            <h3 class="event-title">The group shifts from meetings to work streams</h3>
+            <p class="event-summary">Workgroups emerged as the network&rsquo;s distributed engine. Rather than discussing everything in whole-group meetings, the network moved real work into focused groups organized around specific themes and deliverables. Cross-IU collaboration became the norm.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev5-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev5-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>Workgroups proliferated: Science/STEELS, T&amp;E, EL&amp;S, CS, Student Competitions, Equity/TaC/Inclusion</li>
+                <li>The Statement of Work&rsquo;s deliverable structure began aligning with workgroup themes</li>
+                <li>Cross-IU collaboration became the norm, not the exception</li>
+                <li>Workgroup leads gained clearer roles and responsibilities</li>
+                <li>The ORBIT data system began capturing this distributed implementation work</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Workgroups</span>
+                <span class="event-tag">SoW</span>
+                <span class="event-tag">Deliverables</span>
+                <span class="event-tag">ORBIT</span>
+                <span class="event-tag">Cross-IU</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 6: STEELS ── -->
+      <div class="timeline-event reveal" data-thread="steels" data-searchtext="steels ecosystems mwee student competitions esports workforce environmental literacy convergence standards 2023" style="--dot-color: var(--green)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2023</span>
+              <span class="event-date">Standards Era</span>
+              <span class="event-thread-badge badge-green">STEELS</span>
+            </div>
+            <h3 class="event-title">Standards, ecosystems, and student-centered learning converge</h3>
+            <p class="event-summary">STEELS, Pennsylvania&rsquo;s new science standards framework, became the organizing center. But the network saw more convergence: environmental literacy, ecosystem partnerships, student competitions, and workforce pathways were all pointing toward the same vision of student-centered STEM learning.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev6-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev6-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>STEELS rollout became the center of statewide science and STEM support work</li>
+                <li>Ecosystem and workforce partnerships began connecting STEM to community and industry</li>
+                <li>Environmental Literacy &amp; Sustainability emerged as a major cross-cutting thread</li>
+                <li>Student competitions, Esports, and project-based learning connected STEM to real engagement</li>
+                <li>MWEE (Meaningful Watershed Educational Experiences) integrated outdoor and place-based learning</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">STEELS</span>
+                <span class="event-tag">Ecosystems</span>
+                <span class="event-tag">MWEE</span>
+                <span class="event-tag">Competitions</span>
+                <span class="event-tag">EL&amp;S</span>
+                <span class="event-tag">Workforce</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 7: LEADERSHIP ── -->
+      <div class="timeline-event reveal" data-thread="leadership" data-searchtext="leadership reset purpose structure goals onboarding sow shared 2024" style="--dot-color: var(--accent)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2024</span>
+              <span class="event-date">Network Reset</span>
+              <span class="event-thread-badge badge-orange">Leadership</span>
+            </div>
+            <h3 class="event-title">The reset: purpose, structure, goals, and shared leadership</h3>
+            <p class="event-summary">The network took time to revisit its foundations. A period of intentional reset &mdash; clarifying purpose, refining structure, strengthening shared leadership, and preparing for the next phase of growth and sustainability.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev7-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev7-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>Network leadership conversations deepened across IUs</li>
+                <li>Purpose and shared identity were re-examined and articulated</li>
+                <li>The Statement of Work evolved to better reflect where the network was heading</li>
+                <li>New PoC onboarding became a priority &mdash; the network needed better pathways for incoming members</li>
+                <li>Statewide intelligence and documentation work began in earnest</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Leadership</span>
+                <span class="event-tag">Reset</span>
+                <span class="event-tag">SoW</span>
+                <span class="event-tag">Onboarding</span>
+                <span class="event-tag">Identity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 8: AI ── -->
+      <div class="timeline-event reveal" data-thread="ai" data-searchtext="AI artificial intelligence literacy responsible use equity data science cs computational thinking 2024 2025" style="--dot-color: var(--blue)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2024</span>
+              <span class="event-date">&ndash;2025 &middot; AI Emergence</span>
+              <span class="event-thread-badge badge-blue">AI</span>
+            </div>
+            <h3 class="event-title">AI becomes the newest test of the network&rsquo;s purpose</h3>
+            <p class="event-summary">Generative AI arrived as both a challenge and an opportunity. The network faced the same question it always faces when something new arrives: how do we help districts and IUs navigate this responsibly, equitably, and effectively?</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev8-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev8-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>AI literacy and responsible use emerged as urgent statewide needs</li>
+                <li>Multiple IUs launched AI professional development programs for educators and administrators</li>
+                <li>Questions of equity, access, and bias shaped the network&rsquo;s approach to AI adoption</li>
+                <li>AI connected to ongoing CS, data science, and computational thinking work</li>
+                <li>The network&rsquo;s human-first orientation became its guide in navigating AI&rsquo;s arrival</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">AI</span>
+                <span class="event-tag">CS</span>
+                <span class="event-tag">Data Science</span>
+                <span class="event-tag">Equity</span>
+                <span class="event-tag">PD</span>
+                <span class="event-tag">Literacy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 9: INTELLIGENCE ── -->
+      <div class="timeline-event reveal" data-thread="intelligence" data-searchtext="archive operating system intelligence knowledge system documentation onboarding hub 2025" style="--dot-color: var(--purple)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">2025</span>
+              <span class="event-date">Intelligence Layer</span>
+              <span class="event-thread-badge badge-purple">Intelligence</span>
+            </div>
+            <h3 class="event-title">From archive to operating system</h3>
+            <p class="event-summary">Years of meeting notes, agendas, workgroup outputs, and institutional knowledge pointed toward a new possibility: what if the network&rsquo;s accumulated intelligence could be made accessible, searchable, and useful in real time? The gap between what the network knew and what new PoCs could access became visible and urgent.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev9-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev9-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>The idea of a &ldquo;living knowledge system&rdquo; began taking shape</li>
+                <li>STEM Intelligence Layer work connected workgroup activity to pattern recognition</li>
+                <li>The gap between what the network knew and what new PoCs could access became clearly visible</li>
+                <li>Documentation and onboarding became a shared infrastructure priority</li>
+                <li>The hub project was born from this question: how do we make the network&rsquo;s knowledge available to itself?</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Intelligence</span>
+                <span class="event-tag">Documentation</span>
+                <span class="event-tag">Onboarding</span>
+                <span class="event-tag">Knowledge</span>
+                <span class="event-tag">Memory</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EVENT 10: HUB BUILD ── -->
+      <div class="timeline-event reveal" data-thread="hub" data-searchtext="hub build current now onboarding workgroups directory sow orbit iu profiles intelligence interface" style="--dot-color: var(--green)">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-meta">
+              <span class="event-year">Now</span>
+              <span class="event-date">Current Build</span>
+              <span class="event-thread-badge badge-green">Hub Build</span>
+            </div>
+            <h3 class="event-title">The PA STEM PoC Hub becomes the network&rsquo;s living interface</h3>
+            <p class="event-summary">The hub brings onboarding, workgroups, directory intelligence, SoW alignment, ORBIT reporting support, IU profiles, project portfolios, and workgroup pages into one shared statewide interface. The network can now move from static documentation toward searchable statewide STEM intelligence.</p>
+            <button class="event-toggle-btn" onclick="toggleAboutEvent('ev10-details')">View Details &#9660;</button>
+          </div>
+          <div class="event-details" id="ev10-details">
+            <div class="event-details-inner">
+              <ul class="event-detail-list">
+                <li>New PoCs can understand the network faster through the 90-day onboarding pathway</li>
+                <li>Returning PoCs can find people, projects, and resources more easily via the mission-node directory</li>
+                <li>Workgroups can preserve action items, artifacts, and institutional memory through profile pages</li>
+                <li>IU profiles show regional strengths, initiatives, and collaboration opportunities</li>
+                <li>The network can begin moving from static documentation toward searchable statewide STEM intelligence</li>
+              </ul>
+              <div class="event-tags">
+                <span class="event-tag">Hub</span>
+                <span class="event-tag">Onboarding</span>
+                <span class="event-tag">ORBIT</span>
+                <span class="event-tag">Workgroups</span>
+                <span class="event-tag">Directory</span>
+                <span class="event-tag">IU Profiles</span>
+                <span class="event-tag">Intelligence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .about-timeline -->
+  </main>
+
+</div><!-- end .about-layout -->
+
+<!-- ── FOOTER ───────────────────────────────────────────────────────── -->
+<footer class="about-footer">
+  <p>
+    PA STEM PoC Hub &middot; <a href="index.html">← Back to Main Hub</a><br>
+    Built for the PA STEM PoC Network &middot; 2026<br>
+    Narrative artifact, onboarding tool, and institutional memory layer.
+  </p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progressBar').style.width = progress + '%';
+  });
+
+  // Scroll reveal
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(r => revealObserver.observe(r));
+
+  // ── FILTER / SEARCH ──────────────────────────────────────────────────
+  let activeAboutThread = 'all';
+
+  function filterAboutTimeline() {
+    const query = (document.getElementById('aboutSearch')?.value || '').toLowerCase().trim();
+    let visible = 0;
+    document.querySelectorAll('.timeline-event').forEach(ev => {
+      const thread = (ev.dataset.thread || '');
+      const searchText = ((ev.dataset.searchtext || '') + ' ' + ev.textContent).toLowerCase();
+      const threadMatch = activeAboutThread === 'all' || thread === activeAboutThread;
+      const queryMatch = !query || searchText.includes(query);
+      const show = threadMatch && queryMatch;
+      ev.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    const el = document.getElementById('visibleCount');
+    if (el) el.textContent = visible;
+  }
+
+  function setAboutThread(btn, thread) {
+    activeAboutThread = thread;
+    document.querySelectorAll('.thread-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterAboutTimeline();
+  }
+
+  // ── EVENT TOGGLE ─────────────────────────────────────────────────────
+  function toggleAboutEvent(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const btn = el.previousElementSibling;
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.event-details.open').forEach(d => {
+      d.classList.remove('open');
+      d.style.maxHeight = '0';
+      const b = d.previousElementSibling;
+      if (b && b.classList.contains('event-toggle-btn')) {
+        b.innerHTML = b.innerHTML.replace('&#9650;', '&#9660;').replace('Collapse', 'View Details');
+      }
+    });
+    if (!isOpen) {
+      el.classList.add('open');
+      el.style.maxHeight = (el.scrollHeight + 50) + 'px';
+      if (btn && btn.classList.contains('event-toggle-btn')) {
+        btn.innerHTML = 'Collapse &#9650;';
+      }
+    }
+  }
+</script>
+</body>
+</html>
