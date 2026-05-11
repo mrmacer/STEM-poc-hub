@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Great PA IU Escape · PA STEM Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:   #071522;
+      --card:   #12243d;
+      --card2:  #172b48;
+      --text:   #f4f7fb;
+      --muted:  #9aa8c5;
+      --accent: #f5a623;
+      --green:  #2bd69d;
+      --blue:   #4fa3e8;
+      --purple: #a78bfa;
+      --red:    #ff6b6b;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Header ── */
+    .game-header {
+      background: rgba(7,21,34,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .header-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .header-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--accent); border-color: rgba(245,166,35,0.4); }
+
+    /* ── Layout ── */
+    .game-wrap {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 0;
+      height: calc(100vh - 62px);
+    }
+
+    /* ── Left panel (map + controls) ── */
+    .map-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Controls bar */
+    .controls-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.7rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .mode-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .mode-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.85rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      border-right: 1px solid var(--border);
+    }
+    .mode-btn:last-child { border-right: none; }
+    .mode-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+    .mode-btn.active { background: var(--accent); color: #071522; font-weight: 700; }
+
+    .stat-group {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-left: auto;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+    }
+    .stat-lbl {
+      font-size: 0.58rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.15rem;
+    }
+
+    .stat-val.timer { color: var(--blue); }
+    .stat-val.score { color: var(--green); }
+    .stat-val.errors { color: var(--red); }
+
+    .start-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: #071522;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      transition: opacity 0.18s;
+      white-space: nowrap;
+    }
+    .start-btn:hover { opacity: 0.85; }
+
+    /* Prompt area */
+    .prompt-area {
+      background: var(--card2);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-height: 90px;
+    }
+
+    .prompt-logo {
+      width: 80px;
+      height: 60px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: brightness(1.1);
+    }
+
+    .prompt-content { flex: 1; }
+
+    .prompt-instruction {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+
+    .prompt-target {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .prompt-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .prompt-feedback {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .prompt-feedback.correct { color: var(--green); background: rgba(43,214,157,0.1); border: 1px solid rgba(43,214,157,0.3); }
+    .prompt-feedback.wrong   { color: var(--red);   background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); }
+
+    /* Map area */
+    .map-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--navy) 0%, #0a1d32 100%);
+    }
+
+    .map-svg-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mapSvg {
+      width: 100%;
+      height: 100%;
+      max-width: 900px;
+      max-height: 100%;
+    }
+
+    /* SVG IU region styles */
+    .iu-region {
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .iu-region rect {
+      fill: var(--card);
+      stroke: rgba(255,255,255,0.12);
+      stroke-width: 1.5;
+      transition: fill 0.15s;
+    }
+
+    .iu-region:hover rect { fill: rgba(79,163,232,0.15); stroke: var(--blue); }
+
+    .iu-region.target rect    { fill: rgba(245,166,35,0.08); stroke: var(--accent); stroke-width: 2; }
+    .iu-region.correct rect   { fill: rgba(43,214,157,0.2);  stroke: var(--green); stroke-width: 2.5; }
+    .iu-region.wrong rect     { fill: rgba(255,107,107,0.15); stroke: var(--red);  stroke-width: 2; }
+    .iu-region.revealed rect  { fill: rgba(245,166,35,0.15); stroke: var(--accent); stroke-width: 2; }
+    .iu-region.found rect     { fill: rgba(43,214,157,0.12); stroke: rgba(43,214,157,0.5); stroke-width: 1.5; }
+    .iu-region.disabled { cursor: default; pointer-events: none; }
+
+    .iu-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      fill: var(--muted);
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+      letter-spacing: 0.03em;
+    }
+
+    .iu-region.found .iu-label  { fill: var(--green); }
+    .iu-region.correct .iu-label { fill: var(--green); }
+    .iu-region.wrong .iu-label   { fill: var(--red); }
+    .iu-region.target .iu-label  { fill: var(--accent); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--card);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-progress-badge {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.25rem 0;
+    }
+
+    .sidebar-list::-webkit-scrollbar { width: 4px; }
+    .sidebar-list::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 0.85rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      transition: background 0.15s;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,0.03); }
+    .sidebar-item.found { background: rgba(43,214,157,0.05); }
+    .sidebar-item.active-target { background: rgba(245,166,35,0.08); }
+
+    .sidebar-logo {
+      width: 28px;
+      height: 20px;
+      object-fit: contain;
+      flex-shrink: 0;
+      opacity: 0.6;
+      filter: brightness(0.9);
+    }
+    .sidebar-item.found .sidebar-logo { opacity: 1; }
+
+    .sidebar-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      min-width: 28px;
+    }
+    .sidebar-item.found .sidebar-num  { color: var(--green); }
+    .sidebar-item.active-target .sidebar-num { color: var(--accent); }
+
+    .sidebar-name {
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.3;
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .sidebar-item.found .sidebar-name  { color: var(--text); }
+    .sidebar-item.active-target .sidebar-name { color: var(--accent); }
+
+    .sidebar-check {
+      font-size: 0.8rem;
+      color: var(--green);
+      opacity: 0;
+      flex-shrink: 0;
+    }
+    .sidebar-item.found .sidebar-check { opacity: 1; }
+
+    /* ── Win screen ── */
+    .win-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7,21,34,0.92);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+    .win-overlay.visible { display: flex; }
+
+    .win-card {
+      background: var(--card);
+      border: 1px solid rgba(245,166,35,0.4);
+      border-radius: 16px;
+      padding: 2.5rem 3rem;
+      text-align: center;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .win-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .win-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 3rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .win-time {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      color: var(--green);
+      margin-bottom: 0.25rem;
+    }
+
+    .win-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.25rem 0 1.75rem;
+    }
+
+    .win-stat-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .win-stat-lbl {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+    }
+
+    /* Leaderboard */
+    .leaderboard {
+      background: var(--card2);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .lb-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .lb-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.75rem;
+    }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-row.current { color: var(--accent); font-weight: 600; }
+
+    .lb-rank { color: var(--muted); min-width: 20px; }
+    .lb-name { flex: 1; padding: 0 0.5rem; color: var(--text); }
+    .lb-time { font-family: 'Space Mono', monospace; color: var(--green); }
+    .lb-errors { color: var(--muted); font-size: 0.68rem; }
+
+    .win-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .win-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: #071522;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.65rem 1.5rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .win-btn:hover { opacity: 0.85; }
+
+    .win-btn.secondary {
+      background: var(--card2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .win-btn.secondary:hover { border-color: var(--accent); }
+
+    /* ── Idle/start overlay ── */
+    .idle-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(7,21,34,0.78);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 10;
+    }
+    .idle-overlay.hidden { display: none; }
+
+    .idle-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 2.5rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+
+    .idle-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 320px;
+      line-height: 1.65;
+    }
+
+    .idle-modes {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+    }
+
+    .idle-mode-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s;
+      min-width: 130px;
+    }
+    .idle-mode-card:hover { border-color: var(--accent); }
+    .idle-mode-card.selected { border-color: var(--accent); background: rgba(245,166,35,0.07); }
+
+    .idle-mode-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+    }
+    .idle-mode-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .idle-start {
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: #071522;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.75rem 2.5rem;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: opacity 0.18s;
+      margin-top: 0.5rem;
+    }
+    .idle-start:hover { opacity: 0.85; }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .game-wrap { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+      .sidebar { max-height: 200px; border-left: none; border-top: 1px solid var(--border); }
+      .stat-group { gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="game-header">
+    <div class="header-left">
+      <div>
+        <div class="header-title">The Great PA IU Escape</div>
+        <div class="header-sub">PA Intermediate Unit Geography · Interactive Map Game</div>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html"          class="nav-link">← Hub</a>
+      <a href="stem-poc-game.html"  class="nav-link">People Game</a>
+      <a href="about.html"          class="nav-link">Story</a>
+    </nav>
+  </header>
+
+  <div class="game-wrap">
+
+    <!-- ══════════════════ MAP PANEL ══════════════════ -->
+    <div class="map-panel">
+
+      <!-- Controls -->
+      <div class="controls-bar">
+        <span class="mode-label">Mode:</span>
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="btnModeNum"   onclick="selectMode('number')">Number</button>
+          <button class="mode-btn"        id="btnModeLogo"  onclick="selectMode('logo')">Logo</button>
+        </div>
+        <div class="stat-group">
+          <div class="stat-item">
+            <span class="stat-val timer" id="timerDisplay">0:00</span>
+            <span class="stat-lbl">Time</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val score" id="scoreDisplay">0</span>
+            <span class="stat-lbl">Found</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val errors" id="errorsDisplay">0</span>
+            <span class="stat-lbl">Errors</span>
+          </div>
+          <button class="start-btn" id="startBtn" onclick="startGame()">New Game</button>
+        </div>
+      </div>
+
+      <!-- Prompt -->
+      <div class="prompt-area" id="promptArea">
+        <img class="prompt-logo" id="promptLogo" src="" alt="" style="display:none">
+        <div class="prompt-content">
+          <div class="prompt-instruction" id="promptInstruction">Choose a mode and start to begin</div>
+          <div class="prompt-target" id="promptTarget">PA IU MAP</div>
+          <div class="prompt-hint" id="promptHint">All 29 Pennsylvania Intermediate Units</div>
+        </div>
+        <div class="prompt-feedback" id="promptFeedback" style="display:none"></div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-area">
+        <div class="idle-overlay" id="idleOverlay">
+          <div class="idle-title">The Great PA IU Escape</div>
+          <div class="idle-sub">Click an IU on the map to identify it. Select your mode below.</div>
+          <div class="idle-modes">
+            <div class="idle-mode-card selected" id="idleModeNum" onclick="pickIdleMode('number')">
+              <div class="idle-mode-title">Number Mode</div>
+              <div class="idle-mode-desc">Show IU number — click the correct region on the map</div>
+            </div>
+            <div class="idle-mode-card" id="idleModeLogo" onclick="pickIdleMode('logo')">
+              <div class="idle-mode-title">Logo Mode</div>
+              <div class="idle-mode-desc">Show IU logo — identify and click the right region</div>
+            </div>
+          </div>
+          <button class="idle-start" onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="map-svg-wrap">
+          <svg id="mapSvg" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+            <!-- PA background silhouette -->
+            <rect x="0" y="0" width="1000" height="600" fill="rgba(5,15,28,0.6)" rx="6"/>
+            <!-- IU regions rendered by JS -->
+          </svg>
+        </div>
+      </div>
+
+    </div><!-- /map-panel -->
+
+    <!-- ══════════════════ SIDEBAR ══════════════════ -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <span>IU Progress</span>
+        <span class="sidebar-progress-badge" id="sidebarProgress">0 / 29</span>
+      </div>
+      <div class="sidebar-list" id="sidebarList"></div>
+    </div>
+
+  </div><!-- /game-wrap -->
+
+  <!-- Win screen -->
+  <div class="win-overlay" id="winOverlay">
+    <div class="win-card">
+      <div class="win-eyebrow">All 29 IUs Found</div>
+      <div class="win-title">You Escaped!</div>
+      <div class="win-time" id="winTime">0:00</div>
+      <div class="win-stats">
+        <div class="stat-item">
+          <div class="win-stat-val" id="winErrors">0</div>
+          <div class="win-stat-lbl">Errors</div>
+        </div>
+        <div class="stat-item">
+          <div class="win-stat-val" id="winScore">29</div>
+          <div class="win-stat-lbl">Found</div>
+        </div>
+      </div>
+
+      <div class="leaderboard" id="leaderboard">
+        <div class="lb-title">Best Times This Session</div>
+        <div id="lbEntries"></div>
+      </div>
+
+      <div class="win-actions">
+        <button class="win-btn" onclick="startGame()">Play Again</button>
+        <button class="win-btn secondary" onclick="closeWin()">View Map</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════
+       IU DATA — positions on 1000×600 SVG
+       x, y = top-left corner; w, h = size
+       lg = logo file extension (png or jpg)
+    ═══════════════════════════════════ */
+    const IU_DATA = [
+      { id:1,  num:1,  label:'IU 1',  name:'Allegheny IU',          abbr:'AIU1',   region:'Greater Pittsburgh',   x:90,  y:340, w:150, h:125, lg:'png' },
+      { id:2,  num:2,  label:'IU 2',  name:'Westmoreland IU',        abbr:'IU2',    region:'SW PA',                x:215, y:390, w:135, h:125, lg:'png' },
+      { id:3,  num:3,  label:'IU 3',  name:'SW Corner IU',           abbr:'IU3',    region:'SW PA',                x:0,   y:395, w:90,  h:205, lg:'png' },
+      { id:4,  num:4,  label:'IU 4',  name:'Mon Valley IU',          abbr:'IU4',    region:'SW PA',                x:150, y:465, w:120, h:95,  lg:'png' },
+      { id:5,  num:5,  label:'IU 5',  name:'NW Tri-County IU',       abbr:'IU5',    region:'NW PA',                x:145, y:0,   w:155, h:160, lg:'png' },
+      { id:6,  num:6,  label:'IU 6',  name:'Riverview IU',           abbr:'RIU6',   region:'Western PA',           x:0,   y:185, w:145, h:160, lg:'png' },
+      { id:7,  num:7,  label:'IU 7',  name:'Midwestern IU',          abbr:'IU7',    region:'Western PA',           x:145, y:160, w:155, h:130, lg:'png' },
+      { id:8,  num:8,  label:'IU 8',  name:'Appalachia IU',          abbr:'AIU',    region:'Northcentral PA',      x:300, y:0,   w:215, h:215, lg:'jpg' },
+      { id:9,  num:9,  label:'IU 9',  name:'Centre IU',              abbr:'IU9',    region:'Central PA',           x:390, y:215, w:165, h:140, lg:'png' },
+      { id:10, num:10, label:'IU 10', name:'Central IU',             abbr:'IU10',   region:'Central PA',           x:300, y:295, w:200, h:140, lg:'png' },
+      { id:11, num:11, label:'IU 11', name:'Juniata Valley IU',      abbr:'IU11',   region:'Central PA',           x:500, y:295, w:110, h:120, lg:'png' },
+      { id:12, num:12, label:'IU 12', name:'Erie 1 IU',              abbr:'IU12',   region:'NW PA / Erie',         x:0,   y:0,   w:145, h:115, lg:'jpg' },
+      { id:13, num:13, label:'IU 13', name:'Lancaster-Lebanon IU',   abbr:'IU13',   region:'South-Central PA',     x:505, y:430, w:175, h:170, lg:'png' },
+      { id:14, num:14, label:'IU 14', name:'Berks County IU',        abbr:'BCIU14', region:'SE PA',                x:730, y:345, w:130, h:145, lg:'png' },
+      { id:15, num:15, label:'IU 15', name:'Capital Area IU',        abbr:'CAIU',   region:'Capital Area',         x:500, y:355, w:155, h:140, lg:'png' },
+      { id:16, num:16, label:'IU 16', name:'Susquehanna Valley IU',  abbr:'IU16',   region:'Northcentral PA',      x:610, y:120, w:145, h:165, lg:'png' },
+      { id:17, num:17, label:'IU 17', name:'Tioga IU',               abbr:'IU17',   region:'N-Central PA',         x:515, y:0,   w:135, h:120, lg:'png' },
+      { id:18, num:18, label:'IU 18', name:'Luzerne IU',             abbr:'IU18',   region:'NE PA',                x:650, y:0,   w:130, h:165, lg:'png' },
+      { id:19, num:19, label:'IU 19', name:'Northeastern IU',        abbr:'NEIU19', region:'NE PA',                x:780, y:0,   w:220, h:215, lg:'png' },
+      { id:20, num:20, label:'IU 20', name:'Colonial IU',            abbr:'IU20',   region:'E PA',                 x:860, y:215, w:140, h:140, lg:'png' },
+      { id:21, num:21, label:'IU 21', name:'Carbon Lehigh IU',       abbr:'CLIU21', region:'E PA',                 x:780, y:215, w:130, h:130, lg:'png' },
+      { id:22, num:22, label:'IU 22', name:'Bucks County IU',        abbr:'IU22',   region:'SE PA',                x:860, y:355, w:140, h:140, lg:'png' },
+      { id:23, num:23, label:'IU 23', name:'Montgomery County IU',   abbr:'MCIU',   region:'SE PA',                x:860, y:470, w:140, h:100, lg:'png' },
+      { id:24, num:24, label:'IU 24', name:'IU 24',                  abbr:'IU24',   region:'SE PA',                x:730, y:465, w:130, h:105, lg:'png' },
+      { id:25, num:25, label:'IU 25', name:'Delaware County IU',     abbr:'DCIU',   region:'SE PA',                x:860, y:545, w:140, h:55,  lg:'png' },
+      { id:26, num:26, label:'IU 26', name:'Philadelphia IU',        abbr:'IU26',   region:'SE PA',                x:970, y:390, w:30,  h:210, lg:'png' },
+      { id:27, num:27, label:'IU 27', name:'Beaver Valley IU',       abbr:'IU27',   region:'Western PA',           x:0,   y:115, w:145, h:115, lg:'png' },
+      { id:28, num:28, label:'IU 28', name:'York Adams IU',          abbr:'IU28',   region:'South-Central PA',     x:380, y:455, w:175, h:145, lg:'png' },
+      { id:29, num:29, label:'IU 29', name:'Chester County IU',      abbr:'CCIU',   region:'SE PA',                x:655, y:460, w:175, h:140, lg:'png' },
+    ];
+
+    function logoPath(iu) {
+      return `assests/iu-logos/iu${iu.num}-logo.${iu.lg}`;
+    }
+
+    /* ═══════════════════════════════════
+       GAME STATE
+    ═══════════════════════════════════ */
+    let mode       = 'number'; // 'number' | 'logo'
+    let gameActive = false;
+    let queue      = [];
+    let currentIU  = null;
+    let found      = new Set();
+    let errors     = 0;
+    let timerSec   = 0;
+    let timerInterval = null;
+    let feedbackTimeout = null;
+
+    // Session leaderboard
+    let leaderboard = [];
+
+    /* ═══════════════════════════════════
+       SVG MAP BUILD
+    ═══════════════════════════════════ */
+    const svg = document.getElementById('mapSvg');
+
+    function buildMap() {
+      // Remove old IU groups (keep background rect)
+      svg.querySelectorAll('.iu-region').forEach(el => el.remove());
+
+      IU_DATA.forEach(iu => {
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'iu-region');
+        g.setAttribute('id', `iu-${iu.id}`);
+        g.setAttribute('data-id', iu.id);
+
+        // Background rect
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rect.setAttribute('x', iu.x + 1);
+        rect.setAttribute('y', iu.y + 1);
+        rect.setAttribute('width', iu.w - 2);
+        rect.setAttribute('height', iu.h - 2);
+        rect.setAttribute('rx', 3);
+
+        // Label
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('class', 'iu-label');
+        text.setAttribute('x', iu.x + iu.w / 2);
+        text.setAttribute('y', iu.y + iu.h / 2);
+        text.textContent = iu.label;
+
+        g.appendChild(rect);
+        g.appendChild(text);
+
+        g.addEventListener('click', () => handleMapClick(iu.id));
+
+        svg.appendChild(g);
+      });
+    }
+
+    /* ═══════════════════════════════════
+       SIDEBAR BUILD
+    ═══════════════════════════════════ */
+    function buildSidebar() {
+      const list = document.getElementById('sidebarList');
+      list.innerHTML = '';
+
+      IU_DATA.forEach(iu => {
+        const item = document.createElement('div');
+        item.className = 'sidebar-item';
+        item.id = `sb-${iu.id}`;
+        item.innerHTML = `
+          <img class="sidebar-logo" src="${logoPath(iu)}" alt="" onerror="this.style.display='none'">
+          <span class="sidebar-num">${iu.label}</span>
+          <span class="sidebar-name">${iu.name}</span>
+          <span class="sidebar-check">✓</span>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    /* ═══════════════════════════════════
+       MODE SELECTION
+    ═══════════════════════════════════ */
+    function selectMode(m) {
+      mode = m;
+      document.getElementById('btnModeNum').classList.toggle('active', m === 'number');
+      document.getElementById('btnModeLogo').classList.toggle('active', m === 'logo');
+    }
+
+    function pickIdleMode(m) {
+      mode = m;
+      document.getElementById('idleModeNum').classList.toggle('selected', m === 'number');
+      document.getElementById('idleModeLogo').classList.toggle('selected', m === 'logo');
+      selectMode(m);
+    }
+
+    /* ═══════════════════════════════════
+       GAME LOGIC
+    ═══════════════════════════════════ */
+    function startGame() {
+      // Reset state
+      found.clear();
+      errors = 0;
+      timerSec = 0;
+
+      // Shuffle IU queue
+      queue = shuffle([...IU_DATA]);
+
+      // Reset map
+      document.querySelectorAll('.iu-region').forEach(g => {
+        g.classList.remove('target','correct','wrong','revealed','found','disabled');
+      });
+
+      // Reset sidebar
+      document.querySelectorAll('.sidebar-item').forEach(el => {
+        el.classList.remove('found', 'active-target');
+      });
+
+      updateScore();
+      updateTimer();
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => { timerSec++; updateTimer(); }, 1000);
+
+      gameActive = true;
+      document.getElementById('idleOverlay').classList.add('hidden');
+      document.getElementById('winOverlay').classList.remove('visible');
+      document.getElementById('promptFeedback').style.display = 'none';
+
+      nextIU();
+    }
+
+    function nextIU() {
+      if (queue.length === 0) { endGame(); return; }
+
+      currentIU = queue.shift();
+      showPrompt(currentIU);
+
+      // Mark target in sidebar
+      document.querySelectorAll('.sidebar-item.active-target').forEach(el => el.classList.remove('active-target'));
+      const sbItem = document.getElementById(`sb-${currentIU.id}`);
+      if (sbItem) sbItem.classList.add('active-target');
+      if (sbItem) sbItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function showPrompt(iu) {
+      document.getElementById('promptInstruction').textContent =
+        mode === 'number' ? 'Click on this IU:' : 'Click on the IU matching this logo:';
+
+      const logo = document.getElementById('promptLogo');
+      const target = document.getElementById('promptTarget');
+      const hint = document.getElementById('promptHint');
+
+      if (mode === 'number') {
+        logo.style.display = 'none';
+        target.textContent = iu.label;
+        hint.textContent = '';
+      } else {
+        const src = logoPath(iu);
+        logo.src = src;
+        logo.alt = iu.label;
+        logo.style.display = 'block';
+        logo.onerror = () => {
+          logo.style.display = 'none';
+          target.textContent = iu.label;
+        };
+        target.textContent = '';
+        hint.textContent = '';
+      }
+    }
+
+    function handleMapClick(iuId) {
+      if (!gameActive || !currentIU) return;
+      if (found.has(iuId)) return;
+
+      clearTimeout(feedbackTimeout);
+      const feedbackEl = document.getElementById('promptFeedback');
+      const clickedIU  = IU_DATA.find(i => i.id === iuId);
+
+      if (iuId === currentIU.id) {
+        // Correct
+        found.add(iuId);
+        markRegion(iuId, 'correct');
+        markRegion(iuId, 'found');
+
+        const sbItem = document.getElementById(`sb-${iuId}`);
+        if (sbItem) {
+          sbItem.classList.remove('active-target');
+          sbItem.classList.add('found');
+        }
+
+        feedbackEl.textContent = `✓ ${currentIU.name}`;
+        feedbackEl.className = 'prompt-feedback correct';
+        feedbackEl.style.display = 'block';
+
+        updateScore();
+
+        feedbackTimeout = setTimeout(() => {
+          feedbackEl.style.display = 'none';
+          markRegion(iuId, 'found');
+          nextIU();
+        }, 700);
+
+      } else {
+        // Wrong
+        errors++;
+        updateScore();
+        markRegion(iuId, 'wrong');
+
+        feedbackEl.textContent = `✗ That was ${clickedIU ? clickedIU.label : 'wrong'}`;
+        feedbackEl.className = 'prompt-feedback wrong';
+        feedbackEl.style.display = 'block';
+
+        feedbackTimeout = setTimeout(() => {
+          feedbackEl.style.display = 'none';
+          clearClass(iuId, 'wrong');
+        }, 800);
+      }
+    }
+
+    function markRegion(iuId, cls) {
+      const g = document.getElementById(`iu-${iuId}`);
+      if (!g) return;
+      if (cls === 'correct') {
+        g.classList.remove('wrong', 'target');
+        g.classList.add('correct');
+      } else if (cls === 'found') {
+        g.classList.remove('correct', 'wrong', 'target', 'revealed');
+        g.classList.add('found', 'disabled');
+      } else {
+        g.classList.add(cls);
+      }
+    }
+
+    function clearClass(iuId, cls) {
+      const g = document.getElementById(`iu-${iuId}`);
+      if (g) g.classList.remove(cls);
+    }
+
+    function endGame() {
+      gameActive = false;
+      clearInterval(timerInterval);
+
+      document.querySelectorAll('.sidebar-item.active-target').forEach(el => el.classList.remove('active-target'));
+
+      document.getElementById('winTime').textContent   = formatTime(timerSec);
+      document.getElementById('winErrors').textContent = errors;
+      document.getElementById('winScore').textContent  = found.size;
+
+      // Save to leaderboard
+      leaderboard.push({ time: timerSec, errors, mode });
+      leaderboard.sort((a, b) => a.time - b.time || a.errors - b.errors);
+      if (leaderboard.length > 5) leaderboard.length = 5;
+      renderLeaderboard();
+
+      // Reset prompt
+      document.getElementById('promptInstruction').textContent = 'All IUs found!';
+      document.getElementById('promptTarget').textContent = 'Complete';
+      document.getElementById('promptHint').textContent = '';
+      document.getElementById('promptLogo').style.display = 'none';
+
+      document.getElementById('winOverlay').classList.add('visible');
+    }
+
+    function renderLeaderboard() {
+      const entries = document.getElementById('lbEntries');
+      if (leaderboard.length === 0) {
+        entries.innerHTML = '<div style="font-size:0.73rem;color:var(--muted);">No scores yet</div>';
+        return;
+      }
+      const currentTime = leaderboard.length ? leaderboard[leaderboard.length - 1].time : -1;
+      entries.innerHTML = leaderboard.map((e, i) => `
+        <div class="lb-row ${i === 0 ? 'current' : ''}">
+          <span class="lb-rank">#${i+1}</span>
+          <span class="lb-name">${e.mode === 'logo' ? '[Logo]' : '[Number]'}</span>
+          <span class="lb-time">${formatTime(e.time)}</span>
+          <span class="lb-errors">${e.errors} err</span>
+        </div>
+      `).join('');
+    }
+
+    function closeWin() {
+      document.getElementById('winOverlay').classList.remove('visible');
+    }
+
+    /* ═══════════════════════════════════
+       SCORE + TIMER
+    ═══════════════════════════════════ */
+    function updateScore() {
+      document.getElementById('scoreDisplay').textContent  = found.size;
+      document.getElementById('errorsDisplay').textContent = errors;
+      document.getElementById('sidebarProgress').textContent = `${found.size} / 29`;
+    }
+
+    function updateTimer() {
+      document.getElementById('timerDisplay').textContent = formatTime(timerSec);
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${String(s).padStart(2, '0')}`;
+    }
+
+    /* ═══════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════ */
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    /* ═══════════════════════════════════
+       INIT
+    ═══════════════════════════════════ */
+    buildMap();
+    buildSidebar();
+  </script>
+</body>
+</html>

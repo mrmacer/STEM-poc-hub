@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statement of Work — PA STEM PoC Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:   #071522;
+      --card:   #12243d;
+      --card2:  #172b48;
+      --text:   #f4f7fb;
+      --light:  #e8edf7;
+      --muted:  #9aa8c5;
+      --accent: #f5a623;
+      --green:  #2bd69d;
+      --blue:   #4fa3e8;
+      --purple: #a78bfa;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    #progressBar {
+      position: fixed; top: 0; left: 0;
+      width: 0%; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      z-index: 1000; transition: width 0.25s;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: rgba(7,21,34,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      flex-wrap: wrap; gap: 0.75rem;
+    }
+
+    .header-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+
+    .header-back {
+      color: var(--muted); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.05em; transition: color 0.18s;
+    }
+    .header-back:hover { color: var(--accent); }
+
+    .header-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.4rem; letter-spacing: 0.08em;
+      color: var(--accent); line-height: 1;
+    }
+
+    .header-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.63rem; color: var(--muted); margin-top: 0.1rem;
+    }
+
+    .header-nav {
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: var(--muted); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: 0.63rem;
+      letter-spacing: 0.04em; padding: 0.28rem 0.65rem;
+      border: 1px solid var(--border); border-radius: 5px;
+      transition: all 0.18s; white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--accent); border-color: rgba(245,166,35,0.4); }
+
+    /* ── Main ── */
+    .main-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    /* ── Section chrome ── */
+    .section-header {
+      display: flex; align-items: baseline;
+      gap: 0.75rem; margin-bottom: 1.25rem;
+    }
+
+    .section-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.9rem; letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .page-intro {
+      font-size: 0.88rem; color: var(--muted);
+      max-width: 700px; line-height: 1.75;
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+    }
+
+    /* ── Philosophy callout ── */
+    .sow-philosophy {
+      background: rgba(244,161,29,0.07);
+      border: 1px solid rgba(244,161,29,0.3);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .sow-philosophy-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .sow-philosophy p {
+      font-size: 0.85rem; color: var(--light);
+      line-height: 1.7; margin-bottom: 0.5rem;
+    }
+    .sow-philosophy .sow-phil-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--muted);
+      line-height: 1.6;
+      border-top: 1px solid rgba(244,161,29,0.15);
+      padding-top: 0.6rem; margin-top: 0.25rem;
+    }
+
+    /* ── Collapsible FAQ ── */
+    .sow-faq {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .sow-faq-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.25rem;
+      cursor: pointer; user-select: none;
+      transition: background 0.2s;
+    }
+    .sow-faq-header:hover { background: rgba(244,161,29,0.06); }
+    .sow-faq-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--accent);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .sow-faq-chevron { color: var(--muted); font-size: 14px; transition: transform 0.3s; }
+    .sow-faq.open .sow-faq-chevron { transform: rotate(180deg); }
+    .sow-faq-body {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+    .sow-faq.open .sow-faq-body { display: block; }
+    .sow-faq-body ul { list-style: none; padding: 0; margin: 0.75rem 0; }
+    .sow-faq-body ul li {
+      font-size: 0.8rem; color: var(--muted);
+      padding: 0.25rem 0 0.25rem 1rem;
+      position: relative; line-height: 1.5;
+    }
+    .sow-faq-body ul li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+    .sow-faq-body ul li.check-yes::before { content: '✓'; color: var(--green); }
+    .sow-faq-body .faq-rule {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.04em;
+      color: var(--green);
+      background: rgba(46,204,138,0.07);
+      border: 1px solid rgba(46,204,138,0.2);
+      border-radius: 5px;
+      padding: 0.5rem 0.85rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ── Priority grid ── */
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .priority-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      transition: border-color 0.18s;
+    }
+    .priority-card:hover { border-color: rgba(244,161,29,0.35); }
+    .priority-icon { font-size: 1.6rem; }
+    .priority-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .priority-tagline {
+      font-size: 0.82rem; color: var(--light);
+      line-height: 1.5; font-weight: 500;
+    }
+    .priority-examples {
+      font-size: 0.75rem; color: var(--muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      padding-top: 0.5rem; margin-top: 0.25rem;
+    }
+
+    /* ── Flow diagram ── */
+    .flow-wrap { margin: 1.75rem 0; }
+    .flow-steps {
+      display: flex; align-items: center; gap: 0;
+      overflow-x: auto; padding-bottom: 0.25rem;
+    }
+    .flow-step {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.65rem 0.9rem;
+      text-align: center; min-width: 110px; flex-shrink: 0;
+      transition: border-color 0.18s;
+    }
+    .flow-step:hover { border-color: rgba(244,161,29,0.35); }
+    .flow-step-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem; color: var(--muted);
+      letter-spacing: 0.08em; margin-bottom: 3px;
+    }
+    .flow-step-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.05em;
+      text-transform: uppercase; line-height: 1.3;
+    }
+    .flow-arrow { color: var(--muted); font-size: 1rem; padding: 0 0.35rem; flex-shrink: 0; }
+
+    /* ── Deliverable grid ── */
+    .deliverable-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .del-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .del-card:hover { border-color: rgba(244,161,29,0.5); transform: translateY(-2px); }
+    .del-card.expanded { border-color: var(--accent); }
+
+    .del-header {
+      display: flex; align-items: center;
+      gap: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .del-badge {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      background: rgba(244,161,29,0.15); color: var(--accent);
+      border: 1px solid rgba(244,161,29,0.3);
+      padding: 0.2rem 0.6rem; border-radius: 4px; letter-spacing: 1px;
+    }
+    .del-title { font-weight: 600; font-size: 0.9rem; }
+    .del-desc {
+      font-size: 0.8rem; color: var(--muted);
+      line-height: 1.5; margin-bottom: 0.75rem;
+    }
+    .del-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-size: 0.7rem;
+      background: rgba(26,58,107,0.6);
+      border: 1px solid rgba(140,155,191,0.2);
+      color: var(--muted);
+      padding: 0.2rem 0.5rem; border-radius: 20px;
+    }
+    .del-expand {
+      display: none;
+      margin-top: 1rem; padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+    }
+    .del-card.expanded .del-expand { display: block; }
+
+    .sow-lists {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .sow-list-block h5 {
+      font-size: 0.68rem; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--accent);
+      margin-bottom: 0.35rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .sow-list-block ul { list-style: none; padding: 0; }
+    .sow-list-block li {
+      font-size: 0.74rem; color: var(--muted);
+      padding: 0.2rem 0 0.2rem 0.75rem;
+      position: relative; line-height: 1.4;
+    }
+    .sow-list-block li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+
+    .del-connects {
+      display: flex; flex-wrap: wrap; gap: 0.3rem;
+      margin-top: 0.5rem; align-items: center;
+    }
+    .del-connects-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem; color: var(--muted);
+      letter-spacing: 0.06em; text-transform: uppercase; margin-right: 0.15rem;
+    }
+    .mini-del {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em;
+      padding: 2px 7px; border-radius: 3px;
+      border: 1px solid rgba(244,161,29,0.25);
+      background: rgba(244,161,29,0.08); color: var(--accent);
+    }
+
+    .btn-sow {
+      display: inline-block; font-size: 0.72rem;
+      color: var(--accent); background: rgba(244,161,29,0.08);
+      border: 1px solid rgba(244,161,29,0.25);
+      padding: 0.3rem 0.75rem; border-radius: 4px;
+      text-decoration: none; transition: all 0.2s; font-weight: 600;
+    }
+    .btn-sow:hover { background: rgba(244,161,29,0.18); }
+
+    /* ── ORBIT section ── */
+    .orbit-callout {
+      background: rgba(79,163,232,0.06);
+      border: 1px solid rgba(79,163,232,0.25);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .orbit-callout-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .orbit-callout p {
+      font-size: 0.83rem; color: var(--muted); line-height: 1.65;
+    }
+    .orbit-callout strong { color: var(--text); }
+    .orbit-link {
+      display: inline-block; margin-top: 0.75rem;
+      color: var(--blue); text-decoration: none;
+      font-family: 'Space Mono', monospace; font-size: 0.68rem;
+      border-bottom: 1px solid rgba(79,163,232,0.4);
+      transition: border-color 0.18s;
+    }
+    .orbit-link:hover { border-color: var(--blue); }
+
+    /* ── Divider ── */
+    .section-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .priority-grid { grid-template-columns: 1fr; }
+      .flow-steps { flex-direction: column; }
+      .flow-step { width: 100%; }
+      .flow-arrow { transform: rotate(90deg); margin: 0 auto; }
+      .sow-lists { grid-template-columns: 1fr; }
+      .main-wrap { padding: 1.5rem 1rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progressBar"></div>
+
+  <header class="site-header">
+    <div class="header-brand">
+      <a href="index.html" class="header-back">← Hub</a>
+      <div>
+        <div class="header-title">Statement of Work</div>
+        <div class="header-sub">PA STEM PoC Network · Deliverable Map &amp; Guidance</div>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html"         class="nav-link">Hub Home</a>
+      <a href="about.html"         class="nav-link">About</a>
+      <a href="stem-poc-game.html" class="nav-link">People Game</a>
+      <a href="iu-game.html"       class="nav-link">IU Map Game</a>
+    </nav>
+  </header>
+
+  <main class="main-wrap">
+
+    <div class="section-header">
+      <span class="section-num">SOW //</span>
+      <h1 class="section-title">SOW — Deliverable Map</h1>
+    </div>
+
+    <div class="page-intro">
+      The SoW Menu helps PoCs connect local STEM work to statewide STEMinPA priorities. Think of it as the bridge between what you are already doing, what the grant expects, and what eventually needs to be documented in ORBIT.
+      <strong style="color:var(--accent);">Turn the SoW from compliance into strategy.</strong>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <div class="sow-philosophy">
+      <div class="sow-philosophy-title">// The SOW Is Designed to Overlap</div>
+      <p>The interconnected and overlapping nature of STEM work means activities often align with multiple deliverables — this is by design. The goal is not to silo work into isolated buckets, but to build coherent systems that connect STEM, CS, workforce, student-centered learning, inclusion, and ecosystem development.</p>
+      <div class="sow-phil-sub">The focus should remain on impact, collaboration, and evidence — not strict accounting of days.</div>
+    </div>
+
+    <!-- WHAT COUNTS AS A DAY? -->
+    <div class="sow-faq" id="sowFaqDay">
+      <div class="sow-faq-header" onclick="toggleSowFaq('sowFaqDay')">
+        <span class="sow-faq-title">// What Actually Counts as a STEM Day?</span>
+        <span class="sow-faq-chevron">▾</span>
+      </div>
+      <div class="sow-faq-body">
+        <ul>
+          <li>A day = minimum 7 hours of STEM-related work</li>
+          <li>Hours can be consecutive or non-consecutive across a calendar day</li>
+          <li>Activities may align to multiple deliverables simultaneously — log them all</li>
+          <li>Cross-collaborative work with partners, TaC, or other PoCs counts</li>
+          <li>IU leaders have flexibility to apply days based on local context and priorities</li>
+        </ul>
+        <p style="font-size:0.78rem;color:var(--muted);margin:0.75rem 0 0.35rem;">Examples of qualifying work:</p>
+        <ul>
+          <li class="check-yes">Planning a regional STEM ecosystem convening</li>
+          <li class="check-yes">Designing AI professional learning tied to STEELS</li>
+          <li class="check-yes">Running a student competition planning meeting</li>
+          <li class="check-yes">Building statewide workgroup resources</li>
+          <li class="check-yes">Supporting district strategic planning for STEM</li>
+          <li class="check-yes">Collaborating with TaC on inclusive STEM access</li>
+        </ul>
+        <div class="faq-rule">Impact matters more than perfect categorization.</div>
+      </div>
+    </div>
+
+    <!-- STATEWIDE PRIORITIES -->
+    <p style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">// 2025–2026 Statewide Priorities</p>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="priority-icon">🎓</div>
+        <div class="priority-label">Students</div>
+        <div class="priority-tagline">Increase and broaden student participation in STEM/CS experiences.</div>
+        <div class="priority-examples">Competitions · Camps · STEM Nights · CS events · Maker experiences · Student leadership programs · Esports</div>
+      </div>
+      <div class="priority-card">
+        <div class="priority-icon">👩‍🏫</div>
+        <div class="priority-label">Educators</div>
+        <div class="priority-tagline">Increase educator participation in STEM/CS professional learning.</div>
+        <div class="priority-examples">STEELS PD · AI literacy · CS coaching · UDL integration · District strategic planning · Workgroup PLCs · TaC collaboration</div>
+      </div>
+      <div class="priority-card">
+        <div class="priority-icon">🏭</div>
+        <div class="priority-label">Workforce</div>
+        <div class="priority-tagline">Increase workforce-connected partnerships and engagement.</div>
+        <div class="priority-examples">Industry partnerships · Ecosystem convenings · Green careers · Higher ed connections · Community STEM events · MWEE pathways</div>
+      </div>
+    </div>
+
+    <!-- FLOW -->
+    <div class="flow-wrap">
+      <p style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.75rem;">// How Local Work Becomes Statewide Impact</p>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-num">01</div><div class="flow-step-label">Local IU Work</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-num">02</div><div class="flow-step-label">Regional Collaboration</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-num">03</div><div class="flow-step-label">Workgroup Sharing</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-num">04</div><div class="flow-step-label">PAIU Hub / OER Commons</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-num">05</div><div class="flow-step-label">Statewide Impact</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-step-num">06</div><div class="flow-step-label">PDE / PAsmart Priorities</div></div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- DELIVERABLES -->
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;">Click any deliverable to expand — see what counts, what to document in ORBIT, and how deliverables connect.</p>
+    <div class="deliverable-grid">
+
+      <!-- DEL A -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL A</span>
+          <span class="del-title">STEM PoC Network</span>
+        </div>
+        <p class="del-desc">Participation in the statewide PoC network — meetings, workgroups, collaboration.</p>
+        <div class="del-tags">
+          <span class="tag">PoC Meetings</span>
+          <span class="tag">Workgroups</span>
+          <span class="tag">Statewide PLCs</span>
+        </div>
+        <div class="del-expand">
+          This is your baseline deliverable. Showing up to PoC meetings, joining workgroups, and contributing to shared resources all count here. TaC also plays a role in supporting your workgroup participation.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>PoC meeting attendance</li>
+                <li>Workgroup participation</li>
+                <li>Statewide PLC attendance</li>
+                <li>Shared resource contributions</li>
+                <li>Cross-IU collaboration</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Meeting attendance record</li>
+                <li>Workgroup sign-in</li>
+                <li>Collaboration notes</li>
+                <li>Resource contributions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL B -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL B</span>
+          <span class="del-title">STEELS Standards</span>
+        </div>
+        <p class="del-desc">Supporting PA STEELS standards rollout — science, T&amp;E, environmental literacy, and MWEE connections.</p>
+        <div class="del-tags">
+          <span class="tag">Science</span>
+          <span class="tag">T&amp;E</span>
+          <span class="tag">EL&amp;S</span>
+          <span class="tag">MWEE</span>
+          <span class="tag">PENNSEL</span>
+        </div>
+        <div class="del-expand">
+          STEELS is the biggest deliverable. Most statewide professional learning (WestEd CoPs, PaTTAN institutes) connects here. Your TaC often co-facilitates STEELS PD. The Equity/TaC/Inclusion workgroup is building UDL-integrated resources for ALL learners.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>STEELS professional learning</li>
+                <li>Science and T&amp;E support</li>
+                <li>Environmental Literacy &amp; Sustainability</li>
+                <li>MWEE connections</li>
+                <li>Standards implementation support</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Agenda + sign-in sheet</li>
+                <li>Slide deck</li>
+                <li>District follow-up notes</li>
+                <li>Resource links shared</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL C</span>
+            <span class="mini-del">DEL D</span>
+            <span class="mini-del">DEL G</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL C -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL C</span>
+          <span class="del-title">Computer Science Education</span>
+        </div>
+        <p class="del-desc">CS integration, CSTA standards, AI/ML literacy, computational thinking.</p>
+        <div class="del-tags">
+          <span class="tag">CS Workgroup</span>
+          <span class="tag">AI Taskforce</span>
+          <span class="tag">Comp Thinking</span>
+        </div>
+        <div class="del-expand">
+          CS + AI is the fastest-moving deliverable. New CSTA standards are shifting toward AI/ML process understanding. IUs doing tiered AI PD models, CT cohorts, and district AI workshops all log here.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>CS integration support</li>
+                <li>AI literacy sessions</li>
+                <li>CSTA standards work</li>
+                <li>Data literacy</li>
+                <li>CT coaching</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>PD agenda</li>
+                <li>AI guidance resource</li>
+                <li>Participant list</li>
+                <li>District planning notes</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL A</span>
+            <span class="mini-del">DEL B</span>
+            <span class="mini-del">DEL G</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL D -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL D</span>
+          <span class="del-title">Student-Centered Learning</span>
+        </div>
+        <p class="del-desc">Advancing SCL approaches in STEM contexts — PBL, inquiry, StartSOLE, and transdisciplinary STEM.</p>
+        <div class="del-tags">
+          <span class="tag">STEM Pals</span>
+          <span class="tag">PASCL CoP</span>
+          <span class="tag">StartSOLE</span>
+        </div>
+        <div class="del-expand">
+          SCL overlaps heavily with PASCL CoP work. STEM Pals is the think-tank workgroup for building shared PD materials. StartSOLE is a student-driven inquiry model that fits here.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>Project-based learning</li>
+                <li>Inquiry learning</li>
+                <li>STEM Pals work</li>
+                <li>StartSOLE</li>
+                <li>Transdisciplinary STEM</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Lesson template</li>
+                <li>Teacher reflection</li>
+                <li>Student artifact</li>
+                <li>Photos / showcase links</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL B</span>
+            <span class="mini-del">DEL C</span>
+            <span class="mini-del">DEL E</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL E -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL E</span>
+          <span class="del-title">STEM Ecosystems</span>
+        </div>
+        <p class="del-desc">Building regional STEM ecosystems — cross-sector partnerships with industry, higher ed, and community.</p>
+        <div class="del-tags">
+          <span class="tag">PSSE Workgroup</span>
+          <span class="tag">Ecosystem Convenings</span>
+        </div>
+        <div class="del-expand">
+          Ecosystems work is housed in the PSSE Workgroup (led by Abbey Hathaway, IU12). Connects schools, businesses, community orgs, and higher ed into functioning regional STEM ecosystems.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>Regional ecosystem convenings</li>
+                <li>Industry partnerships</li>
+                <li>Higher ed partnerships</li>
+                <li>Community STEM events</li>
+                <li>Workforce-aligned learning</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Meeting notes + partner list</li>
+                <li>Event flyer</li>
+                <li>Collaboration plan</li>
+                <li>Follow-up action items</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL A</span>
+            <span class="mini-del">DEL C</span>
+            <span class="mini-del">DEL D</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL F -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL F</span>
+          <span class="del-title">Student Competitions</span>
+        </div>
+        <p class="del-desc">Coordinating regional and statewide STEM competitions — Keystone STEM, Sea Air Land, Esports, and more.</p>
+        <div class="del-tags">
+          <span class="tag">Keystone STEM</span>
+          <span class="tag">Sea Air &amp; Land</span>
+          <span class="tag">Invention Convention</span>
+          <span class="tag">Esports</span>
+        </div>
+        <div class="del-expand">
+          One of the most tangible deliverables for districts. Jillian Darlington leads the statewide Student Competitions Workgroup. Competitions Kick-Off is typically late October.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>Keystone STEM Competition</li>
+                <li>Sea Air Land Challenge</li>
+                <li>Invention Convention</li>
+                <li>Esports</li>
+                <li>Regional student STEM events</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Registration list</li>
+                <li>Event agenda + photos</li>
+                <li>Judge rubric</li>
+                <li>Student participation totals</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL A</span>
+            <span class="mini-del">DEL D</span>
+            <span class="mini-del">DEL E</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEL G -->
+      <div class="del-card" onclick="toggleDel(this)">
+        <div class="del-header">
+          <span class="del-badge">DEL G</span>
+          <span class="del-title">Coherent Integrative STEM / COE</span>
+        </div>
+        <p class="del-desc">UDL, lending libraries, math + STEM, TaC collaboration, and inclusive access to STEM for all learners.</p>
+        <div class="del-tags">
+          <span class="tag">STEM Toolkit</span>
+          <span class="tag">Equity/TaC</span>
+          <span class="tag">Lending Library</span>
+          <span class="tag">Math Focus</span>
+        </div>
+        <div class="del-expand">
+          G is the catch-all for integrative work — UDL + STEM, math + STEM, equity + STEM. The Equity/TaC/Inclusion workgroup is doing deep work here, including drafting STEELS guides for Special Education teachers.
+          <div class="sow-lists" style="margin-top:0.75rem;">
+            <div class="sow-list-block">
+              <h5>What Counts</h5>
+              <ul>
+                <li>STEM Toolkit work</li>
+                <li>Lending library support</li>
+                <li>TaC collaboration</li>
+                <li>UDL integration</li>
+                <li>Math + STEM integration</li>
+              </ul>
+            </div>
+            <div class="sow-list-block">
+              <h5>ORBIT Evidence</h5>
+              <ul>
+                <li>Resource guide</li>
+                <li>Equipment checkout data</li>
+                <li>TaC planning notes</li>
+                <li>Accessibility adaptation</li>
+              </ul>
+            </div>
+          </div>
+          <div class="del-connects">
+            <span class="del-connects-label">Also connects:</span>
+            <span class="mini-del">DEL C</span>
+            <span class="mini-del">DEL B</span>
+            <span class="mini-del">DEL D</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /deliverable-grid -->
+
+    <!-- ORBIT CALLOUT -->
+    <div class="orbit-callout">
+      <div class="orbit-callout-title">// ORBIT Reporting</div>
+      <p>
+        Every deliverable documented in this SoW needs to be tracked in <strong>ORBIT</strong> — PDE's reporting system for STEMinPA grant activities. ORBIT evidence includes: agendas, sign-in sheets, slide decks, photos, resource links, and participant data. The SoW deliverable categories map directly to ORBIT fields.
+      </p>
+      <p style="margin-top:0.65rem;">
+        <strong>Which SoW bucket does this support?</strong> See the deliverables above — pick A through G. Most work fits somewhere. When in doubt, log it under the deliverable that best captures the intent, and ask your TaC or the lead team.
+      </p>
+      <a href="index.html#orbit" class="orbit-link">Open ORBIT Companion on Hub Home →</a>
+    </div>
+
+  </main>
+
+  <script>
+    function toggleSowFaq(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    function toggleDel(card) {
+      card.classList.toggle('expanded');
+    }
+
+    window.addEventListener('scroll', () => {
+      const scrolled = document.documentElement.scrollTop;
+      const max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (max > 0) document.getElementById('progressBar').style.width = (scrolled / max * 100) + '%';
+    });
+  </script>
+</body>
+</html>
