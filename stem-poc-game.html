@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEM PoC Network Game · PA STEM Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #071522;
+      --card: #12243d;
+      --card2: #172b48;
+      --text: #f4f7fb;
+      --muted: #9aa8c5;
+      --accent: #f5a623;
+      --green: #2bd69d;
+      --blue: #4fa3e8;
+      --purple: #a78bfa;
+      --red: #ff6b6b;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    #progressBar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      z-index: 1000;
+      transition: width 0.25s ease;
+    }
+
+    /* ── Header ── */
+    .game-header {
+      background: rgba(7,21,34,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-back {
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .header-back:hover { color: var(--accent); }
+
+    .header-sep {
+      color: var(--border);
+      font-size: 1.1rem;
+    }
+
+    .header-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.45rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .header-sub {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      margin-top: 0.1rem;
+    }
+
+    /* ── Layout ── */
+    .main-wrap {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Tabs ── */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ═══════════════════════════════════════
+       BROWSE TAB
+    ═══════════════════════════════════════ */
+    .browse-intro {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.75;
+      max-width: 680px;
+    }
+
+    .browse-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .person-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.18s, border-color 0.18s;
+      cursor: pointer;
+    }
+    .person-card:hover { transform: translateY(-3px); border-color: rgba(245,166,35,0.25); }
+    .person-card.open  { border-color: var(--accent); }
+
+    .person-photo-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: var(--card2);
+      overflow: hidden;
+    }
+
+    .person-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.3s;
+    }
+    .person-card:hover .person-photo { transform: scale(1.04); }
+
+    .person-iu-badge {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(7,21,34,0.88);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.18rem 0.55rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .person-info {
+      padding: 0.8rem 0.95rem 0.7rem;
+    }
+
+    .person-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      line-height: 1.25;
+    }
+
+    .person-role-tag {
+      font-size: 0.73rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .card-toggle-hint {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .person-detail {
+      display: none;
+      border-top: 1px solid var(--border);
+      padding: 0.8rem 0.95rem;
+      background: var(--card2);
+    }
+    .person-card.open .person-detail { display: block; }
+
+    .detail-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.32rem;
+      align-items: flex-start;
+    }
+    .detail-key {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      min-width: 55px;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+    .detail-val {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .detail-bio {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-top: 0.55rem;
+    }
+    .browse-only-tag {
+      margin-top: 0.5rem;
+      font-size: 0.65rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--purple);
+    }
+
+    /* ═══════════════════════════════════════
+       GAME TAB
+    ═══════════════════════════════════════ */
+    .game-mode-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .mode-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.83rem;
+      font-weight: 500;
+      padding: 0.45rem 1rem;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .mode-btn:hover { border-color: var(--accent); color: var(--text); }
+    .mode-btn.active { background: var(--accent); border-color: var(--accent); color: #071522; font-weight: 700; }
+
+    /* Score bar */
+    .score-bar {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.7rem 1.25rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .score-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 38px;
+    }
+    .score-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .score-lbl {
+      font-size: 0.6rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.2rem;
+    }
+    .score-correct { color: var(--green); }
+    .score-wrong   { color: var(--red); }
+    .score-streak  { color: var(--accent); }
+
+    .score-progress {
+      flex: 1;
+      min-width: 100px;
+    }
+    .progress-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+    .progress-track {
+      height: 5px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      border-radius: 3px;
+      transition: width 0.35s ease;
+    }
+
+    /* Question card */
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem 1.5rem 1.75rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+
+    .q-instruction {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      margin-bottom: 1.5rem;
+    }
+
+    .q-photo {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      border: 3px solid var(--border);
+      margin: 0 auto 1.25rem;
+      display: block;
+    }
+
+    .q-iu-logo {
+      width: 110px;
+      height: 76px;
+      object-fit: contain;
+      margin: 0 auto 1rem;
+      display: none;
+      filter: brightness(1.1);
+    }
+
+    .q-name {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .q-role {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .q-region {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.67rem;
+      color: var(--blue);
+    }
+
+    .q-clue {
+      display: none;
+      font-size: 0.82rem;
+      color: var(--muted);
+      max-width: 360px;
+      margin: 0.5rem auto 0;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* Options */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .option-btn {
+      background: var(--card2);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.8rem 0.9rem;
+      text-align: center;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--blue);
+      background: rgba(79,163,232,0.07);
+    }
+    .option-btn:disabled { cursor: not-allowed; }
+    .option-btn.correct { border-color: var(--green); background: rgba(43,214,157,0.1); }
+    .option-btn.wrong   { border-color: var(--red);   background: rgba(255,107,107,0.08); }
+
+    .option-logo {
+      width: 54px;
+      height: 38px;
+      object-fit: contain;
+      filter: brightness(1.1);
+    }
+
+    .option-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .option-sublabel {
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    /* Person option */
+    .option-btn.person-opt {
+      flex-direction: row;
+      text-align: left;
+      gap: 0.65rem;
+      padding: 0.7rem 0.9rem;
+    }
+    .option-person-photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .option-person-info { text-align: left; overflow: hidden; }
+    .option-person-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .option-person-role {
+      font-size: 0.63rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Feedback */
+    .feedback-panel {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.1rem;
+      display: none;
+    }
+    .feedback-panel.visible { display: block; }
+
+    .feedback-result {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-bottom: 0.85rem;
+    }
+    .feedback-icon {
+      font-size: 1.3rem;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+    .feedback-headline {
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .feedback-headline.correct { color: var(--green); }
+    .feedback-headline.wrong   { color: var(--red); }
+    .feedback-detail {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+      line-height: 1.5;
+    }
+
+    .learn-toggle {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      padding: 0.1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .learn-content {
+      display: none;
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+    .learn-content.open { display: block; }
+
+    .learn-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+      align-items: flex-start;
+    }
+    .learn-key {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      min-width: 52px;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+    }
+    .learn-val {
+      font-size: 0.78rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Next / restart */
+    .next-btn {
+      display: none;
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: #071522;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.85rem;
+      cursor: pointer;
+      letter-spacing: 0.025em;
+      transition: opacity 0.2s;
+    }
+    .next-btn:hover { opacity: 0.87; }
+
+    /* Completion */
+    .game-complete {
+      display: none;
+      text-align: center;
+      padding: 3.5rem 1.5rem;
+    }
+    .complete-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    .complete-score {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 5rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .complete-msg {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .restart-btn {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.72rem 1.75rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .restart-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .browse-grid  { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+      .main-wrap    { padding: 1.25rem 0.9rem 3rem; }
+      .game-header  { padding: 0.8rem 1rem; }
+      .score-bar    { gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progressBar"></div>
+
+  <header class="game-header">
+    <a href="index.html" class="header-back">← Hub</a>
+    <span class="header-sep">|</span>
+    <div>
+      <div class="header-title">STEM PoC Network Game</div>
+      <div class="header-sub">PA STEM Point of Contact Network · People Practice</div>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('browse', this)">Browse Network Cards</button>
+      <button class="tab-btn" onclick="switchTab('game', this)">Play the Game</button>
+    </div>
+
+    <!-- ═══════ BROWSE PANEL ═══════ -->
+    <div id="panel-browse" class="tab-panel active">
+      <p class="browse-intro">
+        Explore the people behind the PA STEM PoC network. Click any card to expand the profile.
+        People marked with a quiz badge are included in the game deck — all others are browse-only.
+      </p>
+      <div class="browse-grid" id="browseGrid"></div>
+    </div>
+
+    <!-- ═══════ GAME PANEL ═══════ -->
+    <div id="panel-game" class="tab-panel">
+
+      <div class="game-mode-bar">
+        <span class="mode-label">Mode:</span>
+        <button class="mode-btn active" id="btn-mode-iu" onclick="setMode('iu')">Guess the IU</button>
+        <button class="mode-btn" id="btn-mode-person" onclick="setMode('person')">Guess the Person</button>
+      </div>
+
+      <div class="score-bar">
+        <div class="score-item">
+          <span class="score-val score-correct" id="scoreCorrect">0</span>
+          <span class="score-lbl">Correct</span>
+        </div>
+        <div class="score-item">
+          <span class="score-val score-wrong" id="scoreWrong">0</span>
+          <span class="score-lbl">Wrong</span>
+        </div>
+        <div class="score-item">
+          <span class="score-val score-streak" id="scoreStreak">0</span>
+          <span class="score-lbl">Streak</span>
+        </div>
+        <div class="score-progress">
+          <div class="progress-label" id="progressLabel">0 / 14 asked</div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="gameArea">
+        <div class="question-card" id="questionCard">
+          <div class="q-instruction" id="qInstruction">Which IU does this person work for?</div>
+          <img class="q-photo"   id="qPhoto"  src="" alt="">
+          <img class="q-iu-logo" id="qIULogo" src="" alt="">
+          <div class="q-name"   id="qName"></div>
+          <div class="q-role"   id="qRole"></div>
+          <div class="q-region" id="qRegion"></div>
+          <div class="q-clue"   id="qClue"></div>
+        </div>
+
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="feedback-panel" id="feedbackPanel">
+          <div class="feedback-result">
+            <span class="feedback-icon" id="feedIcon"></span>
+            <div>
+              <div class="feedback-headline" id="feedHeadline"></div>
+              <div class="feedback-detail"  id="feedDetail"></div>
+            </div>
+          </div>
+          <button class="learn-toggle" id="learnToggle" onclick="toggleLearnMore()">
+            <span id="learnArrow">▶</span>
+            Learn more about <span id="learnPersonName"></span>
+          </button>
+          <div class="learn-content" id="learnContent"></div>
+        </div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+      </div>
+
+      <div class="game-complete" id="gameComplete">
+        <div class="complete-eyebrow">Round complete</div>
+        <div class="complete-score" id="completeScore">0/0</div>
+        <div class="complete-msg" id="completeMsg"></div>
+        <button class="restart-btn" onclick="restartGame()">Play Again</button>
+      </div>
+
+    </div><!-- /panel-game -->
+  </main>
+
+  <script>
+    /* ═══════════════════════════════════
+       DATA
+    ═══════════════════════════════════ */
+    const IUS = {
+      5:  { label: 'IU 5',  abbr: 'IU 5',   region: 'Schuylkill / Carbon',   logo: 'assests/iu-logos/iu5-logo.png' },
+      6:  { label: 'IU 6',  abbr: 'RIU6',   region: 'Western PA',             logo: 'assests/iu-logos/iu6-logo.png' },
+      8:  { label: 'IU 8',  abbr: 'AIU',    region: 'Northcentral PA',        logo: 'assests/iu-logos/iu8-logo.jpg' },
+      12: { label: 'IU 12', abbr: 'LIU12',  region: 'Northwest PA / Erie',    logo: 'assests/iu-logos/iu12-logo.jpg' },
+      14: { label: 'IU 14', abbr: 'BCIU14', region: 'Berks County',           logo: 'assests/iu-logos/iu14-logo.png' },
+      15: { label: 'IU 15', abbr: 'CAIU',   region: 'Capital Area',           logo: 'assests/iu-logos/iu15-logo.png' },
+      21: { label: 'IU 21', abbr: 'CLIU21', region: 'Southwest PA',           logo: 'assests/iu-logos/iu21-logo.png' },
+      29: { label: 'IU 29', abbr: 'CCIU',   region: 'Southeast PA / Chester', logo: 'assests/iu-logos/iu29-logo.png' }
+    };
+
+    const PEOPLE = [
+      {
+        name: 'Joy Shaffer',
+        photo: 'assests/paiu-photos/Shaffer-Joy.jpeg',
+        iu: 5,
+        role: 'STEM PoC',
+        tags: ['Science', 'STEM Toolkit', 'Lending Library', 'CS', 'AI', 'Esports'],
+        bio: 'STEM Point of Contact for IU 5, supporting districts across the Schuylkill and Carbon county region. Active in the STEM Toolkit and Science workgroups.',
+        quizable: true
+      },
+      {
+        name: 'Kelsi Wilcox Boyles',
+        photo: 'assests/paiu-photos/Boyles-Kelsi.jpeg',
+        iu: 6,
+        role: 'STEM PoC',
+        tags: ['Ecosystems', 'Remake Learning Days', 'Drones', 'Lending Library'],
+        bio: 'STEM PoC for Riverview IU (IU 6) in western PA. Leads Remake Learning Days and drone programming; co-leads the statewide Ecosystems and Student Competitions workgroups.',
+        quizable: true
+      },
+      {
+        name: 'Ben Brobst',
+        photo: 'assests/paiu-photos/Brobst-Ben.jpeg',
+        iu: 6,
+        role: 'STEM Support',
+        tags: ['STEM Support', 'Remake Learning'],
+        bio: 'Supports STEM programming at Riverview IU (IU 6), working alongside Kelsi Wilcox Boyles on regional STEM and Remake Learning initiatives.',
+        quizable: true
+      },
+      {
+        name: 'Sarah Brambley',
+        photo: 'assests/paiu-photos/Brambley-Sarah.jpeg',
+        iu: 8,
+        role: 'STEM PoC',
+        tags: ['Ecosystems', 'Student Competitions', 'Lending Library', 'MTSS', 'UDL'],
+        bio: 'STEM PoC for Appalachia IU (IU 8) in northcentral PA. Active co-lead on both the Ecosystems and Student Competitions workgroups at the statewide level.',
+        quizable: true
+      },
+      {
+        name: 'Brenda Calhoun',
+        photo: 'assests/paiu-photos/Calhoun-Brenda.jpeg',
+        iu: 8,
+        role: 'Student Competitions Lead',
+        tags: ['Student Competitions', 'Ecosystems'],
+        bio: 'Leads student competition coordination for Appalachia IU (IU 8). Active in the statewide Student Competitions and Ecosystems workgroups alongside Sarah Brambley.',
+        quizable: true
+      },
+      {
+        name: 'Nicole Bond',
+        photo: 'assests/paiu-photos/Bond-Nicole.jpeg',
+        iu: 12,
+        role: 'STEM PoC',
+        tags: ['AI / CS', 'Science', 'Student Competitions', 'Tiered PD'],
+        bio: 'STEM PoC for Lincoln IU (IU 12) serving northwest PA and the Erie region. Leads AI/CS and student competition programming across the IU.',
+        quizable: true
+      },
+      {
+        name: 'Abbey Hathaway',
+        photo: 'assests/paiu-photos/Hathaway-Abbey.jpeg',
+        iu: 12,
+        role: 'Ecosystems & Virtual Events Lead',
+        tags: ['Ecosystems', 'Lending Library', 'Virtual Events'],
+        bio: 'Leads ecosystem programming and virtual events for Lincoln IU (IU 12). Co-leads the statewide Ecosystems workgroup and coordinates the IU12 lending library.',
+        quizable: true
+      },
+      {
+        name: 'Autumn Zaminski',
+        photo: 'assests/paiu-photos/Zaminski-Autumn.jpeg',
+        iu: 12,
+        role: 'Student Competitions',
+        tags: ['Student Competitions'],
+        bio: 'Supports student competitions for Lincoln IU (IU 12), contributing to the statewide Student Competitions workgroup alongside Nicole Bond and Abbey Hathaway.',
+        quizable: true
+      },
+      {
+        name: 'Kendy Schiffert',
+        photo: 'assests/paiu-photos/Schiffert-Kendy.jpeg',
+        iu: 14,
+        role: 'STEM PoC',
+        tags: ['Ecosystems', 'Student Competitions', 'Lending Library'],
+        bio: 'STEM PoC for Berks County IU (BCIU 14). Active in both the Ecosystems and Student Competitions workgroups at the statewide level.',
+        quizable: true
+      },
+      {
+        name: 'Jennifer Sciacca',
+        photo: 'assests/paiu-photos/Sciacca-Jennifer.jpeg',
+        iu: 15,
+        role: 'Science & EL&S Lead',
+        tags: ['Science', 'Environmental Literacy', 'Ecosystems', 'STEELS'],
+        bio: 'Leads Science and Environmental Literacy & Sustainability (EL&S) programming for Capital Area IU (CAIU · IU 15). Co-leads the statewide Science workgroup.',
+        quizable: true
+      },
+      {
+        name: 'Colleen Epler-Ruths',
+        photo: 'assests/paiu-photos/Epler-Ruths-Colleen.jpeg',
+        iu: null,
+        iuLabel: 'Statewide',
+        role: 'Statewide Science Lead',
+        region: 'All PA IUs',
+        tags: ['Science', 'STEELS', 'Statewide'],
+        bio: 'Statewide lead for the PA STEM PoC Science workgroup, supporting the full network on STEELS implementation and science education. Co-leads alongside Jennifer Sciacca (CAIU).',
+        quizable: false
+      },
+      {
+        name: 'Eric Lech',
+        photo: 'assests/paiu-photos/Lech-Eric.jpeg',
+        iu: 21,
+        role: 'STEM PoC',
+        tags: ['Ecosystems', 'Esports', 'AI', 'Student Competitions'],
+        bio: 'STEM PoC for Carbon Lehigh IU (CLIU 21) in southwest PA. Leads AI and Esports programming; active in the Ecosystems workgroup. Co-leads statewide student competitions.',
+        quizable: true
+      },
+      {
+        name: 'Melissa Volcskai',
+        photo: 'assests/paiu-photos/Volcskai-Melissa.jpeg',
+        iu: 21,
+        role: 'STEM Support & Competitions',
+        tags: ['Student Competitions', 'Esports'],
+        bio: 'Supports STEM and student competition programming for Carbon Lehigh IU (CLIU 21). Runs competitions at the IU level and contributes to the statewide Student Competitions workgroup.',
+        quizable: true
+      },
+      {
+        name: 'Greg Macer',
+        photo: 'assests/paiu-photos/Macer-Greg.jpeg',
+        iu: 29,
+        role: 'Supervisor of STEM & District Support',
+        tags: ['AI PD', 'Keystone STEM', 'Sea Air & Land', 'CS', 'Hub Architecture'],
+        bio: 'Supervisor of STEM and District Support for Chester County IU (IU 29). Hub architect and network coordinator. Active across AI PD, Sea Air & Land, and Keystone STEM competitions.',
+        quizable: true
+      },
+      {
+        name: 'Matt Swan',
+        photo: 'assests/paiu-photos/Swan-Matt.jpeg',
+        iu: 29,
+        role: 'Student Competitions Lead',
+        tags: ['Student Competitions', 'Sea Air & Land'],
+        bio: 'Leads student competition programming for Chester County IU (CCIU · IU 29). Co-leads the statewide Student Competitions workgroup and manages Sea Air & Land competition logistics.',
+        quizable: true
+      }
+    ];
+
+    const QUIZ_PEOPLE = PEOPLE.filter(p => p.quizable);
+    const IU_KEYS = Object.keys(IUS).map(Number);
+
+    /* ═══════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════ */
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function pickWrongIUs(correctIU, count) {
+      return shuffle(IU_KEYS.filter(k => k !== correctIU)).slice(0, count);
+    }
+
+    function pickWrongPeople(correctPerson, count) {
+      return shuffle(QUIZ_PEOPLE.filter(p => p.name !== correctPerson.name)).slice(0, count);
+    }
+
+    /* ═══════════════════════════════════
+       TABS
+    ═══════════════════════════════════ */
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + tab).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    /* ═══════════════════════════════════
+       BROWSE
+    ═══════════════════════════════════ */
+    function buildBrowse() {
+      const grid = document.getElementById('browseGrid');
+      PEOPLE.forEach(person => {
+        const iuData = person.iu ? IUS[person.iu] : null;
+        const badgeText = iuData ? iuData.abbr : (person.iuLabel || 'Statewide');
+
+        const card = document.createElement('div');
+        card.className = 'person-card';
+        card.innerHTML = `
+          <div class="person-photo-wrap">
+            <img class="person-photo" src="${person.photo}" alt="${person.name}" loading="lazy" onerror="this.style.display='none'">
+            <span class="person-iu-badge">${badgeText}</span>
+          </div>
+          <div class="person-info">
+            <div class="person-name">${person.name}</div>
+            <div class="person-role-tag">${person.role}${iuData ? ' · ' + iuData.region : ''}</div>
+            <div class="card-toggle-hint">▶ expand profile</div>
+          </div>
+          <div class="person-detail">
+            ${iuData ? `
+            <div class="detail-row">
+              <span class="detail-key">IU</span>
+              <span class="detail-val">${iuData.label} · ${iuData.abbr}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Region</span>
+              <span class="detail-val">${iuData.region}</span>
+            </div>` : `
+            <div class="detail-row">
+              <span class="detail-key">Scope</span>
+              <span class="detail-val">Statewide — all PA IUs</span>
+            </div>`}
+            <div class="detail-row">
+              <span class="detail-key">Role</span>
+              <span class="detail-val">${person.role}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Focus</span>
+              <span class="detail-val">${person.tags.join(' · ')}</span>
+            </div>
+            <div class="detail-bio">${person.bio}</div>
+            ${!person.quizable ? '<div class="browse-only-tag">★ Statewide role — browse only</div>' : ''}
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          const isOpen = card.classList.contains('open');
+          card.classList.toggle('open');
+          card.querySelector('.card-toggle-hint').textContent = isOpen ? '▶ expand profile' : '▼ collapse';
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    /* ═══════════════════════════════════
+       GAME STATE
+    ═══════════════════════════════════ */
+    let mode = 'iu';
+    let deck = [];
+    let currentIdx = 0;
+    let correctCount = 0;
+    let wrongCount = 0;
+    let streak = 0;
+    let answered = false;
+
+    function setMode(m) {
+      mode = m;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-mode-' + m).classList.add('active');
+      restartGame();
+    }
+
+    function restartGame() {
+      deck = shuffle(QUIZ_PEOPLE);
+      currentIdx = 0;
+      correctCount = 0;
+      wrongCount = 0;
+      streak = 0;
+      answered = false;
+
+      document.getElementById('gameComplete').style.display = 'none';
+      document.getElementById('gameArea').style.display = 'block';
+
+      updateScoreUI();
+      renderQuestion();
+    }
+
+    function updateScoreUI() {
+      document.getElementById('scoreCorrect').textContent = correctCount;
+      document.getElementById('scoreWrong').textContent   = wrongCount;
+      document.getElementById('scoreStreak').textContent  = streak;
+      const total = deck.length;
+      document.getElementById('progressLabel').textContent = `${currentIdx} / ${total} asked`;
+      document.getElementById('progressFill').style.width  = `${total > 0 ? (currentIdx / total) * 100 : 0}%`;
+    }
+
+    /* ═══════════════════════════════════
+       RENDER QUESTION
+    ═══════════════════════════════════ */
+    function renderQuestion() {
+      if (currentIdx >= deck.length) { showComplete(); return; }
+
+      const person  = deck[currentIdx];
+      const iuData  = IUS[person.iu];
+      answered = false;
+
+      document.getElementById('feedbackPanel').classList.remove('visible');
+      document.getElementById('nextBtn').style.display = 'none';
+      document.getElementById('learnContent').classList.remove('open');
+      document.getElementById('learnArrow').textContent = '▶';
+
+      if (mode === 'iu') {
+        buildGuessIU(person, iuData);
+      } else {
+        buildGuessPerson(person, iuData);
+      }
+    }
+
+    function buildGuessIU(person, iuData) {
+      document.getElementById('qInstruction').textContent = 'Which IU does this person work for?';
+
+      const qPhoto = document.getElementById('qPhoto');
+      qPhoto.src = person.photo;
+      qPhoto.alt = person.name;
+      qPhoto.style.display = 'block';
+      document.getElementById('qIULogo').style.display = 'none';
+      document.getElementById('qClue').style.display = 'none';
+
+      document.getElementById('qName').textContent = person.name;
+      document.getElementById('qRole').textContent = person.role;
+      document.getElementById('qRegion').textContent = '';
+
+      const wrongIUs = pickWrongIUs(person.iu, 3);
+      const allIUs = shuffle([person.iu, ...wrongIUs]);
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      allIUs.forEach(iuNum => {
+        const iu = IUS[iuNum];
+        const isCorrect = iuNum === person.iu;
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `
+          <img class="option-logo" src="${iu.logo}" alt="${iu.label}" onerror="this.style.display='none'">
+          <div class="option-label">${iu.label}</div>
+          <div class="option-sublabel">${iu.abbr} · ${iu.region}</div>
+        `;
+        btn.addEventListener('click', () => handleAnswer(isCorrect, btn, person, iuData));
+        grid.appendChild(btn);
+      });
+    }
+
+    function buildGuessPerson(person, iuData) {
+      document.getElementById('qInstruction').textContent = 'Who works in this role for this IU?';
+
+      const qIULogo = document.getElementById('qIULogo');
+      qIULogo.src = iuData.logo;
+      qIULogo.alt = iuData.label;
+      qIULogo.style.display = 'block';
+      document.getElementById('qPhoto').style.display = 'none';
+
+      document.getElementById('qName').textContent = iuData.label + ' · ' + iuData.abbr;
+      document.getElementById('qRole').textContent = person.role;
+      document.getElementById('qRegion').textContent = iuData.region;
+
+      const clue = document.getElementById('qClue');
+      clue.textContent = 'Focus areas: ' + person.tags.slice(0, 3).join(' · ');
+      clue.style.display = 'block';
+
+      const wrongPeople = pickWrongPeople(person, 3);
+      const allPeople = shuffle([person, ...wrongPeople]);
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      allPeople.forEach(opt => {
+        const isCorrect = opt.name === person.name;
+        const btn = document.createElement('button');
+        btn.className = 'option-btn person-opt';
+        btn.innerHTML = `
+          <img class="option-person-photo" src="${opt.photo}" alt="${opt.name}" onerror="this.style.display='none'">
+          <div class="option-person-info">
+            <div class="option-person-name">${opt.name}</div>
+            <div class="option-person-role">${opt.role}</div>
+          </div>
+        `;
+        btn.addEventListener('click', () => handleAnswer(isCorrect, btn, person, iuData));
+        grid.appendChild(btn);
+      });
+    }
+
+    /* ═══════════════════════════════════
+       ANSWER HANDLING
+    ═══════════════════════════════════ */
+    function handleAnswer(isCorrect, clickedBtn, person, iuData) {
+      if (answered) return;
+      answered = true;
+      currentIdx++;
+
+      if (isCorrect) {
+        correctCount++;
+        streak++;
+        clickedBtn.classList.add('correct');
+      } else {
+        wrongCount++;
+        streak = 0;
+        clickedBtn.classList.add('wrong');
+
+        document.querySelectorAll('#optionsGrid .option-btn').forEach(btn => {
+          const labelEl = btn.querySelector('.option-label, .option-person-name');
+          if (!labelEl) return;
+          const labelText = labelEl.textContent.trim();
+          const isCorrectOption = mode === 'iu'
+            ? labelText === iuData.label
+            : labelText === person.name;
+          if (isCorrectOption) btn.classList.add('correct');
+        });
+      }
+
+      document.querySelectorAll('#optionsGrid .option-btn').forEach(b => { b.disabled = true; });
+      updateScoreUI();
+      showFeedback(isCorrect, person, iuData);
+    }
+
+    function showFeedback(isCorrect, person, iuData) {
+      document.getElementById('feedbackPanel').classList.add('visible');
+
+      document.getElementById('feedIcon').textContent = isCorrect ? '✓' : '✗';
+
+      const headline = document.getElementById('feedHeadline');
+      headline.textContent = isCorrect ? 'Correct!' : 'Not quite.';
+      headline.className = 'feedback-headline ' + (isCorrect ? 'correct' : 'wrong');
+
+      const detail = mode === 'iu'
+        ? `${person.name} works at ${iuData.label} · ${iuData.abbr} — ${iuData.region}`
+        : `That was ${person.name} — ${person.role} at ${iuData.label}`;
+      document.getElementById('feedDetail').textContent = detail;
+
+      document.getElementById('learnPersonName').textContent = person.name;
+
+      const learnContent = document.getElementById('learnContent');
+      learnContent.innerHTML = `
+        <div class="learn-row">
+          <span class="learn-key">IU</span>
+          <span class="learn-val">${iuData.label} · ${iuData.abbr}</span>
+        </div>
+        <div class="learn-row">
+          <span class="learn-key">Region</span>
+          <span class="learn-val">${iuData.region}</span>
+        </div>
+        <div class="learn-row">
+          <span class="learn-key">Role</span>
+          <span class="learn-val">${person.role}</span>
+        </div>
+        <div class="learn-row">
+          <span class="learn-key">Focus</span>
+          <span class="learn-val">${person.tags.join(' · ')}</span>
+        </div>
+        <div class="learn-row" style="margin-top:0.35rem">
+          <span class="learn-key">Bio</span>
+          <span class="learn-val">${person.bio}</span>
+        </div>
+      `;
+
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.style.display = 'block';
+      nextBtn.textContent = currentIdx < deck.length ? 'Next Question →' : 'See Results →';
+    }
+
+    function toggleLearnMore() {
+      const content  = document.getElementById('learnContent');
+      const isOpen   = content.classList.toggle('open');
+      document.getElementById('learnArrow').textContent = isOpen ? '▼' : '▶';
+    }
+
+    function nextQuestion() {
+      document.getElementById('feedbackPanel').classList.remove('visible');
+      document.getElementById('nextBtn').style.display = 'none';
+      renderQuestion();
+    }
+
+    /* ═══════════════════════════════════
+       COMPLETION
+    ═══════════════════════════════════ */
+    function showComplete() {
+      document.getElementById('gameArea').style.display  = 'none';
+      document.getElementById('gameComplete').style.display = 'block';
+
+      const total = deck.length;
+      document.getElementById('completeScore').textContent = `${correctCount}/${total}`;
+
+      const pct = Math.round((correctCount / total) * 100);
+      let msg = '';
+      if (pct === 100) msg = 'Perfect. You know this network cold.';
+      else if (pct >= 80) msg = 'Strong performance — the network knows you.';
+      else if (pct >= 60) msg = 'Getting there. Spend some time in Browse, then retry.';
+      else msg = 'Browse the cards first — then come back and try again.';
+      document.getElementById('completeMsg').textContent = msg;
+    }
+
+    /* ═══════════════════════════════════
+       INIT
+    ═══════════════════════════════════ */
+    buildBrowse();
+    restartGame();
+
+    window.addEventListener('scroll', () => {
+      const scrolled = document.documentElement.scrollTop;
+      const max = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (max > 0) document.getElementById('progressBar').style.width = (scrolled / max * 100) + '%';
+    });
+  </script>
+</body>
+</html>
