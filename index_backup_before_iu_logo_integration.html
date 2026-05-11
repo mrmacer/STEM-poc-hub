@@ -549,61 +549,6 @@
     background: rgba(255,255,255,0.12);
     border: 1px solid rgba(255,255,255,0.18);
   }
-
-  /* IU Logo system */
-  .iu-logo {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-    background: rgba(255,255,255,0.92);
-    padding: 4px;
-    border-radius: 8px;
-    border: 1px solid rgba(245,166,35,0.25);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    flex-shrink: 0;
-    display: block;
-  }
-  img.iu-logo:not([src]) { display: none; }
-  .iu-logo-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .iu-logo-small {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    background: rgba(255,255,255,0.9);
-    padding: 2px;
-    border-radius: 5px;
-    flex-shrink: 0;
-  }
-  .iu-brand-row {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-  }
-  .partner-logo-strip {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-  }
-  .partner-logo {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
-    background: rgba(255,255,255,0.88);
-    padding: 4px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  @media (max-width: 640px) {
-    .iu-logo { width: 30px; height: 30px; }
-  }
-
   @keyframes pulse-node {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.35; }
@@ -3080,7 +3025,7 @@
   <div class="network-callout"><em>Not a contact sheet.</em> A statewide STEM intelligence network.<br>Click any mission node to open its intelligence dossier. <span style="color:var(--accent);">★ Dossier content being collected — profiles expand as data arrives.</span></div>
   <div class="network-callout" style="margin-top:0.6rem;border-color:rgba(244,161,29,0.3);background:rgba(244,161,29,0.06);">
     <span style="color:var(--accent);font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;">PILOT IU PROFILE</span>&nbsp;&nbsp;
-    IU profile pages are being piloted with IU29. Future IU pages will connect leadership, STEM/PAIMS contacts, active initiatives, workgroup connections, and regional collaboration opportunities. IU logos now serve as regional identity markers across the statewide network.&nbsp;&nbsp;
+    IU profile pages are being piloted with IU29. Future IU pages will connect leadership, STEM/PAIMS contacts, active initiatives, workgroup connections, and regional collaboration opportunities.&nbsp;&nbsp;
     <a href="iu29.html" style="color:var(--accent);text-decoration:none;font-family:'Space Mono',monospace;font-size:0.68rem;border-bottom:1px solid rgba(244,161,29,0.4);">IU29 — Schuylkill Region Node &#8594;</a>
   </div>
 
@@ -3120,7 +3065,6 @@
          data-collab="building"
          data-searchtext="IU 1 southwest pa meghan mcanulty emily hughes ron gallagher curriculum stem program washington greene county">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu1-logo.png" alt="IU1 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 1</span>
         <span class="node-region">Southwest PA</span>
         <span class="node-status status-building"></span>
@@ -3195,7 +3139,6 @@
          data-collab="open"
          data-searchtext="IU 3 greater pittsburgh allegheny brian stamford kristen rice math science AI assistive tech transformED math science collaborative">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu3-logo.png" alt="IU3 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 3</span>
         <span class="node-region">Greater Pittsburgh</span>
         <span class="node-status status-active"></span>
@@ -3275,7 +3218,6 @@
          data-collab="open"
          data-searchtext="IU 5 schuylkill carbon joy shaffer rebecca schauffele christina sanders lending library CS AI esports environment and sustainability">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu5-logo.png" alt="IU5 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 5</span>
         <span class="node-region">Schuylkill / Carbon</span>
         <span class="node-status status-active"></span>
@@ -3372,7 +3314,6 @@
          data-collab="seeking"
          data-searchtext="IU 6 western pa mercer lawrence kelsi wilcox boyles ben brobst remake learning days drones lending library">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu6-logo.png" alt="IU6 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 6</span>
         <span class="node-region">Western PA</span>
         <span class="node-status status-active"></span>
@@ -3459,7 +3400,6 @@
          data-collab="building"
          data-searchtext="IU 7 northeast pa luzerne wyoming julie kolano sarah wagner 3D learning STEELS PD standards rollout">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu7-logo.png" alt="IU7 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 7</span>
         <span class="node-region">Northeast PA</span>
         <span class="node-status status-building"></span>
@@ -3535,7 +3475,6 @@
          data-collab="sharing"
          data-searchtext="IU 8 northcentral pa clarion jefferson sarah brambley amanda williamson elizabeth caton lending library MTSS inclusive practices UDL">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu8-logo.jpg" alt="IU8 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 8</span>
         <span class="node-region">Northcentral PA</span>
         <span class="node-status status-active"></span>
@@ -3622,7 +3561,6 @@
          data-collab="open"
          data-searchtext="IU 10 central pa clinton centre melissa duckworth stephanie king karen woods arts integration MWEE assistive tech environment outdoor">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu10-logo.png" alt="IU10 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 10</span>
         <span class="node-region">Central PA</span>
         <span class="node-status status-active"></span>
@@ -3700,7 +3638,6 @@
          data-collab="open"
          data-searchtext="IU 12 northwest pa erie nicole bond abbey hathaway autumn zaminski CS AI ecosystems tiered PD computer science">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu12-logo.jpg" alt="IU12 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 12</span>
         <span class="node-region">Northwest PA / Erie</span>
         <span class="node-status status-active"></span>
@@ -3789,7 +3726,6 @@
          data-collab="building"
          data-searchtext="IU 20 southeast pa lancaster heather heimer kendyle mills samantha siegfried UDL multilingual AI drones universal design for learning">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu20-logo.png" alt="IU20 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 20</span>
         <span class="node-region">Southeast PA / Lancaster</span>
         <span class="node-status status-building"></span>
@@ -3869,7 +3805,6 @@
          data-collab="seeking"
          data-searchtext="IU 21 southwest pa westmoreland eric lech tony mirabito monica pangaio melissa volcskai esports AI student competitions MWEE">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu21-logo.png" alt="IU21 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 21</span>
         <span class="node-region">Southwest PA</span>
         <span class="node-status status-active"></span>
@@ -3968,7 +3903,6 @@
          data-collab="open"
          data-searchtext="IU 29 southeast pa chester county greg macer AI PD keystone STEM sea air land CS supervisor district support">
       <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-        <img class="iu-logo" src="assests/iu-logos/iu29-logo.png" alt="IU29 logo" loading="lazy" onerror="this.style.display='none'">
         <span class="node-iu-num">IU 29</span>
         <span class="node-region">Southeast PA / Chester</span>
         <span class="node-status status-active"></span>

@@ -386,6 +386,99 @@
     .future-note p { font-size: 0.81rem; color: var(--muted); line-height: 1.75; }
     .future-note a { color: var(--accent); }
 
+    /* ── IU LOGO ──────────────────────────────────────── */
+    .iu-hero-logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(245,166,35,0.22);
+      border-radius: 14px;
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+    .iu-hero-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.94);
+      padding: 6px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+      display: block;
+    }
+    .iu-hero-logo-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+    .iu-hero-logo-label strong {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+    /* Network Identity section */
+    .network-identity-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .network-identity-logo-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .network-identity-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.94);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid rgba(245,166,35,0.25);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      display: block;
+    }
+    .partner-logo-strip-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      opacity: 0.7;
+    }
+    .partner-logo-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .partner-logo-placeholder {
+      width: 56px;
+      height: 40px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.04em;
+    }
+    @media (max-width: 640px) {
+      .network-identity-grid { grid-template-columns: 1fr; }
+      .iu-hero-logo { width: 54px; height: 54px; }
+    }
+
     /* ── FOOTER ────────────────────────────────────────── */
     .iu-footer {
       border-top: 1px solid var(--border);
@@ -433,6 +526,13 @@
 <header class="iu-hero">
   <div class="iu-hero-layout">
     <div>
+      <div class="iu-hero-logo-wrap">
+        <img class="iu-hero-logo" src="assests/iu-logos/iu29-logo.png" alt="Schuylkill IU29 logo" loading="lazy" onerror="this.style.display='none'">
+        <div class="iu-hero-logo-label">
+          <strong>IU29</strong>
+          Schuylkill Intermediate Unit<br>Regional Innovation Node
+        </div>
+      </div>
       <div class="iu-eyebrow">Regional Innovation Node &middot; PA STEM PoC Hub &middot; Pilot Profile</div>
       <div class="iu-number">IU29</div>
       <div class="iu-region-name">Schuylkill Region Node</div>
@@ -790,6 +890,31 @@
     <h3>// Pilot Profile — Future Build Note</h3>
     <p>This IU29 page is a pilot layout for future IU profile pages across the PA STEM PoC network. The long-term goal is for each IU to have a regional node page that connects people, projects, priorities, workgroups, resources, and collaboration opportunities in one place.</p>
     <p style="margin-top:0.75rem;">Future IU profile pages will include full dossier content, team profiles, project portfolios, ORBIT alignment signals, and live workgroup connections. <a href="about.html">Learn more about the network story →</a></p>
+  </div>
+</section>
+
+<!-- ── NETWORK IDENTITY ───────────────────────────────────────────────── -->
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Network Identity</div>
+    <h2 class="section-title-h2">Regional Identity &amp; Network Connection</h2>
+  </div>
+  <div class="network-identity-grid">
+    <div class="network-identity-logo-block">
+      <img class="network-identity-logo" src="assests/iu-logos/iu29-logo.png" alt="Schuylkill IU29 logo" loading="lazy" onerror="this.style.display='none'">
+      <span class="partner-logo-strip-label">IU29</span>
+    </div>
+    <div>
+      <p style="font-size:0.87rem;color:var(--muted);line-height:1.75;margin-bottom:1rem;">This regional node connects IU29's local identity to the statewide PA STEM PoC network, workgroups, projects, and collaboration opportunities. The IU29 logo represents the regional identity of this node within the statewide network.</p>
+      <div class="partner-logo-strip-label">Partner &amp; Network Logos</div>
+      <div class="partner-logo-strip">
+        <div class="partner-logo-placeholder">PA STEM<br>PoC Hub</div>
+        <div class="partner-logo-placeholder">Partner<br>Logo</div>
+        <div class="partner-logo-placeholder">Partner<br>Logo</div>
+        <div class="partner-logo-placeholder">Partner<br>Logo</div>
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:0.65rem;opacity:0.7;font-family:'Space Mono',monospace;">Partner / network logos can be added here as regional pages grow.</p>
+    </div>
   </div>
 </section>
 
