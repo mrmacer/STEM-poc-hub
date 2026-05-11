@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCIU 23 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.stat-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.stat-box{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;flex:1;min-width:140px;text-align:center}
+.stat-box .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1.1}
+.stat-box .stat-label{font-size:.75rem;color:var(--muted);font-family:'Space Mono',monospace}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">MCIU 23</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Montgomery County Intermediate Unit 23</h1>
+    <p class="hero-sub">Montgomery County, Pennsylvania &mdash; 2025&ndash;2028 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Equity &amp; Inclusion</span>
+      <span class="badge badge-green">STEM Council</span>
+      <span class="badge badge-blue">AI (Supplemental)</span>
+      <span class="badge badge-purple">Professional Learning</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu23-logo.png" alt="MCIU 23 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU23</div>
+    <div class="logo-meta">
+      <strong>MCIU</strong>
+      Dr. Regina C. Speaker, Ed.D.<br>Executive Director<br>2 W. Lafayette St., Norristown PA<br>
+      <span style="color:var(--accent)">2025&ndash;2028 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-val">22</div><div class="stat-label">Public Districts</div></div>
+      <div class="stat-box"><div class="stat-val">108,000+</div><div class="stat-label">K-12 Students</div></div>
+      <div class="stat-box"><div class="stat-val">155</div><div class="stat-label">Schools</div></div>
+      <div class="stat-box"><div class="stat-val">140</div><div class="stat-label">Nonpublic Schools</div></div>
+      <div class="stat-box"><div class="stat-val">4</div><div class="stat-label">CTE Schools in Orbit</div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>MCIU positions itself as a dynamic educational service agency providing visionary leadership, impactful services, and strategic solutions to maximize access and outcomes for all learners. Its vision: push boundaries to inspire learning, cultivate excellence, and elevate impact across Montgomery County.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Dr. Regina C. Speaker, Ed.D.</li>
+          <li>PA's third largest and second wealthiest county; directly northwest of Philadelphia</li>
+          <li>Funding: ~45% state, ~33% federal, ~22% local/fee-based</li>
+          <li>Nonpublic and PaTTAN budgets are almost entirely grant-funded</li>
+          <li>STEM Council relationship noted; AI addressed in supplemental tech plan</li>
+          <li>Approved: 2025-02-26</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">STEM Council</div>
+        <h4>STEM Council Leadership Role</h4>
+        <p>A STEM Council explicitly recognizes MCIU's leadership and communication role in regional STEM coordination — though specific programs or curriculum initiatives are not described in this comprehensive plan.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI (Supplemental)</div>
+        <h4>AI &amp; Cybersecurity Supplemental Plan</h4>
+        <p>Cybersecurity and Artificial Intelligence are the focus of MCIU's Technology supplemental plan, referenced briefly in the comprehensive plan. Details not elaborated here — the supplemental plan is the primary source for AI strategy.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Equity / Inclusion</div>
+        <h4>Welcoming &amp; Supportive Schools CoP</h4>
+        <p>Responsive, flexible school climate support Community of Practice for member districts. Addresses belonging, trauma-informed care, and culturally relevant education as embedded professional development themes.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Workforce / Transition</div>
+        <h4>Pathways to Empowerment</h4>
+        <p>Named program led by Joe Walsh with implied transition and workforce relevance. New external career pathway partnerships are an explicit action plan target, though specific employer partners are not yet named.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Data Science</div>
+        <h4>Data-Driven Resource Allocation</h4>
+        <p>A primary plan goal: applying data-driven resource allocation processes across all programs. A technology director is identified to lead data solution identification and implementation by 2028.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Assessment Technology</div>
+        <h4>Multi-Platform Assessment Ecosystem</h4>
+        <p>STAR Renaissance, DIBELS 8, NWEA MAP, and CKLA/Amplify embedded CBAs are all in active use — creating a robust instructional data infrastructure across early childhood, school-age, and nonpublic programs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Pathways to Empowerment</h4>
+        <p>Named program led by Joe Walsh serving students with transition and career pathway needs. External employer and career pathway partnerships are being actively developed to expand reach and outcomes.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Welcoming and Supportive Schools CoP</h4>
+        <p>Community of Practice providing responsive, flexible school climate support to member districts — embedding trauma-informed care, cultural responsiveness, and belonging as professional learning themes.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>MCIU Learning Network</h4>
+        <p>Internal professional learning structure for organization-wide PD delivery, including monthly "2 Minutes at 2 West" touchpoints, quarterly Lunch and Learn sessions, and Viva Engage weekly communications.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Pre-K Counts &amp; Early Intervention</h4>
+        <p>Active early childhood programs with dedicated administrator. Part of MCIU's diversified direct-service portfolio alongside special education, behavioral health, and adjudicated youth services.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>SE Youth Detention Center Services</h4>
+        <p>Educational services for youth in the Southeast Pennsylvania Youth Detention Center, representing MCIU's commitment to serving students in the most restrictive and challenging educational environments.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Community &amp; Institutional Partners</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Steering Committee Partners</h3>
+        <ul>
+          <li><strong>Children First</strong> — community partner; Shirlee Howe on Steering Committee</li>
+          <li><strong>PaTTAN</strong> — Kirsten DeRoche and Jen Edgar on Steering Committee; grant-funded budget relationship</li>
+          <li><strong>HHSD</strong> — parent and student represented on Steering Committee</li>
+          <li>University partnerships referenced for certification/licensure programs (institutions not yet named)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>CTE School Relationships</h3>
+        <ul>
+          <li><strong>Central Montco Technical High School</strong></li>
+          <li><strong>Eastern Center for Arts and Technology</strong></li>
+          <li><strong>North Montco Technical Career Center</strong></li>
+          <li><strong>Western Montgomery Career and Technology Center</strong></li>
+          <li><em>Listed as client LEAs; active partnership initiatives not described in this plan</em></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>15%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:15%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>20%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:20%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>15%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:15%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>75%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:75%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>30%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:30%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Strong alignment; inclusive culture, trauma-informed care, and culturally relevant PD are embedded throughout</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">STEM Toolkit</strong> — Possible alignment given STEM Council relationship and MCIU's role as a regional resource provider; limited direct program evidence</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--text)">AI/CS (Supplemental)</strong> — Flagged as supplemental plan focus area; evidence in comprehensive plan is limited to brief reference</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>High-quality professional learning modeling best practices internally and externally</li>
+          <li>Strong employee perception that MCIU supports career growth and advancement</li>
+          <li>Culture of inclusion where all staff can succeed regardless of identity</li>
+          <li>Accessible, efficient problem-solving and strong leadership (stakeholder-reported)</li>
+          <li>Effective coordination of local, state, and federal program services</li>
+          <li>Valued as a specific and customizable LEA service provider</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Employee development and PL — lacks comprehensive, equitable PD system across all roles</li>
+          <li>No consistent data infrastructure for guiding budget and staffing decisions</li>
+          <li>Siloed operations limiting resource coordination across programs and teams</li>
+          <li>Communication and transparency flagged as a staff-reported challenge</li>
+          <li>Scheduling and accessibility barriers to professional development participation</li>
+          <li>Alternative revenue development — acknowledged need to diversify funding streams</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Human Capital — Comprehensive PD System</h4>
+        <p>By June 2028, implement a comprehensive professional development system expanding mentoring participation and career advancement for all staff, aligned to MCIU mission, vision, and values.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Resources — Data-Driven Allocation</h4>
+        <p>By June 2028, apply data-driven resource allocation processes across all programs, measured by efficiency gains, improved service delivery, and positive stakeholder feedback.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#127979;</div>
+        <h4>Mentoring &amp; Onboarding Model</h4>
+        <p>MCIU's structured classroom support mentor program and career advancement framework could be a shareable model for IUs developing internal staff development pipelines.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127891;</div>
+        <h4>Non-University Certification Pathways</h4>
+        <p>Plans to build certification and licensure programs outside university partnerships could reduce development costs and increase reach if designed as a cross-IU shared resource.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127968;</div>
+        <h4>Welcoming &amp; Supportive Schools CoP</h4>
+        <p>School climate and safe schools Community of Practice model may have statewide applicability given the equity and belonging emphasis across all IU plans.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128202;</div>
+        <h4>Data-Driven Allocation Infrastructure</h4>
+        <p>IUs facing similar resource alignment challenges could benefit from shared data solution vetting, procurement coordination, and technology director networking across the PAIMS network.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Montgomery County Intermediate Unit 23 Comprehensive Plan, 2025&ndash;2028 (approved 2025-02-26). Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Note: AI and cybersecurity details are in MCIU's supplemental Technology plan, not this document. STEM Council relationship noted but program-level details not available in this plan. Profile generated for PAIMS planning use; verify directly with MCIU before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

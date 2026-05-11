@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCIU 25 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.stat-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.stat-box{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;flex:1;min-width:140px;text-align:center}
+.stat-box .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1.1}
+.stat-box .stat-label{font-size:.75rem;color:var(--muted);font-family:'Space Mono',monospace}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">DCIU 25</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Delaware County Intermediate Unit 25</h1>
+    <p class="hero-sub">Delaware County, Pennsylvania &mdash; 2025&ndash;2028 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">STEM Innovation Studio</span>
+      <span class="badge badge-green">AI Professional Learning</span>
+      <span class="badge badge-blue">STEELS Leader</span>
+      <span class="badge badge-purple">Equity &amp; Inclusion</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu25-logo.png" alt="DCIU 25 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU25</div>
+    <div class="logo-meta">
+      <strong>DCIU</strong>
+      Dr. Maria Edelberg<br>Executive Director<br>200 Yale Ave, Morton PA 19070<br>
+      <span style="color:var(--accent)">2025&ndash;2028 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-val">15</div><div class="stat-label">Public Districts</div></div>
+      <div class="stat-box"><div class="stat-val">74,000</div><div class="stat-label">Students</div></div>
+      <div class="stat-box"><div class="stat-val">6,000</div><div class="stat-label">Educators</div></div>
+      <div class="stat-box"><div class="stat-val">60+</div><div class="stat-label">Programs</div></div>
+      <div class="stat-box"><div class="stat-val">$160M+</div><div class="stat-label">Services Delivered</div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>DCIU's mission is to provide leadership in developing and delivering quality, cost-effective programs and services to school communities. Its vision: empowering partnerships that Drive, Create, Inspire, and Understand excellence in education — positioning the IU as a regional convener for professional development, school improvement, safety, and emerging technology.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Dr. Maria Edelberg</li>
+          <li>Serves 15 public districts, 66+ nonpublic schools, 4 charter schools in Delaware County</li>
+          <li>Direct instruction to 12,000+ students in CTE, Student Services, and specialized programs</li>
+          <li>Significant organizational AI professional learning investment — cited as a strength</li>
+          <li>STEELS implementation noted as effective with LEAs</li>
+          <li>System in active transition: managing staffing pressures while modernizing around AI and evidence-based practice</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">STEM Integration</div>
+        <h4>STEM Innovation and Inclusion Studio</h4>
+        <p>Countywide STEM and assistive technology program impacting students and educators through STEM programs, co-curricular activities, and inclusive design. Explicitly cited as a plan strength. Outreach tracked via newsletter and advertising analytics.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEELS</div>
+        <h4>STEELS Implementation — Effective</h4>
+        <p>STEELS standards implementation is explicitly named as effective in meeting LEA needs, placing DCIU in a leadership position among IUs navigating the transition from PSSA-era science to the new standards framework.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI</div>
+        <h4>Significant AI Professional Learning</h4>
+        <p>Significant organizational investment in Artificial Intelligence and emerging technologies professional learning is named as both a strength and a challenge. DCIU is actively guiding organizational decision-making with AI-informed practice — while scrutinizing policy, security, and evidence-based integration.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Equity / UDL</div>
+        <h4>STEM Equity Data Disaggregation</h4>
+        <p>STEM data disaggregated by gender, special education status, and high-need district — DCIU is tracking equity dimensions within STEM delivery, not just aggregate participation. Inclusion Studio name directly reflects this commitment.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Instructional Leadership</div>
+        <h4>Professional Learning Communities</h4>
+        <p>PLCs established and functional across K-12 programs. Supervisors Academy supports administrator development. Job Alike groups expanding job-embedded PD countywide. PLC model being formalized as the central instructional improvement architecture.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Workforce / Transition</div>
+        <h4>CTE Programs</h4>
+        <p>Career and Technical Education is a core direct-instruction program area serving students across Delaware County. Specific credentials and programs not detailed in the comprehensive plan, but CTE is a named service line.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>STEM Innovation and Inclusion Studio</h4>
+        <p>Countywide STEM and assistive technology studio delivering programs, co-curricular activities, and professional learning to students and educators across Delaware County. Outreach tracked via analytics.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Supervisors Academy</h4>
+        <p>Internal leadership development initiative growing the goals and instructional impact of K-12 services leaders — a core retention and administrator capacity strategy alongside formal PLC infrastructure.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>Professional Learning Communities (PLCs)</h4>
+        <p>Site-based data and instructional leadership model being formalized across DCIU programs, aligned to standards-based curriculum and consistent assessment implementation targets.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Job Alike Groups</h4>
+        <p>Countywide educator cohort networking and professional development creating job-embedded learning opportunities and professional connection across 15 public districts and nonpublic schools.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>A-TSI / TSI School Improvement Support</h4>
+        <p>Targeted support for schools in improvement status — helping them collect, analyze, and act on improvement data in alignment with state accountability requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>70%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:70%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>65%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:65%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>50%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:50%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>20%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:20%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>80%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:80%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>35%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:35%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Science (STEELS)</strong> — Strong; STEELS implementation explicitly named as effective with LEAs</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">AI / Computer Science</strong> — Strong; significant AI PL investment named as an organizational strength</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Strong; disaggregated STEM data, Inclusion Studio, UDL-adjacent language throughout</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">STEM Toolkit</strong> — Possible; countywide STEM studio delivery architecture is toolkit-adjacent</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>PLCs established and functional across K-12 programs</li>
+          <li>Supervisors Academy supporting administrator development</li>
+          <li>STEM Innovation and Inclusion Studio impacting students and educators countywide</li>
+          <li>Significant organizational investment in AI and emerging technology professional learning</li>
+          <li>STEELS standards implementation cited as effective with LEAs</li>
+          <li>Job alike groups and job-embedded PD expanding countywide reach</li>
+          <li>Strong safety, security, and stakeholder engagement leadership</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Staffing and retention — demand exceeds qualified applicants; top priority</li>
+          <li>Staff burnout and PD bandwidth — time, substitutes, and bandwidth are limiting factors</li>
+          <li>Emerging technology policy — technologies moving faster than policy development</li>
+          <li>Fiscal coordination across local, state, and federal resources</li>
+          <li>STEM TaC Hours — incorporating STEM into SoW goals is a named challenge</li>
+          <li>Increasing student behavioral complexity requiring updated programming frameworks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Recruitment</h4>
+        <p>Audit and implement innovative recruitment strategies to increase applicant volume across DCIU — addressing the gap between staffing demand and qualified candidate pipeline.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Retention</h4>
+        <p>Develop a data-informed retention plan with onboarding and engagement programming for new staff, built through a dedicated retention committee using structured data analysis.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">C</div>
+        <h4>Instructional Leadership</h4>
+        <p>Establish a PLC-driven system for consistent standards-aligned curriculum and assessment implementation across DCIU's direct-instruction programs and LEA partnerships.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">D</div>
+        <h4>Program Frameworks for Complex Needs</h4>
+        <p>Identify and implement evidence-based programs for students with complex academic and behavioral needs — responding to increasing student behavioral complexity across Delaware County programs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#129302;</div>
+        <h4>AI Policy Frameworks</h4>
+        <p>DCIU's documented AI professional learning investment positions it as a potential convener or co-developer of statewide AI policy frameworks for IUs navigating emerging technology adoption.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128300;</div>
+        <h4>STEELS Implementation Support</h4>
+        <p>Noted as effective — DCIU could serve as a model or resource for IUs earlier in their STEELS rollout, especially around integration with LEA professional development calendars.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128203;</div>
+        <h4>STEM Equity Data Models</h4>
+        <p>DCIU's disaggregated STEM data approach (gender, SpEd status, high-need districts) could inform shared PAIMS equity frameworks across the network.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128100;</div>
+        <h4>Staff Retention Infrastructure</h4>
+        <p>Staffing crisis is near-universal across IUs. DCIU's structured retention committee and data-driven approach could yield shareable tools for the broader PAIMS network.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Delaware County Intermediate Unit 25 Comprehensive Plan, 2025&ndash;2028. Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Profile generated for PAIMS planning use; verify directly with DCIU before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

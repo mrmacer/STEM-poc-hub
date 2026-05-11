@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IU11 Tuscarora Intermediate Unit | PA STEM PoC Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#071522;--card:#12243d;--card2:#172b48;--text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;--green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;--border:rgba(255,255,255,0.08)}
+    body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;min-height:100vh}
+    a{color:var(--accent);text-decoration:none;transition:color 0.15s}a:hover{color:var(--text)}
+    #progressBar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--accent);z-index:200;transition:width 0.1s linear;pointer-events:none}
+    .iu-nav{position:sticky;top:0;z-index:50;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(245,166,35,0.2);padding:0.7rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+    .iu-nav-brand{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);letter-spacing:2px;margin-right:auto}.iu-nav-brand span{color:var(--accent)}
+    .iu-nav-links{display:flex;gap:1.2rem;list-style:none;align-items:center;flex-wrap:wrap}
+    .iu-nav-links a{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}.iu-nav-links a:hover{color:var(--accent)}
+    .iu-back-link{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.25rem 0.65rem;border:1px solid rgba(255,255,255,0.1);border-radius:4px;transition:all 0.15s;white-space:nowrap}.iu-back-link:hover{color:var(--accent);border-color:rgba(245,166,35,0.3)}
+    .iu-hero{max-width:1100px;margin:0 auto;padding:3rem 2rem 2.5rem;border-bottom:1px solid var(--border)}
+    .iu-hero-layout{display:grid;grid-template-columns:1fr 260px;gap:2rem;align-items:start}
+    .iu-eyebrow{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;opacity:0.8}
+    .iu-number{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,6.5rem);color:var(--accent);line-height:0.9;letter-spacing:2px}
+    .iu-region-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--text);letter-spacing:1px;margin-bottom:0.85rem;line-height:1.1}
+    .iu-subtitle{font-size:0.87rem;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:1rem}
+    .iu-hero-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
+    .iu-tag{font-family:'Space Mono',monospace;font-size:0.6rem;padding:0.15rem 0.5rem;border-radius:20px;background:rgba(43,214,157,0.08);border:1px solid rgba(43,214,157,0.22);color:var(--green);letter-spacing:0.03em}
+    .iu-stat-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-top:0.5rem}
+    .iu-stat-label{font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.85rem;opacity:0.7;display:block}
+    .iu-stat-row{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;margin-bottom:0.65rem;padding-bottom:0.65rem;border-bottom:1px solid rgba(255,255,255,0.05)}.iu-stat-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+    .iu-stat-key{font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;flex-shrink:0}
+    .iu-stat-val{font-size:0.73rem;color:var(--text);text-align:right;line-height:1.4}
+    .iu-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border)}.iu-section:last-of-type{border-bottom:none}
+    .section-hd{margin-bottom:1.25rem}
+    .section-eyebrow{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;margin-bottom:0.2rem;display:flex;align-items:center;gap:0.35rem}.section-eyebrow::before{content:'//';opacity:0.4}
+    .section-title-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);color:var(--text);letter-spacing:1px;line-height:1.1}
+    .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .mission-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--accent)}
+    .mission-card h3{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.65rem}
+    .mission-card p{font-size:0.82rem;color:var(--muted);line-height:1.75}
+    .priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+    .priority-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;border-left:4px solid var(--accent)}
+    .priority-num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent);line-height:1;margin-bottom:0.3rem}
+    .priority-card h3{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:0.35rem}
+    .priority-card p{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:0.65rem}
+    .priority-list{list-style:none;padding:0}.priority-list li{font-size:0.74rem;color:var(--muted);padding:0.15rem 0 0.15rem 0.8rem;position:relative;line-height:1.5}.priority-list li::before{content:'→';position:absolute;left:0;color:rgba(245,166,35,0.45);font-size:0.62rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    .sc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+    .sc-card h3{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem}
+    .sc-card.strengths h3{color:var(--green)}.sc-card.challenges h3{color:var(--accent)}
+    .sc-list{list-style:none;padding:0}.sc-list li{font-size:0.77rem;color:var(--muted);padding:0.25rem 0 0.25rem 1rem;position:relative;line-height:1.5}
+    .strengths .sc-list li::before{content:'✓';position:absolute;left:0;color:var(--green);font-size:0.7rem}.challenges .sc-list li::before{content:'◎';position:absolute;left:0;color:var(--accent);font-size:0.65rem}
+    .sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+    .sow-bars{display:flex;flex-direction:column;gap:0.6rem}.sow-row{display:flex;align-items:center;gap:0.65rem}
+    .sow-row-label{font-family:'Space Mono',monospace;font-size:0.59rem;color:var(--muted);width:110px;flex-shrink:0}
+    .sow-bar{flex:1;height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+    .sow-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(43,214,157,0.6),rgba(43,214,157,0.9))}
+    .sow-pct{font-family:'Space Mono',monospace;font-size:0.57rem;color:var(--muted);width:26px;text-align:right;flex-shrink:0}
+    .wg-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem}
+    .wg-panel-label{font-family:'Space Mono',monospace;font-size:0.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.65rem;opacity:0.75}
+    .wg-chip-list{display:flex;flex-wrap:wrap;gap:0.3rem}
+    .wg-chip{font-family:'Space Mono',monospace;font-size:0.57rem;padding:0.15rem 0.5rem;border-radius:4px;background:rgba(79,163,232,0.08);border:1px solid rgba(79,163,232,0.22);color:var(--blue);letter-spacing:0.03em}
+    .share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.85rem}
+    .share-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem}
+    .share-card h4{font-family:'Space Mono',monospace;font-size:0.63rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.4rem}
+    .share-card p{font-size:0.76rem;color:var(--muted);line-height:1.65}
+    .future-note{background:rgba(245,166,35,0.04);border:1px dashed rgba(245,166,35,0.28);border-radius:10px;padding:1.25rem 1.5rem}
+    .future-note h3{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem}
+    .future-note p{font-size:0.81rem;color:var(--muted);line-height:1.75}
+    .iu-hero-logo-wrap{display:inline-flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(245,166,35,0.22);border-radius:14px;padding:0.6rem 0.9rem;margin-bottom:1.1rem}
+    .iu-hero-logo{width:72px;height:72px;object-fit:contain;background:rgba(255,255,255,0.94);padding:6px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.4);flex-shrink:0;display:block}
+    .iu-hero-logo-fallback{width:72px;height:72px;background:rgba(26,58,107,0.8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--accent);flex-shrink:0}
+    .iu-hero-logo-label{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;line-height:1.6}
+    .iu-hero-logo-label strong{display:block;font-size:0.72rem;color:var(--text);letter-spacing:0.04em}
+    .iu-footer{border-top:1px solid var(--border);padding:1.35rem 2rem;text-align:center}.iu-footer p{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);line-height:1.9;opacity:0.7}
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity 0.35s ease,transform 0.35s ease}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:820px){.iu-hero-layout,.mission-grid,.two-col,.sow-grid{grid-template-columns:1fr}.iu-section{padding:1.5rem 1.25rem 1.25rem}.iu-hero{padding:2rem 1.25rem 1.75rem}.iu-nav{padding:0.6rem 1rem;gap:0.75rem}.iu-nav-links{display:none}}
+  </style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav class="iu-nav">
+  <span class="iu-nav-brand">PA STEM <span>PoC</span> Hub</span>
+  <ul class="iu-nav-links">
+    <li><a href="index.html#network">Network</a></li>
+    <li><a href="index.html#directory">Directory</a></li>
+    <li><a href="index.html#workgroups">Workgroups</a></li>
+  </ul>
+  <a href="index.html#directory" class="iu-back-link">← All IUs</a>
+</nav>
+
+<section class="iu-hero">
+  <div class="iu-hero-layout">
+    <div>
+      <div class="iu-hero-logo-wrap">
+        <img class="iu-hero-logo" src="assests/iu-logos/iu11-logo.png" alt="TIU11 logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="iu-hero-logo-fallback" style="display:none">IU11</div>
+        <div class="iu-hero-logo-label"><strong>IU11</strong>Tuscarora Intermediate Unit<br>Comprehensive Plan Profile</div>
+      </div>
+      <div class="iu-eyebrow">PA Intermediate Unit · Huntingdon / Fulton / Mifflin Counties</div>
+      <div class="iu-number">IU11</div>
+      <div class="iu-region-name">Tuscarora Intermediate Unit 11</div>
+      <p class="iu-subtitle">A small, rurally-oriented IU with outsized STEM identity — TIU 11 is self-identified as one of Pennsylvania's outstanding STEM education providers, with staff regularly presenting at state-level conferences.</p>
+      <div class="iu-hero-tags">
+        <span class="iu-tag">STEM Toolkit</span>
+        <span class="iu-tag">STEM Integration</span>
+        <span class="iu-tag">Rural Education</span>
+        <span class="iu-tag">Workforce Development</span>
+      </div>
+    </div>
+    <div class="iu-stat-panel">
+      <span class="iu-stat-label">// Plan Snapshot</span>
+      <div class="iu-stat-row"><span class="iu-stat-key">Plan</span><span class="iu-stat-val">2024–2027</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">ED</span><span class="iu-stat-val">Shawn Kovac</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Region</span><span class="iu-stat-val">Huntingdon / Fulton / Mifflin</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Approved</span><span class="iu-stat-val">2023-01-04</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Source</span><span class="iu-stat-val">iu11-cp.pdf</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Identity</div>
+    <h2 class="section-title-h2">Mission &amp; Regional Identity</h2>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-card">
+      <h3>Mission &amp; Vision</h3>
+      <p>Connecting people, building communities, and improving lives. Vision: recognized leader and integral partner providing innovative, equitable, and accessible educational opportunities across south-central PA.</p>
+    </div>
+    <div class="mission-card">
+      <h3>STEM Standing</h3>
+      <p>TIU 11 explicitly self-identifies as one of the outstanding IUs in STEM Education statewide, with staff called upon to present at conferences. Despite small size, this is a high-identity STEM organization.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">STEM Signals</div>
+    <h2 class="section-title-h2">Named Programs &amp; Initiatives</h2>
+  </div>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-num">01</div>
+      <h3>STEM Education Program</h3>
+      <p>Explicitly identified as a major IU strength; state-recognized and outstanding. Staff regularly present STEM expertise at conferences statewide. Primary PAIMS-relevant asset.</p>
+      <ul class="priority-list">
+        <li>State-level recognition explicitly claimed in plan</li>
+        <li>Conference-level expertise on staff</li>
+      </ul>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">02</div>
+      <h3>Youth Forestry Camp #3</h3>
+      <p>Outdoor/environmental education program with dedicated staff member on steering committee. Possible environmental literacy alignment within STEM portfolio.</p>
+      <ul class="priority-list">
+        <li>Mark Genismore — Staff Member at Youth Forestry Camp #3</li>
+        <li>Environmental/outdoor education context</li>
+      </ul>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">03</div>
+      <h3>Adjudicated Youth Programs (×2)</h3>
+      <p>Two programs serving grades 7–12 justice-involved youth — a unique service challenge requiring specialized staff and curriculum adaptation not typical of most IUs.</p>
+      <ul class="priority-list">
+        <li>Court-dependent scheduling limits program delivery</li>
+        <li>Cross-IU knowledge sharing opportunity on alternative education</li>
+      </ul>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">04</div>
+      <h3>Asynchronous Learning Platform</h3>
+      <p>Building internal capacity to develop and deliver asynchronous PD courses for member districts via a learning platform. Led by Jigar Patel, Coordinator for Innovation and Special Projects (2025–2026).</p>
+      <ul class="priority-list">
+        <li>Addresses bandwidth constraints of small IU</li>
+        <li>Platform not yet named in plan</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Organizational Health</div>
+    <h2 class="section-title-h2">Strengths &amp; Challenges</h2>
+  </div>
+  <div class="two-col">
+    <div class="sc-card strengths">
+      <h3>Strengths</h3>
+      <ul class="sc-list">
+        <li>STEM state-recognized, conference-level expertise on staff</li>
+        <li>Personalized, district-specific instructional services</li>
+        <li>Strong relationships with member districts — actively sought out for PD</li>
+        <li>High-quality direct adult/professional services with strong district feedback</li>
+        <li>Culture of high expectations and reflective practice</li>
+      </ul>
+    </div>
+    <div class="sc-card challenges">
+      <h3>Challenges</h3>
+      <ul class="sc-list">
+        <li>Staffing/recruitment — difficulty hiring fully credentialed, experienced staff</li>
+        <li>Internal communication and duplication of PD offerings across districts</li>
+        <li>Marketing/visibility — districts unaware of available services</li>
+        <li>ESL/EL support — small IU receives limited Title III funding</li>
+        <li>Adjudicated youth program scheduling constrained by court calendars</li>
+        <li>Community/business partnerships formally underdeveloped</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">PAIMS Alignment</div>
+    <h2 class="section-title-h2">SOW Workgroup Signal Strength</h2>
+  </div>
+  <div class="sow-grid">
+    <div class="sow-bars">
+      <div class="sow-row"><span class="sow-row-label">STEELS / Science</span><div class="sow-bar"><div class="sow-fill" style="width:75%"></div></div><span class="sow-pct">75%</span></div>
+      <div class="sow-row"><span class="sow-row-label">AI / Comp Sci</span><div class="sow-bar"><div class="sow-fill" style="width:15%"></div></div><span class="sow-pct">15%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Ecosystems</span><div class="sow-bar"><div class="sow-fill" style="width:30%"></div></div><span class="sow-pct">30%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Competitions</span><div class="sow-bar"><div class="sow-fill" style="width:20%"></div></div><span class="sow-pct">20%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Equity / UDL</span><div class="sow-bar"><div class="sow-fill" style="width:55%"></div></div><span class="sow-pct">55%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Workforce</span><div class="sow-bar"><div class="sow-fill" style="width:35%"></div></div><span class="sow-pct">35%</span></div>
+    </div>
+    <div class="wg-panel">
+      <div class="wg-panel-label">// Likely Workgroup Homes</div>
+      <div class="wg-chip-list">
+        <span class="wg-chip">STEM Toolkit</span>
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:0.85rem;line-height:1.65">State-recognized STEM identity makes STEM Toolkit the strongest alignment. Bonney Forge (industrial manufacturer) as community partner suggests potential workforce development thread. No named CS, AI, makerspace, or competition programs in plan.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Network Value</div>
+    <h2 class="section-title-h2">Cross-IU Collaboration Opportunities</h2>
+  </div>
+  <div class="share-grid">
+    <div class="share-card">
+      <h4>STEM PD Export</h4>
+      <p>State-recognized STEM staff may be an untapped PD resource for neighboring IUs — TIU 11's conference-level expertise should be surfaced through the PAIMS workgroup network.</p>
+    </div>
+    <div class="share-card">
+      <h4>Async PD Infrastructure</h4>
+      <p>Small IUs with similar bandwidth constraints could share async course development platforms or co-develop content to amortize development cost.</p>
+    </div>
+    <div class="share-card">
+      <h4>Small/Rural IU Coordination</h4>
+      <p>ESL/EL challenge and Title III funding gaps mirror likely issues at other small-enrollment IUs; cross-IU coordination on Title III strategies is a statewide conversation opportunity.</p>
+    </div>
+    <div class="share-card">
+      <h4>Adjudicated Youth Program Networking</h4>
+      <p>Two justice-involved youth programs represent specialized alternative education expertise; potential knowledge-sharing with IUs serving comparable populations.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Plan Priorities</div>
+    <h2 class="section-title-h2">2024–2027 SMART Goals</h2>
+  </div>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-num">01</div>
+      <h3>Network Meetings</h3>
+      <p>Offer at least 3 networking PL opportunities beyond current offerings to 100% of member districts annually.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">02</div>
+      <h3>Banked Asynchronous Learning</h3>
+      <p>Create 3 asynchronous PL opportunities for member districts by end of each school year.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">03</div>
+      <h3>Integrated Professional Development</h3>
+      <p>Offer quarterly integrated on-site PD to 6 member districts using 2 of 3 TIU departments.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">04</div>
+      <h3>Hiring</h3>
+      <p>Attend 5 career recruitment activities per year to hire qualified, credentialed personnel for all open positions.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="future-note">
+    <h3>// Source Note</h3>
+    <p>Profile based on TIU 11 Comprehensive Plan 2024–2027 (iu11-cp.pdf), extracted 2026-05-10. Community partner: Bonney Forge (Kim Wilson). No specific named STEM programs beyond general STEM education identity — the state-recognized claim is in the Strengths section without specific program names. Technology focus is primarily on async PD infrastructure, not student-facing tools. Full STEM program details likely exist in supplemental materials not reflected in this plan document.</p>
+  </div>
+</section>
+
+<footer class="iu-footer">
+  <p>IU11 · Tuscarora Intermediate Unit · PA STEM PoC Hub<br>
+  <a href="index.html">← Hub Home</a> &nbsp;·&nbsp; <a href="index.html#directory">IU Directory</a> &nbsp;·&nbsp; <a href="index.html#workgroups">Workgroups</a></p>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+  const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')}),{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

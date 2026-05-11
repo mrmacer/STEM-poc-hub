@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colonial IU20 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">Colonial IU20</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Colonial Intermediate Unit 20</h1>
+    <p class="hero-sub">Monroe, Northampton &amp; Carbon Counties, Pennsylvania &mdash; 2024&ndash;2027 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Structured Literacy</span>
+      <span class="badge badge-green">Equity &amp; Inclusion</span>
+      <span class="badge badge-blue">Staff Retention</span>
+      <span class="badge badge-purple">Special Education</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu20-logo.png" alt="Colonial IU20 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU20</div>
+    <div class="logo-meta">
+      <strong>Colonial IU 20</strong>
+      6 Danforth Drive<br>Monroe/Northampton/Carbon Counties<br>
+      <span style="color:var(--accent)">2024&ndash;2027 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>CIU 20 centers its work on building positive relationships, responding to stakeholder needs, and demonstrating measurable results through student-focused services and programs. The organization envisions itself as a vibrant, child-centered institution capable of reaching students, families, and educators wherever they are and in whatever form they need support.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Serves Monroe, Northampton, and Carbon counties in eastern PA</li>
+          <li>Headquarters: 6 Danforth Drive; plan approved February 2024</li>
+          <li>Anchor districts include Bethlehem Area, Pocono Mountain, Northampton Area, Nazareth Area</li>
+          <li>Partner: East Stroudsburg University (Steering Committee)</li>
+          <li>Strategic posture: course-correcting post-pandemic curriculum gap; internally focused on instructional coherence and retention</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Program Signals &amp; Focus Areas</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">Literacy</div>
+        <h4>Structured Literacy / ELA Initiative</h4>
+        <p>Multi-year effort to implement evidence- and standards-based ELA curriculum using a structured literacy framework across all IU programs by end of 2026&ndash;2027. Uses PA SAS frameworks and DLM alignment as anchors.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Professional Learning</div>
+        <h4>Acadience Essentials Training</h4>
+        <p>Professional development program for teachers and administrators on structured literacy assessment tools, supporting consistent data-driven reading instruction across IU-served programs.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Staff Retention</div>
+        <h4>Stay Interview &amp; EIB Strategy</h4>
+        <p>Structured retention approach including Stay Interviews, satisfaction surveys, and an Employee Inclusion and Belonging (EIB) framework. Targets a 10% reduction in voluntary resignations by end of plan period.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Equity / Inclusion</div>
+        <h4>Equitable Standards-Based Curriculum</h4>
+        <p>Emphasis on ensuring all learners &mdash; including those with IEPs and diverse learning needs &mdash; access evidence-based, standards-aligned instruction. DLM (Dynamic Learning Maps) explicitly integrated.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>Technology Not Explicitly Addressed</h4>
+        <p>No AI initiatives, edtech platforms, or digital learning programs are named in this plan. Technology referenced only in context of retention surveys and an internal Employee Intranet platform.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEM</div>
+        <h4>STEM Not Addressed in Plan</h4>
+        <p>No STEM programs, makerspaces, science curriculum, competitions, or engineering activities are mentioned in this comprehensive plan. IU 20's 2024&ndash;2027 cycle focuses entirely on literacy and internal organizational health.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Structured Literacy / ELA Curriculum Initiative</h4>
+        <p>Multi-year implementation of an evidence- and standards-based ELA curriculum using structured literacy framework across all CIU 20 programs, with scope/sequence, assessment calendars, and coaching infrastructure.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Acadience Essentials Training</h4>
+        <p>PD program for teachers and administrators on Acadience literacy assessment tools, supporting consistent diagnostic reading instruction and data-driven intervention across programs.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>Employee Intranet / EIB Work</h4>
+        <p>Internal communication platform and Employee Inclusion &amp; Belonging initiative designed to improve staff cohesion, participation in organizational supports, and retention through a sense of belonging.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Community Partners</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Named Partners</h3>
+        <ul>
+          <li><strong>East Stroudsburg University</strong> — community partner represented on Steering Committee; support for staff development and newsletter infrastructure</li>
+          <li><strong>Local universities</strong> — referenced as general partners in staff development (not individually named)</li>
+          <li><strong>Local businesses and employers</strong> — mentioned generically in educational values statements as community collaborators</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Curriculum &amp; Standards Resources</h3>
+        <ul>
+          <li><strong>SAS (Standards Aligned System)</strong> — PA state curriculum framework; explicitly used as ELA curriculum writing anchor</li>
+          <li><strong>DLM (Dynamic Learning Maps)</strong> — referenced as instructional support materials for students with significant disabilities</li>
+          <li><strong>Acadience</strong> — literacy screening and assessment tool; training program being built around it</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>70%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:70%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:10%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Based on plan content signals:</p>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Strongest alignment; plan centers on equitable access to structured literacy for all students including those with disabilities and diverse learning needs</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--text)">No STEM workgroup alignment</strong> — No evidence in this plan cycle for Science, Technology &amp; Engineering, AI/CS, Competitions, Ecosystems, or STEM Toolkit workgroup participation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>Coordination of local, state, and federal fiscal resources</li>
+          <li>Flexible and customizable professional development for each LEA</li>
+          <li>Strong ongoing communication — 8 of 9 surveyed LEAs satisfied with IU services</li>
+          <li>Strong supervisor-to-staff communication; effective classroom teaming</li>
+          <li>Strong family communication — families report feeling like partners</li>
+          <li>Improved onboarding process in place; new hire PD series functioning</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Staffing shortages and substitute coverage (pandemic-exacerbated)</li>
+          <li>Voluntary resignations — targeted for 10% reduction</li>
+          <li>Lack of consistent, evidence-based curriculum across all programs</li>
+          <li>Standards-aligned assessment infrastructure incomplete</li>
+          <li>Administrator capacity as instructional leaders needs development</li>
+          <li>Previous comp plan curriculum goal derailed by pandemic — this plan is the course correction</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>ELA Curriculum — Structured Literacy</h4>
+        <p>By end of 2026&ndash;2027, all IU programs will implement an evidence- and standards-based curriculum using a structured literacy framework, with SAS alignment and DLM resources embedded.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Staff Retention</h4>
+        <p>By end of 2026&ndash;2027, IU 20 will reduce voluntary staff resignations by 10% overall through Stay Interviews, EIB initiatives, and improved internal communication and belonging infrastructure.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#128218;</div>
+        <h4>Structured Literacy Framework</h4>
+        <p>CIU 20's multi-year ELA curriculum with scope/sequence, assessment calendars, and Acadience + DLM alignment could serve as a shareable model for IUs developing structured literacy in special education settings.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128100;</div>
+        <h4>Staff Retention Strategy Design</h4>
+        <p>The Stay Interview, EIB framework, and HR-driven retention survey model is directly applicable to the near-universal IU challenge of early-career turnover — replicable across the state.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128204;</div>
+        <h4>SAS Curriculum Alignment</h4>
+        <p>Active use of Pennsylvania's SAS frameworks as a curriculum writing anchor is directly replicable and could support cross-IU curriculum committee work on standards alignment.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Colonial Intermediate Unit 20 Comprehensive Plan, 2024&ndash;2027 (approved February 2024). Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Note: This plan is focused on internal organizational health, structured literacy, and staff retention — minimal STEM-specific content was present. Profile generated for PAIMS planning use; verify directly with CIU 20 before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

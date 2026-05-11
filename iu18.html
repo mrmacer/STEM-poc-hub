@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luzerne IU18 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+.warning-banner{background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:.85rem 1rem;margin-bottom:1rem;font-size:.78rem;color:var(--muted);line-height:1.6}
+.warning-banner strong{color:var(--accent)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">Luzerne IU18</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Luzerne Intermediate Unit 18</h1>
+    <p class="hero-sub">Luzerne County, Pennsylvania &mdash; 2024&ndash;2027 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Workforce Ready</span>
+      <span class="badge badge-green">Transition Pathways</span>
+      <span class="badge badge-blue">Community Schools</span>
+      <span class="badge badge-purple">UDL / Inclusion</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu18-logo.png" alt="Luzerne IU18 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU18</div>
+    <div class="logo-meta">
+      <strong>Luzerne IU18</strong>
+      368 Tioga Avenue<br>Kingston, PA<br>
+      <span style="color:var(--accent)">2024&ndash;2027 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="warning-banner">
+      <strong>Partial Extraction Notice:</strong> The source document is a Public Review Copy in which pages 9&ndash;46 contain image-locked or blank content. SMART goals, detailed strategic objectives, and internal metrics could not be extracted. Content below reflects the extractable front matter and program descriptions.
+    </div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>Luzerne IU18 supports member districts across Luzerne County by providing specialized programs, transition services, and professional learning designed to ensure equitable access to education and meaningful pathways to post-secondary success for all learners.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Serves Luzerne County public schools</li>
+          <li>Headquarters: 368 Tioga Avenue, Kingston, PA</li>
+          <li>Emphasis on workforce development, community school models, and transition for students with disabilities</li>
+          <li>Named employer-connected programs for 11th&ndash;12th grade students</li>
+          <li>Early learning and family engagement as core service lines</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">Workforce</div>
+        <h4>Luzerne Learns to Work</h4>
+        <p>Employer-connected career readiness program for 11th&ndash;12th grade students, integrating LinkedIn Learning and Metrix Learning platforms with local employer partnerships to build workforce-ready credentials.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Transition Services</div>
+        <h4>Comprehensive Transition Pathways</h4>
+        <p>CBVT, CLTC, job shadowing, paid work experience, PA LAE, and itinerant transition specialists provide multiple coordinated pathways from school to post-secondary employment and independence.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Community Schools</div>
+        <h4>PAL — Personalized Academy of Learning</h4>
+        <p>Mentoring, literacy acceleration, and career pathway program serving students who need individualized alternative approaches. Community-school model integrating library and community resources.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Career Readiness</div>
+        <h4>Guest Teacher Program</h4>
+        <p>Fast-track pathway for bachelor's degree holders to serve as substitute teachers — addressing regional educator shortage while building a pipeline for long-term staff development.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>Digital Learning Platforms</h4>
+        <p>LinkedIn Learning and Metrix Learning integrated into Luzerne Learns to Work. REAL Academy uses technology-mediated instruction. AI/CS strategy not explicitly detailed in extractable content.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Environmental / Stewardship</div>
+        <h4>Dream Green Farm</h4>
+        <p>Experiential learning program with agricultural and environmental education components, providing community-connected STEM-adjacent learning opportunities for participating students.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Luzerne Learns to Work</h4>
+        <p>Employer-connected career readiness for grades 11&ndash;12 using LinkedIn Learning and Metrix Learning. Bridges classroom learning to local employer expectations.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Lighthouse Academy / Lighthouse Academy at Mehoopany</h4>
+        <p>Alternative education program offering structured academic support and behavioral intervention in community-based settings across the county.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>PAL — Personalized Academy of Learning</h4>
+        <p>Mentoring, literacy, and career pathway program for students requiring personalized learning approaches. Integrates Luzerne County Library as community partner.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Dream Green Farm</h4>
+        <p>Experiential agricultural and environmental learning program connecting students to stewardship, ecology, and career opportunities in land-based industries.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>Document Destruction Depot (DDD)</h4>
+        <p>Work-based learning enterprise providing vocational training and competitive integrated employment experience for students with disabilities.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">06</div>
+        <h4>REAL Academy</h4>
+        <p>Technology-mediated alternative learning program offering flexible, personalized educational pathways for students with complex needs or credit recovery requirements.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">07</div>
+        <h4>Pineapple Projects</h4>
+        <p>Project-based enrichment initiative fostering creative, hands-on learning and cross-curricular connections for participating students.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">08</div>
+        <h4>Guest Teacher Program</h4>
+        <p>Fast-track pathway enabling qualified bachelor's degree holders to serve as substitute teachers, addressing regional staffing shortages and building a local educator pipeline.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">09</div>
+        <h4>SpEd Certification Fast-Track</h4>
+        <p>Accelerated special education certification pathway for paraprofessionals and career changers, strengthening IU18's capacity to staff specialized programs with qualified educators.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Industry Partnerships</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Employer &amp; Platform Partners</h3>
+        <ul>
+          <li><strong>LinkedIn Learning</strong> — digital credentialing platform for Luzerne Learns to Work</li>
+          <li><strong>Metrix Learning</strong> — workforce readiness curriculum platform</li>
+          <li><strong>Local Employers</strong> — unnamed partners via Luzerne Learns to Work, providing site experiences and mentorship for 11th&ndash;12th graders</li>
+          <li><strong>Local Task Force (LTF)</strong> — community coordination body for workforce and transition planning</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Community &amp; Civic Partners</h3>
+        <ul>
+          <li><strong>Luzerne County Library</strong> — partner for PAL program, literacy, and community access</li>
+          <li><strong>Act 89 Resources</strong> — named grant funding source for non-public school services</li>
+          <li>Community schools model implies broad local municipal and nonprofit engagement not explicitly named in extractable content</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Workforce &amp; Transition Posture</div>
+    <div class="card">
+      <h3>Transition Service Architecture</h3>
+      <ul style="columns:2;gap:2rem">
+        <li><strong>CBVT</strong> — Community-Based Vocational Training</li>
+        <li><strong>CLTC</strong> — Community Life and Transition Center</li>
+        <li><strong>Job Shadowing</strong> — structured employer observation experiences</li>
+        <li><strong>Paid Work Experience</strong> — competitive integrated employment placements</li>
+        <li><strong>PA LAE</strong> — Pennsylvania Labor and Employment pathway</li>
+        <li><strong>Itinerant Transition Specialists</strong> — district-embedded coordinators</li>
+        <li><strong>Document Destruction Depot (DDD)</strong> — enterprise work-based learning</li>
+        <li><strong>Luzerne Learns to Work</strong> — employer-connected credentialing</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>15%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:15%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>30%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:30%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>70%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:70%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>75%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:75%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Based on plan content signals and identified focus areas:</p>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Primary workgroup; UDL, inclusive transition services, and community schools model are plan centerpieces</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--text)">Workforce Transitions</strong> — Strong implicit alignment via Luzerne Learns to Work, DDD, CBVT, and full transition services continuum</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>Diversified program portfolio spanning transition, alternative ed, career readiness, and early learning</li>
+          <li>Employer-connected workforce pipeline through Luzerne Learns to Work</li>
+          <li>Multiple transition service formats providing individualized pathway options</li>
+          <li>Community schools model creating layered support for vulnerable students</li>
+          <li>Fast-track educator pathways addressing regional staffing needs internally</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Extractable plan content limited — SMART goals and detailed metrics not available from Public Review Copy</li>
+          <li>STEELS implementation not explicitly addressed in available content</li>
+          <li>AI/CS professional learning strategy not detailed in extractable sections</li>
+          <li>Student competitions and STEM enrichment programming not named</li>
+          <li>Named employer partners not disclosed beyond platform names</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Workforce &amp; Career Readiness</h4>
+        <p>Scaling Luzerne Learns to Work, expanding employer partnerships, and embedding LinkedIn Learning / Metrix Learning credentials into 11th&ndash;12th grade programming.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Transition Services Continuum</h4>
+        <p>Maintaining a comprehensive, individualized transition architecture — CBVT, CLTC, paid work experience, itinerant specialists — to maximize post-secondary outcomes for students with disabilities.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">C</div>
+        <h4>Equity &amp; Inclusive Access</h4>
+        <p>Expanding UDL, community school partnerships, and alternative education programs to reach students with the greatest barriers to traditional educational success.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">D</div>
+        <h4>Educator Pipeline Development</h4>
+        <p>Guest Teacher Program and SpEd Certification fast-track as regional solutions to educator shortages, building long-term staffing capacity from within the community.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#128188;</div>
+        <h4>Employer Credentialing Model</h4>
+        <p>The LinkedIn Learning + Metrix Learning integration in Luzerne Learns to Work is a replicable employer-connected credentialing model for other IUs with workforce development mandates.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127807;</div>
+        <h4>Experiential / Environmental Learning</h4>
+        <p>Dream Green Farm provides a model for IUs seeking community-based agricultural or environmental STEM-adjacent programming as alternative engagement strategy.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128218;</div>
+        <h4>Educator Fast-Track Pathways</h4>
+        <p>Guest Teacher and SpEd fast-track programs address a statewide challenge. Design artifacts, partnerships, and program structure could be adapted by other IUs facing similar staffing shortages.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127891;</div>
+        <h4>Transition Services Architecture</h4>
+        <p>Eight-pronged transition continuum (CBVT, CLTC, PWE, PAL, DDD, REAL, PAL, specialists) offers a scalable blueprint for IUs expanding transition service coverage.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Luzerne Intermediate Unit 18 Comprehensive Plan, 2024&ndash;2027 (Public Review Copy). Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. <strong>Note:</strong> Pages 9&ndash;46 of the source document contained image-locked or blank content; SMART goals, detailed strategic objectives, and metrics could not be extracted. Content reflects front matter and program description sections only. Profile generated for PAIMS planning use; verify directly with IU18 before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

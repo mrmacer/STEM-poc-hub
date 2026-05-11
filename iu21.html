@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLIU 21 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">CLIU 21</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Carbon-Lehigh Intermediate Unit 21</h1>
+    <p class="hero-sub">Carbon &amp; Lehigh Counties, Pennsylvania &mdash; 2024&ndash;2027 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Adult Education</span>
+      <span class="badge badge-green">Career Readiness</span>
+      <span class="badge badge-blue">Staff Retention</span>
+      <span class="badge badge-purple">Manufacturing Sector</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu21-logo.png" alt="CLIU 21 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU21</div>
+    <div class="logo-meta">
+      <strong>CLIU 21</strong>
+      Dr. Elaine Eib<br>Executive Director<br>
+      4210 Independence Dr<br>
+      <span style="color:var(--accent)">2024&ndash;2027 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>CLIU 21 is an educational service agency with a singular, direct mission: helping children learn. Its vision centers on serving as a regional coordinating hub that connects school districts, vocational schools, businesses, higher education, and community groups through a systems-based, innovation-embracing approach.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Dr. Elaine Eib</li>
+          <li>Serves Carbon and Lehigh counties; mixed urban-to-rural LEA range</li>
+          <li>Address: 4210 Independence Drive</li>
+          <li>Growing adult education services aligned to industry needs</li>
+          <li>Manufacturing Resource Center partner (Karen Buck) on Steering Committee</li>
+          <li>2024&ndash;2027 plan is internally focused: retention, professional learning, and data culture</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Program Signals &amp; Focus Areas</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">Workforce / Career Readiness</div>
+        <h4>Adult Education Expansion</h4>
+        <p>Adult education services explicitly growing and being aligned to industry needs — cited as a strength. New community partnerships building career readiness capacity across the Carbon-Lehigh region.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Manufacturing Sector</div>
+        <h4>Manufacturing Resource Center</h4>
+        <p>Karen Buck from the Manufacturing Resource Center is a named community partner on the Steering Committee, providing the clearest industry connection for workforce and career readiness alignment in this plan cycle.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Organizational Development</div>
+        <h4>Organizational Climate Initiative</h4>
+        <p>Multi-year effort to improve staff retention and internal culture using subcommittees and data-driven review cycles, benchmarked against Wing Institute Research on enhancing the profession.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Professional Learning</div>
+        <h4>Professional Learning Plan Development</h4>
+        <p>Structured initiative to build a new, feedback-responsive professional learning plan for CLIU 21 by June 2027, driven by survey data analysis and cross-department collaboration.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>Technology Threats Identified</h4>
+        <p>Evolution of digital safety and privacy threats is an ongoing concern. HRIS used for staff retention data analysis. No proactive AI or digital learning initiatives are described in this plan cycle.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEM</div>
+        <h4>STEM Not Present in Plan</h4>
+        <p>No STEM programs, makerspaces, science curriculum, competitions, or technology/engineering initiatives are mentioned in this plan. The Manufacturing Resource Center partnership is the closest STEM-adjacent thread.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Organizational Climate Initiative</h4>
+        <p>Multi-year data-driven effort to improve professional staff retention using subcommittees, climate surveys, and regular data review cycles benchmarked against research on educator retention and organizational health.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Professional Learning Plan Development</h4>
+        <p>Building a new professional learning plan for CLIU 21 by June 2027 — responsive to PDE requirements, staff survey feedback, and identified student needs — with structured feedback loops and delivery diversification.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>Cross-Department SSoS Teams</h4>
+        <p>Newly formed teams including cross-department literacy, resiliency, and school climate groups designed to improve services, increase staff collaboration, and reduce siloed operations across CLIU 21 divisions.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Adult Education Services Expansion</h4>
+        <p>Growing service area explicitly aligned to regional industry needs. New community partnerships being built for career readiness capacity. Details not fully specified in plan but cited as a named strength and strategic priority.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Industry &amp; Community Partners</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Named Partners</h3>
+        <ul>
+          <li><strong>Manufacturing Resource Center</strong> — Karen Buck, community partner on Steering Committee; explicit workforce and career readiness relevance</li>
+          <li><strong>Local Task Force</strong> — Amanda Robbins (parent representative); community stakeholder voice on planning</li>
+          <li><strong>Adult education industry partners</strong> — referenced generally in strengths section; specific companies not named in plan</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Internal Systems</h3>
+        <ul>
+          <li><strong>HRIS</strong> — Human Resources Information System for staff retention data analysis and metrics</li>
+          <li><strong>Survey tools</strong> — Used for organizational climate and professional learning feedback (specific platform not named)</li>
+          <li><strong>SPS Frameworks</strong> — Referenced as a curriculum base for defining core curriculum across diverse LEAs</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>30%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:30%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>30%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:30%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Workgroup Alignment Assessment</h4>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:.75rem">No explicit PAIMS STEM workgroup alignment is indicated in this plan. The 2024&ndash;2027 cycle focuses on internal organizational health, human capital, and professional learning systems.</p>
+        <p style="font-size:.85rem;color:var(--muted)">The <strong style="color:var(--accent)">Manufacturing Resource Center</strong> partnership is the strongest PAIMS-adjacent thread — suggesting potential future entry points for Workforce Transitions conversations as adult education services mature.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>Agile, actionable committees with consistent review cycles</li>
+          <li>Leadership communication and collaboration culture explicitly strong</li>
+          <li>Growing community partnerships driving career readiness capacity</li>
+          <li>Refreshed SSoS approach with centralized collaboration increasing service opportunities</li>
+          <li>Growing adult education services aligned to industry needs</li>
+          <li>Increasing cross-department teamwork improving service robustness</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Staff retention beyond first 3 years — primary and explicitly prioritized challenge</li>
+          <li>Meeting programming needs for existing services and new LEA requests</li>
+          <li>Stakeholder engagement across all levels in connected modalities</li>
+          <li>Lack of consistent internal PL feedback data to determine efficacy</li>
+          <li>Technology threats — digital safety and privacy evolution</li>
+          <li>Rising special needs identification rates requiring continual staffing analysis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Organizational Climate &amp; Retention</h4>
+        <p>By June 2027, CLIU 21 will demonstrate improved professional staff retention, measured through HRIS data, climate surveys, and subcommittee-driven action cycles benchmarked against Wing Institute research.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Professional Learning Plan</h4>
+        <p>By June 2027, CLIU 21 will develop an evolved professional learning plan responsive to PDE requirements, staff feedback, and student needs — built on a new internal feedback and delivery infrastructure.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#128200;</div>
+        <h4>Staff Retention Strategy</h4>
+        <p>CLIU 21's structured, data-driven approach to retention using HRIS, survey tools, and climate subcommittees could serve as a replicable model for other IUs facing early-career turnover challenges.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127979;</div>
+        <h4>PL Feedback Infrastructure</h4>
+        <p>Building a new PL feedback and evaluation system from scratch — IUs developing similar frameworks could share survey instruments, data protocols, and delivery diversification strategies.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127981;</div>
+        <h4>Adult Education &amp; Industry Alignment</h4>
+        <p>CLIU 21's growing adult education services aligned to industry needs represent a potential cross-IU coordination point, particularly around the Manufacturing Resource Center partnership model.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Carbon-Lehigh Intermediate Unit 21 Comprehensive Plan, 2024&ndash;2027 (document signed 2022-03-10). Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Note: This plan is primarily an internal organizational health plan — two goals focused on staff retention and professional learning systems. Limited STEM-specific content. Profile generated for PAIMS planning use; verify directly with CLIU 21 before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

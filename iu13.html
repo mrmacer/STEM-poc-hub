@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IU13 Lancaster-Lebanon Intermediate Unit | PA STEM PoC Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#071522;--card:#12243d;--card2:#172b48;--text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;--green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;--border:rgba(255,255,255,0.08)}
+    body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;min-height:100vh}
+    a{color:var(--accent);text-decoration:none;transition:color 0.15s}a:hover{color:var(--text)}
+    #progressBar{position:fixed;top:0;left:0;height:2px;width:0%;background:var(--accent);z-index:200;transition:width 0.1s linear;pointer-events:none}
+    .iu-nav{position:sticky;top:0;z-index:50;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(245,166,35,0.2);padding:0.7rem 2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+    .iu-nav-brand{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--text);letter-spacing:2px;margin-right:auto}.iu-nav-brand span{color:var(--accent)}
+    .iu-nav-links{display:flex;gap:1.2rem;list-style:none;align-items:center;flex-wrap:wrap}
+    .iu-nav-links a{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em}.iu-nav-links a:hover{color:var(--accent)}
+    .iu-back-link{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;padding:0.25rem 0.65rem;border:1px solid rgba(255,255,255,0.1);border-radius:4px;transition:all 0.15s;white-space:nowrap}.iu-back-link:hover{color:var(--accent);border-color:rgba(245,166,35,0.3)}
+    .iu-hero{max-width:1100px;margin:0 auto;padding:3rem 2rem 2.5rem;border-bottom:1px solid var(--border)}
+    .iu-hero-layout{display:grid;grid-template-columns:1fr 260px;gap:2rem;align-items:start}
+    .iu-eyebrow{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;opacity:0.8}
+    .iu-number{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,6.5rem);color:var(--accent);line-height:0.9;letter-spacing:2px}
+    .iu-region-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--text);letter-spacing:1px;margin-bottom:0.85rem;line-height:1.1}
+    .iu-subtitle{font-size:0.87rem;color:var(--muted);line-height:1.75;max-width:600px;margin-bottom:1rem}
+    .iu-hero-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
+    .iu-tag{font-family:'Space Mono',monospace;font-size:0.6rem;padding:0.15rem 0.5rem;border-radius:20px;background:rgba(43,214,157,0.08);border:1px solid rgba(43,214,157,0.22);color:var(--green);letter-spacing:0.03em}
+    .iu-stat-panel{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;margin-top:0.5rem}
+    .iu-stat-label{font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.85rem;opacity:0.7;display:block}
+    .iu-stat-row{display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;margin-bottom:0.65rem;padding-bottom:0.65rem;border-bottom:1px solid rgba(255,255,255,0.05)}.iu-stat-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+    .iu-stat-key{font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;flex-shrink:0}
+    .iu-stat-val{font-size:0.73rem;color:var(--text);text-align:right;line-height:1.4}
+    .iu-section{max-width:1100px;margin:0 auto;padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border)}.iu-section:last-of-type{border-bottom:none}
+    .section-hd{margin-bottom:1.25rem}
+    .section-eyebrow{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;opacity:0.8;margin-bottom:0.2rem;display:flex;align-items:center;gap:0.35rem}.section-eyebrow::before{content:'//';opacity:0.4}
+    .section-title-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);color:var(--text);letter-spacing:1px;line-height:1.1}
+    .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .mission-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--accent)}
+    .mission-card h3{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.65rem}
+    .mission-card p{font-size:0.82rem;color:var(--muted);line-height:1.75}
+    .priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+    .priority-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;border-left:4px solid var(--accent)}
+    .priority-num{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent);line-height:1;margin-bottom:0.3rem}
+    .priority-card h3{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:0.35rem}
+    .priority-card p{font-size:0.78rem;color:var(--muted);line-height:1.6;margin-bottom:0.65rem}
+    .priority-list{list-style:none;padding:0}.priority-list li{font-size:0.74rem;color:var(--muted);padding:0.15rem 0 0.15rem 0.8rem;position:relative;line-height:1.5}.priority-list li::before{content:'→';position:absolute;left:0;color:rgba(245,166,35,0.45);font-size:0.62rem}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    .sc-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+    .sc-card h3{font-family:'Space Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.75rem}
+    .sc-card.strengths h3{color:var(--green)}.sc-card.challenges h3{color:var(--accent)}
+    .sc-list{list-style:none;padding:0}.sc-list li{font-size:0.77rem;color:var(--muted);padding:0.25rem 0 0.25rem 1rem;position:relative;line-height:1.5}
+    .strengths .sc-list li::before{content:'✓';position:absolute;left:0;color:var(--green);font-size:0.7rem}.challenges .sc-list li::before{content:'◎';position:absolute;left:0;color:var(--accent);font-size:0.65rem}
+    .sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+    .sow-bars{display:flex;flex-direction:column;gap:0.6rem}.sow-row{display:flex;align-items:center;gap:0.65rem}
+    .sow-row-label{font-family:'Space Mono',monospace;font-size:0.59rem;color:var(--muted);width:110px;flex-shrink:0}
+    .sow-bar{flex:1;height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden}
+    .sow-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,rgba(43,214,157,0.6),rgba(43,214,157,0.9))}
+    .sow-pct{font-family:'Space Mono',monospace;font-size:0.57rem;color:var(--muted);width:26px;text-align:right;flex-shrink:0}
+    .wg-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem}
+    .wg-panel-label{font-family:'Space Mono',monospace;font-size:0.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.65rem;opacity:0.75}
+    .wg-chip-list{display:flex;flex-wrap:wrap;gap:0.3rem}
+    .wg-chip{font-family:'Space Mono',monospace;font-size:0.57rem;padding:0.15rem 0.5rem;border-radius:4px;background:rgba(79,163,232,0.08);border:1px solid rgba(79,163,232,0.22);color:var(--blue);letter-spacing:0.03em}
+    .share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0.85rem}
+    .share-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem}
+    .share-card h4{font-family:'Space Mono',monospace;font-size:0.63rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.4rem}
+    .share-card p{font-size:0.76rem;color:var(--muted);line-height:1.65}
+    .future-note{background:rgba(245,166,35,0.04);border:1px dashed rgba(245,166,35,0.28);border-radius:10px;padding:1.25rem 1.5rem}
+    .future-note h3{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem}
+    .future-note p{font-size:0.81rem;color:var(--muted);line-height:1.75}
+    .iu-hero-logo-wrap{display:inline-flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.06);border:1px solid rgba(245,166,35,0.22);border-radius:14px;padding:0.6rem 0.9rem;margin-bottom:1.1rem}
+    .iu-hero-logo{width:72px;height:72px;object-fit:contain;background:rgba(255,255,255,0.94);padding:6px;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,0.4);flex-shrink:0;display:block}
+    .iu-hero-logo-fallback{width:72px;height:72px;background:rgba(26,58,107,0.8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--accent);flex-shrink:0}
+    .iu-hero-logo-label{font-family:'Space Mono',monospace;font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;line-height:1.6}
+    .iu-hero-logo-label strong{display:block;font-size:0.72rem;color:var(--text);letter-spacing:0.04em}
+    .iu-footer{border-top:1px solid var(--border);padding:1.35rem 2rem;text-align:center}.iu-footer p{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);line-height:1.9;opacity:0.7}
+    .reveal{opacity:0;transform:translateY(10px);transition:opacity 0.35s ease,transform 0.35s ease}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:820px){.iu-hero-layout,.mission-grid,.two-col,.sow-grid{grid-template-columns:1fr}.iu-section{padding:1.5rem 1.25rem 1.25rem}.iu-hero{padding:2rem 1.25rem 1.75rem}.iu-nav{padding:0.6rem 1rem;gap:0.75rem}.iu-nav-links{display:none}}
+  </style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav class="iu-nav">
+  <span class="iu-nav-brand">PA STEM <span>PoC</span> Hub</span>
+  <ul class="iu-nav-links">
+    <li><a href="index.html#network">Network</a></li>
+    <li><a href="index.html#directory">Directory</a></li>
+    <li><a href="index.html#workgroups">Workgroups</a></li>
+  </ul>
+  <a href="index.html#directory" class="iu-back-link">← All IUs</a>
+</nav>
+
+<section class="iu-hero">
+  <div class="iu-hero-layout">
+    <div>
+      <div class="iu-hero-logo-wrap">
+        <img class="iu-hero-logo" src="assests/iu-logos/iu13-logo.png" alt="IU13 logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="iu-hero-logo-fallback" style="display:none">IU13</div>
+        <div class="iu-hero-logo-label"><strong>IU13</strong>Lancaster-Lebanon IU<br>Comprehensive Plan Profile</div>
+      </div>
+      <div class="iu-eyebrow">PA Intermediate Unit · Lancaster and Lebanon Counties</div>
+      <div class="iu-number">IU13</div>
+      <div class="iu-region-name">Lancaster-Lebanon Intermediate Unit 13</div>
+      <p class="iu-subtitle">A large, mature IU serving Lancaster and Lebanon counties with a "Work Worth Doing" vision centered on belonging and trust. STEELS-aligned STEM is a named strength; this plan cycle's primary focus is organizational resilience and leadership development.</p>
+      <div class="iu-hero-tags">
+        <span class="iu-tag">STEELS</span>
+        <span class="iu-tag">Equity &amp; Inclusion</span>
+        <span class="iu-tag">Early Learning</span>
+        <span class="iu-tag">Workforce Development</span>
+      </div>
+    </div>
+    <div class="iu-stat-panel">
+      <span class="iu-stat-label">// Plan Snapshot</span>
+      <div class="iu-stat-row"><span class="iu-stat-key">Plan</span><span class="iu-stat-val">2024–2027</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">ED</span><span class="iu-stat-val">Matt Stem</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Region</span><span class="iu-stat-val">Lancaster &amp; Lebanon Counties</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Address</span><span class="iu-stat-val">1020 New Holland Ave, Lancaster</span></div>
+      <div class="iu-stat-row"><span class="iu-stat-key">Source</span><span class="iu-stat-val">iu13-pc.pdf</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Identity</div>
+    <h2 class="section-title-h2">Mission &amp; Vision</h2>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-card">
+      <h3>Mission</h3>
+      <p>Provide services, supports, and solutions that make a meaningful difference for all learners and the broader community across Lancaster and Lebanon counties.</p>
+    </div>
+    <div class="mission-card">
+      <h3>Vision — "Work Worth Doing"</h3>
+      <p>Cultivating trust, unity, and belonging across education systems and communities to ensure every learner is well served. STEM education aligned to STEELS standards is an explicit organizational strength.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Programs</div>
+    <h2 class="section-title-h2">Named Initiatives &amp; Signature Programs</h2>
+  </div>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-num">01</div>
+      <h3>Innovation &amp; Stewardship Program</h3>
+      <p>Fosters agile approaches to identifying and solving complex problems facing education and communities; supports continuous improvement across all IU13 programs. Sustained by the Project Management Office (PMO).</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">02</div>
+      <h3>Head Start / PreK Counts</h3>
+      <p>Active early childhood programs showing significant student growth on Teaching Strategies Gold Assessment. Multi-site presence across Lancaster and Lebanon counties.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">03</div>
+      <h3>Partial Hospitalization / Day Treatment</h3>
+      <p>High-intensity behavioral health and academic programs serving students with complex needs; noted for high successful completion rates. Strong mental health professional infrastructure.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">04</div>
+      <h3>STEELS-Aligned STEM Education</h3>
+      <p>Explicitly cited as a strength in the plan: "STEM education aligned to STEELS standards." No specific named programs or personnel — partnership or resource-sharing with more developed STEM IUs warranted.</p>
+      <ul class="priority-list">
+        <li>STEELS standards alignment confirmed as operational</li>
+        <li>No STEM-specific personnel named in this plan</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Community Partnerships</div>
+    <h2 class="section-title-h2">Industry &amp; Workforce Partners</h2>
+  </div>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-num">WF</div>
+      <h3>Lancaster Workforce Development Board</h3>
+      <p>Direct community partner on Steering Committee (Anna Ramos). Post-graduation success explicitly named as a goal; collaboration with WDB supports career pathway alignment.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">HE</div>
+      <h3>Higher Education Partners</h3>
+      <p>Elizabethtown College (Stephanie Zegers), Lebanon Valley College (Kathy Blouch), Millersville University (Lara Willox), Lebanon Valley Chamber, Lancaster Chamber — all on Steering Committee.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">PD</div>
+      <h3>PaTTAN Harrisburg</h3>
+      <p>Three PaTTAN representatives on Steering Committee (Angela Kirby, Chris Cherny, Sergio Anaya), indicating active state-technical assistance alignment.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Organizational Health</div>
+    <h2 class="section-title-h2">Strengths &amp; Challenges</h2>
+  </div>
+  <div class="two-col">
+    <div class="sc-card strengths">
+      <h3>Strengths</h3>
+      <ul class="sc-list">
+        <li>STEM education aligned to STEELS standards (named in Strengths section)</li>
+        <li>Adaptive, regularly updated business model with PMO support</li>
+        <li>Strong relationships with Lancaster/Lebanon school districts, higher ed, workforce boards</li>
+        <li>Head Start/PreK Counts show significant Teaching Strategies Gold growth</li>
+        <li>High participant satisfaction across PD, special ed, early childhood, adult ed</li>
+        <li>Active SSOS POC participation completing all deliverables</li>
+      </ul>
+    </div>
+    <div class="sc-card challenges">
+      <h3>Challenges</h3>
+      <ul class="sc-list">
+        <li>Staffing shortage at crisis level — especially in special education</li>
+        <li>Leadership development system incomplete; structured pipeline needed</li>
+        <li>Adult education outcomes below target on standardized assessments</li>
+        <li>Equity data limitations — disaggregated data unavailable for many services</li>
+        <li>Social-emotional and mental health demand exceptionally high</li>
+        <li>SSOS alignment gaps — not all state initiatives align with regional district needs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">PAIMS Alignment</div>
+    <h2 class="section-title-h2">SOW Workgroup Signal Strength</h2>
+  </div>
+  <div class="sow-grid">
+    <div class="sow-bars">
+      <div class="sow-row"><span class="sow-row-label">STEELS / Science</span><div class="sow-bar"><div class="sow-fill" style="width:40%"></div></div><span class="sow-pct">40%</span></div>
+      <div class="sow-row"><span class="sow-row-label">AI / Comp Sci</span><div class="sow-bar"><div class="sow-fill" style="width:5%"></div></div><span class="sow-pct">5%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Ecosystems</span><div class="sow-bar"><div class="sow-fill" style="width:30%"></div></div><span class="sow-pct">30%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Competitions</span><div class="sow-bar"><div class="sow-fill" style="width:5%"></div></div><span class="sow-pct">5%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Equity / UDL</span><div class="sow-bar"><div class="sow-fill" style="width:75%"></div></div><span class="sow-pct">75%</span></div>
+      <div class="sow-row"><span class="sow-row-label">Workforce</span><div class="sow-bar"><div class="sow-fill" style="width:40%"></div></div><span class="sow-pct">40%</span></div>
+    </div>
+    <div class="wg-panel">
+      <div class="wg-panel-label">// Likely Workgroup Homes</div>
+      <div class="wg-chip-list">
+        <span class="wg-chip">Equity &amp; Inclusion</span>
+      </div>
+      <p style="font-size:0.72rem;color:var(--muted);margin-top:0.85rem;line-height:1.65">Belonging and CR-SE are dominant plan themes with dedicated staffing. STEELS mention is brief and not tied to specific programs or personnel — could grow with more developed STEM IU partnerships.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Network Value</div>
+    <h2 class="section-title-h2">Cross-IU Collaboration Opportunities</h2>
+  </div>
+  <div class="share-grid">
+    <div class="share-card">
+      <h4>STEELS Implementation Support</h4>
+      <p>IU13 claims STEELS-aligned STEM as a strength but provides no named programs — potential to share or receive resources from IUs with more developed STEM infrastructure.</p>
+    </div>
+    <div class="share-card">
+      <h4>Belonging &amp; CR-SE Infrastructure</h4>
+      <p>Dedicated Program Director for Organizational Culture plus CR-SE training infrastructure could serve as a model for equity-focused workgroup efforts statewide.</p>
+    </div>
+    <div class="share-card">
+      <h4>Mental Health Services</h4>
+      <p>Partial hospitalization and intensive day treatment expertise — potential collaboration on mental health capacity-building across IUs managing increasing behavioral complexity.</p>
+    </div>
+    <div class="share-card">
+      <h4>Leadership Pipeline Development</h4>
+      <p>Act 93 Induction and Leadership Council infrastructure may offer cross-IU administrator development collaboration potential.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="section-hd">
+    <div class="section-eyebrow">Plan Priorities</div>
+    <h2 class="section-title-h2">2024–2027 SMART Goals</h2>
+  </div>
+  <div class="priority-grid">
+    <div class="priority-card">
+      <div class="priority-num">01</div>
+      <h3>Convening &amp; Connecting</h3>
+      <p>Leverage IU13's scale and relationships to bring diverse partners together, expand networks with representative community voices, and support Board in building trust and unity locally.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">02</div>
+      <h3>Educational Services</h3>
+      <p>Continuously refine academic and social-emotional programming; maximize learner success beyond graduation through expanded post-secondary support systems.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">03</div>
+      <h3>Organizational Resilience</h3>
+      <p>Maintain systems that incentivize innovation; foster agile approaches; cultivate staff belonging and unity; create flexible, caring work environment.</p>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">04</div>
+      <h3>Developing Leaders</h3>
+      <p>Engage leaders through structured systems; build staff decision-making capacity; identify and develop future leaders; create ongoing leadership development opportunities.</p>
+    </div>
+  </div>
+</section>
+
+<section class="iu-section reveal">
+  <div class="future-note">
+    <h3>// Source Note</h3>
+    <p>Profile based on IU13 Comprehensive Plan 2024–2027 (iu13-pc.pdf), extracted 2026-05-10. Technologies: Teaching Strategies Gold, Microsoft Planner/Tasks. STEELS-aligned STEM is listed as a strength without named programs or personnel — this is a high-potential but underspecified signal. Recommend direct outreach to verify active STEM programming scope. No AI, CS, or makerspace initiatives in this plan.</p>
+  </div>
+</section>
+
+<footer class="iu-footer">
+  <p>IU13 · Lancaster-Lebanon Intermediate Unit · PA STEM PoC Hub<br>
+  <a href="index.html">← Hub Home</a> &nbsp;·&nbsp; <a href="index.html#directory">IU Directory</a> &nbsp;·&nbsp; <a href="index.html#workgroups">Workgroups</a></p>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('progressBar').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+  const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('visible')}),{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bucks County IU22 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.stat-row{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.stat-box{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;flex:1;min-width:140px;text-align:center}
+.stat-box .stat-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1.1}
+.stat-box .stat-label{font-size:.75rem;color:var(--muted);font-family:'Space Mono',monospace}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">Bucks County IU22</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Bucks County Intermediate Unit 22</h1>
+    <p class="hero-sub">Bucks County, Pennsylvania &mdash; 2025&ndash;2028 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Fab Lab &amp; Making</span>
+      <span class="badge badge-green">STEAM Education</span>
+      <span class="badge badge-blue">Mobile Outreach</span>
+      <span class="badge badge-purple">Equity &amp; Inclusion</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu22-logo.png" alt="Bucks County IU22 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU22</div>
+    <div class="logo-meta">
+      <strong>Bucks County IU</strong>
+      Mark Hoffman, ED<br>705 N. Shady Retreat Rd.<br>Doylestown, PA 18901<br>
+      <span style="color:var(--accent)">2025&ndash;2028 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-val">13</div><div class="stat-label">Public Districts</div></div>
+      <div class="stat-box"><div class="stat-val">200+</div><div class="stat-label">Schools Served</div></div>
+      <div class="stat-box"><div class="stat-val">25,000+</div><div class="stat-label">Mobile Fab Lab Students</div></div>
+      <div class="stat-box"><div class="stat-val">400+</div><div class="stat-label">Summer Camp Participants</div></div>
+      <div class="stat-box"><div class="stat-val">700+</div><div class="stat-label">PD Opportunities / Year</div></div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>Bucks County IU is dedicated to compassionately supporting all learners, families, school districts, and the broader community through innovative teaching, experiential learning, responsive leadership, and effective business solutions. Their vision: strengthen inclusive cultures where all learn, flourish, and contribute.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Mark Hoffman</li>
+          <li>Serves 13 public school districts, nonpublic schools, 3 CTE schools, and PDE across 200+ schools</li>
+          <li>Divisions: Special Education, Early Childhood/Head Start, Technology, Strategic Services, Education Foundation</li>
+          <li>Named Supervisor of STEAM Education role</li>
+          <li>Well-established Fab Lab Center with documented growth; Mobile Fab Lab reaching 25,000+ students</li>
+          <li>Rated "Exemplary" on community/business partnerships and high-expectations culture</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">Makerspaces</div>
+        <h4>Fab Lab Center</h4>
+        <p>Fixed-location Fab Lab serving 400+ summer campers and 3,000+ students during the school year. Documented demand exceeds current capacity — scaling the program is an explicit plan priority challenge.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Mobile STEAM</div>
+        <h4>Mobile Fab Lab</h4>
+        <p>Travels to schools via week-long residencies; has served over 25,000 public and nonpublic Bucks County students. Replicable architecture for reaching students beyond a central location.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEAM Education</div>
+        <h4>Supervisor of STEAM Education</h4>
+        <p>A dedicated STEAM Education supervisor role exists within the IU, demonstrating institutional commitment to STEAM as a named organizational function. Fab Lab Camp coordination is a primary responsibility.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Digital Systems</div>
+        <h4>Technology Division Modernization</h4>
+        <p>Moving purchase orders, travel reimbursement, and payroll from paper/email to digital platforms. PowerSchool SIS, Oracle HCM Cloud, and an LMS for async PD delivery are being actively implemented.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>AI Not Yet Integrated</h4>
+        <p>AI-specific initiatives are not named in this plan. Technology workshops educate staff on existing systems. Emerging technology strategy not explicitly articulated — this may be addressed in supplemental plans.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Workforce / Transition</div>
+        <h4>Adult Services Expansion</h4>
+        <p>Active plan to survey community needs and launch pilot adult programs. PA Careerlink and Bucks County OVR referenced. College/university partnerships being strengthened for internship and staff pipelines.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Fab Lab Center Summer Camp</h4>
+        <p>Dedicated summer STEM/making enrichment with 400+ participants. Serves public and nonpublic school students from across Bucks County in a fixed-location makerspace environment.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Mobile Fab Lab Residencies</h4>
+        <p>Week-long school residencies bringing maker and STEAM experiences directly to students across the county. Over 25,000 students reached — the most cited outreach number in the plan.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>"Learn, Flourish, Contribute" Vision Campaign</h4>
+        <p>Internal and external storytelling and culture initiative tied to the organizational vision. Designed to build stakeholder identification with mission across all 200+ schools and community partners.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Back to the Future Protocol</h4>
+        <p>Internal structured reflection process used to identify current staff challenges and future aspirations, forming the foundation for strategic planning across IU divisions.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>Early Learning Center Family Engagement</h4>
+        <p>Fall Festival, Spring Fling, and expanded Center Committee Meetings to deepen family participation in Head Start and Early Childhood programs across the county.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">06</div>
+        <h4>Adult Services Pilot Program</h4>
+        <p>Structured community needs assessment leading to launch of pilot adult programming, coordinated by the new Supervisor of Adult Programs and Services, with PA Careerlink as a resource partner.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Industry &amp; Community Partnerships</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Named Community Partners</h3>
+        <ul>
+          <li><strong>Bucks County OVR</strong> — explicit workforce/transition partner; Kathleen Brown on Steering Committee</li>
+          <li><strong>PA Careerlink</strong> — adult services needs assessment resource</li>
+          <li><strong>Foundations Community Partnership</strong> — community engagement partner</li>
+          <li><strong>Bucks County Foundation</strong> — grant/funding relationship implied</li>
+          <li><strong>Bucks County Opportunity Council</strong> — community partner</li>
+          <li><strong>Children's Village (Doylestown Hospital)</strong> — community partner</li>
+          <li><strong>Lifequest</strong> — community partner</li>
+          <li><strong>Stages Academy Preschool</strong> — early learning partner</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Emerging Partnerships</h3>
+        <ul>
+          <li><strong>Corporate and private partners</strong> (unnamed) — actively being recruited to support Fab Lab expansion; named as a strategic priority</li>
+          <li><strong>Colleges and universities</strong> — partnerships being strengthened for internship and staff pipeline development (no specific institutions named)</li>
+          <li>Bucks County (county government) listed as community partner</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>20%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:20%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>40%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:40%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>25%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:25%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>65%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:65%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>45%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:45%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Technology &amp; Engineering</strong> — Mobile Fab Lab, Fab Lab Center, Supervisor of STEAM Education; strong T&amp;E alignment</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">STEM Toolkit</strong> — Mobile Fab Lab residency model is directly analogous to a lending-library/toolkit delivery architecture</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Special education centrality and equity-focused data analysis throughout the plan</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>High stakeholder satisfaction from LEA leaders and PK-12 stakeholders</li>
+          <li>Nearly 700 PD opportunities and 15,000+ registrations in a single year</li>
+          <li>100+ CPE courses offered annually</li>
+          <li>Fab Lab / Mobile Fab Lab participation in documented growth</li>
+          <li>Community and business partnerships rated "Exemplary"</li>
+          <li>High expectations culture rated "Exemplary"</li>
+          <li>Mission-connected culture across the organization</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Fab Lab scaling — evolving programs to meet increased demand</li>
+          <li>Adult services gap — gap analysis underway; pilot programs not yet launched</li>
+          <li>Long-range planning infrastructure immature; identified as a priority</li>
+          <li>Standard Operating Procedures inconsistent across divisions</li>
+          <li>Digital platform adoption — transitioning from paper-based processes</li>
+          <li>Data-driven resource allocation not yet consistently implemented</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Mission, Vision &amp; Values</h4>
+        <p>By 2028, every community member actively embodies and promotes the IU mission and vision in daily work — driven by the "Learn, Flourish, Contribute" campaign and internal storytelling infrastructure.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Communications &amp; Storytelling</h4>
+        <p>Enhanced storytelling and advocacy amplifies mission and vision across all platforms by 2028, including Fab Lab reach documentation and community partner engagement metrics.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">C</div>
+        <h4>Supports &amp; Services Expansion</h4>
+        <p>Enhance family engagement in early childhood programs, expand adult services via gap analysis and pilots, and strengthen school-age services and PD reach by 2028.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">D</div>
+        <h4>Data Systems Implementation</h4>
+        <p>Fully implement Oracle HCM Cloud, PAETEP, and PowerSchool SIS for improved staff evaluation, data accuracy, and operational reporting across all IU divisions.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">E</div>
+        <h4>Long-Range Planning</h4>
+        <p>Conduct needs assessments and implement strategic improvements in operations, recruitment, and technology infrastructure to build mature long-range planning capacity by 2028.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#128663;</div>
+        <h4>Mobile Fab Lab Model</h4>
+        <p>25,000+ students reached via mobile residencies — a replicable architecture that rural and suburban IUs could study or adapt. Strong statewide STEM Toolkit conversation candidate.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128187;</div>
+        <h4>LMS-Based SpEd PD</h4>
+        <p>Using LMS for live and async special education professional learning is scalable across IUs with shared staffing and certification challenges — cross-IU coordination could reduce costs.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#127979;</div>
+        <h4>University Intern Pipeline</h4>
+        <p>Internship-to-hiring pipeline model for special education and related services staff addresses a statewide workforce challenge — design artifacts could be shared with other IUs.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128202;</div>
+        <h4>Adult Services Gap Analysis</h4>
+        <p>Structured stakeholder survey and focus group methodology for adult services could serve as a model for IUs building or expanding workforce transition programs from a low baseline.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Bucks County Intermediate Unit 22 Comprehensive Plan, 2025&ndash;2028. Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Profile generated for PAIMS planning use; verify directly with Bucks County IU before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

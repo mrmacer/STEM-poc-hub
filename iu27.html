@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BVIU 27 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">BVIU 27</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Beaver Valley Intermediate Unit 27</h1>
+    <p class="hero-sub">Beaver County, Pennsylvania &mdash; 2025&ndash;2028 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">STEELS Delivery</span>
+      <span class="badge badge-green">STEM High-Need Region</span>
+      <span class="badge badge-blue">Equity &amp; Inclusion</span>
+      <span class="badge badge-purple">New Horizon School</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu27-logo.png" alt="BVIU 27 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU27</div>
+    <div class="logo-meta">
+      <strong>BVIU 27</strong>
+      Dr. Eric G. Rosendale<br>Executive Director<br>147 Poplar Ave, Monaca PA 15061<br>
+      <span style="color:var(--accent)">2025&ndash;2028 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>BVIU's mission is to provide innovative educational programming, leadership, and resources for all learners. Their vision centers on shaping the future by facilitating learning opportunities and ensuring excellence in education, services, and support across Beaver County.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Dr. Eric G. Rosendale</li>
+          <li>Serves 14 brick-and-mortar districts, 5 charter/cyber schools, 11 non-public schools in Beaver County</li>
+          <li>Primary direct-service identity: New Horizon School (ages 5&ndash;21, 230 students)</li>
+          <li>Lean SSoS staff (~2.5 FTE) creating both agility and capacity constraints</li>
+          <li>STEM identified as a high-interest, high-need area where BVIU can deliver with expertise</li>
+          <li>Community partnerships and local business engagement cited as an explicit organizational strength</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">STEELS</div>
+        <h4>STEELS Delivery to All LEAs</h4>
+        <p>BVIU provides STEELS standards training to all 14 brick-and-mortar districts, 5 charters, and the CTC — at least one session per year. Customized STEM sessions hosted at BVIU quarterly; 12 districts have requested custom sessions.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEM High-Need Area</div>
+        <h4>STEM as Strategic Lever</h4>
+        <p>STEM is explicitly identified in the plan as a high-interest, high-need area in which BVIU can deliver with expertise — signaling organizational intent to grow STEM delivery even within a lean SSoS staffing model.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Transition / Career Readiness</div>
+        <h4>Center-Based Transition Programming</h4>
+        <p>Transition planning offered at grades 6&ndash;8 and 9&ndash;12 center-based levels with explicit career readiness and life skills components. Transition services from school to workplace listed as a core student service.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Behavior Services</div>
+        <h4>Countywide Behavior Interventionists</h4>
+        <p>Behavior interventionists deployed to support every brick-and-mortar school in the county except one. New Mental Health Support Services endeavor expanding with after-school community connections.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Assessment Technology</div>
+        <h4>CDT / Firefly / IXL Ecosystem</h4>
+        <p>CDTs increasingly utilized across 12 districts; Firefly referenced for online testing support. IXL used as a benchmark assessment platform 4x/year. SAS Portal and PASA DLM Website for standards training and curriculum alignment.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>No AI-Specific Initiatives</h4>
+        <p>No AI tools, digital learning platforms, or technology integration programs are named in the 2025&ndash;2028 plan. Technology services focus on CDT/online testing support and web-based curriculum resources updated annually.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>New Horizon School</h4>
+        <p>Public special education center-based school serving 230 students with disabilities ages 5&ndash;21 across PreK through grade 12 bands. Career readiness and life skills embedded across all grade levels.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>Structured Literacy &amp; PA ELA Standards Initiative</h4>
+        <p>Multi-year effort to adapt PA Core ELA standards for special education students using inclusive, structured literacy practices. Targeting 100% of SpEd teachers and a 25% proficiency increase by Year 3.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>MTSS and ELA Resource Initiative</h4>
+        <p>PD and resource integration effort targeting MTSS process alignment with PA standards for students with disabilities. Goal: 90% of SpEd teachers reporting increased confidence in using MTSS resources.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>Mental Health Support Services</h4>
+        <p>New endeavor providing school-based counseling and therapy with after-school supports via community connections — responding to growing student mental health complexity across Beaver County.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>Early Intervention Expansion</h4>
+        <p>Continued expansion of EI services to daycares and preschools to prevent suspension and expulsion of young children — a proactive investment in the earliest intervention pipeline.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">06</div>
+        <h4>STEM Sessions (Quarterly)</div>
+        <p>STEM sessions hosted at BVIU at least once per quarter. Customized STEM sessions delivered to member districts on request — 12 of 14 districts have accessed custom sessions during this planning period.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Community &amp; Institutional Partners</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Named Community Partners</h3>
+        <ul>
+          <li><strong>The Wright Promise</strong> — Carol Wright; community partner on Steering Committee</li>
+          <li><strong>IDAC</strong> — Inclusion, Diversity and Awareness Council</li>
+          <li><strong>BCCAN</strong> — Beaver County Collaboration and Action Network</li>
+          <li><strong>QEC</strong> — Quality Education Council</li>
+          <li><strong>Beaver County Behavioral Health</strong> — behavioral health coordination</li>
+          <li><strong>Frye Transportation</strong> — Daniel Frye, CEO; local business representative on PD Steering Committee</li>
+          <li><strong>AIU3</strong> — Allegheny IU 3; partner for family communication strategy planning</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Professional &amp; Technical Resources</h3>
+        <ul>
+          <li><strong>PATTAN</strong> — Referenced as a resource for ELA and MTSS professional development</li>
+          <li><strong>Freedom Area SD, Hopewell Area SD</strong> — District partners on Steering Committee</li>
+          <li>CTC (Career and Technology Center) — included in STEELS training distribution</li>
+          <li>Instructional tech: IXL, Firefly, Verbal Behavior MAPP, Core Phonics Survey, Kaufman Test, PBIS, SAS Portal, PASA DLM</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>55%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:55%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>20%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:20%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>70%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:70%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>25%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:25%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Science (STEELS)</strong> — Active; STEELS training delivered to all 14 districts + 5 charters + CTC; quarterly STEM sessions hosted at IU</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Deep; IEP-centered instruction, UDL orientation, IDAC community connection, and inclusive preschool expansion</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--text)">Note:</strong> Limited evidence for Technology &amp; Engineering, AI/CS, Makerspaces, or Competitions workgroup alignment in this plan cycle</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>Strong community partnerships and local business engagement enabling new service development</li>
+          <li>Data-driven, needs-responsive approach to LEA service customization</li>
+          <li>Expanded behavior interventionist services reaching virtually every brick-and-mortar district school</li>
+          <li>STEM identified as a high-interest, high-need area where BVIU can deliver with expertise</li>
+          <li>Consistent service access: 14 brick-and-mortar and 5 charter/cyber schools regularly accessing services</li>
+          <li>Leadership driving culture change around high expectations with families and classrooms</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Adapting PA Core Standards for students with significant and complex disabilities</li>
+          <li>Finding high-quality resources aligned to PA standards for students with extreme disabilities</li>
+          <li>Recruiting and retaining high-quality teachers without a dedicated HR department</li>
+          <li>Limited SSoS staff capacity (~2.5 FTE) to meet all State System of Support requirements</li>
+          <li>Fiscal sustainability as programs and services expand to meet LEA needs</li>
+          <li>Space limitations and transportation challenges as the IU grows</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>ELA Curriculum Alignment &amp; Adaptations</h4>
+        <p>By Year 3, adapt PA Core ELA standards for all students with IEPs, delivering targeted PD to 100% of SpEd teachers and achieving a 25% increase in proficiency among center-based students.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>Structured Literacy Professional Learning</h4>
+        <p>By Year 3, ensure 85% of educators in school-based systems and LEAs receive training on PA Core ELA adaptations, with a 20% increase in student engagement as the outcome measure.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">C</div>
+        <h4>ELA Resource Adoption</h4>
+        <p>By Year 3, identify and integrate at least 10 high-quality PA-aligned resources for students with disabilities, with 95% of SpEd teachers reporting effective implementation.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">D</div>
+        <h4>MTSS with ELA Focus — Teacher Training</h4>
+        <p>By Year 3, deliver MTSS process PD to 100% of SpEd teachers, with 90% reporting increased confidence in using MTSS resources for students with complex disabilities.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#128300;</div>
+        <h4>STEELS in SpEd Settings</h4>
+        <p>BVIU's challenge of applying STEELS in an IEP-driven, non-standard curriculum environment is likely shared by other special-education-heavy IUs. BVIU's approach could inform cross-IU STEELS adaptation work.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128218;</div>
+        <h4>Structured Literacy for IEP Learners</h4>
+        <p>BVIU's intensive focus on adapting PA Core ELA for students with extreme disabilities could be a model or shared resource for other IUs with center-based programs serving similar populations.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#129504;</div>
+        <h4>Behavior Interventionist Deployment</h4>
+        <p>Countywide behavior interventionist model — reaching virtually every district school — may be worth sharing with IUs developing similar wraparound behavior support systems.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128202;</div>
+        <h4>CDT / Firefly Online Testing Support</h4>
+        <p>BVIU's work expanding CDT use and supporting online testing infrastructure across 12 districts may align with statewide data/assessment coordination conversations through PAIMS.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Beaver Valley Intermediate Unit 27 Comprehensive Plan, 2025&ndash;2028. Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Profile generated for PAIMS planning use; verify directly with BVIU 27 before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

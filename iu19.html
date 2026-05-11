@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEIU 19 — PAIMS Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#071522;--card:#12243d;--card2:#172b48;
+  --text:#f4f7fb;--muted:#9aa8c5;--accent:#f5a623;
+  --green:#2bd69d;--blue:#4fa3e8;--purple:#a78bfa;
+  --border:rgba(255,255,255,0.08)
+}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6}
+#progressBar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:1000;transition:width .1s}
+nav{position:sticky;top:0;background:rgba(7,21,34,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;align-items:center;gap:1rem;z-index:100}
+nav a{color:var(--muted);text-decoration:none;font-size:.85rem;font-family:'Space Mono',monospace}
+nav a:hover{color:var(--accent)}
+nav .sep{color:var(--border)}
+.hero{padding:4rem 2rem 2rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 260px;gap:3rem;align-items:start}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.75rem;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;color:var(--text);margin-bottom:.5rem}
+.hero-sub{font-size:1.1rem;color:var(--muted);margin-bottom:1.5rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:.5rem}
+.badge{display:inline-block;padding:.25rem .7rem;border-radius:20px;font-size:.75rem;font-family:'Space Mono',monospace;border:1px solid}
+.badge-accent{border-color:var(--accent);color:var(--accent)}
+.badge-green{border-color:var(--green);color:var(--green)}
+.badge-blue{border-color:var(--blue);color:var(--blue)}
+.badge-purple{border-color:var(--purple);color:var(--purple)}
+.logo-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.logo-card img{width:140px;height:140px;object-fit:contain;border-radius:8px}
+.logo-placeholder{width:140px;height:140px;background:var(--card2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent)}
+.logo-meta{text-align:center;font-size:.78rem;color:var(--muted);line-height:1.6}
+.logo-meta strong{display:block;color:var(--text);font-size:.9rem;margin-bottom:.25rem}
+main{max-width:1200px;margin:0 auto;padding:0 2rem 4rem}
+section{margin-bottom:3rem}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem}
+.card h3{font-size:.95rem;color:var(--accent);margin-bottom:.75rem;font-weight:600}
+.card p,.card li{font-size:.9rem;color:var(--muted);line-height:1.7}
+.card ul{padding-left:1.2rem}
+.card li{margin-bottom:.3rem}
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.signal-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.signal-card .sig-label{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+.signal-card h4{font-size:.95rem;color:var(--text);margin-bottom:.5rem}
+.signal-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.sow-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.sow-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.sow-card h4{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:600}
+.sow-bar{margin-bottom:.6rem}
+.sow-bar-label{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.25rem}
+.sow-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.sow-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-accent{background:var(--accent)}
+.fill-green{background:var(--green)}
+.fill-blue{background:var(--blue)}
+.fill-purple{background:var(--purple)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.priority-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.priority-card{background:var(--card);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1.25rem}
+.priority-card .p-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--accent);line-height:1}
+.priority-card h4{font-size:.95rem;color:var(--text);margin-bottom:.4rem}
+.priority-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+.share-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.share-card .share-icon{font-size:1.4rem;margin-bottom:.5rem}
+.share-card h4{font-size:.88rem;color:var(--text);margin-bottom:.4rem}
+.share-card p{font-size:.8rem;color:var(--muted);line-height:1.6}
+.source-note{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:1.25rem;font-size:.8rem;color:var(--muted);line-height:1.7}
+.source-note strong{color:var(--text)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .mission-grid,.sow-grid,.two-col{grid-template-columns:1fr}
+  .logo-card{order:-1}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<nav>
+  <a href="index.html">PAIMS Hub</a>
+  <span class="sep">/</span>
+  <a href="index.html#directory">IU Directory</a>
+  <span class="sep">/</span>
+  <span style="color:var(--text)">NEIU 19</span>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Intermediate Unit Profile</div>
+    <h1>Northeastern Educational Intermediate Unit 19</h1>
+    <p class="hero-sub">Northeastern Pennsylvania &mdash; 2024&ndash;2027 Comprehensive Plan</p>
+    <div class="hero-meta">
+      <span class="badge badge-accent">Student Competitions</span>
+      <span class="badge badge-green">STEELS</span>
+      <span class="badge badge-blue">Transition Services</span>
+      <span class="badge badge-purple">Equity &amp; Inclusion</span>
+    </div>
+  </div>
+  <div class="logo-card">
+    <img src="assests/iu-logos/iu19-logo.png" alt="NEIU 19 Logo"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="logo-placeholder" style="display:none">IU19</div>
+    <div class="logo-meta">
+      <strong>NEIU 19</strong>
+      Dr. Kathleen Sottile<br>Executive Director<br>
+      <span style="color:var(--accent)">2024&ndash;2027 Plan</span>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="reveal">
+    <div class="section-label">Mission &amp; Vision</div>
+    <div class="mission-grid">
+      <div class="card">
+        <h3>Mission</h3>
+        <p>NEIU 19 is an educational agency that supports diverse learner needs by collaborating with families, educators, and community partners to deliver innovative leadership, programs, and services. Its vision is to be the regional leader in advancing education and community partnerships across northeastern Pennsylvania.</p>
+      </div>
+      <div class="card">
+        <h3>Regional Identity</h3>
+        <ul>
+          <li>Executive Director: Dr. Kathleen Sottile</li>
+          <li>Address: 1200 Line St, northeastern PA</li>
+          <li>Serves students ages 3&ndash;21 across member school districts and charter schools</li>
+          <li>Strong orientation toward special education programming (center-based and school-based)</li>
+          <li>Active student competition promotion as a named IU service</li>
+          <li>Steering committee includes Lackawanna College, ProABA, St. Joseph's Center</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">STEM Signals &amp; Technology Posture</div>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <div class="sig-label">Student Competitions</div>
+        <h4>Active Competition Partnerships</h4>
+        <p>NEIU 19 explicitly promotes and runs student competitions for all students across its footprint, partnering with multiple agencies and organizations. Competition promotion is cited as a current strength and ongoing core service.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">STEELS</div>
+        <h4>PA STEELS Resources</h4>
+        <p>PA STEELS standards are referenced as a curriculum resource provided to parents, signaling active integration with the state's new science standards framework. STEM services described as available to all schools in the IU footprint.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Transition Pathways</div>
+        <h4>Multi-Stage Transition Services</h4>
+        <p>Transition from school to work, transition from EI to school-age services, and transition from infant/toddler to preschool EI are all explicitly listed as student services. OVR connection support is offered to families.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Career Readiness</div>
+        <h4>Career &amp; Transition Opportunities</h4>
+        <p>Career-readiness opportunities are listed as a community service commitment. Paired with OVR partnership, this signals emerging workforce-transition infrastructure.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">AI / Technology</div>
+        <h4>Technology Support for PD</h4>
+        <p>Technology assistance cited as a required resource across multiple action plan steps. Technology support system purchase identified as a near-term need for modernizing PD delivery. No AI-specific platforms named in plan.</p>
+      </div>
+      <div class="signal-card">
+        <div class="sig-label">Professional Learning</div>
+        <h4>Multi-Modal PD Expansion</h4>
+        <p>NEIU is actively working to diversify PD delivery from single-model to multi-modal formats, including technology-assisted delivery, to increase access across member districts. Tracked via Frontline PD data.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Named Initiatives &amp; Programs</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">01</div>
+        <h4>Student Competitions Program</h4>
+        <p>Active partnerships with agencies and organizations to promote and run a multitude of student competitions for districts across the NEIU 19 footprint. Explicitly cited as a standing core service and organizational strength.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">02</div>
+        <h4>PA Cycle of Continuous Improvement</h4>
+        <p>Evidence-based framework guiding the expansion of professional development delivery models across all NEIU departments, with structured data monitoring via Frontline.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">03</div>
+        <h4>Recruitment Strategies Initiative</h4>
+        <p>Structured effort to develop 2+ university partnerships for intern certificated candidate hiring within 3 years, directly addressing reliance on emergency-certified personnel as a staffing risk.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">04</div>
+        <h4>BCBA Partial Hospitalization Program</h4>
+        <p>Behavioral support services for students with significant behavioral needs requiring structured therapeutic and educational intervention beyond the standard school day.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">05</div>
+        <h4>Right to Education Local Task Force #19</h4>
+        <p>Community and parent engagement structure with monthly meetings and parent training, ensuring families of students with disabilities have structured access to IEP process guidance and advocacy support.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Industry &amp; Community Partnerships</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Steering Committee Partners</h3>
+        <ul>
+          <li><strong>ProABA</strong> — behavioral health community partner; Steering Committee member</li>
+          <li><strong>St. Joseph's Center</strong> — community partner; Steering Committee member</li>
+          <li><strong>Lackawanna College</strong> — higher ed partner; Steering Committee member and targeted university recruitment partner</li>
+          <li><strong>Mid Valley SD, Abington Height SD, Carbondale Area, Forest City Regional, CTCLC</strong> — district leaders on Steering Committee</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Community Service Network</h3>
+        <ul>
+          <li><strong>OVR</strong> — Office of Vocational Rehabilitation; referenced for family career/transition connection support</li>
+          <li><strong>Local Interagency Coordinating Council</strong> — NEIU participates as regional EI coordination body</li>
+          <li><strong>Head Start, Developmental Pediatricians, Counseling/BH Services</strong> — referenced as community connections for families</li>
+          <li><strong>Local universities</strong> (unnamed) — targeted for teaching intern pipelines under Recruitment Strategies Initiative</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">PAIMS SOW Workgroup Alignment</div>
+    <div class="sow-grid">
+      <div class="sow-card">
+        <h4>Alignment Signals</h4>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEELS / Science</span><span>30%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-blue" style="width:30%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>AI / Computer Science</span><span>5%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-purple" style="width:5%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>STEM Ecosystems</span><span>10%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:10%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Student Competitions</span><span>80%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:80%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Equity &amp; UDL</span><span>60%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-accent" style="width:60%"></div></div>
+        </div>
+        <div class="sow-bar">
+          <div class="sow-bar-label"><span>Workforce Transitions</span><span>25%</span></div>
+          <div class="sow-bar-track"><div class="sow-bar-fill fill-green" style="width:25%"></div></div>
+        </div>
+      </div>
+      <div class="sow-card">
+        <h4>Active Workgroup Participation</h4>
+        <ul style="font-size:.85rem;color:var(--muted);padding-left:1.2rem">
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Competitions</strong> — Primary workgroup; competition promotion is an explicitly named, active IU service with multi-organization partnerships</li>
+          <li style="margin-bottom:.5rem"><strong style="color:var(--accent)">Equity &amp; Inclusion</strong> — Strong support; extensive multi-disability, multi-population service framework throughout the plan</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Strengths &amp; Challenges</div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Regional Strengths</h3>
+        <ul>
+          <li>Active student competition partnerships — explicitly described as a standing strength</li>
+          <li>Evidence-based, standards-aligned curriculum and assessment facilitation</li>
+          <li>Effective instructional strategy implementation across programs</li>
+          <li>Opening new special education programs responsive to district needs</li>
+          <li>New outpatient therapy partial program launching (fall 2023)</li>
+          <li>Consistent tracking and reporting of SSOS/IDEA data — meets all requirements annually</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Challenges &amp; Gaps</h3>
+        <ul>
+          <li>Staffing shortages and reliance on emergency-certified personnel</li>
+          <li>Limited funds for curriculum and resource acquisition</li>
+          <li>Stakeholder engagement and communication — ongoing development area</li>
+          <li>Districts lack substitute coverage to access NEIU PD workshops</li>
+          <li>Single-model PD delivery limiting participant access</li>
+          <li>Possible capacity gaps if LEA needs assessment reveals demand beyond current staff capacity</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Plan Priorities</div>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="p-num">A</div>
+        <h4>Multi-Modal PD Delivery</h4>
+        <p>Using PD Services data, NEIU 19 will utilize more than one delivery model for at least 6% of PD offerings by end of plan period to increase educator participation and access.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">B</div>
+        <h4>University Intern Pipeline</h4>
+        <p>Develop 2+ formal partnerships with local universities to hire intern certificated candidates within 3 years, replacing emergency-certified staff with fully qualified educators.</p>
+      </div>
+      <div class="priority-card">
+        <div class="p-num">C</div>
+        <h4>Student Competition Expansion</h4>
+        <p>Continue and expand partnerships with agencies and organizations to offer a multitude of student competitions for all districts in the NEIU 19 footprint as a core service commitment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="section-label">Cross-IU Collaboration Opportunities</div>
+    <div class="share-grid">
+      <div class="share-card">
+        <div class="share-icon">&#127942;</div>
+        <h4>Competitions Infrastructure</h4>
+        <p>NEIU 19's explicit competition promotion model — with multi-organization partnerships — is a strong candidate for statewide Competitions workgroup alignment and cross-IU sharing.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128250;</div>
+        <h4>Multi-Modal PD Modernization</h4>
+        <p>NEIU's structured effort to diversify PD delivery could benefit from shared learning with IUs further along in hybrid and online professional development models.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128218;</div>
+        <h4>University Intern Pipeline</h4>
+        <p>The structured intern certificated candidate recruitment strategy is a replicable model for IUs facing similar emergency-certification dependencies — a statewide workforce challenge.</p>
+      </div>
+      <div class="share-card">
+        <div class="share-icon">&#128188;</div>
+        <h4>Transition Program Development</h4>
+        <p>NEIU provides transition services but lacks named work-based learning programs or industry credentials. Collaboration with IUs having established CTE articulation (OSHA10, ServSafe) could accelerate capacity.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="source-note reveal">
+    <strong>Source:</strong> Northeastern Educational Intermediate Unit 19 Comprehensive Plan, 2024&ndash;2027. Extracted from the PA IU Comprehensive Plan Corpus assembled for PAIMS Hub. Profile generated for PAIMS planning use; verify directly with NEIU 19 before citing externally.
+  </div>
+
+</main>
+
+<footer>
+  PAIMS Hub &mdash; Pennsylvania Association of Intermediate Units &mdash; Regional Innovation Node Pilot
+</footer>
+
+<script>
+const bar = document.getElementById('progressBar');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  bar.style.width = pct + '%';
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
