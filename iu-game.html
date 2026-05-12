@@ -253,15 +253,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: visible;
     }
 
     #mapCanvas {
-      width: 100%;
-      height: 100%;
-      max-width: 900px;
-      max-height: 100%;
       display: block;
       cursor: default;
+      /* JS sets explicit width/height to maintain 5:3 aspect ratio */
     }
     #mapCanvas.game-active { cursor: crosshair; }
 
@@ -715,38 +713,38 @@
     ];
 
     /* ═══════════════════════════════════════════════════
-       IU DATA  (lg = logo extension)
+       IU DATA  — x,y,w,h in 1000×600 reference space
     ═══════════════════════════════════════════════════ */
     const IU_DATA = [
-      { id:1,  num:1,  label:'IU 1',  name:'Allegheny IU',          abbr:'AIU1',   region:'Greater Pittsburgh',  lg:'png' },
-      { id:2,  num:2,  label:'IU 2',  name:'Westmoreland IU',        abbr:'IU2',    region:'SW PA',               lg:'png' },
-      { id:3,  num:3,  label:'IU 3',  name:'SW Corner IU',           abbr:'IU3',    region:'SW PA',               lg:'png' },
-      { id:4,  num:4,  label:'IU 4',  name:'Mon Valley IU',          abbr:'IU4',    region:'SW PA',               lg:'png' },
-      { id:5,  num:5,  label:'IU 5',  name:'NW Tri-County IU',       abbr:'IU5',    region:'NW PA',               lg:'png' },
-      { id:6,  num:6,  label:'IU 6',  name:'Riverview IU',           abbr:'RIU6',   region:'Western PA',          lg:'png' },
-      { id:7,  num:7,  label:'IU 7',  name:'Midwestern IU',          abbr:'IU7',    region:'Western PA',          lg:'png' },
-      { id:8,  num:8,  label:'IU 8',  name:'Appalachia IU',          abbr:'AIU',    region:'Northcentral PA',     lg:'jpg' },
-      { id:9,  num:9,  label:'IU 9',  name:'Centre IU',              abbr:'IU9',    region:'Central PA',          lg:'png' },
-      { id:10, num:10, label:'IU 10', name:'Central IU',             abbr:'IU10',   region:'Central PA',          lg:'png' },
-      { id:11, num:11, label:'IU 11', name:'Juniata Valley IU',      abbr:'IU11',   region:'Central PA',          lg:'png' },
-      { id:12, num:12, label:'IU 12', name:'Erie 1 IU',              abbr:'IU12',   region:'NW PA / Erie',        lg:'jpg' },
-      { id:13, num:13, label:'IU 13', name:'Lancaster-Lebanon IU',   abbr:'IU13',   region:'South-Central PA',    lg:'png' },
-      { id:14, num:14, label:'IU 14', name:'Berks County IU',        abbr:'BCIU14', region:'SE PA',               lg:'png' },
-      { id:15, num:15, label:'IU 15', name:'Capital Area IU',        abbr:'CAIU',   region:'Capital Area',        lg:'png' },
-      { id:16, num:16, label:'IU 16', name:'Susquehanna Valley IU',  abbr:'IU16',   region:'Northcentral PA',     lg:'png' },
-      { id:17, num:17, label:'IU 17', name:'Tioga IU',               abbr:'IU17',   region:'N-Central PA',        lg:'png' },
-      { id:18, num:18, label:'IU 18', name:'Luzerne IU',             abbr:'IU18',   region:'NE PA',               lg:'png' },
-      { id:19, num:19, label:'IU 19', name:'Northeastern IU',        abbr:'NEIU19', region:'NE PA',               lg:'png' },
-      { id:20, num:20, label:'IU 20', name:'Colonial IU',            abbr:'IU20',   region:'E PA',                lg:'png' },
-      { id:21, num:21, label:'IU 21', name:'Carbon Lehigh IU',       abbr:'CLIU21', region:'E PA',                lg:'png' },
-      { id:22, num:22, label:'IU 22', name:'Bucks County IU',        abbr:'IU22',   region:'SE PA',               lg:'png' },
-      { id:23, num:23, label:'IU 23', name:'Montgomery County IU',   abbr:'MCIU',   region:'SE PA',               lg:'png' },
-      { id:24, num:24, label:'IU 24', name:'IU 24',                  abbr:'IU24',   region:'SE PA',               lg:'png' },
-      { id:25, num:25, label:'IU 25', name:'Delaware County IU',     abbr:'DCIU',   region:'SE PA',               lg:'png' },
-      { id:26, num:26, label:'IU 26', name:'Philadelphia IU',        abbr:'IU26',   region:'SE PA',               lg:'png' },
-      { id:27, num:27, label:'IU 27', name:'Beaver Valley IU',       abbr:'IU27',   region:'Western PA',          lg:'png' },
-      { id:28, num:28, label:'IU 28', name:'York Adams IU',          abbr:'IU28',   region:'South-Central PA',    lg:'png' },
-      { id:29, num:29, label:'IU 29', name:'Chester County IU',      abbr:'CCIU',   region:'SE PA',               lg:'png' },
+      { id:1,  num:1,  label:'IU 1',  name:'Allegheny IU',          abbr:'AIU1',   region:'Greater Pittsburgh',  x:90,  y:340, w:150, h:125, lg:'png' },
+      { id:2,  num:2,  label:'IU 2',  name:'Westmoreland IU',        abbr:'IU2',    region:'SW PA',               x:215, y:390, w:135, h:125, lg:'png' },
+      { id:3,  num:3,  label:'IU 3',  name:'SW Corner IU',           abbr:'IU3',    region:'SW PA',               x:0,   y:395, w:90,  h:205, lg:'png' },
+      { id:4,  num:4,  label:'IU 4',  name:'Mon Valley IU',          abbr:'IU4',    region:'SW PA',               x:150, y:465, w:120, h:95,  lg:'png' },
+      { id:5,  num:5,  label:'IU 5',  name:'NW Tri-County IU',       abbr:'IU5',    region:'NW PA',               x:145, y:0,   w:155, h:160, lg:'png' },
+      { id:6,  num:6,  label:'IU 6',  name:'Riverview IU',           abbr:'RIU6',   region:'Western PA',          x:0,   y:185, w:145, h:160, lg:'png' },
+      { id:7,  num:7,  label:'IU 7',  name:'Midwestern IU',          abbr:'IU7',    region:'Western PA',          x:145, y:160, w:155, h:130, lg:'png' },
+      { id:8,  num:8,  label:'IU 8',  name:'Appalachia IU',          abbr:'AIU',    region:'Northcentral PA',     x:300, y:0,   w:215, h:215, lg:'jpg' },
+      { id:9,  num:9,  label:'IU 9',  name:'Centre IU',              abbr:'IU9',    region:'Central PA',          x:390, y:215, w:165, h:140, lg:'png' },
+      { id:10, num:10, label:'IU 10', name:'Central IU',             abbr:'IU10',   region:'Central PA',          x:300, y:295, w:200, h:140, lg:'png' },
+      { id:11, num:11, label:'IU 11', name:'Juniata Valley IU',      abbr:'IU11',   region:'Central PA',          x:500, y:295, w:110, h:120, lg:'png' },
+      { id:12, num:12, label:'IU 12', name:'Erie 1 IU',              abbr:'IU12',   region:'NW PA / Erie',        x:0,   y:0,   w:145, h:115, lg:'jpg' },
+      { id:13, num:13, label:'IU 13', name:'Lancaster-Lebanon IU',   abbr:'IU13',   region:'South-Central PA',    x:505, y:430, w:175, h:170, lg:'png' },
+      { id:14, num:14, label:'IU 14', name:'Berks County IU',        abbr:'BCIU14', region:'SE PA',               x:730, y:345, w:130, h:145, lg:'png' },
+      { id:15, num:15, label:'IU 15', name:'Capital Area IU',        abbr:'CAIU',   region:'Capital Area',        x:500, y:355, w:155, h:140, lg:'png' },
+      { id:16, num:16, label:'IU 16', name:'Susquehanna Valley IU',  abbr:'IU16',   region:'Northcentral PA',     x:610, y:120, w:145, h:165, lg:'png' },
+      { id:17, num:17, label:'IU 17', name:'Tioga IU',               abbr:'IU17',   region:'N-Central PA',        x:515, y:0,   w:135, h:120, lg:'png' },
+      { id:18, num:18, label:'IU 18', name:'Luzerne IU',             abbr:'IU18',   region:'NE PA',               x:650, y:0,   w:130, h:165, lg:'png' },
+      { id:19, num:19, label:'IU 19', name:'Northeastern IU',        abbr:'NEIU19', region:'NE PA',               x:780, y:0,   w:220, h:215, lg:'png' },
+      { id:20, num:20, label:'IU 20', name:'Colonial IU',            abbr:'IU20',   region:'E PA',                x:860, y:215, w:140, h:140, lg:'png' },
+      { id:21, num:21, label:'IU 21', name:'Carbon Lehigh IU',       abbr:'CLIU21', region:'E PA',                x:780, y:215, w:130, h:130, lg:'png' },
+      { id:22, num:22, label:'IU 22', name:'Bucks County IU',        abbr:'IU22',   region:'SE PA',               x:860, y:355, w:140, h:140, lg:'png' },
+      { id:23, num:23, label:'IU 23', name:'Montgomery County IU',   abbr:'MCIU',   region:'SE PA',               x:860, y:470, w:140, h:100, lg:'png' },
+      { id:24, num:24, label:'IU 24', name:'IU 24',                  abbr:'IU24',   region:'SE PA',               x:730, y:465, w:130, h:105, lg:'png' },
+      { id:25, num:25, label:'IU 25', name:'Delaware County IU',     abbr:'DCIU',   region:'SE PA',               x:860, y:545, w:140, h:55,  lg:'png' },
+      { id:26, num:26, label:'IU 26', name:'Philadelphia IU',        abbr:'IU26',   region:'SE PA',               x:970, y:390, w:30,  h:210, lg:'png' },
+      { id:27, num:27, label:'IU 27', name:'Beaver Valley IU',       abbr:'IU27',   region:'Western PA',          x:0,   y:115, w:145, h:115, lg:'png' },
+      { id:28, num:28, label:'IU 28', name:'York Adams IU',          abbr:'IU28',   region:'South-Central PA',    x:380, y:455, w:175, h:145, lg:'png' },
+      { id:29, num:29, label:'IU 29', name:'Chester County IU',      abbr:'CCIU',   region:'SE PA',               x:655, y:460, w:175, h:140, lg:'png' },
     ];
 
     /* ═══════════════════════════════════════════════════
@@ -803,12 +801,30 @@
     const canvas = document.getElementById('mapCanvas');
     const ctx    = canvas.getContext('2d');
 
+    const REF_W = 1000, REF_H = 600;  // reference coordinate space (5:3)
+
     function resizeCanvas() {
+      const dpr  = window.devicePixelRatio || 1;
       const wrap = canvas.parentElement;
       const rect = wrap.getBoundingClientRect();
-      const dpr  = window.devicePixelRatio || 1;
-      canvas.width  = rect.width  * dpr;
-      canvas.height = rect.height * dpr;
+
+      // Fit the map (5:3 ratio) inside the available space with contain behavior
+      const containerAR = rect.width / rect.height;
+      const mapAR       = REF_W / REF_H;  // 1.6̄67
+      let cssW, cssH;
+      if (containerAR > mapAR) {
+        cssH = rect.height;
+        cssW = cssH * mapAR;
+      } else {
+        cssW = rect.width;
+        cssH = cssW / mapAR;
+      }
+
+      canvas.style.width  = cssW + 'px';
+      canvas.style.height = cssH + 'px';
+      canvas.width  = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+
       renderMap();
     }
 
@@ -835,68 +851,63 @@
       wrong:   { color: 'rgba(255,107,107,1)',  alpha: 0.55 },
     };
 
+    function getScale() {
+      // Both axes share the same scale since canvas is sized to 5:3 by resizeCanvas
+      return canvas.width / REF_W;
+    }
+
+    function pieceRect(iu) {
+      // Position and size of each IU piece in canvas pixels, derived from
+      // the IU_DATA reference bounding boxes (1000×600 coordinate space)
+      const s = getScale();
+      return { px: iu.x * s, py: iu.y * s, pw: iu.w * s, ph: iu.h * s };
+    }
+
     function renderMap() {
       const W = canvas.width, H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      // Dark background
-      ctx.fillStyle = 'rgba(5,15,28,0.85)';
+      ctx.fillStyle = 'rgba(5,15,28,0.9)';
       ctx.fillRect(0, 0, W, H);
 
-      // PA state outline / background layer
-      if (bgLoaded) {
-        ctx.globalAlpha = 0.3;
-        ctx.drawImage(bgImg, 0, 0, W, H);
-        ctx.globalAlpha = 1;
-      }
-
-      // Draw IU pieces
+      // Draw IU pieces at their geographic bounding-box positions
       IU_DATA.forEach(iu => {
         const img   = pieceImages[iu.num];
         const state = iuState[iu.id] || 'default';
+        const { px, py, pw, ph } = pieceRect(iu);
 
         if (img) {
-          drawTintedPiece(img, state, W, H);
+          drawTintedPiece(img, state, px, py, pw, ph);
         } else {
-          drawFallbackRect(iu, state, W, H);
+          drawFallbackRect(iu, state, px, py, pw, ph);
         }
       });
     }
 
-    function drawTintedPiece(img, state, W, H) {
+    // Draw a single piece at (px,py,pw,ph) with optional state tinting
+    function drawTintedPiece(img, state, px, py, pw, ph) {
       const tint = TINTS[state];
 
       if (!tint) {
-        ctx.drawImage(img, 0, 0, W, H);
+        ctx.drawImage(img, px, py, pw, ph);
         return;
       }
 
-      // Use a temporary canvas so source-atop only tints this piece's pixels
+      // Tint via temporary canvas so source-atop only affects this piece's pixels
       const tmp  = document.createElement('canvas');
-      tmp.width  = W;
-      tmp.height = H;
+      tmp.width  = Math.round(pw);
+      tmp.height = Math.round(ph);
       const tctx = tmp.getContext('2d');
-      tctx.drawImage(img, 0, 0, W, H);
+      tctx.drawImage(img, 0, 0, tmp.width, tmp.height);
       tctx.globalCompositeOperation = 'source-atop';
       tctx.fillStyle   = tint.color;
       tctx.globalAlpha = tint.alpha;
-      tctx.fillRect(0, 0, W, H);
-      ctx.drawImage(tmp, 0, 0);
+      tctx.fillRect(0, 0, tmp.width, tmp.height);
+      ctx.drawImage(tmp, px, py);
     }
 
-    // Fallback rectangle for IU11 and IU28 (no map piece available)
-    // Uses approximate bounding boxes scaled from a 1000×600 reference grid
-    const FALLBACK_BOXES = {
-      11: { x: 500, y: 295, w: 110, h: 120 },
-      28: { x: 380, y: 455, w: 175, h: 145 },
-    };
-
-    function drawFallbackRect(iu, state, W, H) {
-      const box = FALLBACK_BOXES[iu.num];
-      if (!box) return;
-      const sx = W / 1000, sy = H / 600;
-      const x = box.x * sx, y = box.y * sy, w = box.w * sx, h = box.h * sy;
-
+    // Fallback rectangle for IU11 and IU28 (no map piece PNG available)
+    function drawFallbackRect(iu, state, px, py, pw, ph) {
       const fills   = { default:'rgba(18,36,61,0.7)', target:'rgba(245,166,35,0.15)', found:'rgba(43,214,157,0.2)', wrong:'rgba(255,107,107,0.2)' };
       const strokes = { default:'rgba(255,255,255,0.12)', target:'rgba(245,166,35,0.9)', found:'rgba(43,214,157,0.7)', wrong:'rgba(255,107,107,0.7)' };
       const labels  = { default:'#9aa8c5', target:'#f5a623', found:'#2bd69d', wrong:'#ff6b6b' };
@@ -905,40 +916,39 @@
       ctx.strokeStyle = strokes[state] || strokes.default;
       ctx.lineWidth   = state === 'default' ? 1 : 2;
       ctx.beginPath();
-      ctx.rect(x + 1, y + 1, w - 2, h - 2);
+      ctx.rect(px + 1, py + 1, pw - 2, ph - 2);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle    = labels[state] || labels.default;
-      ctx.font         = `bold ${Math.max(8, Math.min(13, h * 0.15))}px "Space Mono", monospace`;
+      ctx.font         = `bold ${Math.max(8, Math.min(13, ph * 0.15))}px "Space Mono", monospace`;
       ctx.textAlign    = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(iu.label, x + w / 2, y + h / 2);
+      ctx.fillText(iu.label, px + pw / 2, py + ph / 2);
     }
 
     /* ═══════════════════════════════════════════════════
        HIT DETECTION  (pixel-alpha check per IU piece)
     ═══════════════════════════════════════════════════ */
     function getIUAtPoint(cx, cy) {
-      const W = canvas.width, H = canvas.height;
       const hitCanvas = document.createElement('canvas');
       hitCanvas.width = hitCanvas.height = 1;
       const hctx = hitCanvas.getContext('2d');
 
       for (const iu of IU_DATA) {
         const img = pieceImages[iu.num];
+        const { px, py, pw, ph } = pieceRect(iu);
 
         if (img) {
+          // Quick bounding-box pre-check
+          if (cx < px || cx > px + pw || cy < py || cy > py + ph) continue;
+          // Pixel-alpha check: draw piece offset so click point lands at (0,0)
           hctx.clearRect(0, 0, 1, 1);
-          hctx.drawImage(img, -cx, -cy, W, H);
+          hctx.drawImage(img, -(cx - px), -(cy - py), pw, ph);
           if (hctx.getImageData(0, 0, 1, 1).data[3] > 20) return iu.id;
         } else {
-          // Bounding-box fallback for missing pieces
-          const box = FALLBACK_BOXES[iu.num];
-          if (!box) continue;
-          const sx = W / 1000, sy = H / 600;
-          const bx = box.x * sx, by = box.y * sy, bw = box.w * sx, bh = box.h * sy;
-          if (cx >= bx && cx <= bx + bw && cy >= by && cy <= by + bh) return iu.id;
+          // Bounding-box fallback for IU11 and IU28
+          if (cx >= px && cx <= px + pw && cy >= py && cy <= py + ph) return iu.id;
         }
       }
       return null;
