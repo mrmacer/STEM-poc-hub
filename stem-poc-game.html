@@ -633,6 +633,48 @@
     }
     .restart-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── Name Game ── */
+    .q-photo.ng-large {
+      width: 190px;
+      height: 190px;
+    }
+
+    .name-choice-btn {
+      padding: 1.1rem 0.75rem;
+      justify-content: center;
+      align-items: center;
+      min-height: 64px;
+    }
+
+    .name-choice-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    /* Directory identified state */
+    .person-card.identified {
+      border-color: rgba(43,214,157,0.5);
+    }
+
+    .identified-badge {
+      position: absolute;
+      bottom: 0.45rem;
+      left: 0.45rem;
+      background: rgba(43,214,157,0.92);
+      color: #071522;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
     /* Responsive */
     @media (max-width: 600px) {
       .options-grid { grid-template-columns: 1fr; }
@@ -678,6 +720,7 @@
         <span class="mode-label">Mode:</span>
         <button class="mode-btn active" id="btn-mode-iu" onclick="setMode('iu')">Guess the IU</button>
         <button class="mode-btn" id="btn-mode-person" onclick="setMode('person')">Guess the Person</button>
+        <button class="mode-btn" id="btn-mode-name" onclick="setMode('name')">Name Game</button>
       </div>
 
       <div class="score-bar">
@@ -998,6 +1041,7 @@
     let wrongCount = 0;
     let streak = 0;
     let answered = false;
+    const identifiedPeople = new Set();
 
     function setMode(m) {
       mode = m;
@@ -1047,8 +1091,10 @@
 
       if (mode === 'iu') {
         buildGuessIU(person, iuData);
-      } else {
+      } else if (mode === 'person') {
         buildGuessPerson(person, iuData);
+      } else {
+        buildNameGame(person, iuData);
       }
     }
 
@@ -1059,6 +1105,7 @@
       qPhoto.src = person.photo;
       qPhoto.alt = person.name;
       qPhoto.style.display = 'block';
+      qPhoto.classList.remove('ng-large');
       document.getElementById('qIULogo').style.display = 'none';
       document.getElementById('qClue').style.display = 'none';
 
@@ -1124,6 +1171,53 @@
       });
     }
 
+    function buildNameGame(person, iuData) {
+      document.getElementById('qInstruction').textContent = 'Who is this person?';
+
+      const qPhoto = document.getElementById('qPhoto');
+      qPhoto.src = person.photo;
+      qPhoto.alt = '???';
+      qPhoto.style.display = 'block';
+      qPhoto.classList.add('ng-large');
+      document.getElementById('qIULogo').style.display = 'none';
+
+      document.getElementById('qName').textContent   = '';
+      document.getElementById('qRole').textContent   = '';
+      document.getElementById('qRegion').textContent = '';
+      document.getElementById('qClue').style.display = 'none';
+
+      const wrongPeople = pickWrongPeople(person, 3);
+      const allPeople   = shuffle([person, ...wrongPeople]);
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      allPeople.forEach(opt => {
+        const isCorrect = opt.name === person.name;
+        const btn = document.createElement('button');
+        btn.className = 'option-btn name-choice-btn';
+        btn.innerHTML = `<span class="name-choice-text">${opt.name}</span>`;
+        btn.addEventListener('click', () => handleAnswer(isCorrect, btn, person, iuData));
+        grid.appendChild(btn);
+      });
+    }
+
+    function markIdentified(personName) {
+      if (identifiedPeople.has(personName)) return;
+      identifiedPeople.add(personName);
+      document.querySelectorAll('#browseGrid .person-card').forEach(card => {
+        const nameEl = card.querySelector('.person-name');
+        if (!nameEl || nameEl.textContent.trim() !== personName) return;
+        card.classList.add('identified');
+        const wrap = card.querySelector('.person-photo-wrap');
+        if (wrap && !wrap.querySelector('.identified-badge')) {
+          const badge = document.createElement('div');
+          badge.className = 'identified-badge';
+          badge.textContent = '✓ Identified';
+          wrap.appendChild(badge);
+        }
+      });
+    }
+
     /* ═══════════════════════════════════
        ANSWER HANDLING
     ═══════════════════════════════════ */
@@ -1136,13 +1230,14 @@
         correctCount++;
         streak++;
         clickedBtn.classList.add('correct');
+        if (mode === 'name') markIdentified(person.name);
       } else {
         wrongCount++;
         streak = 0;
         clickedBtn.classList.add('wrong');
 
         document.querySelectorAll('#optionsGrid .option-btn').forEach(btn => {
-          const labelEl = btn.querySelector('.option-label, .option-person-name');
+          const labelEl = btn.querySelector('.option-label, .option-person-name, .name-choice-text');
           if (!labelEl) return;
           const labelText = labelEl.textContent.trim();
           const isCorrectOption = mode === 'iu'
@@ -1168,7 +1263,9 @@
 
       const detail = mode === 'iu'
         ? `${person.name} works at ${iuData.label} · ${iuData.abbr} — ${iuData.region}`
-        : `That was ${person.name} — ${person.role} at ${iuData.label}`;
+        : mode === 'person'
+          ? `That was ${person.name} — ${person.role} at ${iuData.label}`
+          : `${person.name} · ${person.role} · ${iuData.label} (${iuData.region})`;
       document.getElementById('feedDetail').textContent = detail;
 
       document.getElementById('learnPersonName').textContent = person.name;

@@ -943,10 +943,6 @@
 
       const num = parseInt(current.replace(/^iu/i, ''));
 
-      // Highlight the target region subtly
-      const targetEl = document.getElementById(current);
-      if (targetEl) targetEl.classList.add('target-iu');
-
       // Prompt UI
       const logo   = document.getElementById('promptLogo');
       const target = document.getElementById('promptTarget');
@@ -1075,18 +1071,20 @@
       const ns   = 'http://www.w3.org/2000/svg';
       const dim  = Math.min(Math.max(Math.min(bb.width, bb.height) * 0.5, 18), 52);
 
-      const img = document.createElementNS(ns, 'image');
-      img.setAttribute('href', logoSrc(num));
-      img.setAttribute('x', cx - dim / 2);
-      img.setAttribute('y', cy - dim * 0.62);
-      img.setAttribute('width', dim);
-      img.setAttribute('height', dim);
-      img.setAttribute('pointer-events', 'none');
-      groupEl.appendChild(img);
+      if (gameMode !== 'logo') {
+        const img = document.createElementNS(ns, 'image');
+        img.setAttribute('href', logoSrc(num));
+        img.setAttribute('x', cx - dim / 2);
+        img.setAttribute('y', cy - dim * 0.62);
+        img.setAttribute('width', dim);
+        img.setAttribute('height', dim);
+        img.setAttribute('pointer-events', 'none');
+        groupEl.appendChild(img);
+      }
 
       const text = document.createElementNS(ns, 'text');
       text.setAttribute('x', cx);
-      text.setAttribute('y', cy + dim * 0.48);
+      text.setAttribute('y', gameMode === 'logo' ? cy : cy + dim * 0.48);
       text.setAttribute('text-anchor', 'middle');
       text.setAttribute('dominant-baseline', 'central');
       text.setAttribute('pointer-events', 'none');
