@@ -47,11 +47,7 @@
       flex-wrap: wrap;
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
 
     .header-title {
       font-family: 'Bebas Neue', cursive;
@@ -68,11 +64,7 @@
       margin-top: 0.1rem;
     }
 
-    .header-nav {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
+    .header-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
     .nav-link {
       color: var(--muted);
@@ -155,11 +147,7 @@
       margin-left: auto;
     }
 
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; }
 
     .stat-val {
       font-family: 'Space Mono', monospace;
@@ -176,8 +164,8 @@
       margin-top: 0.15rem;
     }
 
-    .stat-val.timer { color: var(--blue); }
-    .stat-val.score { color: var(--green); }
+    .stat-val.timer  { color: var(--blue); }
+    .stat-val.score  { color: var(--green); }
     .stat-val.errors { color: var(--red); }
 
     .start-btn {
@@ -259,7 +247,7 @@
       background: linear-gradient(135deg, var(--navy) 0%, #0a1d32 100%);
     }
 
-    .map-svg-wrap {
+    .map-canvas-wrap {
       width: 100%;
       height: 100%;
       display: flex;
@@ -267,50 +255,15 @@
       justify-content: center;
     }
 
-    #mapSvg {
+    #mapCanvas {
       width: 100%;
       height: 100%;
       max-width: 900px;
       max-height: 100%;
+      display: block;
+      cursor: default;
     }
-
-    /* SVG IU region styles */
-    .iu-region {
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .iu-region rect {
-      fill: var(--card);
-      stroke: rgba(255,255,255,0.12);
-      stroke-width: 1.5;
-      transition: fill 0.15s;
-    }
-
-    .iu-region:hover rect { fill: rgba(79,163,232,0.15); stroke: var(--blue); }
-
-    .iu-region.target rect    { fill: rgba(245,166,35,0.08); stroke: var(--accent); stroke-width: 2; }
-    .iu-region.correct rect   { fill: rgba(43,214,157,0.2);  stroke: var(--green); stroke-width: 2.5; }
-    .iu-region.wrong rect     { fill: rgba(255,107,107,0.15); stroke: var(--red);  stroke-width: 2; }
-    .iu-region.revealed rect  { fill: rgba(245,166,35,0.15); stroke: var(--accent); stroke-width: 2; }
-    .iu-region.found rect     { fill: rgba(43,214,157,0.12); stroke: rgba(43,214,157,0.5); stroke-width: 1.5; }
-    .iu-region.disabled { cursor: default; pointer-events: none; }
-
-    .iu-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
-      font-weight: 700;
-      fill: var(--muted);
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-      letter-spacing: 0.03em;
-    }
-
-    .iu-region.found .iu-label  { fill: var(--green); }
-    .iu-region.correct .iu-label { fill: var(--green); }
-    .iu-region.wrong .iu-label   { fill: var(--red); }
-    .iu-region.target .iu-label  { fill: var(--accent); }
+    #mapCanvas.game-active { cursor: crosshair; }
 
     /* ── Sidebar ── */
     .sidebar {
@@ -334,10 +287,7 @@
       align-items: center;
     }
 
-    .sidebar-progress-badge {
-      color: var(--accent);
-      font-weight: 700;
-    }
+    .sidebar-progress-badge { color: var(--accent); font-weight: 700; }
 
     .sidebar-list {
       flex: 1;
@@ -377,7 +327,7 @@
       color: var(--muted);
       min-width: 28px;
     }
-    .sidebar-item.found .sidebar-num  { color: var(--green); }
+    .sidebar-item.found .sidebar-num       { color: var(--green); }
     .sidebar-item.active-target .sidebar-num { color: var(--accent); }
 
     .sidebar-name {
@@ -389,15 +339,10 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .sidebar-item.found .sidebar-name  { color: var(--text); }
+    .sidebar-item.found .sidebar-name       { color: var(--text); }
     .sidebar-item.active-target .sidebar-name { color: var(--accent); }
 
-    .sidebar-check {
-      font-size: 0.8rem;
-      color: var(--green);
-      opacity: 0;
-      flex-shrink: 0;
-    }
+    .sidebar-check { font-size: 0.8rem; color: var(--green); opacity: 0; flex-shrink: 0; }
     .sidebar-item.found .sidebar-check { opacity: 1; }
 
     /* ── Win screen ── */
@@ -470,7 +415,6 @@
       margin-top: 0.2rem;
     }
 
-    /* Leaderboard */
     .leaderboard {
       background: var(--card2);
       border-radius: 8px;
@@ -499,16 +443,12 @@
     .lb-row:last-child { border-bottom: none; }
     .lb-row.current { color: var(--accent); font-weight: 600; }
 
-    .lb-rank { color: var(--muted); min-width: 20px; }
-    .lb-name { flex: 1; padding: 0 0.5rem; color: var(--text); }
-    .lb-time { font-family: 'Space Mono', monospace; color: var(--green); }
+    .lb-rank   { color: var(--muted); min-width: 20px; }
+    .lb-name   { flex: 1; padding: 0 0.5rem; color: var(--text); }
+    .lb-time   { font-family: 'Space Mono', monospace; color: var(--green); }
     .lb-errors { color: var(--muted); font-size: 0.68rem; }
 
-    .win-actions {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-    }
+    .win-actions { display: flex; gap: 0.75rem; justify-content: center; }
 
     .win-btn {
       background: var(--accent);
@@ -523,7 +463,6 @@
       transition: opacity 0.2s;
     }
     .win-btn:hover { opacity: 0.85; }
-
     .win-btn.secondary {
       background: var(--card2);
       color: var(--text);
@@ -562,11 +501,7 @@
       line-height: 1.65;
     }
 
-    .idle-modes {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 0.25rem;
-    }
+    .idle-modes { display: flex; gap: 0.75rem; margin-top: 0.25rem; }
 
     .idle-mode-card {
       background: var(--card);
@@ -589,11 +524,7 @@
       letter-spacing: 0.06em;
       margin-bottom: 0.3rem;
     }
-    .idle-mode-desc {
-      font-size: 0.72rem;
-      color: var(--muted);
-      line-height: 1.45;
-    }
+    .idle-mode-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.45; }
 
     .idle-start {
       background: var(--accent);
@@ -610,6 +541,22 @@
       margin-top: 0.5rem;
     }
     .idle-start:hover { opacity: 0.85; }
+
+    /* Loading indicator */
+    .map-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .map-loading.hidden { display: none; }
 
     /* Responsive */
     @media (max-width: 720px) {
@@ -629,9 +576,9 @@
       </div>
     </div>
     <nav class="header-nav">
-      <a href="index.html"          class="nav-link">← Hub</a>
-      <a href="stem-poc-game.html"  class="nav-link">People Game</a>
-      <a href="about.html"          class="nav-link">Story</a>
+      <a href="index.html"         class="nav-link">← Hub</a>
+      <a href="stem-poc-game.html" class="nav-link">People Game</a>
+      <a href="about.html"         class="nav-link">Story</a>
     </nav>
   </header>
 
@@ -644,16 +591,16 @@
       <div class="controls-bar">
         <span class="mode-label">Mode:</span>
         <div class="mode-toggle">
-          <button class="mode-btn active" id="btnModeNum"   onclick="selectMode('number')">Number</button>
-          <button class="mode-btn"        id="btnModeLogo"  onclick="selectMode('logo')">Logo</button>
+          <button class="mode-btn active" id="btnModeNum"  onclick="selectMode('number')">Number</button>
+          <button class="mode-btn"        id="btnModeLogo" onclick="selectMode('logo')">Logo</button>
         </div>
         <div class="stat-group">
           <div class="stat-item">
-            <span class="stat-val timer" id="timerDisplay">0:00</span>
+            <span class="stat-val timer"  id="timerDisplay">0:00</span>
             <span class="stat-lbl">Time</span>
           </div>
           <div class="stat-item">
-            <span class="stat-val score" id="scoreDisplay">0</span>
+            <span class="stat-val score"  id="scoreDisplay">0</span>
             <span class="stat-lbl">Found</span>
           </div>
           <div class="stat-item">
@@ -669,8 +616,8 @@
         <img class="prompt-logo" id="promptLogo" src="" alt="" style="display:none">
         <div class="prompt-content">
           <div class="prompt-instruction" id="promptInstruction">Choose a mode and start to begin</div>
-          <div class="prompt-target" id="promptTarget">PA IU MAP</div>
-          <div class="prompt-hint" id="promptHint">All 29 Pennsylvania Intermediate Units</div>
+          <div class="prompt-target"      id="promptTarget">PA IU MAP</div>
+          <div class="prompt-hint"        id="promptHint">All 29 Pennsylvania Intermediate Units</div>
         </div>
         <div class="prompt-feedback" id="promptFeedback" style="display:none"></div>
       </div>
@@ -681,7 +628,7 @@
           <div class="idle-title">The Great PA IU Escape</div>
           <div class="idle-sub">Click an IU on the map to identify it. Select your mode below.</div>
           <div class="idle-modes">
-            <div class="idle-mode-card selected" id="idleModeNum" onclick="pickIdleMode('number')">
+            <div class="idle-mode-card selected" id="idleModeNum"  onclick="pickIdleMode('number')">
               <div class="idle-mode-title">Number Mode</div>
               <div class="idle-mode-desc">Show IU number — click the correct region on the map</div>
             </div>
@@ -693,12 +640,10 @@
           <button class="idle-start" onclick="startGame()">Start Game</button>
         </div>
 
-        <div class="map-svg-wrap">
-          <svg id="mapSvg" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
-            <!-- PA background silhouette -->
-            <rect x="0" y="0" width="1000" height="600" fill="rgba(5,15,28,0.6)" rx="6"/>
-            <!-- IU regions rendered by JS -->
-          </svg>
+        <div class="map-loading" id="mapLoading">Loading map…</div>
+
+        <div class="map-canvas-wrap">
+          <canvas id="mapCanvas"></canvas>
         </div>
       </div>
 
@@ -720,7 +665,7 @@
     <div class="win-card">
       <div class="win-eyebrow">All 29 IUs Found</div>
       <div class="win-title">You Escaped!</div>
-      <div class="win-time" id="winTime">0:00</div>
+      <div class="win-time"  id="winTime">0:00</div>
       <div class="win-stats">
         <div class="stat-item">
           <div class="win-stat-val" id="winErrors">0</div>
@@ -738,116 +683,273 @@
       </div>
 
       <div class="win-actions">
-        <button class="win-btn" onclick="startGame()">Play Again</button>
+        <button class="win-btn"           onclick="startGame()">Play Again</button>
         <button class="win-btn secondary" onclick="closeWin()">View Map</button>
       </div>
     </div>
   </div>
 
   <script>
-    /* ═══════════════════════════════════
-       IU DATA — positions on 1000×600 SVG
-       x, y = top-left corner; w, h = size
-       lg = logo file extension (png or jpg)
-    ═══════════════════════════════════ */
-    const IU_DATA = [
-      { id:1,  num:1,  label:'IU 1',  name:'Allegheny IU',          abbr:'AIU1',   region:'Greater Pittsburgh',   x:90,  y:340, w:150, h:125, lg:'png' },
-      { id:2,  num:2,  label:'IU 2',  name:'Westmoreland IU',        abbr:'IU2',    region:'SW PA',                x:215, y:390, w:135, h:125, lg:'png' },
-      { id:3,  num:3,  label:'IU 3',  name:'SW Corner IU',           abbr:'IU3',    region:'SW PA',                x:0,   y:395, w:90,  h:205, lg:'png' },
-      { id:4,  num:4,  label:'IU 4',  name:'Mon Valley IU',          abbr:'IU4',    region:'SW PA',                x:150, y:465, w:120, h:95,  lg:'png' },
-      { id:5,  num:5,  label:'IU 5',  name:'NW Tri-County IU',       abbr:'IU5',    region:'NW PA',                x:145, y:0,   w:155, h:160, lg:'png' },
-      { id:6,  num:6,  label:'IU 6',  name:'Riverview IU',           abbr:'RIU6',   region:'Western PA',           x:0,   y:185, w:145, h:160, lg:'png' },
-      { id:7,  num:7,  label:'IU 7',  name:'Midwestern IU',          abbr:'IU7',    region:'Western PA',           x:145, y:160, w:155, h:130, lg:'png' },
-      { id:8,  num:8,  label:'IU 8',  name:'Appalachia IU',          abbr:'AIU',    region:'Northcentral PA',      x:300, y:0,   w:215, h:215, lg:'jpg' },
-      { id:9,  num:9,  label:'IU 9',  name:'Centre IU',              abbr:'IU9',    region:'Central PA',           x:390, y:215, w:165, h:140, lg:'png' },
-      { id:10, num:10, label:'IU 10', name:'Central IU',             abbr:'IU10',   region:'Central PA',           x:300, y:295, w:200, h:140, lg:'png' },
-      { id:11, num:11, label:'IU 11', name:'Juniata Valley IU',      abbr:'IU11',   region:'Central PA',           x:500, y:295, w:110, h:120, lg:'png' },
-      { id:12, num:12, label:'IU 12', name:'Erie 1 IU',              abbr:'IU12',   region:'NW PA / Erie',         x:0,   y:0,   w:145, h:115, lg:'jpg' },
-      { id:13, num:13, label:'IU 13', name:'Lancaster-Lebanon IU',   abbr:'IU13',   region:'South-Central PA',     x:505, y:430, w:175, h:170, lg:'png' },
-      { id:14, num:14, label:'IU 14', name:'Berks County IU',        abbr:'BCIU14', region:'SE PA',                x:730, y:345, w:130, h:145, lg:'png' },
-      { id:15, num:15, label:'IU 15', name:'Capital Area IU',        abbr:'CAIU',   region:'Capital Area',         x:500, y:355, w:155, h:140, lg:'png' },
-      { id:16, num:16, label:'IU 16', name:'Susquehanna Valley IU',  abbr:'IU16',   region:'Northcentral PA',      x:610, y:120, w:145, h:165, lg:'png' },
-      { id:17, num:17, label:'IU 17', name:'Tioga IU',               abbr:'IU17',   region:'N-Central PA',         x:515, y:0,   w:135, h:120, lg:'png' },
-      { id:18, num:18, label:'IU 18', name:'Luzerne IU',             abbr:'IU18',   region:'NE PA',                x:650, y:0,   w:130, h:165, lg:'png' },
-      { id:19, num:19, label:'IU 19', name:'Northeastern IU',        abbr:'NEIU19', region:'NE PA',                x:780, y:0,   w:220, h:215, lg:'png' },
-      { id:20, num:20, label:'IU 20', name:'Colonial IU',            abbr:'IU20',   region:'E PA',                 x:860, y:215, w:140, h:140, lg:'png' },
-      { id:21, num:21, label:'IU 21', name:'Carbon Lehigh IU',       abbr:'CLIU21', region:'E PA',                 x:780, y:215, w:130, h:130, lg:'png' },
-      { id:22, num:22, label:'IU 22', name:'Bucks County IU',        abbr:'IU22',   region:'SE PA',                x:860, y:355, w:140, h:140, lg:'png' },
-      { id:23, num:23, label:'IU 23', name:'Montgomery County IU',   abbr:'MCIU',   region:'SE PA',                x:860, y:470, w:140, h:100, lg:'png' },
-      { id:24, num:24, label:'IU 24', name:'IU 24',                  abbr:'IU24',   region:'SE PA',                x:730, y:465, w:130, h:105, lg:'png' },
-      { id:25, num:25, label:'IU 25', name:'Delaware County IU',     abbr:'DCIU',   region:'SE PA',                x:860, y:545, w:140, h:55,  lg:'png' },
-      { id:26, num:26, label:'IU 26', name:'Philadelphia IU',        abbr:'IU26',   region:'SE PA',                x:970, y:390, w:30,  h:210, lg:'png' },
-      { id:27, num:27, label:'IU 27', name:'Beaver Valley IU',       abbr:'IU27',   region:'Western PA',           x:0,   y:115, w:145, h:115, lg:'png' },
-      { id:28, num:28, label:'IU 28', name:'York Adams IU',          abbr:'IU28',   region:'South-Central PA',     x:380, y:455, w:175, h:145, lg:'png' },
-      { id:29, num:29, label:'IU 29', name:'Chester County IU',      abbr:'CCIU',   region:'SE PA',                x:655, y:460, w:175, h:140, lg:'png' },
-    ];
+    /* ═══════════════════════════════════════════════════
+       ASSET PATHS
+    ═══════════════════════════════════════════════════ */
+    const MAP_PATH   = 'games/iu-map/map-pieces/';
+    const LOGO_PATH  = 'games/iu-map/logos/';
+    const AUDIO_PATH = 'games/iu-map/audio/';
 
-    function logoPath(iu) {
-      return `assests/iu-logos/iu${iu.num}-logo.${iu.lg}`;
+    function mapPiecePath(num) {
+      const prefix = [24, 25, 26].includes(num) ? 'IU' : 'iu';
+      return `${MAP_PATH}PAIU_Map_by_SD_${prefix}${num}.png`;
     }
 
-    /* ═══════════════════════════════════
-       GAME STATE
-    ═══════════════════════════════════ */
-    let mode       = 'number'; // 'number' | 'logo'
-    let gameActive = false;
-    let queue      = [];
-    let currentIU  = null;
-    let found      = new Set();
-    let errors     = 0;
-    let timerSec   = 0;
-    let timerInterval = null;
-    let feedbackTimeout = null;
+    function logoPath(iu) {
+      return `${LOGO_PATH}iu${iu.num}-logo.${iu.lg}`;
+    }
 
-    // Session leaderboard
-    let leaderboard = [];
+    const CORRECT_SND = `${AUDIO_PATH}518394__justinamolsch__boing.wav`;
+    const WRONG_SNDS  = [
+      `${AUDIO_PATH}417730__wcoltd__emplaser.wav`,
+      `${AUDIO_PATH}442820__qubodup__duck-quack.wav`,
+      `${AUDIO_PATH}580308__colorscrimsontears__lazer-shot-2.wav`,
+      `${AUDIO_PATH}840755__bassimat__fart-005.wav`,
+    ];
 
-    /* ═══════════════════════════════════
-       SVG MAP BUILD
-    ═══════════════════════════════════ */
-    const svg = document.getElementById('mapSvg');
+    /* ═══════════════════════════════════════════════════
+       IU DATA  (lg = logo extension)
+    ═══════════════════════════════════════════════════ */
+    const IU_DATA = [
+      { id:1,  num:1,  label:'IU 1',  name:'Allegheny IU',          abbr:'AIU1',   region:'Greater Pittsburgh',  lg:'png' },
+      { id:2,  num:2,  label:'IU 2',  name:'Westmoreland IU',        abbr:'IU2',    region:'SW PA',               lg:'png' },
+      { id:3,  num:3,  label:'IU 3',  name:'SW Corner IU',           abbr:'IU3',    region:'SW PA',               lg:'png' },
+      { id:4,  num:4,  label:'IU 4',  name:'Mon Valley IU',          abbr:'IU4',    region:'SW PA',               lg:'png' },
+      { id:5,  num:5,  label:'IU 5',  name:'NW Tri-County IU',       abbr:'IU5',    region:'NW PA',               lg:'png' },
+      { id:6,  num:6,  label:'IU 6',  name:'Riverview IU',           abbr:'RIU6',   region:'Western PA',          lg:'png' },
+      { id:7,  num:7,  label:'IU 7',  name:'Midwestern IU',          abbr:'IU7',    region:'Western PA',          lg:'png' },
+      { id:8,  num:8,  label:'IU 8',  name:'Appalachia IU',          abbr:'AIU',    region:'Northcentral PA',     lg:'jpg' },
+      { id:9,  num:9,  label:'IU 9',  name:'Centre IU',              abbr:'IU9',    region:'Central PA',          lg:'png' },
+      { id:10, num:10, label:'IU 10', name:'Central IU',             abbr:'IU10',   region:'Central PA',          lg:'png' },
+      { id:11, num:11, label:'IU 11', name:'Juniata Valley IU',      abbr:'IU11',   region:'Central PA',          lg:'png' },
+      { id:12, num:12, label:'IU 12', name:'Erie 1 IU',              abbr:'IU12',   region:'NW PA / Erie',        lg:'jpg' },
+      { id:13, num:13, label:'IU 13', name:'Lancaster-Lebanon IU',   abbr:'IU13',   region:'South-Central PA',    lg:'png' },
+      { id:14, num:14, label:'IU 14', name:'Berks County IU',        abbr:'BCIU14', region:'SE PA',               lg:'png' },
+      { id:15, num:15, label:'IU 15', name:'Capital Area IU',        abbr:'CAIU',   region:'Capital Area',        lg:'png' },
+      { id:16, num:16, label:'IU 16', name:'Susquehanna Valley IU',  abbr:'IU16',   region:'Northcentral PA',     lg:'png' },
+      { id:17, num:17, label:'IU 17', name:'Tioga IU',               abbr:'IU17',   region:'N-Central PA',        lg:'png' },
+      { id:18, num:18, label:'IU 18', name:'Luzerne IU',             abbr:'IU18',   region:'NE PA',               lg:'png' },
+      { id:19, num:19, label:'IU 19', name:'Northeastern IU',        abbr:'NEIU19', region:'NE PA',               lg:'png' },
+      { id:20, num:20, label:'IU 20', name:'Colonial IU',            abbr:'IU20',   region:'E PA',                lg:'png' },
+      { id:21, num:21, label:'IU 21', name:'Carbon Lehigh IU',       abbr:'CLIU21', region:'E PA',                lg:'png' },
+      { id:22, num:22, label:'IU 22', name:'Bucks County IU',        abbr:'IU22',   region:'SE PA',               lg:'png' },
+      { id:23, num:23, label:'IU 23', name:'Montgomery County IU',   abbr:'MCIU',   region:'SE PA',               lg:'png' },
+      { id:24, num:24, label:'IU 24', name:'IU 24',                  abbr:'IU24',   region:'SE PA',               lg:'png' },
+      { id:25, num:25, label:'IU 25', name:'Delaware County IU',     abbr:'DCIU',   region:'SE PA',               lg:'png' },
+      { id:26, num:26, label:'IU 26', name:'Philadelphia IU',        abbr:'IU26',   region:'SE PA',               lg:'png' },
+      { id:27, num:27, label:'IU 27', name:'Beaver Valley IU',       abbr:'IU27',   region:'Western PA',          lg:'png' },
+      { id:28, num:28, label:'IU 28', name:'York Adams IU',          abbr:'IU28',   region:'South-Central PA',    lg:'png' },
+      { id:29, num:29, label:'IU 29', name:'Chester County IU',      abbr:'CCIU',   region:'SE PA',               lg:'png' },
+    ];
 
-    function buildMap() {
-      // Remove old IU groups (keep background rect)
-      svg.querySelectorAll('.iu-region').forEach(el => el.remove());
+    /* ═══════════════════════════════════════════════════
+       IMAGE LOADING
+    ═══════════════════════════════════════════════════ */
+    const pieceImages = {};   // num -> HTMLImageElement (loaded pieces)
+    const bgImg = new Image();
+    let bgLoaded = false;
+    let pendingImages = 0;
+    let loadingDone = false;
+
+    function loadImages() {
+      pendingImages = 1 + IU_DATA.length;
+
+      bgImg.onload  = () => { bgLoaded = true; onImageSettled(); };
+      bgImg.onerror = () => onImageSettled();
+      bgImg.src = `${MAP_PATH}PAIU_Map_by_SD_path38.png`;
 
       IU_DATA.forEach(iu => {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'iu-region');
-        g.setAttribute('id', `iu-${iu.id}`);
-        g.setAttribute('data-id', iu.id);
-
-        // Background rect
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', iu.x + 1);
-        rect.setAttribute('y', iu.y + 1);
-        rect.setAttribute('width', iu.w - 2);
-        rect.setAttribute('height', iu.h - 2);
-        rect.setAttribute('rx', 3);
-
-        // Label
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('class', 'iu-label');
-        text.setAttribute('x', iu.x + iu.w / 2);
-        text.setAttribute('y', iu.y + iu.h / 2);
-        text.textContent = iu.label;
-
-        g.appendChild(rect);
-        g.appendChild(text);
-
-        g.addEventListener('click', () => handleMapClick(iu.id));
-
-        svg.appendChild(g);
+        const img = new Image();
+        img.onload  = () => { pieceImages[iu.num] = img; onImageSettled(); };
+        img.onerror = () => onImageSettled(); // graceful: IU11 and IU28 will be absent
+        img.src = mapPiecePath(iu.num);
       });
     }
 
-    /* ═══════════════════════════════════
-       SIDEBAR BUILD
-    ═══════════════════════════════════ */
+    function onImageSettled() {
+      pendingImages--;
+      if (pendingImages > 0) return;
+      loadingDone = true;
+      document.getElementById('mapLoading').classList.add('hidden');
+      resizeCanvas();
+    }
+
+    /* ═══════════════════════════════════════════════════
+       AUDIO
+    ═══════════════════════════════════════════════════ */
+    function playSound(src) {
+      try {
+        const a = new Audio(src);
+        a.volume = 0.45;
+        a.play().catch(() => {});
+      } catch (_) {}
+    }
+
+    function playCorrect() { playSound(CORRECT_SND); }
+    function playWrong()   {
+      playSound(WRONG_SNDS[Math.floor(Math.random() * WRONG_SNDS.length)]);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CANVAS SETUP
+    ═══════════════════════════════════════════════════ */
+    const canvas = document.getElementById('mapCanvas');
+    const ctx    = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      const wrap = canvas.parentElement;
+      const rect = wrap.getBoundingClientRect();
+      const dpr  = window.devicePixelRatio || 1;
+      canvas.width  = rect.width  * dpr;
+      canvas.height = rect.height * dpr;
+      renderMap();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    canvas.addEventListener('click', function(e) {
+      if (!gameActive || !currentIU) return;
+      const rect = canvas.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) * (canvas.width  / rect.width);
+      const cy = (e.clientY - rect.top)  * (canvas.height / rect.height);
+      const iuId = getIUAtPoint(cx, cy);
+      if (iuId !== null) handleMapClick(iuId);
+    });
+
+    /* ═══════════════════════════════════════════════════
+       RENDERING
+    ═══════════════════════════════════════════════════ */
+    const iuState = {};  // id -> 'default'|'target'|'found'|'wrong'
+
+    const TINTS = {
+      default: null,
+      target:  { color: 'rgba(245,166,35,1)',   alpha: 0.55 },
+      found:   { color: 'rgba(43,214,157,1)',   alpha: 0.40 },
+      wrong:   { color: 'rgba(255,107,107,1)',  alpha: 0.55 },
+    };
+
+    function renderMap() {
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Dark background
+      ctx.fillStyle = 'rgba(5,15,28,0.85)';
+      ctx.fillRect(0, 0, W, H);
+
+      // PA state outline / background layer
+      if (bgLoaded) {
+        ctx.globalAlpha = 0.3;
+        ctx.drawImage(bgImg, 0, 0, W, H);
+        ctx.globalAlpha = 1;
+      }
+
+      // Draw IU pieces
+      IU_DATA.forEach(iu => {
+        const img   = pieceImages[iu.num];
+        const state = iuState[iu.id] || 'default';
+
+        if (img) {
+          drawTintedPiece(img, state, W, H);
+        } else {
+          drawFallbackRect(iu, state, W, H);
+        }
+      });
+    }
+
+    function drawTintedPiece(img, state, W, H) {
+      const tint = TINTS[state];
+
+      if (!tint) {
+        ctx.drawImage(img, 0, 0, W, H);
+        return;
+      }
+
+      // Use a temporary canvas so source-atop only tints this piece's pixels
+      const tmp  = document.createElement('canvas');
+      tmp.width  = W;
+      tmp.height = H;
+      const tctx = tmp.getContext('2d');
+      tctx.drawImage(img, 0, 0, W, H);
+      tctx.globalCompositeOperation = 'source-atop';
+      tctx.fillStyle   = tint.color;
+      tctx.globalAlpha = tint.alpha;
+      tctx.fillRect(0, 0, W, H);
+      ctx.drawImage(tmp, 0, 0);
+    }
+
+    // Fallback rectangle for IU11 and IU28 (no map piece available)
+    // Uses approximate bounding boxes scaled from a 1000×600 reference grid
+    const FALLBACK_BOXES = {
+      11: { x: 500, y: 295, w: 110, h: 120 },
+      28: { x: 380, y: 455, w: 175, h: 145 },
+    };
+
+    function drawFallbackRect(iu, state, W, H) {
+      const box = FALLBACK_BOXES[iu.num];
+      if (!box) return;
+      const sx = W / 1000, sy = H / 600;
+      const x = box.x * sx, y = box.y * sy, w = box.w * sx, h = box.h * sy;
+
+      const fills   = { default:'rgba(18,36,61,0.7)', target:'rgba(245,166,35,0.15)', found:'rgba(43,214,157,0.2)', wrong:'rgba(255,107,107,0.2)' };
+      const strokes = { default:'rgba(255,255,255,0.12)', target:'rgba(245,166,35,0.9)', found:'rgba(43,214,157,0.7)', wrong:'rgba(255,107,107,0.7)' };
+      const labels  = { default:'#9aa8c5', target:'#f5a623', found:'#2bd69d', wrong:'#ff6b6b' };
+
+      ctx.fillStyle   = fills[state]   || fills.default;
+      ctx.strokeStyle = strokes[state] || strokes.default;
+      ctx.lineWidth   = state === 'default' ? 1 : 2;
+      ctx.beginPath();
+      ctx.rect(x + 1, y + 1, w - 2, h - 2);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle    = labels[state] || labels.default;
+      ctx.font         = `bold ${Math.max(8, Math.min(13, h * 0.15))}px "Space Mono", monospace`;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(iu.label, x + w / 2, y + h / 2);
+    }
+
+    /* ═══════════════════════════════════════════════════
+       HIT DETECTION  (pixel-alpha check per IU piece)
+    ═══════════════════════════════════════════════════ */
+    function getIUAtPoint(cx, cy) {
+      const W = canvas.width, H = canvas.height;
+      const hitCanvas = document.createElement('canvas');
+      hitCanvas.width = hitCanvas.height = 1;
+      const hctx = hitCanvas.getContext('2d');
+
+      for (const iu of IU_DATA) {
+        const img = pieceImages[iu.num];
+
+        if (img) {
+          hctx.clearRect(0, 0, 1, 1);
+          hctx.drawImage(img, -cx, -cy, W, H);
+          if (hctx.getImageData(0, 0, 1, 1).data[3] > 20) return iu.id;
+        } else {
+          // Bounding-box fallback for missing pieces
+          const box = FALLBACK_BOXES[iu.num];
+          if (!box) continue;
+          const sx = W / 1000, sy = H / 600;
+          const bx = box.x * sx, by = box.y * sy, bw = box.w * sx, bh = box.h * sy;
+          if (cx >= bx && cx <= bx + bw && cy >= by && cy <= by + bh) return iu.id;
+        }
+      }
+      return null;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════════════════════ */
     function buildSidebar() {
       const list = document.getElementById('sidebarList');
       list.innerHTML = '';
-
       IU_DATA.forEach(iu => {
         const item = document.createElement('div');
         item.className = 'sidebar-item';
@@ -862,40 +964,49 @@
       });
     }
 
-    /* ═══════════════════════════════════
+    /* ═══════════════════════════════════════════════════
        MODE SELECTION
-    ═══════════════════════════════════ */
+    ═══════════════════════════════════════════════════ */
+    let mode = 'number';
+
     function selectMode(m) {
       mode = m;
-      document.getElementById('btnModeNum').classList.toggle('active', m === 'number');
+      document.getElementById('btnModeNum').classList.toggle('active',  m === 'number');
       document.getElementById('btnModeLogo').classList.toggle('active', m === 'logo');
     }
 
     function pickIdleMode(m) {
       mode = m;
-      document.getElementById('idleModeNum').classList.toggle('selected', m === 'number');
+      document.getElementById('idleModeNum').classList.toggle('selected',  m === 'number');
       document.getElementById('idleModeLogo').classList.toggle('selected', m === 'logo');
       selectMode(m);
     }
 
-    /* ═══════════════════════════════════
-       GAME LOGIC
-    ═══════════════════════════════════ */
-    function startGame() {
-      // Reset state
-      found.clear();
-      errors = 0;
-      timerSec = 0;
+    /* ═══════════════════════════════════════════════════
+       GAME STATE
+    ═══════════════════════════════════════════════════ */
+    let gameActive      = false;
+    let queue           = [];
+    let currentIU       = null;
+    let found           = new Set();
+    let errors          = 0;
+    let timerSec        = 0;
+    let timerInterval   = null;
+    let feedbackTimeout = null;
+    let sessionLeaderboard = [];
 
-      // Shuffle IU queue
+    /* ═══════════════════════════════════════════════════
+       GAME LOGIC
+    ═══════════════════════════════════════════════════ */
+    function startGame() {
+      found.clear();
+      errors   = 0;
+      timerSec = 0;
+      currentIU = null;
+      Object.keys(iuState).forEach(k => delete iuState[k]);
+
       queue = shuffle([...IU_DATA]);
 
-      // Reset map
-      document.querySelectorAll('.iu-region').forEach(g => {
-        g.classList.remove('target','correct','wrong','revealed','found','disabled');
-      });
-
-      // Reset sidebar
       document.querySelectorAll('.sidebar-item').forEach(el => {
         el.classList.remove('found', 'active-target');
       });
@@ -906,49 +1017,56 @@
       timerInterval = setInterval(() => { timerSec++; updateTimer(); }, 1000);
 
       gameActive = true;
+      canvas.classList.add('game-active');
       document.getElementById('idleOverlay').classList.add('hidden');
       document.getElementById('winOverlay').classList.remove('visible');
       document.getElementById('promptFeedback').style.display = 'none';
 
+      renderMap();
       nextIU();
     }
 
     function nextIU() {
       if (queue.length === 0) { endGame(); return; }
 
+      // Clear previous target highlight (if not found)
+      if (currentIU && iuState[currentIU.id] !== 'found') {
+        iuState[currentIU.id] = 'default';
+      }
+
       currentIU = queue.shift();
+      iuState[currentIU.id] = 'target';
+      renderMap();
+
       showPrompt(currentIU);
 
-      // Mark target in sidebar
       document.querySelectorAll('.sidebar-item.active-target').forEach(el => el.classList.remove('active-target'));
       const sbItem = document.getElementById(`sb-${currentIU.id}`);
-      if (sbItem) sbItem.classList.add('active-target');
-      if (sbItem) sbItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      if (sbItem) {
+        sbItem.classList.add('active-target');
+        sbItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
     }
 
     function showPrompt(iu) {
       document.getElementById('promptInstruction').textContent =
         mode === 'number' ? 'Click on this IU:' : 'Click on the IU matching this logo:';
 
-      const logo = document.getElementById('promptLogo');
+      const logo   = document.getElementById('promptLogo');
       const target = document.getElementById('promptTarget');
-      const hint = document.getElementById('promptHint');
+      const hint   = document.getElementById('promptHint');
 
       if (mode === 'number') {
         logo.style.display = 'none';
         target.textContent = iu.label;
-        hint.textContent = '';
+        hint.textContent   = '';
       } else {
-        const src = logoPath(iu);
-        logo.src = src;
-        logo.alt = iu.label;
+        logo.src           = logoPath(iu);
+        logo.alt           = iu.label;
         logo.style.display = 'block';
-        logo.onerror = () => {
-          logo.style.display = 'none';
-          target.textContent = iu.label;
-        };
+        logo.onerror       = () => { logo.style.display = 'none'; target.textContent = iu.label; };
         target.textContent = '';
-        hint.textContent = '';
+        hint.textContent   = '';
       }
     }
 
@@ -961,10 +1079,11 @@
       const clickedIU  = IU_DATA.find(i => i.id === iuId);
 
       if (iuId === currentIU.id) {
-        // Correct
+        // ── Correct ──
+        playCorrect();
         found.add(iuId);
-        markRegion(iuId, 'correct');
-        markRegion(iuId, 'found');
+        iuState[iuId] = 'found';
+        renderMap();
 
         const sbItem = document.getElementById(`sb-${iuId}`);
         if (sbItem) {
@@ -973,88 +1092,68 @@
         }
 
         feedbackEl.textContent = `✓ ${currentIU.name}`;
-        feedbackEl.className = 'prompt-feedback correct';
+        feedbackEl.className   = 'prompt-feedback correct';
         feedbackEl.style.display = 'block';
-
         updateScore();
 
         feedbackTimeout = setTimeout(() => {
           feedbackEl.style.display = 'none';
-          markRegion(iuId, 'found');
           nextIU();
         }, 700);
 
       } else {
-        // Wrong
+        // ── Wrong ──
+        playWrong();
         errors++;
         updateScore();
-        markRegion(iuId, 'wrong');
 
-        feedbackEl.textContent = `✗ That was ${clickedIU ? clickedIU.label : 'wrong'}`;
-        feedbackEl.className = 'prompt-feedback wrong';
+        const prevState = iuState[iuId] || 'default';
+        iuState[iuId] = 'wrong';
+        renderMap();
+
+        feedbackEl.textContent = `✗ That was ${clickedIU ? clickedIU.label : 'unknown'}`;
+        feedbackEl.className   = 'prompt-feedback wrong';
         feedbackEl.style.display = 'block';
 
         feedbackTimeout = setTimeout(() => {
           feedbackEl.style.display = 'none';
-          clearClass(iuId, 'wrong');
+          if (iuState[iuId] === 'wrong') { iuState[iuId] = prevState; renderMap(); }
         }, 800);
       }
     }
 
-    function markRegion(iuId, cls) {
-      const g = document.getElementById(`iu-${iuId}`);
-      if (!g) return;
-      if (cls === 'correct') {
-        g.classList.remove('wrong', 'target');
-        g.classList.add('correct');
-      } else if (cls === 'found') {
-        g.classList.remove('correct', 'wrong', 'target', 'revealed');
-        g.classList.add('found', 'disabled');
-      } else {
-        g.classList.add(cls);
-      }
-    }
-
-    function clearClass(iuId, cls) {
-      const g = document.getElementById(`iu-${iuId}`);
-      if (g) g.classList.remove(cls);
-    }
-
     function endGame() {
       gameActive = false;
+      canvas.classList.remove('game-active');
       clearInterval(timerInterval);
-
       document.querySelectorAll('.sidebar-item.active-target').forEach(el => el.classList.remove('active-target'));
 
       document.getElementById('winTime').textContent   = formatTime(timerSec);
       document.getElementById('winErrors').textContent = errors;
       document.getElementById('winScore').textContent  = found.size;
 
-      // Save to leaderboard
-      leaderboard.push({ time: timerSec, errors, mode });
-      leaderboard.sort((a, b) => a.time - b.time || a.errors - b.errors);
-      if (leaderboard.length > 5) leaderboard.length = 5;
+      sessionLeaderboard.push({ time: timerSec, errors, mode });
+      sessionLeaderboard.sort((a, b) => a.time - b.time || a.errors - b.errors);
+      if (sessionLeaderboard.length > 5) sessionLeaderboard.length = 5;
       renderLeaderboard();
 
-      // Reset prompt
       document.getElementById('promptInstruction').textContent = 'All IUs found!';
-      document.getElementById('promptTarget').textContent = 'Complete';
-      document.getElementById('promptHint').textContent = '';
-      document.getElementById('promptLogo').style.display = 'none';
+      document.getElementById('promptTarget').textContent      = 'Complete';
+      document.getElementById('promptHint').textContent        = '';
+      document.getElementById('promptLogo').style.display      = 'none';
 
       document.getElementById('winOverlay').classList.add('visible');
     }
 
     function renderLeaderboard() {
       const entries = document.getElementById('lbEntries');
-      if (leaderboard.length === 0) {
+      if (sessionLeaderboard.length === 0) {
         entries.innerHTML = '<div style="font-size:0.73rem;color:var(--muted);">No scores yet</div>';
         return;
       }
-      const currentTime = leaderboard.length ? leaderboard[leaderboard.length - 1].time : -1;
-      entries.innerHTML = leaderboard.map((e, i) => `
+      entries.innerHTML = sessionLeaderboard.map((e, i) => `
         <div class="lb-row ${i === 0 ? 'current' : ''}">
-          <span class="lb-rank">#${i+1}</span>
+          <span class="lb-rank">#${i + 1}</span>
           <span class="lb-name">${e.mode === 'logo' ? '[Logo]' : '[Number]'}</span>
           <span class="lb-time">${formatTime(e.time)}</span>
           <span class="lb-errors">${e.errors} err</span>
@@ -1066,12 +1165,12 @@
       document.getElementById('winOverlay').classList.remove('visible');
     }
 
-    /* ═══════════════════════════════════
+    /* ═══════════════════════════════════════════════════
        SCORE + TIMER
-    ═══════════════════════════════════ */
+    ═══════════════════════════════════════════════════ */
     function updateScore() {
-      document.getElementById('scoreDisplay').textContent  = found.size;
-      document.getElementById('errorsDisplay').textContent = errors;
+      document.getElementById('scoreDisplay').textContent    = found.size;
+      document.getElementById('errorsDisplay').textContent   = errors;
       document.getElementById('sidebarProgress').textContent = `${found.size} / 29`;
     }
 
@@ -1080,14 +1179,12 @@
     }
 
     function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${m}:${String(s).padStart(2, '0')}`;
+      return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
     }
 
-    /* ═══════════════════════════════════
+    /* ═══════════════════════════════════════════════════
        UTILITY
-    ═══════════════════════════════════ */
+    ═══════════════════════════════════════════════════ */
     function shuffle(arr) {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
@@ -1097,11 +1194,11 @@
       return a;
     }
 
-    /* ═══════════════════════════════════
+    /* ═══════════════════════════════════════════════════
        INIT
-    ═══════════════════════════════════ */
-    buildMap();
+    ═══════════════════════════════════════════════════ */
     buildSidebar();
+    loadImages();
   </script>
 </body>
 </html>
