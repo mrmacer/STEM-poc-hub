@@ -2592,9 +2592,254 @@
     border-radius: 3px;
     padding: 2px 6px;
   }
+
+/* ═══════════════════════════════════════════════════
+   ADAPTIVE ROLE LENS SYSTEM
+═══════════════════════════════════════════════════ */
+
+.role-chooser-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10,22,40,0.93);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.35s;
+}
+.role-chooser-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.role-chooser-card {
+  background: var(--card);
+  border: 1px solid rgba(244,161,29,0.3);
+  border-radius: 16px;
+  padding: 2.25rem 2rem 1.75rem;
+  max-width: 660px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.chooser-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.55rem;
+}
+.chooser-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.85rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  line-height: 1.05;
+  margin-bottom: 0.45rem;
+}
+.chooser-subtitle {
+  font-size: 0.81rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+}
+.chooser-roles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+.chooser-role-btn {
+  background: rgba(26,58,107,0.35);
+  border: 1px solid rgba(244,161,29,0.18);
+  border-radius: 10px;
+  padding: 0.85rem 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+  color: var(--light);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.chooser-role-btn:hover {
+  border-color: rgba(244,161,29,0.55);
+  background: rgba(244,161,29,0.07);
+  transform: translateY(-1px);
+}
+.chooser-role-btn.selected {
+  border-color: var(--accent);
+  background: rgba(244,161,29,0.12);
+  box-shadow: 0 0 0 1px rgba(244,161,29,0.2);
+}
+.crb-icon  { font-size: 1.05rem; line-height: 1; margin-bottom: 0.05rem; }
+.crb-title { font-weight: 700; font-size: 0.79rem; color: var(--light); }
+.crb-desc  { font-size: 0.67rem; color: var(--muted); line-height: 1.4; }
+
+.chooser-enter-btn {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: var(--navy);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  padding: 0.7rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.chooser-enter-btn:hover    { opacity: 0.86; }
+.chooser-enter-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Lens bar */
+.lens-bar {
+  position: relative;
+  z-index: 1;
+  background: rgba(26,58,107,0.18);
+  border-bottom: 1px solid rgba(244,161,29,0.13);
+  display: none;
+}
+.lens-bar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.lens-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+.lens-role-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.lens-switch-btn {
+  background: none;
+  border: 1px solid rgba(244,161,29,0.28);
+  border-radius: 4px;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.lens-switch-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Recommended Starting Points */
+.rsp-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0.5rem;
+  display: none;
+}
+.rsp-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+.rsp-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 1.5px;
+  color: var(--light);
+}
+.rsp-role-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(46,204,138,0.1);
+  border: 1px solid rgba(46,204,138,0.25);
+  padding: 0.14rem 0.5rem;
+  border-radius: 20px;
+}
+.rsp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1.75rem;
+}
+.rsp-action {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 0.9rem;
+  text-decoration: none;
+  color: var(--light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  transition: all 0.18s;
+}
+.rsp-action:hover {
+  border-color: rgba(244,161,29,0.45);
+  background: rgba(244,161,29,0.05);
+  transform: translateY(-2px);
+}
+.rsp-action-icon  { font-size: 0.95rem; line-height: 1; }
+.rsp-action-label { font-weight: 600; font-size: 0.79rem; color: var(--accent); line-height: 1.2; }
+.rsp-action-desc  { font-size: 0.69rem; color: var(--muted); line-height: 1.4; }
+
+.rsp-rule {
+  border: none;
+  border-top: 1px solid rgba(26,58,107,0.65);
+  margin: 0 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .role-chooser-card { padding: 1.6rem 1.2rem 1.4rem; }
+  .chooser-roles     { grid-template-columns: 1fr 1fr; }
+  .rsp-grid          { grid-template-columns: 1fr 1fr; }
+  .lens-bar-inner    { padding: 0.55rem 1rem; }
+  .rsp-section       { padding: 1.5rem 1rem 0; }
+  .rsp-rule          { margin: 0 1rem; }
+}
+@media (max-width: 380px) {
+  .chooser-roles { grid-template-columns: 1fr; }
+  .rsp-grid      { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
+
+<!-- ROLE CHOOSER OVERLAY — shown on first visit or when switching role -->
+<div class="role-chooser-overlay" id="roleChooserOverlay" style="display:none">
+  <div class="role-chooser-card">
+    <div class="chooser-eyebrow">PA STEM PoC Hub</div>
+    <div class="chooser-title">Welcome to the<br>PA STEM PoC Hub</div>
+    <p class="chooser-subtitle">Choose your role to personalize your starting pathway. You can switch roles anytime.</p>
+    <div class="chooser-roles" id="chooserRoles"></div>
+    <button class="chooser-enter-btn" id="enterHubBtn" onclick="enterHub()" disabled>Enter Hub</button>
+  </div>
+</div>
 
 <div class="progress-bar" id="progressBar"></div>
 
@@ -2615,6 +2860,15 @@
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
 </nav>
+
+<!-- LENS BAR — shown after role is selected -->
+<div class="lens-bar" id="lensBar">
+  <div class="lens-bar-inner">
+    <span class="lens-label">Current Lens:</span>
+    <span class="lens-role-name" id="lensRoleName"></span>
+    <button class="lens-switch-btn" onclick="openRoleChooser()">Switch Role</button>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero reveal">
@@ -2650,6 +2904,16 @@
     </div>
   </div>
 </div>
+
+<!-- RECOMMENDED STARTING POINTS — role-aware, shown after role selection -->
+<div class="rsp-section" id="rspSection">
+  <div class="rsp-header">
+    <span class="rsp-title">Recommended Starting Points</span>
+    <span class="rsp-role-tag" id="rspRoleTag"></span>
+  </div>
+  <div class="rsp-grid" id="rspGrid"></div>
+</div>
+<hr class="rsp-rule" id="rspRule" style="display:none">
 
 <!-- ORIGIN STORY -->
 <div class="section reveal" id="story">
@@ -4922,6 +5186,184 @@
 
   // Initial reveal for hero
   document.querySelector('.hero').classList.add('visible');
+
+  /* ═══════════════════════════════════════════════════
+     ADAPTIVE ROLE LENS SYSTEM
+  ═══════════════════════════════════════════════════ */
+
+  const ROLE_LENSES = {
+    newPoc: {
+      label: 'New PoC',
+      icon: '🚀',
+      desc: 'Just joined — need a clear path into the network',
+      actions: [
+        { icon: '✅', label: 'Start Checklist',       desc: 'Complete your onboarding steps',          href: '#start'      },
+        { icon: '📅', label: 'View 90-Day Pathway',   desc: 'Follow a structured first 90 days',       href: '#pathway'    },
+        { icon: '📋', label: 'Open SoW Menu',         desc: 'Understand your deliverables',            href: '#sow'        },
+        { icon: '🤝', label: 'Find Your TaC & Buddy', desc: 'Connect with your support network',       href: '#buddy'      },
+        { icon: '🛰️', label: 'Use ORBIT Companion',   desc: 'Prepare for reporting season',            href: '#orbit'      },
+      ]
+    },
+    returningPoc: {
+      label: 'Returning PoC',
+      icon: '⚡',
+      desc: 'Already in the role — deepening impact',
+      actions: [
+        { icon: '📋', label: 'Open SoW Menu',          desc: 'Review your deliverable landscape',      href: '#sow'         },
+        { icon: '🛰️', label: 'Use ORBIT Companion',    desc: 'Find ORBIT sample language',             href: '#orbit'       },
+        { icon: '🔗', label: 'Workgroup Connections',  desc: 'Find groups aligned to your work',       href: '#workgroups'  },
+        { icon: '📚', label: 'Open Resource Hub',      desc: 'Share or discover examples',             href: '#resources'   },
+        { icon: '💡', label: 'Explore STEM Intel',     desc: 'Surface patterns across IUs',            href: '#intelligence'},
+      ]
+    },
+    workgroupLead: {
+      label: 'Workgroup Lead',
+      icon: '🗂️',
+      desc: 'Leading a statewide or regional workgroup',
+      actions: [
+        { icon: '🔬', label: 'View Workgroups',         desc: 'See all active workgroups',              href: '#workgroups'  },
+        { icon: '📚', label: 'Open Resource Hub',       desc: 'Link agendas and shared folders',        href: '#resources'   },
+        { icon: '🗺️', label: 'Browse the Directory',   desc: 'Find collaborators across IUs',          href: '#directory'   },
+        { icon: '📋', label: 'Align to SoW',            desc: 'Tag your work to deliverables',          href: '#sow'         },
+        { icon: '💡', label: 'STEM Intel Layer',        desc: 'Surface statewide patterns',             href: '#intelligence'},
+      ]
+    },
+    leadTeam: {
+      label: 'Lead Team / PAIMS',
+      icon: '🏛️',
+      desc: 'Overseeing statewide coherence and reporting',
+      actions: [
+        { icon: '🛰️', label: 'Review ORBIT',              desc: 'Gather statewide ORBIT examples',      href: '#orbit'       },
+        { icon: '🔭', label: 'View Future Builds',        desc: 'See what\'s next for the hub',         href: '#future'      },
+        { icon: '🚀', label: 'Support New PoC Onboarding',desc: 'Point new PoCs to the right start',    href: '#start'       },
+        { icon: '💡', label: 'STEM Intel Layer',          desc: 'Identify statewide patterns',          href: '#intelligence'},
+        { icon: '🗺️', label: 'Full Network Directory',   desc: 'Navigate the statewide network',       href: '#directory'   },
+      ]
+    },
+    tacPartner: {
+      label: 'TaC / Inclusion Partner',
+      icon: '♿',
+      desc: 'Connecting inclusive practices to STEM work',
+      actions: [
+        { icon: '📋', label: 'SoW Inclusion Expectations', desc: 'Review STEM SOW inclusion alignment', href: '#sow'        },
+        { icon: '🗺️', label: 'Connect with IU STEM PoCs', desc: 'Find your regional PoC',              href: '#directory'  },
+        { icon: '🔬', label: 'Equity & Inclusion Workgroup',desc: 'Join or follow the TaC workgroup',   href: '#workgroups' },
+        { icon: '📚', label: 'Add Inclusion Resources',    desc: 'Share accessible STEM examples',      href: '#resources'  },
+        { icon: '🤝', label: 'Buddy System',               desc: 'Understand PoC support structures',   href: '#buddy'      },
+      ]
+    },
+    ecosystemPartner: {
+      label: 'Ecosystem Partner',
+      icon: '🌐',
+      desc: 'Collaborating from industry, higher ed, or nonprofits',
+      actions: [
+        { icon: '🌱', label: 'Explore Ecosystem Work',      desc: 'How IUs support regional STEM',       href: '#story'       },
+        { icon: '🔬', label: 'View Workgroups',             desc: 'Find collaboration opportunities',    href: '#workgroups'  },
+        { icon: '🗺️', label: 'Browse the Directory',       desc: 'Find your regional contacts',         href: '#directory'   },
+        { icon: '📚', label: 'Submit or Share Resources',   desc: 'Contribute to the resource hub',      href: '#resources'   },
+        { icon: '💡', label: 'STEM Intel Layer',            desc: 'See what IUs are tracking',           href: '#intelligence'},
+      ]
+    },
+    exploring: {
+      label: 'Just Exploring',
+      icon: '🧭',
+      desc: 'Curious about the PA STEM PoC ecosystem',
+      actions: [
+        { icon: '🌱', label: 'Start Here',           desc: 'Understand what this hub is',          href: '#story'       },
+        { icon: '🗺️', label: 'View Directory',       desc: 'Meet the people in the network',       href: '#directory'   },
+        { icon: '🔬', label: 'Browse Workgroups',    desc: 'See statewide STEM initiatives',       href: '#workgroups'  },
+        { icon: '📚', label: 'Open Resource Hub',    desc: 'Explore shared resources',             href: '#resources'   },
+        { icon: '💡', label: 'Explore STEM Intel',   desc: 'See what IUs are tracking',            href: '#intelligence'},
+      ]
+    }
+  };
+
+  const LS_KEY = 'paStemPocSelectedRole';
+  let selectedRoleKey = null;
+
+  function buildChooserRoles() {
+    const container = document.getElementById('chooserRoles');
+    container.innerHTML = '';
+    Object.entries(ROLE_LENSES).forEach(([key, role]) => {
+      const btn = document.createElement('button');
+      btn.className = 'chooser-role-btn' + (key === selectedRoleKey ? ' selected' : '');
+      btn.dataset.roleKey = key;
+      btn.innerHTML =
+        '<span class="crb-icon">' + role.icon + '</span>' +
+        '<span class="crb-title">' + role.label + '</span>' +
+        '<span class="crb-desc">'  + role.desc  + '</span>';
+      btn.addEventListener('click', () => selectRole(key));
+      container.appendChild(btn);
+    });
+  }
+
+  function selectRole(key) {
+    selectedRoleKey = key;
+    document.querySelectorAll('.chooser-role-btn').forEach(b => {
+      b.classList.toggle('selected', b.dataset.roleKey === key);
+    });
+    document.getElementById('enterHubBtn').disabled = false;
+  }
+
+  function enterHub() {
+    if (!selectedRoleKey) return;
+    localStorage.setItem(LS_KEY, selectedRoleKey);
+    const overlay = document.getElementById('roleChooserOverlay');
+    overlay.classList.add('hidden');
+    setTimeout(() => { overlay.style.display = 'none'; }, 360);
+    showLens();
+  }
+
+  function openRoleChooser() {
+    const overlay = document.getElementById('roleChooserOverlay');
+    overlay.style.display = 'flex';
+    // Force reflow so transition runs
+    overlay.offsetHeight;
+    overlay.classList.remove('hidden');
+    buildChooserRoles();
+    document.getElementById('enterHubBtn').disabled = !selectedRoleKey;
+  }
+
+  function showLens() {
+    if (!selectedRoleKey || !ROLE_LENSES[selectedRoleKey]) return;
+    const role = ROLE_LENSES[selectedRoleKey];
+
+    // Lens bar
+    const lensBar = document.getElementById('lensBar');
+    lensBar.style.display = 'block';
+    document.getElementById('lensRoleName').textContent = role.icon + ' ' + role.label;
+
+    // RSP section
+    const rspSection = document.getElementById('rspSection');
+    rspSection.style.display = 'block';
+    document.getElementById('rspRule').style.display = 'block';
+    document.getElementById('rspRoleTag').textContent = role.label;
+
+    const grid = document.getElementById('rspGrid');
+    grid.innerHTML = '';
+    role.actions.forEach(function(action) {
+      const a = document.createElement('a');
+      a.className = 'rsp-action';
+      a.href = action.href;
+      a.innerHTML =
+        '<span class="rsp-action-icon">'  + action.icon  + '</span>' +
+        '<span class="rsp-action-label">' + action.label + '</span>' +
+        '<span class="rsp-action-desc">'  + action.desc  + '</span>';
+      grid.appendChild(a);
+    });
+  }
+
+  function initRoleLens() {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved && ROLE_LENSES[saved]) {
+      selectedRoleKey = saved;
+      showLens();
+    } else {
+      openRoleChooser();
+    }
+  }
+
+  initRoleLens();
 </script>
 </body>
 </html>
