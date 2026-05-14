@@ -790,14 +790,23 @@
        DATA
     ═══════════════════════════════════ */
     const IUS = {
-      5:  { label: 'IU 5',  abbr: 'IU 5',   region: 'Schuylkill / Carbon',   logo: 'assests/iu-logos/iu5-logo.png' },
-      6:  { label: 'IU 6',  abbr: 'RIU6',   region: 'Western PA',             logo: 'assests/iu-logos/iu6-logo.png' },
-      8:  { label: 'IU 8',  abbr: 'AIU',    region: 'Northcentral PA',        logo: 'assests/iu-logos/iu8-logo.jpg' },
-      12: { label: 'IU 12', abbr: 'LIU12',  region: 'Northwest PA / Erie',    logo: 'assests/iu-logos/iu12-logo.jpg' },
-      14: { label: 'IU 14', abbr: 'BCIU14', region: 'Berks County',           logo: 'assests/iu-logos/iu14-logo.png' },
-      15: { label: 'IU 15', abbr: 'CAIU',   region: 'Capital Area',           logo: 'assests/iu-logos/iu15-logo.png' },
-      21: { label: 'IU 21', abbr: 'CLIU21', region: 'Southwest PA',           logo: 'assests/iu-logos/iu21-logo.png' },
-      29: { label: 'IU 29', abbr: 'CCIU',   region: 'Southeast PA / Chester', logo: 'assests/iu-logos/iu29-logo.png' }
+      5:  { label: 'IU 5',  abbr: 'IU 5',   region: 'Schuylkill / Carbon',              logo: 'assests/iu-logos/iu5-logo.png'  },
+      6:  { label: 'IU 6',  abbr: 'RIU6',   region: 'Western PA',                       logo: 'assests/iu-logos/iu6-logo.png'  },
+      7:  { label: 'IU 7',  abbr: 'LLIU7',  region: 'Central PA / Lancaster-Lebanon',   logo: 'assests/iu-logos/iu7-logo.png'  },
+      8:  { label: 'IU 8',  abbr: 'AIU',    region: 'Northcentral PA',                  logo: 'assests/iu-logos/iu8-logo.jpg'  },
+      9:  { label: 'IU 9',  abbr: 'IU9',    region: 'Northwest PA / Seneca Highlands',  logo: 'assests/iu-logos/iu9-logo.png'  },
+      10: { label: 'IU 10', abbr: 'IU10',   region: 'West-Central PA',                  logo: 'assests/iu-logos/iu10-logo.png' },
+      11: { label: 'IU 11', abbr: 'TCIU11', region: 'South-Central PA / Tuscarora',     logo: 'assests/iu-logos/iu11-logo.png' },
+      12: { label: 'IU 12', abbr: 'LIU12',  region: 'Northwest PA / Erie',              logo: 'assests/iu-logos/iu12-logo.jpg' },
+      14: { label: 'IU 14', abbr: 'BCIU14', region: 'Berks County',                     logo: 'assests/iu-logos/iu14-logo.png' },
+      15: { label: 'IU 15', abbr: 'CAIU',   region: 'Capital Area',                     logo: 'assests/iu-logos/iu15-logo.png' },
+      16: { label: 'IU 16', abbr: 'CSIU16', region: 'Northcentral PA / Susquehanna',    logo: 'assests/iu-logos/iu16-logo.png' },
+      17: { label: 'IU 17', abbr: 'IU17',   region: 'Northcentral PA / Columbia Valley',logo: 'assests/iu-logos/iu17-logo.png' },
+      18: { label: 'IU 18', abbr: 'IU18',   region: 'Northeast PA / Luzerne',           logo: 'assests/iu-logos/iu18-logo.png' },
+      20: { label: 'IU 20', abbr: 'IU20',   region: 'Northwest PA / Crawford',          logo: 'assests/iu-logos/iu20-logo.png' },
+      21: { label: 'IU 21', abbr: 'CLIU21', region: 'Southwest PA',                     logo: 'assests/iu-logos/iu21-logo.png' },
+      27: { label: 'IU 27', abbr: 'IU27',   region: 'South-Central PA / Huntingdon',    logo: 'assests/iu-logos/iu27-logo.png' },
+      29: { label: 'IU 29', abbr: 'CCIU',   region: 'Southeast PA / Chester',           logo: 'assests/iu-logos/iu29-logo.png' }
     };
 
     const PEOPLE = [
@@ -893,14 +902,12 @@
       },
       {
         name: 'Colleen Epler-Ruths',
-        photo: 'assests/paiu-photos/Epler-Ruths-Colleen.jpeg',
-        iu: null,
-        iuLabel: 'Statewide',
+        photo: 'assests/STEM-POC-Profile/Epler-Ruths-Colleen.png',
+        iu: 16,
         role: 'Statewide Science Lead',
-        region: 'All PA IUs',
-        tags: ['Science', 'STEELS', 'Statewide'],
-        bio: 'Statewide lead for the PA STEM PoC Science workgroup, supporting the full network on STEELS implementation and science education. Co-leads alongside Jennifer Sciacca (CAIU).',
-        quizable: false
+        tags: ['Science', 'STEELS', 'Statewide', 'IU 16'],
+        bio: 'Statewide lead for the PA STEM PoC Science workgroup, supporting STEELS implementation across PA. Based at Central Susquehanna IU (IU 16). Co-leads the Science workgroup alongside Jennifer Sciacca (CAIU).',
+        quizable: true
       },
       {
         name: 'Eric Lech',
@@ -936,6 +943,132 @@
         role: 'Student Competitions Lead',
         tags: ['Student Competitions', 'Sea Air & Land'],
         bio: 'Leads student competition programming for Chester County IU (CCIU · IU 29). Co-leads the statewide Student Competitions workgroup and manages Sea Air & Land competition logistics.',
+        quizable: true
+      },
+      {
+        name: 'Christine Sanders',
+        photo: 'assests/STEM-POC-Profile/Sanders-Christine.png',
+        iu: 5,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 5'],
+        bio: 'STEM Point of Contact Network contributor supporting IU 5 (Schuylkill / Carbon region).',
+        quizable: true
+      },
+      {
+        name: 'Julie Kolano',
+        photo: 'assests/STEM-POC-Profile/Kolano-Julie.png',
+        iu: 7,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 7'],
+        bio: 'STEM Point of Contact Network contributor at Lancaster-Lebanon IU (IU 7).',
+        quizable: true
+      },
+      {
+        name: 'Amanda Williamson',
+        photo: 'assests/STEM-POC-Profile/Williamson-Amanda.png',
+        iu: 8,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 8'],
+        bio: 'STEM Point of Contact Network contributor at Appalachia IU (IU 8).',
+        quizable: true
+      },
+      {
+        name: 'Stacey Dickerson',
+        photo: 'assests/STEM-POC-Profile/Dickerson-Stacey.png',
+        iu: 9,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 9'],
+        bio: 'STEM Point of Contact Network contributor supporting IU 9 (Northwest PA).',
+        quizable: true
+      },
+      {
+        name: 'Rachael Gordon',
+        photo: 'assests/STEM-POC-Profile/Gordon-Rachael.png',
+        iu: 9,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 9'],
+        bio: 'STEM Point of Contact Network contributor supporting IU 9 (Northwest PA).',
+        quizable: true
+      },
+      {
+        name: 'Melissa Duckworth',
+        photo: 'assests/STEM-POC-Profile/Duckworth-Melissa.png',
+        iu: 10,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 10'],
+        bio: 'STEM Point of Contact Network contributor at IU 10 (West-Central PA).',
+        quizable: true
+      },
+      {
+        name: 'Dawn Hayes',
+        photo: 'assests/STEM-POC-Profile/Hayes-Dawn.png',
+        iu: 10,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 10'],
+        bio: 'STEM Point of Contact Network contributor at IU 10 (West-Central PA).',
+        quizable: true
+      },
+      {
+        name: 'Jigar Patel',
+        photo: 'assests/STEM-POC-Profile/Patel-Jigar.png',
+        iu: 11,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 11'],
+        bio: 'STEM Point of Contact Network contributor at Tuscarora IU (IU 11).',
+        quizable: true
+      },
+      {
+        name: 'Peney Wright',
+        photo: 'assests/STEM-POC-Profile/Wright-Peney.png',
+        iu: 11,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 11'],
+        bio: 'STEM Point of Contact Network contributor at Tuscarora IU (IU 11).',
+        quizable: true
+      },
+      {
+        name: 'Kaitlyn Hock',
+        photo: 'assests/STEM-POC-Profile/Hock-Kaitlyn.png',
+        iu: 16,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 16'],
+        bio: 'STEM Point of Contact Network contributor at Central Susquehanna IU (IU 16).',
+        quizable: true
+      },
+      {
+        name: 'Shanna Haden',
+        photo: 'assests/STEM-POC-Profile/Haden-Shanna.png',
+        iu: 17,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 17'],
+        bio: 'STEM Point of Contact Network contributor at IU 17 (Northcentral PA).',
+        quizable: true
+      },
+      {
+        name: 'Deanna Mennig',
+        photo: 'assests/STEM-POC-Profile/Mennig-Deanna.png',
+        iu: 18,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 18'],
+        bio: 'STEM Point of Contact Network contributor at IU 18 (Northeast PA).',
+        quizable: true
+      },
+      {
+        name: 'Samantha Siegfried',
+        photo: 'assests/STEM-POC-Profile/Siegfried-Samantha.png',
+        iu: 20,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 20'],
+        bio: 'STEM Point of Contact Network contributor at IU 20 (Northwest PA).',
+        quizable: true
+      },
+      {
+        name: 'Susan Emmett',
+        photo: 'assests/STEM-POC-Profile/Emmett-Susan.png',
+        iu: 27,
+        role: 'STEM / IU Network Contributor',
+        tags: ['STEM', 'IU 27'],
+        bio: 'STEM Point of Contact Network contributor at IU 27 (South-Central PA).',
         quizable: true
       }
     ];
