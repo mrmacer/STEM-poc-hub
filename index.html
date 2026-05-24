@@ -105,7 +105,7 @@
   .hero {
     position: relative;
     z-index: 1;
-    padding: 5rem 2rem 4rem;
+    padding: 3rem 2rem 2rem;
     max-width: 1100px;
     margin: 0 auto;
   }
@@ -140,10 +140,10 @@
 
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    line-height: 0.9;
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
+    line-height: 0.92;
     letter-spacing: 2px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .hero h1 .accent { color: var(--accent); }
@@ -189,16 +189,16 @@
     z-index: 1;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 2rem 2rem;
   }
 
   .section-header {
     display: flex;
     align-items: baseline;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
   }
 
   .section-num {
@@ -209,7 +209,7 @@
 
   .section-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
+    font-size: 1.7rem;
     letter-spacing: 2px;
   }
 
@@ -3442,6 +3442,120 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 .colab-tag-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
 /* ═══════════════════════════════════════════════════════
+   V2 PATCH 5 — DASHBOARD ARCHITECTURE
+═══════════════════════════════════════════════════════ */
+
+/* Enhanced body grid — richer node dots at intersections */
+body::before {
+  background-image:
+    radial-gradient(circle, rgba(244,161,29,0.12) 1px, transparent 1px),
+    linear-gradient(rgba(26,58,107,0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,58,107,0.22) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 40px 40px;
+}
+
+/* Section color identity top-accents */
+.section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  pointer-events: none;
+}
+#story::before, #start::before, #who-for::before { background: linear-gradient(90deg, rgba(91,143,249,0.5) 0%, transparent 65%); }
+#directory::before, #learn-network::before       { background: linear-gradient(90deg, rgba(91,143,249,0.45) 0%, transparent 65%); }
+#mission-control::before                          { background: linear-gradient(90deg, rgba(244,161,29,0.55) 0%, transparent 65%); }
+#workgroups::before                               { background: linear-gradient(90deg, rgba(192,132,252,0.5) 0%, transparent 65%); }
+#sow::before, #orbit::before                      { background: linear-gradient(90deg, rgba(232,67,58,0.45) 0%, transparent 65%); }
+#resources::before, #intelligence::before         { background: linear-gradient(90deg, rgba(34,211,238,0.45) 0%, transparent 65%); }
+#buddy::before                                    { background: linear-gradient(90deg, rgba(55,200,130,0.4) 0%, transparent 65%); }
+#pathway::before, #future::before                 { background: linear-gradient(90deg, rgba(138,155,191,0.3) 0%, transparent 65%); }
+
+/* Quick Actions Bar */
+.quick-actions-bar {
+  max-width: 1100px; margin: 0 auto; padding: 0 2rem 1.5rem;
+  display: flex; gap: 0.45rem; flex-wrap: wrap; position: relative; z-index: 1;
+}
+.qa-btn {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  padding: 0.38rem 0.85rem; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.11); background: rgba(255,255,255,0.04);
+  color: rgba(138,155,191,0.75); text-decoration: none; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  letter-spacing: 0.04em; white-space: nowrap;
+}
+.qa-btn:hover { background: rgba(244,161,29,0.1); border-color: rgba(244,161,29,0.3); color: var(--accent); }
+.qa-btn.qa-primary { background: rgba(244,161,29,0.1); border-color: rgba(244,161,29,0.3); color: var(--accent); }
+
+/* Command Bridge */
+.command-bridge {
+  max-width: 1100px; margin: 0 auto; padding: 0 2rem 2.5rem; position: relative; z-index: 1;
+}
+.bridge-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: rgba(138,155,191,0.35); margin-bottom: 0.65rem;
+}
+.bridge-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+@media (max-width: 900px) { .bridge-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .bridge-grid { grid-template-columns: 1fr; } }
+
+/* Bridge Portal Cards */
+.bridge-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.15rem 1.2rem 1rem; position: relative; overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  display: flex; flex-direction: column; gap: 0; cursor: default;
+}
+.bridge-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--bc, var(--accent)); opacity: 0.88;
+}
+.bridge-card::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(var(--bc-rgb, 244,161,29), 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.bridge-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px rgba(0,0,0,0.38);
+  border-color: var(--bc, rgba(244,161,29,0.4));
+}
+.bc-head { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.5rem; }
+.bc-icon { font-size: 1.15rem; line-height: 1; }
+.bc-title { font-weight: 700; font-size: 0.86rem; color: var(--light); }
+.bc-big {
+  font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
+  color: var(--bc, var(--accent)); line-height: 1; letter-spacing: 0.03em;
+}
+.bc-unit {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.45rem;
+}
+.bc-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.55; flex: 1; margin-bottom: 0.55rem; }
+.bc-cta {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: var(--bc, var(--accent)); text-decoration: none;
+  letter-spacing: 0.04em; display: inline-block;
+  border-bottom: 1px solid transparent; transition: border-color 0.15s;
+}
+.bc-cta:hover { border-bottom-color: var(--bc, var(--accent)); }
+.bc-btn {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: var(--bc, var(--accent)); background: none; border: none; cursor: pointer;
+  letter-spacing: 0.04em; padding: 0; text-align: left;
+  border-bottom: 1px solid transparent; transition: border-color 0.15s;
+}
+.bc-btn:hover { border-bottom-color: var(--bc, var(--accent)); }
+
+/* Color token sets */
+.bc-blue   { --bc: #5b8ff9; --bc-rgb: 91,143,249; }
+.bc-purple { --bc: #c084fc; --bc-rgb: 192,132,252; }
+.bc-gold   { --bc: #f4a11d; --bc-rgb: 244,161,29; }
+.bc-cyan   { --bc: #22d3ee; --bc-rgb: 34,211,238; }
+.bc-red    { --bc: #f87171; --bc-rgb: 248,113,113; }
+.bc-green  { --bc: #37c882; --bc-rgb: 55,200,130; }
+
+/* ═══════════════════════════════════════════════════════
    V2 PATCH 4 — LIVE STATEWIDE MISSION CONTROL
 ═══════════════════════════════════════════════════════ */
 
@@ -4102,6 +4216,7 @@ body::after {
     <li><a href="#intelligence">STEM Intel</a></li>
     <li><a href="#future">Future</a></li>
     <li><a href="#" class="nav-create-btn" onclick="openProfileCreator(event)">✦ Create Profile</a></li>
+    <li><a href="profile.html" target="_blank" rel="noopener" style="font-size:0.8rem;opacity:0.7;">📝 Share Form</a></li>
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
 </nav>
@@ -4155,6 +4270,74 @@ body::after {
       <span class="stat-num">∞</span>
       <span class="stat-label">Resource Hub</span>
     </div>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS BAR -->
+<div class="quick-actions-bar" id="quickActionsBar">
+  <button class="qa-btn qa-primary" onclick="openProfileCreator(event)">✦ Create Profile</button>
+  <a class="qa-btn" href="profile.html" target="_blank" rel="noopener" title="Shareable profile form — send to colleagues">📝 Share Form</a>
+  <a class="qa-btn" href="#directory">👥 Directory</a>
+  <a class="qa-btn" href="#workgroups">⚡ Workgroups</a>
+  <a class="qa-btn" href="#mission-control">🗺 Network Map</a>
+  <a class="qa-btn" href="#resources">📚 STEM Intel</a>
+  <a class="qa-btn" href="#sow">📋 SoW / ORBIT</a>
+  <a class="qa-btn" href="#buddy">🤝 Buddy Match</a>
+</div>
+
+<!-- COMMAND BRIDGE — main dashboard grid -->
+<div class="command-bridge" id="commandBridge">
+  <div class="bridge-eyebrow">STATEWIDE COMMAND CENTER</div>
+  <div class="bridge-grid">
+
+    <div class="bridge-card bc-blue">
+      <div class="bc-head"><span class="bc-icon">👥</span><span class="bc-title">Network Directory</span></div>
+      <div class="bc-big" id="bridgeProfileCount">13</div>
+      <div class="bc-unit">active profiles</div>
+      <div class="bc-desc">Discoverable PoCs, collaboration signals, and IU expertise across Pennsylvania. Search, filter, connect.</div>
+      <a class="bc-cta" href="#directory">Open Directory →</a>
+    </div>
+
+    <div class="bridge-card bc-purple">
+      <div class="bc-head"><span class="bc-icon">⚡</span><span class="bc-title">Workgroup Hubs</span></div>
+      <div class="bc-big" id="bridgeActionCount">—</div>
+      <div class="bc-unit">open action items</div>
+      <div class="bc-desc">8 active workgroup spaces — action tracking, shared resources, meeting OS, and member discovery.</div>
+      <a class="bc-cta" href="#workgroups">View All Hubs →</a>
+    </div>
+
+    <div class="bridge-card bc-gold">
+      <div class="bc-head"><span class="bc-icon">🗺</span><span class="bc-title">Mission Control</span></div>
+      <div class="bc-big">29</div>
+      <div class="bc-unit">IUs on network map</div>
+      <div class="bc-desc">Statewide initiatives, interactive PA IU map, featured contributors, and ecosystem pulse.</div>
+      <a class="bc-cta" href="#mission-control">Open Map →</a>
+    </div>
+
+    <div class="bridge-card bc-cyan">
+      <div class="bc-head"><span class="bc-icon">📚</span><span class="bc-title">STEM Intel</span></div>
+      <div class="bc-big">6</div>
+      <div class="bc-unit">initiative areas</div>
+      <div class="bc-desc">Curated resources, implementation guides, STEELS tools, AI literacy, and professional development.</div>
+      <a class="bc-cta" href="#resources">Browse Resources →</a>
+    </div>
+
+    <div class="bridge-card bc-red">
+      <div class="bc-head"><span class="bc-icon">📋</span><span class="bc-title">SoW &amp; ORBIT</span></div>
+      <div class="bc-big">7+</div>
+      <div class="bc-unit">deliverable tracks</div>
+      <div class="bc-desc">Scope of Work explainer, ORBIT documentation framework, and deliverable planning tools.</div>
+      <a class="bc-cta" href="#sow">View Deliverables →</a>
+    </div>
+
+    <div class="bridge-card bc-green">
+      <div class="bc-head"><span class="bc-icon">🌐</span><span class="bc-title">Community Feed</span></div>
+      <div class="bc-big" id="bridgeActivityCount">—</div>
+      <div class="bc-unit">network events</div>
+      <div class="bc-desc">Recent contributions, workgroup updates, new profiles, and collaboration signals across the network.</div>
+      <button class="bc-btn" onclick="document.getElementById('directory').scrollIntoView({behavior:'smooth'})">View Activity →</button>
+    </div>
+
   </div>
 </div>
 
@@ -7240,6 +7423,7 @@ body::after {
     renderActivityFeed();
     if (typeof renderContributionCards === 'function') renderContributionCards();
     if (typeof renderTicker === 'function') renderTicker();
+    if (typeof updateBridgeStats === 'function') updateBridgeStats();
   }
 
   function renderActivityFeed() {
@@ -7351,6 +7535,23 @@ body::after {
       actionsEl.appendChild(btn);
     });
   })();
+
+  /* ═══════════════════════════════════════════════════
+     V2 PATCH 5 — DASHBOARD ARCHITECTURE
+  ═══════════════════════════════════════════════════ */
+
+  function updateBridgeStats() {
+    const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    const actions  = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]');
+    const feed     = JSON.parse(localStorage.getItem('stemPocActivityFeed') || '[]');
+    const pc = document.getElementById('bridgeProfileCount');
+    const ac = document.getElementById('bridgeActionCount');
+    const fc = document.getElementById('bridgeActivityCount');
+    if (pc) pc.textContent = 13 + profiles.length;
+    if (ac) ac.textContent = actions.filter(a => a.status !== 'completed').length || '—';
+    if (fc) fc.textContent = feed.length || '—';
+  }
+  updateBridgeStats();
 
   /* ═══════════════════════════════════════════════════
      V2 PATCH 4 — LIVE STATEWIDE MISSION CONTROL

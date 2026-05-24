@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Your STEM PoC Profile — PA STEM PoC Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0a1628;
+    --blue:   #1a3a6b;
+    --accent: #f4a11d;
+    --green:  #2ecc8a;
+    --red:    #e8433a;
+    --light:  #f0f4ff;
+    --muted:  #8a9bbf;
+    --card:   #111e36;
+    --border: rgba(244,161,29,0.2);
+    --purple: #a77bf5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(circle, rgba(244,161,29,0.1) 1px, transparent 1px),
+      linear-gradient(rgba(26,58,107,0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,58,107,0.2) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px, 40px 40px;
+  }
+
+  /* Ambient glow */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(26,58,107,0.2) 0%, transparent 60%);
+  }
+
+  /* ── Nav ── */
+  .pf-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,22,40,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 58px;
+  }
+  .pf-nav-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+    letter-spacing: 2px; color: var(--accent);
+  }
+  .pf-nav-logo span { color: var(--light); }
+  .pf-nav-right { display: flex; align-items: center; gap: 0.75rem; }
+  .pf-nav-back {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--muted); text-decoration: none; letter-spacing: 0.04em;
+    padding: 0.35rem 0.85rem; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; transition: color 0.15s, border-color 0.15s;
+  }
+  .pf-nav-back:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+  .pf-nav-enter {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--navy); background: var(--accent); text-decoration: none;
+    letter-spacing: 0.04em; padding: 0.38rem 1rem; border-radius: 20px;
+    font-weight: 700; transition: opacity 0.15s;
+  }
+  .pf-nav-enter:hover { opacity: 0.85; }
+
+  /* ── Page header ── */
+  .pf-header {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 2.5rem 2rem 1.5rem;
+  }
+  .pf-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .pf-eyebrow::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--green);
+    animation: pfpulse 2s infinite;
+  }
+  @keyframes pfpulse {
+    0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)}
+  }
+  .pf-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: 2px; color: var(--light); line-height: 1.05;
+  }
+  .pf-title span { color: var(--accent); }
+  .pf-subtitle {
+    font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem;
+    max-width: 600px; line-height: 1.6;
+  }
+
+  /* ── Main two-column layout ── */
+  .pf-main {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .pf-main { grid-template-columns: 1fr; }
+    .pf-preview-col { order: -1; }
+  }
+
+  /* ── Form column ── */
+  .pf-form { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* Form sections */
+  .pf-section {
+    background: var(--card); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px; padding: 1.5rem 1.5rem 1.25rem;
+    position: relative; overflow: hidden;
+  }
+  .pf-section::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--section-accent, rgba(244,161,29,0.5));
+  }
+  .pf-section.s-identity   { --section-accent: rgba(91,143,249,0.6); }
+  .pf-section.s-focus      { --section-accent: rgba(244,161,29,0.6); }
+  .pf-section.s-voice      { --section-accent: rgba(55,200,130,0.6); }
+  .pf-section.s-workgroups { --section-accent: rgba(192,132,252,0.6); }
+  .pf-section.s-collab     { --section-accent: rgba(34,211,238,0.5); }
+  .pf-section.s-optional   { --section-accent: rgba(138,155,191,0.35); }
+
+  .pf-section-title {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--accent); margin-bottom: 1.1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .pf-section-title .s-num {
+    color: rgba(138,155,191,0.4); font-size: 0.55rem;
+  }
+  .pf-section-req {
+    font-family: 'Space Mono', monospace; font-size: 0.52rem;
+    color: var(--green); margin-left: auto; letter-spacing: 0.04em;
+  }
+  .pf-section-opt {
+    font-family: 'Space Mono', monospace; font-size: 0.52rem;
+    color: rgba(138,155,191,0.4); margin-left: auto; letter-spacing: 0.04em;
+  }
+
+  /* Field rows */
+  .pf-row { display: grid; gap: 1rem; margin-bottom: 1rem; }
+  .pf-row.two { grid-template-columns: 1fr 1fr; }
+  .pf-row.one { grid-template-columns: 1fr; }
+  @media (max-width: 600px) { .pf-row.two { grid-template-columns: 1fr; } }
+  .pf-row:last-child { margin-bottom: 0; }
+
+  .pf-field { display: flex; flex-direction: column; gap: 0.35rem; }
+  .pf-label {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .pf-label .req-star { color: var(--accent); margin-left: 0.15rem; }
+  .pf-input, .pf-select, .pf-textarea {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 0.65rem 0.85rem;
+    font-size: 0.85rem; color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.15s, background 0.15s;
+    width: 100%;
+  }
+  .pf-input::placeholder, .pf-textarea::placeholder { color: rgba(138,155,191,0.4); }
+  .pf-input:focus, .pf-select:focus, .pf-textarea:focus {
+    outline: none; border-color: rgba(244,161,29,0.5);
+    background: rgba(255,255,255,0.07);
+  }
+  .pf-input.error, .pf-select.error, .pf-textarea.error {
+    border-color: rgba(232,67,58,0.6); background: rgba(232,67,58,0.05);
+  }
+  .pf-select {
+    cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9bbf' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.85rem center;
+    padding-right: 2.2rem;
+  }
+  .pf-select option { background: #111e36; color: var(--light); }
+  .pf-textarea { resize: vertical; min-height: 72px; line-height: 1.6; }
+  .pf-hint {
+    font-size: 0.68rem; color: rgba(138,155,191,0.5); line-height: 1.4;
+    margin-top: 0.1rem;
+  }
+  .pf-error-msg {
+    font-size: 0.65rem; color: var(--red); display: none; margin-top: 0.15rem;
+  }
+  .pf-error-msg.visible { display: block; }
+
+  /* Tag picker */
+  .pf-tag-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.1rem; }
+  .pf-tag {
+    font-size: 0.68rem; padding: 0.28rem 0.7rem; border-radius: 20px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
+    color: rgba(138,155,191,0.8); transition: all 0.15s; user-select: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pf-tag:hover { border-color: rgba(244,161,29,0.35); color: var(--accent); background: rgba(244,161,29,0.07); }
+  .pf-tag.selected {
+    background: rgba(244,161,29,0.15); border-color: rgba(244,161,29,0.45);
+    color: var(--accent);
+  }
+  .pf-tag.wg-tag.selected {
+    background: rgba(192,132,252,0.12); border-color: rgba(192,132,252,0.4);
+    color: var(--purple);
+  }
+
+  /* Photo upload */
+  .photo-upload-area {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .photo-preview-circle {
+    width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+    border: 2px solid rgba(244,161,29,0.3); overflow: hidden;
+    background: linear-gradient(135deg, #1a3a6b, #2462a0);
+    transition: border-color 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .photo-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-upload-right { flex: 1; }
+  .photo-upload-btn {
+    display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    color: var(--muted); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px; padding: 0.38rem 0.85rem; cursor: pointer;
+    transition: color 0.15s, border-color 0.15s; letter-spacing: 0.04em;
+  }
+  .photo-upload-btn:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+  .photo-upload-input { display: none; }
+  .photo-upload-note { font-size: 0.66rem; color: rgba(138,155,191,0.4); margin-top: 0.3rem; }
+
+  /* Submit section */
+  .pf-submit-section {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    background: rgba(244,161,29,0.05); border: 1px solid rgba(244,161,29,0.15);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+  }
+  .pf-submit-left { flex: 1; }
+  .pf-submit-note {
+    font-size: 0.76rem; color: var(--muted); line-height: 1.5;
+  }
+  .pf-submit-note strong { color: var(--light); }
+  .pf-submit-btn {
+    background: var(--accent); color: var(--navy);
+    border: none; border-radius: 10px; padding: 0.75rem 2rem;
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.05em; cursor: pointer; white-space: nowrap;
+    transition: opacity 0.15s, transform 0.15s;
+  }
+  .pf-submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .pf-submit-btn:active { transform: none; }
+  .pf-form-error {
+    font-size: 0.72rem; color: var(--red); margin-top: 0.4rem; display: none;
+  }
+  .pf-form-error.visible { display: block; }
+
+  /* ── Preview column ── */
+  .pf-preview-col { position: sticky; top: 74px; }
+  .pf-preview-label {
+    font-family: 'Space Mono', monospace; font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: rgba(138,155,191,0.4);
+    margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .pf-preview-label::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent); animation: pfpulse 2.5s infinite;
+  }
+
+  /* Preview card */
+  .preview-card {
+    background: var(--card); border: 1px solid rgba(244,161,29,0.2);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+  }
+  .preview-card-top {
+    background: linear-gradient(135deg, rgba(26,58,107,0.8) 0%, rgba(10,22,40,0.9) 100%);
+    padding: 1.25rem 1.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .preview-card-header { display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 0.75rem; }
+  .preview-avatar {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem; font-weight: 700; color: #fff; overflow: hidden;
+    border: 2px solid rgba(244,161,29,0.3);
+  }
+  .preview-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .preview-card-name-block { flex: 1; min-width: 0; }
+  .preview-name {
+    font-weight: 700; font-size: 0.88rem; color: var(--light); line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .preview-role { font-size: 0.7rem; color: var(--muted); margin-top: 0.1rem; }
+  .preview-iu {
+    font-family: 'Space Mono', monospace; font-size: 0.58rem;
+    color: var(--accent); margin-top: 0.1rem;
+  }
+  .preview-community-badge {
+    font-family: 'Space Mono', monospace; font-size: 0.5rem;
+    background: rgba(55,200,130,0.12); border: 1px solid rgba(55,200,130,0.3);
+    color: var(--green); border-radius: 20px; padding: 0.1rem 0.55rem;
+    display: inline-block; margin-bottom: 0.75rem; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .preview-focus-tag {
+    font-family: 'Space Mono', monospace; font-size: 0.52rem;
+    background: rgba(244,161,29,0.12); border: 1px solid rgba(244,161,29,0.3);
+    color: var(--accent); border-radius: 20px; padding: 0.1rem 0.6rem;
+    display: inline-block; margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .preview-card-body { padding: 0.9rem 1.25rem 1.1rem; }
+  .preview-field { margin-bottom: 0.65rem; }
+  .preview-field:last-child { margin-bottom: 0; }
+  .preview-field-label {
+    font-family: 'Space Mono', monospace; font-size: 0.52rem;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    color: rgba(138,155,191,0.5); margin-bottom: 0.18rem;
+  }
+  .preview-field-val {
+    font-size: 0.78rem; color: var(--light); line-height: 1.45;
+  }
+  .preview-field-val.empty { color: rgba(138,155,191,0.3); font-style: italic; }
+  .preview-wg-tags { display: flex; flex-wrap: wrap; gap: 0.28rem; margin-top: 0.25rem; }
+  .preview-wg-tag {
+    font-size: 0.58rem; padding: 0.08rem 0.45rem; border-radius: 20px;
+    background: rgba(192,132,252,0.1); border: 1px solid rgba(192,132,252,0.25);
+    color: var(--purple);
+  }
+
+  /* ig gradient classes */
+  .ig-1 { background: linear-gradient(135deg, #1a3a6b, #2462a0); }
+  .ig-2 { background: linear-gradient(135deg, #1a4a3b, #28795e); }
+  .ig-3 { background: linear-gradient(135deg, #4a2060, #7a3a9a); }
+  .ig-4 { background: linear-gradient(135deg, #4a2820, #a04030); }
+  .ig-5 { background: linear-gradient(135deg, #2a3e10, #5a8028); }
+
+  /* ── Success Screen ── */
+  .pf-success {
+    display: none; position: relative; z-index: 1;
+    max-width: 680px; margin: 3rem auto;
+    padding: 0 2rem;
+  }
+  .pf-success.visible { display: block; }
+  .pf-success-card {
+    background: var(--card); border: 1px solid rgba(55,200,130,0.25);
+    border-radius: 16px; padding: 2.5rem 2rem; text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  }
+  .pf-success-icon {
+    font-size: 2.5rem; margin-bottom: 1rem; display: block;
+    animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes successPop {
+    from { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .pf-success-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    letter-spacing: 2px; color: var(--green); margin-bottom: 0.4rem;
+  }
+  .pf-success-name {
+    font-size: 1.05rem; font-weight: 700; color: var(--light); margin-bottom: 0.3rem;
+  }
+  .pf-success-sub {
+    font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+    max-width: 480px; margin: 0 auto 1.75rem;
+  }
+  .pf-access-code-block {
+    background: rgba(244,161,29,0.08); border: 1px solid rgba(244,161,29,0.25);
+    border-radius: 10px; padding: 1.1rem; margin-bottom: 1.75rem; text-align: center;
+  }
+  .pf-access-label {
+    font-family: 'Space Mono', monospace; font-size: 0.58rem;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem;
+  }
+  .pf-access-code {
+    font-family: 'Space Mono', monospace; font-size: 1.6rem;
+    font-weight: 700; color: var(--accent); letter-spacing: 0.12em;
+    display: block; margin-bottom: 0.65rem;
+  }
+  .pf-copy-btn {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    background: rgba(244,161,29,0.12); border: 1px solid rgba(244,161,29,0.3);
+    color: var(--accent); border-radius: 20px; padding: 0.3rem 1rem;
+    cursor: pointer; transition: background 0.15s; letter-spacing: 0.04em;
+  }
+  .pf-copy-btn:hover { background: rgba(244,161,29,0.22); }
+  .pf-copy-btn.copied { color: var(--green); border-color: rgba(55,200,130,0.3); background: rgba(55,200,130,0.08); }
+  .pf-success-actions {
+    display: flex; flex-direction: column; gap: 0.65rem; align-items: center;
+  }
+  .pf-enter-hub-btn {
+    display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    font-weight: 700; letter-spacing: 0.05em; color: var(--navy);
+    background: var(--accent); border: none; border-radius: 10px;
+    padding: 0.7rem 2rem; cursor: pointer; text-decoration: none;
+    transition: opacity 0.15s; width: 100%; max-width: 280px; text-align: center;
+  }
+  .pf-enter-hub-btn:hover { opacity: 0.85; }
+  .pf-another-btn {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.04em;
+    color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 0.6rem 2rem; cursor: pointer; width: 100%; max-width: 280px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .pf-another-btn:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+
+  /* ── Footer ── */
+  .pf-footer {
+    position: relative; z-index: 1; text-align: center;
+    padding: 1.5rem 2rem 2.5rem;
+    font-family: 'Space Mono', monospace; font-size: 0.55rem;
+    color: rgba(138,155,191,0.3); letter-spacing: 0.05em;
+  }
+  .pf-footer a { color: rgba(138,155,191,0.45); text-decoration: none; }
+  .pf-footer a:hover { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="pf-nav">
+  <div class="pf-nav-logo">PA STEM <span>PoC</span></div>
+  <div class="pf-nav-right">
+    <a class="pf-nav-back" href="index.html">← Back to Hub</a>
+    <a class="pf-nav-enter" href="index.html">Enter Hub</a>
+  </div>
+</nav>
+
+<!-- FORM AREA (hidden on success) -->
+<div id="formArea">
+
+  <!-- PAGE HEADER -->
+  <div class="pf-header">
+    <div class="pf-eyebrow">PA STEM PoC Network</div>
+    <h1 class="pf-title">Create Your<br><span>STEM PoC Profile</span></h1>
+    <p class="pf-subtitle">Join the statewide STEM PoC network by creating your collaboration card. Your profile helps colleagues find you, understand your expertise, and connect across Pennsylvania.</p>
+  </div>
+
+  <!-- MAIN TWO-COLUMN LAYOUT -->
+  <div class="pf-main">
+
+    <!-- FORM COLUMN -->
+    <div class="pf-form" id="profileForm">
+
+      <!-- Section 1: Identity -->
+      <div class="pf-section s-identity">
+        <div class="pf-section-title">
+          <span class="s-num">01 //</span> Identity
+          <span class="pf-section-req">Required</span>
+        </div>
+        <div class="pf-row two">
+          <div class="pf-field">
+            <label class="pf-label" for="pfFullName">Full Name <span class="req-star">*</span></label>
+            <input class="pf-input" id="pfFullName" type="text" placeholder="First Last" oninput="updatePreview()" autocomplete="name">
+            <span class="pf-error-msg" id="errFullName">Full name is required.</span>
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfPreferredName">Preferred Name</label>
+            <input class="pf-input" id="pfPreferredName" type="text" placeholder="Goes by…" oninput="updatePreview()">
+          </div>
+        </div>
+        <div class="pf-row two">
+          <div class="pf-field">
+            <label class="pf-label" for="pfIU">IU / Organization <span class="req-star">*</span></label>
+            <select class="pf-select" id="pfIU" onchange="updatePreview()">
+              <option value="">Select…</option>
+              <optgroup label="Intermediate Units">
+                <option>IU 1</option><option>IU 2</option><option>IU 3</option>
+                <option>IU 4</option><option>IU 5</option><option>IU 6</option>
+                <option>IU 7</option><option>IU 8</option><option>IU 9</option>
+                <option>IU 10</option><option>IU 11</option><option>IU 12</option>
+                <option>IU 13</option><option>IU 14</option><option>IU 15</option>
+                <option>IU 16</option><option>IU 17</option><option>IU 18</option>
+                <option>IU 19</option><option>IU 20</option><option>IU 21</option>
+                <option>IU 22</option><option>IU 23</option><option>IU 24</option>
+                <option>IU 25</option><option>IU 26</option><option>IU 27</option>
+                <option>IU 28</option><option>IU 29</option>
+              </optgroup>
+              <optgroup label="Statewide Organizations">
+                <option>PDE</option><option>PAIU</option><option>PSSE</option>
+                <option>Remake Learning</option>
+              </optgroup>
+              <optgroup label="Partner Organizations">
+                <option>Higher Education</option><option>Community Partner</option>
+                <option>Vendor Partner</option><option>Other</option>
+              </optgroup>
+            </select>
+            <span class="pf-error-msg" id="errIU">Please select your IU or organization.</span>
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfJobTitle">Job Title / Role <span class="req-star">*</span></label>
+            <input class="pf-input" id="pfJobTitle" type="text" placeholder="STEM PoC, Coordinator…" oninput="updatePreview()">
+            <span class="pf-error-msg" id="errJobTitle">Job title is required.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: STEM Focus -->
+      <div class="pf-section s-focus">
+        <div class="pf-section-title">
+          <span class="s-num">02 //</span> STEM Focus
+          <span class="pf-section-req">Required</span>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfPrimaryFocus">Primary STEM Focus Area <span class="req-star">*</span></label>
+            <select class="pf-select" id="pfPrimaryFocus" onchange="updatePreview()">
+              <option value="">Select primary focus…</option>
+              <option>STEELS</option>
+              <option>Computer Science</option>
+              <option>STEM Ecosystems</option>
+              <option>Student Competitions</option>
+              <option>Environmental Literacy</option>
+              <option>Engineering Design</option>
+              <option>AI / Emerging Tech</option>
+              <option>Makerspaces</option>
+              <option>Data Literacy</option>
+              <option>Career Readiness</option>
+              <option>Professional Learning</option>
+              <option>Cross-IU Collaboration</option>
+              <option>Equity / Inclusion</option>
+              <option>Lending Libraries</option>
+              <option>Math Integration</option>
+            </select>
+            <span class="pf-error-msg" id="errPrimaryFocus">Please select a primary focus area.</span>
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label">STEM Focus Areas <span style="color:rgba(138,155,191,0.45);font-size:0.52rem;text-transform:none;letter-spacing:0;">(select all that apply)</span></label>
+            <div class="pf-tag-grid" id="focusTagGrid">
+              <!-- populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Your Voice -->
+      <div class="pf-section s-voice">
+        <div class="pf-section-title">
+          <span class="s-num">03 //</span> Your Voice
+          <span class="pf-section-req">Required</span>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfSuperpower">Neighborhood Superpower <span class="req-star">*</span></label>
+            <input class="pf-input" id="pfSuperpower" type="text" placeholder="What you bring to the STEM PoC network…" oninput="updatePreview()">
+            <span class="pf-hint">The one thing colleagues would call you for. Skills, knowledge, network — what makes you uniquely valuable here.</span>
+            <span class="pf-error-msg" id="errSuperpower">Please share your neighborhood superpower.</span>
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfCuriousAbout">Curious About <span class="req-star">*</span></label>
+            <input class="pf-input" id="pfCuriousAbout" type="text" placeholder="What you're actively exploring or learning right now…" oninput="updatePreview()">
+            <span class="pf-hint">This helps others find you for conversations you actually want to have.</span>
+            <span class="pf-error-msg" id="errCuriousAbout">Please share what you're curious about.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Workgroup Interests -->
+      <div class="pf-section s-workgroups">
+        <div class="pf-section-title">
+          <span class="s-num">04 //</span> Workgroup Interests
+          <span class="pf-section-opt">Optional</span>
+        </div>
+        <div class="pf-field">
+          <label class="pf-label">Which workgroups are you interested in?</label>
+          <div class="pf-tag-grid" id="wgTagGrid">
+            <!-- populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Collaboration -->
+      <div class="pf-section s-collab">
+        <div class="pf-section-title">
+          <span class="s-num">05 //</span> Collaboration
+          <span class="pf-section-opt">Optional</span>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfCanHelpWith">Areas I Can Help With</label>
+            <input class="pf-input" id="pfCanHelpWith" type="text" placeholder="e.g. STEELS rollout, makerspace design, competition coaching…">
+            <span class="pf-hint">Colleagues searching for support will see this on your profile card.</span>
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfNeedHelpWith">Areas I Need Help With</label>
+            <input class="pf-input" id="pfNeedHelpWith" type="text" placeholder="e.g. AI integration, ecosystem partnerships, grant writing…">
+            <span class="pf-hint">This shows your collaboration asks — makes it easier for others to reach out.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: About You (optional) -->
+      <div class="pf-section s-optional">
+        <div class="pf-section-title">
+          <span class="s-num">06 //</span> About You
+          <span class="pf-section-opt">Optional</span>
+        </div>
+        <div class="pf-row two">
+          <div class="pf-field">
+            <label class="pf-label" for="pfEmail">Email</label>
+            <input class="pf-input" id="pfEmail" type="email" placeholder="your@email.edu" autocomplete="email">
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfYearsEd">Years in Education</label>
+            <input class="pf-input" id="pfYearsEd" type="number" min="0" max="50" placeholder="e.g. 8">
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfFunFact">Fun Fact</label>
+            <input class="pf-input" id="pfFunFact" type="text" placeholder="Something surprising or memorable about you…">
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label" for="pfSocialLink">Website / LinkedIn / Social Link</label>
+            <input class="pf-input" id="pfSocialLink" type="url" placeholder="https://…">
+          </div>
+        </div>
+        <div class="pf-row one">
+          <div class="pf-field">
+            <label class="pf-label">Profile Photo</label>
+            <div class="photo-upload-area">
+              <div class="photo-preview-circle ig-1" id="photoPreviewCircle">
+                <span id="photoInitials">?</span>
+              </div>
+              <div class="photo-upload-right">
+                <label class="photo-upload-btn" for="photoInput">Upload Photo</label>
+                <input class="photo-upload-input" id="photoInput" type="file" accept="image/*" onchange="handlePhotoUpload(this)">
+                <div class="photo-upload-note">JPG, PNG, WEBP · Max 5 MB · Optional</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="pf-submit-section">
+        <div class="pf-submit-left">
+          <div class="pf-submit-note"><strong>Ready to join the network?</strong><br>Your profile will be saved locally and appear in the PA STEM PoC Hub directory.</div>
+          <div class="pf-form-error" id="formErrorMsg">Please fill in all required fields before submitting.</div>
+        </div>
+        <button class="pf-submit-btn" onclick="submitProfile()">Create My Profile →</button>
+      </div>
+
+    </div><!-- end .pf-form -->
+
+    <!-- PREVIEW COLUMN -->
+    <div class="pf-preview-col">
+      <div class="pf-preview-label">Your STEM PoC Card</div>
+      <div class="preview-card" id="previewCard">
+        <div class="preview-card-top">
+          <div class="preview-card-header">
+            <div class="preview-avatar ig-1" id="previewAvatar">
+              <span id="previewInitials">?</span>
+            </div>
+            <div class="preview-card-name-block">
+              <div class="preview-name" id="previewName">Your Name</div>
+              <div class="preview-role" id="previewRole">Job Title</div>
+              <div class="preview-iu" id="previewIU">IU / Organization</div>
+            </div>
+          </div>
+          <div class="preview-community-badge">✦ Community Created</div>
+          <div class="preview-focus-tag" id="previewFocusTag" style="display:none"></div>
+        </div>
+        <div class="preview-card-body">
+          <div class="preview-field">
+            <div class="preview-field-label">Neighborhood Superpower</div>
+            <div class="preview-field-val empty" id="previewSuperpower">—</div>
+          </div>
+          <div class="preview-field">
+            <div class="preview-field-label">Curious About</div>
+            <div class="preview-field-val empty" id="previewCuriousAbout">—</div>
+          </div>
+          <div class="preview-field">
+            <div class="preview-field-label">Workgroup Interests</div>
+            <div class="preview-wg-tags" id="previewWgTags">
+              <span style="font-size:0.66rem;color:rgba(138,155,191,0.3);font-style:italic;">None selected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .pf-main -->
+</div><!-- end #formArea -->
+
+<!-- SUCCESS SCREEN -->
+<div class="pf-success" id="successArea">
+  <div class="pf-success-card">
+    <span class="pf-success-icon">✦</span>
+    <div class="pf-success-title">Profile Created</div>
+    <div class="pf-success-name" id="successName">Welcome to the network.</div>
+    <div class="pf-success-sub">Your STEM PoC profile has been created and added to the PA STEM PoC Hub directory. Save your access code — future versions may use it to edit your profile.</div>
+    <div class="pf-access-code-block">
+      <div class="pf-access-label">Your Access Code</div>
+      <span class="pf-access-code" id="successCode">STEM-0000</span>
+      <button class="pf-copy-btn" id="copyBtn" onclick="copyAccessCode()">Copy Code</button>
+    </div>
+    <div class="pf-success-actions">
+      <a class="pf-enter-hub-btn" href="index.html">Enter STEM PoC Hub →</a>
+      <button class="pf-another-btn" onclick="resetForm()">Create Another Profile</button>
+    </div>
+  </div>
+</div>
+
+<div class="pf-footer">
+  PA STEM PoC Network — Living Command Center &nbsp;·&nbsp;
+  <a href="index.html">Enter Hub</a>
+</div>
+
+<script>
+  // ── Tag data ──────────────────────────────────────────────────
+  const FOCUS_TAGS = [
+    'STEELS','Computer Science','STEM Ecosystems','Student Competitions',
+    'Environmental Literacy','Engineering Design','AI / Emerging Tech',
+    'Makerspaces','Data Literacy','Career Readiness','Professional Learning',
+    'Cross-IU Collaboration','Equity / Inclusion','Lending Libraries','Math Integration'
+  ];
+  const WG_TAGS = [
+    'Science','Technology & Engineering','Environmental Literacy & Sustainability',
+    'PAsmart / Computer Science','Student Competitions','STEM Ecosystems',
+    'Lending Libraries','STEM Toolkit','Math Focus','Equity / Inclusion','Esports'
+  ];
+
+  // ── State ─────────────────────────────────────────────────────
+  let _photoDataUrl = null;
+  let _selectedFocus = [];
+  let _selectedWg    = [];
+
+  // ── Init tag pickers ──────────────────────────────────────────
+  function initTagPickers() {
+    const focusGrid = document.getElementById('focusTagGrid');
+    focusGrid.innerHTML = FOCUS_TAGS.map(t =>
+      `<button type="button" class="pf-tag" data-val="${t}" onclick="toggleTag(this,'focus')">${t}</button>`
+    ).join('');
+
+    const wgGrid = document.getElementById('wgTagGrid');
+    wgGrid.innerHTML = WG_TAGS.map(t =>
+      `<button type="button" class="pf-tag wg-tag" data-val="${t}" onclick="toggleTag(this,'wg')">${t}</button>`
+    ).join('');
+  }
+
+  function toggleTag(btn, type) {
+    btn.classList.toggle('selected');
+    if (type === 'focus') {
+      const v = btn.dataset.val;
+      _selectedFocus = btn.classList.contains('selected')
+        ? [..._selectedFocus, v]
+        : _selectedFocus.filter(x => x !== v);
+    } else {
+      const v = btn.dataset.val;
+      _selectedWg = btn.classList.contains('selected')
+        ? [..._selectedWg, v]
+        : _selectedWg.filter(x => x !== v);
+    }
+    updatePreview();
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────
+  function getInitials(name) {
+    if (!name || !name.trim()) return '?';
+    const p = name.trim().split(/\s+/);
+    if (p.length === 1) return p[0].charAt(0).toUpperCase();
+    return (p[0].charAt(0) + p[p.length - 1].charAt(0)).toUpperCase();
+  }
+
+  function getGradClass(name) {
+    if (!name || !name.trim()) return 'ig-1';
+    return 'ig-' + ((name.charCodeAt(0) % 5) + 1);
+  }
+
+  // ── Photo upload ──────────────────────────────────────────────
+  function handlePhotoUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Photo must be under 5 MB.');
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      _photoDataUrl = e.target.result;
+      updatePhotoPreview();
+      updatePreview();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function updatePhotoPreview() {
+    const circle = document.getElementById('photoPreviewCircle');
+    if (_photoDataUrl) {
+      circle.innerHTML = `<img src="${_photoDataUrl}" alt="profile photo">`;
+    } else {
+      const name = document.getElementById('pfFullName').value;
+      const initials = getInitials(name);
+      const grad = getGradClass(name);
+      circle.className = 'photo-preview-circle ' + grad;
+      circle.innerHTML = `<span id="photoInitials">${initials}</span>`;
+    }
+  }
+
+  // ── Live preview update ───────────────────────────────────────
+  function updatePreview() {
+    const name   = document.getElementById('pfFullName').value.trim();
+    const pname  = document.getElementById('pfPreferredName').value.trim();
+    const iu     = document.getElementById('pfIU').value;
+    const role   = document.getElementById('pfJobTitle').value.trim();
+    const focus  = document.getElementById('pfPrimaryFocus').value;
+    const super_ = document.getElementById('pfSuperpower').value.trim();
+    const curious= document.getElementById('pfCuriousAbout').value.trim();
+
+    const displayName = pname || name || 'Your Name';
+    const initials = getInitials(displayName);
+    const grad = getGradClass(displayName);
+
+    // Avatar
+    const avatarEl = document.getElementById('previewAvatar');
+    if (_photoDataUrl) {
+      avatarEl.innerHTML = `<img src="${_photoDataUrl}" alt="${displayName}">`;
+      avatarEl.className = 'preview-avatar';
+    } else {
+      avatarEl.className = 'preview-avatar ' + grad;
+      avatarEl.innerHTML = `<span id="previewInitials">${initials}</span>`;
+    }
+
+    // Photo preview circle (in form)
+    updatePhotoPreview();
+
+    document.getElementById('previewName').textContent = displayName;
+    document.getElementById('previewRole').textContent = role || 'Job Title / Role';
+    document.getElementById('previewIU').textContent   = iu   || 'IU / Organization';
+
+    const focusTag = document.getElementById('previewFocusTag');
+    if (focus) {
+      focusTag.textContent = focus;
+      focusTag.style.display = 'inline-block';
+    } else {
+      focusTag.style.display = 'none';
+    }
+
+    const spEl = document.getElementById('previewSuperpower');
+    if (super_) { spEl.textContent = super_; spEl.classList.remove('empty'); }
+    else { spEl.textContent = '—'; spEl.classList.add('empty'); }
+
+    const caEl = document.getElementById('previewCuriousAbout');
+    if (curious) { caEl.textContent = curious; caEl.classList.remove('empty'); }
+    else { caEl.textContent = '—'; caEl.classList.add('empty'); }
+
+    const wgEl = document.getElementById('previewWgTags');
+    if (_selectedWg.length) {
+      wgEl.innerHTML = _selectedWg.map(t => `<span class="preview-wg-tag">${t}</span>`).join('');
+    } else {
+      wgEl.innerHTML = '<span style="font-size:0.66rem;color:rgba(138,155,191,0.3);font-style:italic;">None selected</span>';
+    }
+  }
+
+  // ── Validation ────────────────────────────────────────────────
+  function validateForm() {
+    const required = [
+      { id: 'pfFullName',     errId: 'errFullName' },
+      { id: 'pfIU',           errId: 'errIU' },
+      { id: 'pfJobTitle',     errId: 'errJobTitle' },
+      { id: 'pfPrimaryFocus', errId: 'errPrimaryFocus' },
+      { id: 'pfSuperpower',   errId: 'errSuperpower' },
+      { id: 'pfCuriousAbout', errId: 'errCuriousAbout' },
+    ];
+    let valid = true;
+    required.forEach(({ id, errId }) => {
+      const el  = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        err.classList.add('visible');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('visible');
+      }
+    });
+    return valid;
+  }
+
+  // ── Generate access code ──────────────────────────────────────
+  function generateAccessCode() {
+    return 'STEM-' + Math.floor(1000 + Math.random() * 9000);
+  }
+
+  // ── Submit ────────────────────────────────────────────────────
+  function submitProfile() {
+    if (!validateForm()) {
+      const errEl = document.getElementById('formErrorMsg');
+      errEl.classList.add('visible');
+      // Scroll to first error
+      const firstErr = document.querySelector('.pf-input.error, .pf-select.error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    document.getElementById('formErrorMsg').classList.remove('visible');
+
+    const accessCode = generateAccessCode();
+    const now        = new Date().toISOString();
+
+    const profile = {
+      id:               crypto.randomUUID(),
+      accessCode,
+      fullName:         document.getElementById('pfFullName').value.trim(),
+      preferredName:    document.getElementById('pfPreferredName').value.trim(),
+      iu:               document.getElementById('pfIU').value,
+      jobTitle:         document.getElementById('pfJobTitle').value.trim(),
+      email:            document.getElementById('pfEmail').value.trim(),
+      yearsEducation:   document.getElementById('pfYearsEd').value.trim(),
+      primaryFocus:     document.getElementById('pfPrimaryFocus').value,
+      focusAreas:       [..._selectedFocus],
+      workgroupInterests: [..._selectedWg],
+      superpower:       document.getElementById('pfSuperpower').value.trim(),
+      curiousAbout:     document.getElementById('pfCuriousAbout').value.trim(),
+      canHelpWith:      document.getElementById('pfCanHelpWith').value.trim(),
+      needHelpWith:     document.getElementById('pfNeedHelpWith').value.trim(),
+      funFact:          document.getElementById('pfFunFact').value.trim(),
+      socialLink:       document.getElementById('pfSocialLink').value.trim(),
+      photoDataUrl:     _photoDataUrl || null,
+      createdAt:        now,
+      updatedAt:        now,
+      source:           'external-profile-form'
+    };
+
+    // Save to localStorage
+    try {
+      const existing = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+      existing.push(profile);
+      localStorage.setItem('stemPocUserProfiles', JSON.stringify(existing));
+    } catch (e) {
+      console.warn('localStorage write failed', e);
+    }
+
+    // Supabase placeholder
+    syncProfileToSupabase(profile);
+
+    showSuccess(profile);
+  }
+
+  // STEM PoC V2 Supabase Profile Sync Placeholder
+  // Future table: stem_poc_profiles
+  // Current patch uses localStorage only.
+  async function syncProfileToSupabase(profile) {
+    console.log('Supabase sync placeholder:', profile);
+    return { success: false, mode: 'localOnly' };
+  }
+
+  // ── Success screen ────────────────────────────────────────────
+  function showSuccess(profile) {
+    document.getElementById('formArea').style.display = 'none';
+    const successArea = document.getElementById('successArea');
+    successArea.classList.add('visible');
+
+    const displayName = profile.preferredName || profile.fullName;
+    document.getElementById('successName').textContent = 'Welcome, ' + displayName + '.';
+    document.getElementById('successCode').textContent = profile.accessCode;
+
+    successArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copyAccessCode() {
+    const code = document.getElementById('successCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      // Fallback for non-secure contexts
+      const ta = document.createElement('textarea');
+      ta.value = code; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // ── Reset for "Create Another" ────────────────────────────────
+  function resetForm() {
+    document.getElementById('successArea').classList.remove('visible');
+    document.getElementById('formArea').style.display = '';
+    document.getElementById('profileForm').querySelectorAll('input,select,textarea').forEach(el => {
+      el.value = ''; el.classList.remove('error');
+    });
+    document.querySelectorAll('.pf-error-msg').forEach(e => e.classList.remove('visible'));
+    document.querySelectorAll('.pf-tag.selected').forEach(t => t.classList.remove('selected'));
+    _selectedFocus = []; _selectedWg = []; _photoDataUrl = null;
+    document.getElementById('photoPreviewCircle').className = 'photo-preview-circle ig-1';
+    document.getElementById('photoPreviewCircle').innerHTML = '<span id="photoInitials">?</span>';
+    updatePreview();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Init ──────────────────────────────────────────────────────
+  initTagPickers();
+  updatePreview();
+</script>
+</body>
+</html>
