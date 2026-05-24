@@ -2826,6 +2826,393 @@
   .chooser-roles { grid-template-columns: 1fr; }
   .rsp-grid      { grid-template-columns: 1fr; }
 }
+
+/* ═══════════════════════════════════════════════════
+   V2 PATCH 1 — STEM PoC COLLABORATION PLATFORM LAYER
+═══════════════════════════════════════════════════ */
+
+/* V2 PROTOTYPE MODAL */
+.v2-modal-overlay {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(7,15,28,0.9);
+  backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  transition: opacity 0.35s;
+}
+.v2-modal-overlay.hidden { opacity: 0; pointer-events: none; }
+.v2-modal-card {
+  background: linear-gradient(145deg, #0d1f3c, #111e36);
+  border: 1px solid rgba(244,161,29,0.4);
+  border-radius: 20px;
+  padding: 2.5rem 2.25rem 2rem;
+  max-width: 560px; width: 100%;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.65), 0 0 0 1px rgba(244,161,29,0.07);
+  position: relative; overflow: hidden;
+}
+.v2-modal-card::before {
+  content: ''; position: absolute; top: -70px; right: -70px;
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(244,161,29,0.09), transparent 70%);
+  pointer-events: none;
+}
+.v2-modal-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  color: var(--green); text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 0.6rem;
+}
+.v2-modal-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(46,204,138,0.1); border: 1px solid rgba(46,204,138,0.3);
+  color: var(--green); font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  padding: 0.25rem 0.65rem; border-radius: 20px; letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+.v2-modal-badge::before {
+  content: ''; width: 5px; height: 5px; background: var(--green);
+  border-radius: 50%; animation: pulse 2s infinite;
+}
+.v2-modal-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.95rem;
+  letter-spacing: 2px; color: var(--accent); line-height: 1.05; margin-bottom: 0.5rem;
+}
+.v2-modal-body {
+  font-size: 0.85rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.75rem;
+}
+.v2-modal-body strong { color: var(--light); }
+.v2-modal-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.v2-modal-enter {
+  background: var(--accent); color: #0a1628; border: none; border-radius: 8px;
+  padding: 0.7rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+  font-weight: 700; cursor: pointer; transition: all 0.18s; letter-spacing: 0.3px;
+}
+.v2-modal-enter:hover { background: #f5b84a; transform: translateY(-1px); }
+.v2-modal-dismiss {
+  background: transparent; color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+  padding: 0.7rem 1.2rem; font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; cursor: pointer; transition: all 0.18s;
+}
+.v2-modal-dismiss:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+
+/* FLOATING FEEDBACK BUTTON */
+.feedback-fab {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 900;
+  background: linear-gradient(135deg, #16325e, #0e1f40);
+  border: 1px solid rgba(244,161,29,0.4);
+  color: var(--accent); border-radius: 50px;
+  padding: 0.65rem 1.25rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  transition: all 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;
+}
+.feedback-fab:hover {
+  border-color: rgba(244,161,29,0.7); transform: translateY(-2px);
+  box-shadow: 0 14px 42px rgba(0,0,0,0.55);
+}
+
+/* FEEDBACK MODAL */
+.feedback-overlay {
+  position: fixed; inset: 0; z-index: 1800;
+  background: rgba(7,15,28,0.7); backdrop-filter: blur(8px);
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  padding: 1.5rem; transition: opacity 0.25s;
+}
+.feedback-overlay.hidden { opacity: 0; pointer-events: none; }
+.feedback-card {
+  background: linear-gradient(145deg, #0d1f3c, #111e36);
+  border: 1px solid rgba(244,161,29,0.3);
+  border-radius: 16px; padding: 1.75rem 1.75rem 1.5rem;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55);
+}
+.feedback-card-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem;
+  letter-spacing: 1.5px; color: var(--accent); margin-bottom: 0.25rem;
+}
+.feedback-card-sub {
+  font-size: 0.75rem; color: var(--muted); margin-bottom: 1.25rem; line-height: 1.55;
+}
+.fb-group { margin-bottom: 0.85rem; }
+.fb-label {
+  display: block; font-size: 0.68rem; color: var(--muted);
+  font-family: 'Space Mono', monospace; text-transform: uppercase;
+  letter-spacing: 0.07em; margin-bottom: 0.32rem;
+}
+.fb-input {
+  width: 100%; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  padding: 0.6rem 0.85rem; color: var(--light);
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  outline: none; transition: border-color 0.18s;
+}
+.fb-input:focus { border-color: rgba(244,161,29,0.4); }
+textarea.fb-input { resize: vertical; min-height: 90px; }
+.fb-actions { display: flex; gap: 0.65rem; margin-top: 1rem; align-items: center; }
+.fb-submit {
+  background: var(--accent); color: #0a1628; border: none; border-radius: 8px;
+  padding: 0.6rem 1.25rem; font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  font-weight: 700; cursor: pointer; transition: all 0.18s;
+}
+.fb-submit:hover { background: #f5b84a; }
+.fb-cancel {
+  background: transparent; color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  padding: 0.6rem 1rem; font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; cursor: pointer; transition: all 0.18s;
+}
+.fb-cancel:hover { color: var(--light); border-color: rgba(255,255,255,0.25); }
+.fb-success {
+  font-size: 0.79rem; color: var(--green); line-height: 1.55;
+  padding: 0.7rem; background: rgba(46,204,138,0.06);
+  border: 1px solid rgba(46,204,138,0.2); border-radius: 8px;
+  margin-top: 0.75rem; display: none;
+}
+.fb-success.show { display: block; }
+
+/* PROFILE CREATOR OVERLAY */
+.profile-creator-overlay {
+  position: fixed; inset: 0; z-index: 1500;
+  background: rgba(7,15,28,0.94); backdrop-filter: blur(16px);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 1.5rem 1rem; overflow-y: auto; transition: opacity 0.3s;
+}
+.profile-creator-overlay.hidden { opacity: 0; pointer-events: none; }
+.profile-creator-inner {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 1.5rem; max-width: 1040px; width: 100%; padding-bottom: 3rem;
+}
+@media (max-width: 820px) {
+  .profile-creator-inner { grid-template-columns: 1fr; }
+  .profile-preview-col { order: -1; }
+}
+.profile-form-col {
+  background: linear-gradient(145deg, #0d1f3c, #111e36);
+  border: 1px solid rgba(244,161,29,0.22);
+  border-radius: 18px; padding: 2rem; position: relative;
+}
+.pf-close-btn {
+  position: absolute; top: 1rem; right: 1rem;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--muted); font-size: 1rem; transition: all 0.18s;
+}
+.pf-close-btn:hover { color: var(--light); border-color: rgba(255,255,255,0.28); }
+.pf-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: var(--green); text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+}
+.pf-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+  letter-spacing: 2px; color: var(--accent); line-height: 1.05; margin-bottom: 0.4rem;
+}
+.pf-subtitle {
+  font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.75rem;
+}
+.pf-section { margin-bottom: 1.5rem; }
+.pf-section-label {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.85rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.pf-section-label::after {
+  content: ''; flex: 1; height: 1px; background: rgba(244,161,29,0.15);
+}
+.pf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem; }
+@media (max-width: 640px) { .pf-row { grid-template-columns: 1fr; } }
+.pf-field { margin-bottom: 0.85rem; }
+.pf-label {
+  display: block; font-size: 0.68rem; color: var(--muted);
+  font-family: 'Space Mono', monospace; text-transform: uppercase;
+  letter-spacing: 0.07em; margin-bottom: 0.32rem;
+}
+.pf-label .req { color: var(--accent); }
+.pf-input {
+  width: 100%; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+  padding: 0.65rem 0.9rem; color: var(--light);
+  font-family: 'DM Sans', sans-serif; font-size: 0.87rem;
+  outline: none; transition: border-color 0.18s, background 0.18s;
+}
+.pf-input:focus { border-color: rgba(244,161,29,0.45); background: rgba(255,255,255,0.07); }
+.pf-input::placeholder { color: rgba(138,155,191,0.45); }
+textarea.pf-input { resize: vertical; min-height: 75px; }
+.pf-input.error { border-color: rgba(232,67,58,0.6); }
+.pf-error-msg {
+  font-size: 0.7rem; color: #e8433a; margin-top: 0.25rem; display: none;
+}
+.pf-error-msg.show { display: block; }
+
+/* Tag checkbox grid */
+.tag-check-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag-chk { display: none; }
+.tag-chk-label {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.32rem 0.7rem; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; font-size: 0.7rem; color: var(--muted);
+  cursor: pointer; transition: all 0.15s; user-select: none;
+}
+.tag-chk:checked + .tag-chk-label {
+  border-color: var(--accent); color: var(--accent); background: rgba(244,161,29,0.1);
+}
+.tag-chk-label:hover { border-color: rgba(244,161,29,0.35); color: var(--light); }
+
+/* Photo upload */
+.photo-upload-area { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.85rem; }
+.photo-preview-circle {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 2px solid rgba(244,161,29,0.35);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--accent);
+}
+.photo-preview-circle img { width: 100%; height: 100%; object-fit: cover; }
+.photo-upload-label {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 0.55rem 1rem; color: var(--muted);
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer;
+  transition: all 0.18s; display: inline-block;
+}
+.photo-upload-label:hover { color: var(--light); border-color: rgba(255,255,255,0.28); }
+
+/* Form actions */
+.pf-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+.pf-save-btn {
+  background: var(--accent); color: #0a1628; border: none; border-radius: 8px;
+  padding: 0.75rem 1.75rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  font-weight: 700; cursor: pointer; transition: all 0.18s;
+}
+.pf-save-btn:hover { background: #f5b84a; transform: translateY(-1px); }
+.pf-cancel-btn {
+  background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 0.75rem 1.25rem; font-family: 'DM Sans', sans-serif;
+  font-size: 0.87rem; cursor: pointer; transition: all 0.18s;
+}
+.pf-cancel-btn:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+
+/* Success box */
+.pf-success-box {
+  background: rgba(46,204,138,0.06); border: 1px solid rgba(46,204,138,0.28);
+  border-radius: 14px; padding: 1.5rem; margin-top: 1rem; display: none;
+}
+.pf-success-box.show { display: block; }
+.pf-success-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
+  letter-spacing: 1.5px; color: var(--green); margin-bottom: 0.5rem;
+}
+.pf-success-body { font-size: 0.8rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.75rem; }
+.pf-access-code {
+  font-family: 'Space Mono', monospace; font-size: 1.65rem;
+  color: var(--accent); letter-spacing: 0.12em; margin: 0.5rem 0 0.75rem;
+}
+.pf-copy-btn {
+  background: transparent; border: 1px solid rgba(244,161,29,0.35);
+  border-radius: 6px; padding: 0.3rem 0.8rem; color: var(--accent);
+  font-size: 0.75rem; cursor: pointer; font-family: 'Space Mono', monospace;
+  transition: all 0.15s; margin-left: 0.5rem;
+}
+.pf-copy-btn:hover { background: rgba(244,161,29,0.08); }
+.pf-success-note { font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem; font-style: italic; }
+
+/* LIVE PREVIEW CARD */
+.profile-preview-col {
+  position: sticky; top: 1.5rem; height: fit-content;
+}
+.preview-col-label {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.preview-col-label::before {
+  content: '◉'; color: var(--green); font-size: 0.55rem; animation: pulse 2s infinite;
+}
+.preview-card {
+  background: linear-gradient(145deg, #0d1f3c, #111e36);
+  border: 1px solid rgba(244,161,29,0.28);
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+.preview-card-top {
+  padding: 1.4rem 1.4rem 1.2rem;
+  background: linear-gradient(135deg, rgba(244,161,29,0.05), transparent);
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.preview-avatar {
+  width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(244,161,29,0.3); overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--accent);
+}
+.preview-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.preview-name {
+  font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.97rem;
+  color: var(--light); line-height: 1.2;
+}
+.preview-name.empty { color: rgba(138,155,191,0.4); font-style: italic; font-weight: 400; }
+.preview-role-txt { font-size: 0.74rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.4; }
+.preview-iu-txt {
+  font-size: 0.68rem; color: var(--accent);
+  font-family: 'Space Mono', monospace; margin-top: 0.22rem;
+}
+.preview-card-body { padding: 1rem 1.4rem 1.4rem; border-top: 1px solid rgba(255,255,255,0.05); }
+.preview-field { margin-bottom: 0.7rem; }
+.preview-field-label {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.22rem;
+}
+.preview-field-val {
+  font-size: 0.78rem; color: var(--light); line-height: 1.5; min-height: 1em;
+}
+.preview-field-val.empty { color: rgba(138,155,191,0.35); font-style: italic; }
+.preview-tag-row { display: flex; flex-wrap: wrap; gap: 0.32rem; margin-top: 0.4rem; }
+.preview-tag {
+  font-size: 0.64rem; padding: 0.18rem 0.52rem;
+  border: 1px solid rgba(244,161,29,0.3); border-radius: 12px;
+  color: var(--accent); font-family: 'Space Mono', monospace;
+}
+.preview-community-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: rgba(46,204,138,0.1); border: 1px solid rgba(46,204,138,0.3);
+  color: var(--green); font-family: 'Space Mono', monospace; font-size: 0.56rem;
+  padding: 0.18rem 0.52rem; border-radius: 10px; letter-spacing: 0.06em; margin-top: 0.65rem;
+}
+
+/* COMMUNITY BADGE on directory cards */
+.community-badge {
+  display: inline-flex; align-items: center; gap: 0.28rem;
+  background: rgba(46,204,138,0.1); border: 1px solid rgba(46,204,138,0.3);
+  color: var(--green); font-family: 'Space Mono', monospace; font-size: 0.57rem;
+  padding: 0.17rem 0.48rem; border-radius: 10px; letter-spacing: 0.05em;
+  vertical-align: middle; margin-left: 0.35rem;
+}
+
+/* Initials avatar gradients */
+.ig-1 { background: linear-gradient(135deg, #1a3a6b, #2462a0); }
+.ig-2 { background: linear-gradient(135deg, #1a4a3b, #28795e); }
+.ig-3 { background: linear-gradient(135deg, #4a2060, #7a3a9a); }
+.ig-4 { background: linear-gradient(135deg, #4a2820, #a04030); }
+.ig-5 { background: linear-gradient(135deg, #2a3e10, #5a8028); }
+
+/* Nav create profile button */
+.nav-create-btn {
+  background: rgba(244,161,29,0.11) !important;
+  border: 1px solid rgba(244,161,29,0.35) !important;
+  color: var(--accent) !important;
+}
+.nav-create-btn:hover {
+  background: rgba(244,161,29,0.22) !important;
+  border-color: rgba(244,161,29,0.6) !important;
+}
+
+/* Community profile directory cards */
+.community-network-card {
+  border-color: rgba(46,204,138,0.2) !important;
+}
+.community-network-card .node-topbar {
+  border-bottom: 1px solid rgba(46,204,138,0.12);
+}
 </style>
 </head>
 <body>
@@ -2857,6 +3244,7 @@
     <li><a href="#resources">Resources</a></li>
     <li><a href="#intelligence">STEM Intel</a></li>
     <li><a href="#future">Future</a></li>
+    <li><a href="#" class="nav-create-btn" onclick="openProfileCreator(event)">✦ Create Profile</a></li>
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
 </nav>
@@ -4317,6 +4705,9 @@
       </div>
     </div>
 
+    <!-- ── COMMUNITY CREATED PROFILES ── injected by JS ── -->
+    <div id="communityProfilesContainer"></div>
+
     <!-- ── PLACEHOLDER NODES ── -->
     <div class="network-card node-placeholder">
       <div class="node-topbar">
@@ -5364,6 +5755,625 @@
   }
 
   initRoleLens();
+
+  /* ═══════════════════════════════════════════════════
+     V2 PATCH 1 — JAVASCRIPT
+     Features: Prototype Modal · Feedback · Profile Creator
+  ═══════════════════════════════════════════════════ */
+
+  // ── FEATURE 1: V2 Prototype Note Modal ──────────────────────
+  (function initV2Modal() {
+    if (localStorage.getItem('stemPocV2PrototypeNoteSeen')) return;
+    const el = document.getElementById('v2ProtoModal');
+    if (el) el.classList.remove('hidden');
+  })();
+
+  function closeV2Modal(dontShow) {
+    const el = document.getElementById('v2ProtoModal');
+    if (!el) return;
+    if (dontShow) localStorage.setItem('stemPocV2PrototypeNoteSeen', '1');
+    el.classList.add('hidden');
+  }
+
+  // ── FEATURE 2: Floating Feedback System ─────────────────────
+  function openFeedbackModal() {
+    document.getElementById('feedbackOverlay').classList.remove('hidden');
+    document.getElementById('fbMessage').focus();
+  }
+
+  function closeFeedbackModal() {
+    document.getElementById('feedbackOverlay').classList.add('hidden');
+    document.getElementById('fbSuccess').classList.remove('show');
+    document.getElementById('fbForm').reset();
+  }
+
+  function submitFeedback() {
+    const msg = (document.getElementById('fbMessage').value || '').trim();
+    if (!msg) {
+      document.getElementById('fbMessage').focus();
+      document.getElementById('fbMessage').style.borderColor = 'rgba(232,67,58,0.6)';
+      return;
+    }
+    document.getElementById('fbMessage').style.borderColor = '';
+    const entry = {
+      id: crypto.randomUUID(),
+      name: (document.getElementById('fbName').value || '').trim() || null,
+      organization: (document.getElementById('fbOrg').value || '').trim() || null,
+      message: msg,
+      createdAt: new Date().toISOString(),
+      source: 'stem-poc-v2-feedback'
+    };
+    const existing = JSON.parse(localStorage.getItem('stemPocFeedback') || '[]');
+    existing.push(entry);
+    localStorage.setItem('stemPocFeedback', JSON.stringify(existing));
+    console.log('STEM PoC Feedback saved:', entry);
+    document.getElementById('fbForm').reset();
+    document.getElementById('fbSuccess').classList.add('show');
+    setTimeout(() => closeFeedbackModal(), 3500);
+  }
+
+  // ── FEATURE 3–8: Profile Creation System ────────────────────
+  function openProfileCreator(e) {
+    if (e) e.preventDefault();
+    document.getElementById('profileCreatorOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    updateProfilePreview();
+  }
+
+  function closeProfileCreator() {
+    document.getElementById('profileCreatorOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function getInitialsGrad(name) {
+    if (!name) return 'ig-1';
+    const code = name.charCodeAt(0) % 5;
+    return 'ig-' + (code + 1);
+  }
+
+  function getInitials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  }
+
+  let _previewPhotoDataUrl = null;
+
+  function handlePhotoUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      _previewPhotoDataUrl = e.target.result;
+      updateProfilePreview();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function updateProfilePreview() {
+    const fullName = (document.getElementById('pfFullName').value || '').trim();
+    const preferredName = (document.getElementById('pfPreferredName').value || '').trim();
+    const displayName = preferredName || fullName;
+    const iu = (document.getElementById('pfIU').value || '').trim();
+    const jobTitle = (document.getElementById('pfJobTitle').value || '').trim();
+    const superpower = (document.getElementById('pfSuperpower').value || '').trim();
+    const curiousAbout = (document.getElementById('pfCuriousAbout').value || '').trim();
+
+    const focusChecked = Array.from(document.querySelectorAll('.focus-chk:checked')).map(c => c.value);
+    const workgroupChecked = Array.from(document.querySelectorAll('.wg-chk:checked')).map(c => c.value);
+
+    // Avatar
+    const avatarEl = document.getElementById('previewAvatar');
+    if (_previewPhotoDataUrl) {
+      avatarEl.innerHTML = '<img src="' + _previewPhotoDataUrl + '" alt="Photo">';
+      avatarEl.className = 'preview-avatar';
+    } else {
+      const initials = getInitials(fullName);
+      const grad = getInitialsGrad(fullName);
+      avatarEl.className = 'preview-avatar ' + grad;
+      avatarEl.innerHTML = initials;
+    }
+    // Also update form circle
+    const formCircle = document.getElementById('formPhotoPreview');
+    if (_previewPhotoDataUrl) {
+      formCircle.innerHTML = '<img src="' + _previewPhotoDataUrl + '" alt="Photo">';
+      formCircle.className = 'photo-preview-circle';
+    } else {
+      formCircle.className = 'photo-preview-circle ' + getInitialsGrad(fullName);
+      formCircle.innerHTML = getInitials(fullName);
+    }
+
+    // Name
+    const nameEl = document.getElementById('previewName');
+    nameEl.textContent = displayName || 'Your Name';
+    nameEl.className = 'preview-name' + (displayName ? '' : ' empty');
+
+    // Role/IU
+    const parts = [];
+    if (jobTitle) parts.push(jobTitle);
+    if (iu) parts.push(iu);
+    document.getElementById('previewRole').textContent = parts.join(' · ');
+    document.getElementById('previewIU').textContent = iu ? ('IU / ' + iu) : '';
+
+    // Superpower
+    const spEl = document.getElementById('previewSuperpower');
+    spEl.textContent = superpower || '—';
+    spEl.className = 'preview-field-val' + (superpower ? '' : ' empty');
+
+    // Curious About
+    const caEl = document.getElementById('previewCurious');
+    caEl.textContent = curiousAbout || '—';
+    caEl.className = 'preview-field-val' + (curiousAbout ? '' : ' empty');
+
+    // Focus tags
+    const focusRow = document.getElementById('previewFocusTags');
+    if (focusChecked.length > 0) {
+      focusRow.innerHTML = focusChecked.map(t => '<span class="preview-tag">' + t + '</span>').join('');
+    } else {
+      focusRow.innerHTML = '<span style="font-size:0.7rem;color:rgba(138,155,191,0.35);font-style:italic;">No focus areas selected</span>';
+    }
+
+    // Workgroup tags
+    const wgRow = document.getElementById('previewWorkgroups');
+    if (workgroupChecked.length > 0) {
+      wgRow.innerHTML = workgroupChecked.map(t => '<span class="preview-tag">' + t + '</span>').join('');
+    } else {
+      wgRow.innerHTML = '<span style="font-size:0.7rem;color:rgba(138,155,191,0.35);font-style:italic;">None selected</span>';
+    }
+  }
+
+  function generateAccessCode() {
+    const digits = Math.floor(1000 + Math.random() * 9000);
+    return 'STEM-' + digits;
+  }
+
+  function saveProfile() {
+    // Validate required fields
+    let valid = true;
+    const required = [
+      { id: 'pfFullName',      errId: 'errFullName'      },
+      { id: 'pfIU',            errId: 'errIU'            },
+      { id: 'pfJobTitle',      errId: 'errJobTitle'      },
+      { id: 'pfSuperpower',    errId: 'errSuperpower'    },
+      { id: 'pfCuriousAbout',  errId: 'errCuriousAbout'  },
+    ];
+    required.forEach(f => {
+      const el = document.getElementById(f.id);
+      const err = document.getElementById(f.errId);
+      if (!(el.value || '').trim()) {
+        el.classList.add('error');
+        if (err) err.classList.add('show');
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        if (err) err.classList.remove('show');
+      }
+    });
+
+    // Require at least one primary focus
+    const focusChecked = Array.from(document.querySelectorAll('.focus-chk:checked')).map(c => c.value);
+    const focusErr = document.getElementById('errFocusAreas');
+    if (focusChecked.length === 0) {
+      if (focusErr) focusErr.classList.add('show');
+      valid = false;
+    } else {
+      if (focusErr) focusErr.classList.remove('show');
+    }
+
+    if (!valid) return;
+
+    const accessCode = generateAccessCode();
+    const profile = {
+      id: crypto.randomUUID(),
+      accessCode,
+      fullName: (document.getElementById('pfFullName').value || '').trim(),
+      preferredName: (document.getElementById('pfPreferredName').value || '').trim(),
+      iu: (document.getElementById('pfIU').value || '').trim(),
+      jobTitle: (document.getElementById('pfJobTitle').value || '').trim(),
+      email: (document.getElementById('pfEmail').value || '').trim(),
+      yearsEducation: (document.getElementById('pfYearsEd').value || '').trim(),
+      primaryFocus: focusChecked[0] || '',
+      focusAreas: focusChecked,
+      workgroupInterests: Array.from(document.querySelectorAll('.wg-chk:checked')).map(c => c.value),
+      superpower: (document.getElementById('pfSuperpower').value || '').trim(),
+      curiousAbout: (document.getElementById('pfCuriousAbout').value || '').trim(),
+      canHelpWith: (document.getElementById('pfCanHelp').value || '').trim(),
+      needHelpWith: (document.getElementById('pfNeedHelp').value || '').trim(),
+      funFact: (document.getElementById('pfFunFact').value || '').trim(),
+      socialLink: (document.getElementById('pfSocialLink').value || '').trim(),
+      photoDataUrl: _previewPhotoDataUrl || null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      source: 'user-created'
+    };
+
+    const existing = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    existing.push(profile);
+    localStorage.setItem('stemPocUserProfiles', JSON.stringify(existing));
+
+    syncProfileToSupabase(profile);
+    renderCommunityProfiles();
+
+    // Show success
+    const successBox = document.getElementById('pfSuccessBox');
+    document.getElementById('pfAccessCode').textContent = accessCode;
+    successBox.classList.add('show');
+    successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function copyAccessCode() {
+    const code = document.getElementById('pfAccessCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.getElementById('pfCopyBtn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  // ── FEATURE 6: Render community profiles into directory ──────
+  function renderCommunityProfiles() {
+    const container = document.getElementById('communityProfilesContainer');
+    if (!container) return;
+    const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    if (profiles.length === 0) { container.innerHTML = ''; return; }
+
+    container.innerHTML = profiles.map(p => {
+      const displayName = p.preferredName || p.fullName;
+      const initials = getInitials(p.fullName);
+      const grad = getInitialsGrad(p.fullName);
+      const avatarHtml = p.photoDataUrl
+        ? '<img class="network-photo" src="' + p.photoDataUrl + '" alt="' + displayName + '">'
+        : '<div class="network-photo-initials ' + grad + '" style="display:flex;font-size:1.1rem;font-weight:700;color:var(--accent);">' + initials + '</div>';
+
+      const focusTags = (p.focusAreas || []).slice(0,4).map(t =>
+        '<span class="tag-pill">' + t + '</span>'
+      ).join('');
+      const wgChips = (p.workgroupInterests || []).map(w =>
+        '<span class="wg-chip">' + w + '</span>'
+      ).join('');
+
+      const searchText = [
+        p.fullName, p.preferredName, p.iu, p.jobTitle,
+        (p.focusAreas || []).join(' '), p.superpower
+      ].filter(Boolean).join(' ').toLowerCase();
+
+      return `
+        <div class="network-card mission-node community-network-card"
+             data-tags="${(p.focusAreas || []).join(' ')}"
+             data-collab="open"
+             data-searchtext="${searchText}">
+          <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
+            <span class="node-iu-num" style="font-size:0.85rem;">Community</span>
+            <span class="node-region">${p.iu}</span>
+            <span class="node-status status-active"></span>
+          </div>
+          <div class="node-identity" onclick="toggleNodePanel(this.closest('.network-card'))">
+            <div class="network-photo-wrap">${avatarHtml}</div>
+            <div class="node-info">
+              <div class="node-name">${displayName} <span class="community-badge">✦ Community Created</span></div>
+              <div class="node-role">${p.jobTitle} · ${p.iu}</div>
+            </div>
+          </div>
+          <div class="network-tags" onclick="toggleNodePanel(this.closest('.network-card'))">
+            ${focusTags}
+          </div>
+          <div class="network-signals" onclick="toggleNodePanel(this.closest('.network-card'))">
+            <div class="collab-mode collab-open">🟢 Open to Collaboration</div>
+            <div class="signal-focus">${p.primaryFocus}</div>
+          </div>
+          <div class="node-expand-hint" onclick="toggleNodePanel(this.closest('.network-card'))">
+            <i class="expand-arrow">▼</i> Open profile
+          </div>
+          <div class="network-expand">
+            <div class="dossier-section">
+              <div class="dossier-label">Neighborhood Superpower</div>
+              <p class="dossier-text">${p.superpower || '—'}</p>
+            </div>
+            <div class="dossier-section">
+              <div class="dossier-label">Curious About</div>
+              <p class="dossier-text">${p.curiousAbout || '—'}</p>
+            </div>
+            ${p.canHelpWith ? `<div class="dossier-section"><div class="dossier-label">Can Help With</div><p class="dossier-text">${p.canHelpWith}</p></div>` : ''}
+            ${p.needHelpWith ? `<div class="dossier-section"><div class="dossier-label">Looking For Help With</div><p class="dossier-text">${p.needHelpWith}</p></div>` : ''}
+            ${p.funFact ? `<div class="dossier-section"><div class="dossier-label">Fun Fact</div><p class="dossier-text">${p.funFact}</p></div>` : ''}
+            ${p.workgroupInterests && p.workgroupInterests.length > 0 ? `
+            <div class="dossier-section">
+              <div class="dossier-label">Workgroup Interests</div>
+              <div class="wg-chips">${wgChips}</div>
+            </div>` : ''}
+            ${p.email ? `<div class="dossier-section"><div class="dossier-label">Email</div><p class="dossier-text"><a href="mailto:${p.email}" style="color:var(--accent)">${p.email}</a></p></div>` : ''}
+            ${p.socialLink ? `<div class="dossier-section"><div class="dossier-label">Link</div><p class="dossier-text"><a href="${p.socialLink}" target="_blank" rel="noopener" style="color:var(--accent)">${p.socialLink}</a></p></div>` : ''}
+            <div class="dossier-section" style="border-top:1px solid rgba(46,204,138,0.12);padding-top:0.75rem;margin-top:0.5rem;">
+              <div style="font-size:0.68rem;color:var(--green);font-family:'Space Mono',monospace;">Access Code: ${p.accessCode}</div>
+              <div style="font-size:0.65rem;color:var(--muted);margin-top:0.25rem;">Member since ${new Date(p.createdAt).toLocaleDateString()}</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Load community profiles on page load
+  renderCommunityProfiles();
+
+  // ── FEATURE 8: Supabase Profile Sync Placeholder ─────────────
+  // STEM PoC V2 Supabase Profile Sync Placeholder
+  // Future table: stem_poc_profiles
+  // Current patch uses localStorage only.
+  async function syncProfileToSupabase(profile) {
+    console.log('Supabase sync placeholder:', profile);
+    return { success: false, mode: 'localOnly' };
+  }
+
+  // ── Profile form live preview listeners ─────────────────────
+  (function bindPreviewListeners() {
+    const liveFields = [
+      'pfFullName','pfPreferredName','pfIU','pfJobTitle',
+      'pfSuperpower','pfCuriousAbout'
+    ];
+    liveFields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', updateProfilePreview);
+    });
+    document.querySelectorAll('.focus-chk, .wg-chk').forEach(chk => {
+      chk.addEventListener('change', updateProfilePreview);
+    });
+  })();
+
 </script>
+
+<!-- ════════════════════════════════════════════════════════════
+     V2 PATCH 1 — HTML MODALS
+════════════════════════════════════════════════════════════ -->
+
+<!-- FEATURE 1: V2 Prototype Note Modal -->
+<div class="v2-modal-overlay hidden" id="v2ProtoModal">
+  <div class="v2-modal-card">
+    <div class="v2-modal-badge">ACTIVE PROTOTYPE</div>
+    <div class="v2-modal-eyebrow">PA STEM PoC Network</div>
+    <div class="v2-modal-title">Welcome to V2 of the STEM PoC Hub</div>
+    <div class="v2-modal-body">
+      <p>This tool is evolving from a static resource site into a <strong>living statewide STEM collaboration platform</strong> — built by and for Pennsylvania STEM Points of Contact.</p>
+      <br>
+      <p>V2 introduces the foundations of a <strong>collaborative operating system</strong>: community profiles, workgroup hubs, shared momentum, and statewide connection infrastructure. The current version uses local storage while backend systems are being wired in.</p>
+      <br>
+      <p><strong>This is an active prototype.</strong> Features are being added in patches. Your feedback shapes what gets built next — use the feedback button anytime.</p>
+    </div>
+    <div class="v2-modal-btns">
+      <button class="v2-modal-enter" onclick="closeV2Modal(false)">Enter the Network</button>
+      <button class="v2-modal-dismiss" onclick="closeV2Modal(true)">Don't show again</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE 2: Floating Feedback Button -->
+<button class="feedback-fab" onclick="openFeedbackModal()">💬 Leave Feedback</button>
+
+<!-- FEATURE 2: Feedback Modal -->
+<div class="feedback-overlay hidden" id="feedbackOverlay" onclick="if(event.target===this)closeFeedbackModal()">
+  <div class="feedback-card">
+    <div class="feedback-card-title">Share Feedback</div>
+    <div class="feedback-card-sub">Help shape the V2 platform. Feedback is saved locally and reviewed by the build team.</div>
+    <form id="fbForm" onsubmit="event.preventDefault();submitFeedback()">
+      <div class="fb-group">
+        <label class="fb-label" for="fbName">Name <span style="opacity:0.5;">(optional)</span></label>
+        <input class="fb-input" id="fbName" type="text" placeholder="Your name">
+      </div>
+      <div class="fb-group">
+        <label class="fb-label" for="fbOrg">IU / Organization <span style="opacity:0.5;">(optional)</span></label>
+        <input class="fb-input" id="fbOrg" type="text" placeholder="e.g. IU 29 / Lancaster-Lebanon">
+      </div>
+      <div class="fb-group">
+        <label class="fb-label" for="fbMessage">Feedback <span style="color:var(--accent);">*</span></label>
+        <textarea class="fb-input" id="fbMessage" placeholder="What's working, what's missing, what would make this more useful?"></textarea>
+      </div>
+      <div class="fb-actions">
+        <button class="fb-submit" type="submit">Send Feedback</button>
+        <button class="fb-cancel" type="button" onclick="closeFeedbackModal()">Cancel</button>
+      </div>
+    </form>
+    <div class="fb-success" id="fbSuccess">
+      ✓ Thanks — your feedback was saved locally for now. Backend connection comes next.
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE 3–7: Profile Creation Modal -->
+<div class="profile-creator-overlay hidden" id="profileCreatorOverlay" onclick="if(event.target===this)closeProfileCreator()">
+  <div class="profile-creator-inner">
+
+    <!-- Left: Form -->
+    <div class="profile-form-col">
+      <button class="pf-close-btn" onclick="closeProfileCreator()" title="Close">✕</button>
+      <div class="pf-eyebrow">STEM PoC Network V2</div>
+      <div class="pf-title">Create Your STEM PoC Profile</div>
+      <div class="pf-subtitle">Join the living statewide directory. Your profile helps other PoCs find collaboration partners, mentors, and shared expertise across Pennsylvania's 29 IUs.</div>
+
+      <!-- Photo Upload -->
+      <div class="pf-section">
+        <div class="pf-section-label">Profile Photo</div>
+        <div class="photo-upload-area">
+          <div class="photo-preview-circle ig-1" id="formPhotoPreview">?</div>
+          <div>
+            <label class="photo-upload-label" for="pfPhotoInput">Upload Photo</label>
+            <input type="file" id="pfPhotoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+            <div style="font-size:0.7rem;color:var(--muted);margin-top:0.4rem;line-height:1.4;">Optional. If no photo, we'll generate an initials avatar.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Required Fields -->
+      <div class="pf-section">
+        <div class="pf-section-label">Required Info</div>
+        <div class="pf-row">
+          <div class="pf-field">
+            <label class="pf-label" for="pfFullName">Full Name <span class="req">*</span></label>
+            <input class="pf-input" id="pfFullName" type="text" placeholder="Dr. Jane Smith">
+            <div class="pf-error-msg" id="errFullName">Full name is required.</div>
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfPreferredName">Preferred Name <span style="opacity:0.5;font-size:0.62rem;">(optional)</span></label>
+            <input class="pf-input" id="pfPreferredName" type="text" placeholder="Jane">
+          </div>
+        </div>
+        <div class="pf-row">
+          <div class="pf-field">
+            <label class="pf-label" for="pfIU">IU / Organization <span class="req">*</span></label>
+            <input class="pf-input" id="pfIU" type="text" placeholder="e.g. IU 29 / Lancaster-Lebanon">
+            <div class="pf-error-msg" id="errIU">IU / Organization is required.</div>
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfJobTitle">Job Title / Role <span class="req">*</span></label>
+            <input class="pf-input" id="pfJobTitle" type="text" placeholder="STEM Coordinator">
+            <div class="pf-error-msg" id="errJobTitle">Job title is required.</div>
+          </div>
+        </div>
+        <div class="pf-field">
+          <label class="pf-label" for="pfSuperpower">Neighborhood Superpower <span class="req">*</span></label>
+          <input class="pf-input" id="pfSuperpower" type="text" placeholder="e.g. I connect dots across content areas that others don't see">
+          <div class="pf-error-msg" id="errSuperpower">Tell us your superpower.</div>
+        </div>
+        <div class="pf-field">
+          <label class="pf-label" for="pfCuriousAbout">Curious About <span class="req">*</span></label>
+          <input class="pf-input" id="pfCuriousAbout" type="text" placeholder="e.g. How AI changes science education at the district level">
+          <div class="pf-error-msg" id="errCuriousAbout">Tell us what you're curious about.</div>
+        </div>
+      </div>
+
+      <!-- STEM Focus Areas -->
+      <div class="pf-section">
+        <div class="pf-section-label">Primary STEM Focus Areas <span class="req" style="font-family:'DM Sans';font-style:normal;">*</span></div>
+        <div class="tag-check-grid" id="focusAreaGrid">
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-steels" value="STEELS"><label class="tag-chk-label" for="fcs-steels">STEELS</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-cs" value="Computer Science"><label class="tag-chk-label" for="fcs-cs">Computer Science</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-eco" value="STEM Ecosystems"><label class="tag-chk-label" for="fcs-eco">STEM Ecosystems</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-comp" value="Student Competitions"><label class="tag-chk-label" for="fcs-comp">Student Competitions</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-env" value="Environmental Literacy"><label class="tag-chk-label" for="fcs-env">Environmental Literacy</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-eng" value="Engineering Design"><label class="tag-chk-label" for="fcs-eng">Engineering Design</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-ai" value="AI / Emerging Tech"><label class="tag-chk-label" for="fcs-ai">AI / Emerging Tech</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-make" value="Makerspaces"><label class="tag-chk-label" for="fcs-make">Makerspaces</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-data" value="Data Literacy"><label class="tag-chk-label" for="fcs-data">Data Literacy</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-career" value="Career Readiness"><label class="tag-chk-label" for="fcs-career">Career Readiness</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-pl" value="Professional Learning"><label class="tag-chk-label" for="fcs-pl">Professional Learning</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-collab" value="Cross-IU Collaboration"><label class="tag-chk-label" for="fcs-collab">Cross-IU Collaboration</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-eq" value="Equity / Inclusion"><label class="tag-chk-label" for="fcs-eq">Equity / Inclusion</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-lib" value="Lending Libraries"><label class="tag-chk-label" for="fcs-lib">Lending Libraries</label>
+          <input class="tag-chk focus-chk" type="checkbox" id="fcs-math" value="Math Integration"><label class="tag-chk-label" for="fcs-math">Math Integration</label>
+        </div>
+        <div class="pf-error-msg" id="errFocusAreas" style="margin-top:0.4rem;">Select at least one focus area.</div>
+      </div>
+
+      <!-- Workgroup Interests -->
+      <div class="pf-section">
+        <div class="pf-section-label">Workgroup Interests <span style="opacity:0.5;font-family:'DM Sans';font-size:0.7rem;text-transform:none;">(optional)</span></div>
+        <div class="tag-check-grid">
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-sci" value="Science"><label class="tag-chk-label" for="wg-sci">Science</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-tech" value="Technology & Engineering"><label class="tag-chk-label" for="wg-tech">Technology &amp; Engineering</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-els" value="Environmental Literacy"><label class="tag-chk-label" for="wg-els">Environmental Literacy &amp; Sustainability</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-pasmart" value="PAsmart / CS"><label class="tag-chk-label" for="wg-pasmart">PAsmart / Computer Science</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-comps" value="Student Competitions"><label class="tag-chk-label" for="wg-comps">Student Competitions</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-ecosys" value="STEM Ecosystems"><label class="tag-chk-label" for="wg-ecosys">STEM Ecosystems</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-lend" value="Lending Libraries"><label class="tag-chk-label" for="wg-lend">Lending Libraries</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-toolkit" value="STEM Toolkit"><label class="tag-chk-label" for="wg-toolkit">STEM Toolkit</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-math" value="Math Focus"><label class="tag-chk-label" for="wg-math">Math Focus</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-eq" value="Equity / Inclusion"><label class="tag-chk-label" for="wg-eq">Equity / Inclusion</label>
+          <input class="tag-chk wg-chk" type="checkbox" id="wg-esports" value="Esports"><label class="tag-chk-label" for="wg-esports">Esports</label>
+        </div>
+      </div>
+
+      <!-- Optional Fields -->
+      <div class="pf-section">
+        <div class="pf-section-label">Optional Info</div>
+        <div class="pf-row">
+          <div class="pf-field">
+            <label class="pf-label" for="pfEmail">Email</label>
+            <input class="pf-input" id="pfEmail" type="email" placeholder="jane@iu29.org">
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfYearsEd">Years in Education</label>
+            <input class="pf-input" id="pfYearsEd" type="text" placeholder="e.g. 12">
+          </div>
+        </div>
+        <div class="pf-field">
+          <label class="pf-label" for="pfCanHelp">Areas I Can Help With</label>
+          <textarea class="pf-input" id="pfCanHelp" placeholder="e.g. Building CS programs from scratch, competition logistics, district partnerships..."></textarea>
+        </div>
+        <div class="pf-field">
+          <label class="pf-label" for="pfNeedHelp">Areas I Need Help With</label>
+          <textarea class="pf-input" id="pfNeedHelp" placeholder="e.g. Environmental literacy alignment, ORBIT reporting, finding mentors for rural districts..."></textarea>
+        </div>
+        <div class="pf-row">
+          <div class="pf-field">
+            <label class="pf-label" for="pfFunFact">Fun Fact</label>
+            <input class="pf-input" id="pfFunFact" type="text" placeholder="e.g. Former marine biologist">
+          </div>
+          <div class="pf-field">
+            <label class="pf-label" for="pfSocialLink">Social / Website Link</label>
+            <input class="pf-input" id="pfSocialLink" type="url" placeholder="https://...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="pf-actions">
+        <button class="pf-save-btn" onclick="saveProfile()">✦ Create My Profile</button>
+        <button class="pf-cancel-btn" onclick="closeProfileCreator()">Cancel</button>
+      </div>
+
+      <!-- Success Box -->
+      <div class="pf-success-box" id="pfSuccessBox">
+        <div class="pf-success-title">✓ Profile Created!</div>
+        <div class="pf-success-body">Your STEM PoC profile has been created and added to the statewide directory below. Your access code is below — save it for future profile editing.</div>
+        <div class="pf-access-code" id="pfAccessCode">STEM-0000</div>
+        <button class="pf-copy-btn" id="pfCopyBtn" onclick="copyAccessCode()">Copy</button>
+        <div class="pf-success-note">Save this code. Future versions will use it to edit your profile.</div>
+        <div style="margin-top:1rem;">
+          <button class="pf-save-btn" style="font-size:0.82rem;padding:0.6rem 1.25rem;" onclick="closeProfileCreator()">View in Directory →</button>
+        </div>
+      </div>
+    </div><!-- end .profile-form-col -->
+
+    <!-- Right: Live Preview Card -->
+    <div class="profile-preview-col">
+      <div class="preview-col-label">Live Card Preview</div>
+      <div class="preview-card">
+        <div class="preview-card-top">
+          <div class="preview-avatar ig-1" id="previewAvatar">?</div>
+          <div>
+            <div class="preview-name empty" id="previewName">Your Name</div>
+            <div class="preview-role-txt" id="previewRole"></div>
+            <div class="preview-iu-txt" id="previewIU"></div>
+          </div>
+        </div>
+        <div class="preview-card-body">
+          <div class="preview-field">
+            <div class="preview-field-label">Neighborhood Superpower</div>
+            <div class="preview-field-val empty" id="previewSuperpower">—</div>
+          </div>
+          <div class="preview-field">
+            <div class="preview-field-label">Curious About</div>
+            <div class="preview-field-val empty" id="previewCurious">—</div>
+          </div>
+          <div class="preview-field">
+            <div class="preview-field-label">STEM Focus Areas</div>
+            <div class="preview-tag-row" id="previewFocusTags">
+              <span style="font-size:0.7rem;color:rgba(138,155,191,0.35);font-style:italic;">No focus areas selected</span>
+            </div>
+          </div>
+          <div class="preview-field">
+            <div class="preview-field-label">Workgroup Interests</div>
+            <div class="preview-tag-row" id="previewWorkgroups">
+              <span style="font-size:0.7rem;color:rgba(138,155,191,0.35);font-style:italic;">None selected</span>
+            </div>
+          </div>
+          <div class="preview-community-badge">✦ Community Created</div>
+        </div>
+      </div>
+    </div><!-- end .profile-preview-col -->
+
+  </div><!-- end .profile-creator-inner -->
+</div><!-- end .profile-creator-overlay -->
+
 </body>
 </html>
