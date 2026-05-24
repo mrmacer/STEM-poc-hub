@@ -3213,6 +3213,863 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 .community-network-card .node-topbar {
   border-bottom: 1px solid rgba(46,204,138,0.12);
 }
+
+/* ═══════════════════════════════════════════════════
+   V2 PATCH 2 — COMMUNITY + NETWORK LAYER
+═══════════════════════════════════════════════════ */
+
+/* NETWORK PULSE STATS BAR */
+.network-pulse-bar {
+  background: linear-gradient(135deg, rgba(10,22,40,0.98), rgba(13,26,52,0.98));
+  border: 1px solid rgba(244,161,29,0.22);
+  border-radius: 14px;
+  padding: 1.1rem 1.5rem;
+  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem; position: relative; overflow: hidden;
+}
+.network-pulse-bar::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--green) 60%, var(--accent) 80%, transparent 100%);
+  opacity: 0.55;
+}
+.pulse-stat { display: flex; flex-direction: column; gap: 0.12rem; }
+.pulse-stat-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.75rem;
+  color: var(--accent); line-height: 1; letter-spacing: 1px;
+}
+.pulse-stat-label {
+  font-family: 'Space Mono', monospace; font-size: 0.54rem;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap;
+}
+.pulse-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+.pulse-live-badge {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-family: 'Space Mono', monospace; font-size: 0.56rem;
+  color: var(--green); letter-spacing: 0.06em; text-transform: uppercase; margin-left: auto;
+}
+.pulse-live-dot {
+  width: 5px; height: 5px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite;
+}
+@media (max-width: 640px) {
+  .network-pulse-bar { gap: 1rem; padding: 0.9rem 1rem; }
+  .pulse-divider { display: none; }
+  .pulse-live-badge { margin-left: 0; }
+}
+
+/* ENHANCED DIRECTORY FILTER PANEL */
+.dir-filter-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px; padding: 1.1rem 1.25rem; margin-bottom: 1.25rem;
+}
+.dir-filter-top {
+  display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap;
+}
+.dir-search {
+  flex: 1; min-width: 200px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 0.6rem 0.9rem; color: var(--light);
+  font-family: 'DM Sans', sans-serif; font-size: 0.87rem;
+  outline: none; transition: border-color 0.18s;
+}
+.dir-search:focus { border-color: rgba(244,161,29,0.4); }
+.dir-search::placeholder { color: rgba(138,155,191,0.45); }
+.dir-clear-btn {
+  background: transparent; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 0.55rem 0.9rem; color: var(--muted);
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap; letter-spacing: 0.04em;
+}
+.dir-clear-btn:hover { color: var(--accent); border-color: rgba(244,161,29,0.3); }
+.dir-filter-row {
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.5rem;
+}
+.dir-filter-row:last-of-type { margin-bottom: 0; }
+.dir-filter-row-label {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.07em; min-width: 76px; flex-shrink: 0;
+}
+.active-filters-row {
+  display: none; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+  padding-top: 0.65rem; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 0.6rem;
+}
+.active-filters-row.has-filters { display: flex; }
+.active-filter-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: rgba(244,161,29,0.1); border: 1px solid rgba(244,161,29,0.3);
+  border-radius: 20px; padding: 0.22rem 0.6rem;
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: var(--accent); cursor: pointer; transition: all 0.15s;
+}
+.active-filter-badge:hover { background: rgba(244,161,29,0.18); }
+.badge-x { font-size: 0.8rem; line-height: 1; }
+.filter-result-count {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: var(--muted); margin-left: auto; white-space: nowrap;
+}
+
+/* COLLABORATION INTEREST TAGS on cards */
+.collab-interests-row { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.35rem; }
+.collab-interest-tag {
+  display: inline-flex; align-items: center; gap: 0.22rem;
+  font-size: 0.62rem; padding: 0.16rem 0.48rem;
+  background: rgba(46,204,138,0.07); border: 1px solid rgba(46,204,138,0.22);
+  border-radius: 12px; color: var(--green); font-family: 'Space Mono', monospace;
+}
+
+/* PROFILE DETAIL MODAL */
+.profile-modal-overlay {
+  position: fixed; inset: 0; z-index: 1600;
+  background: rgba(7,15,28,0.88); backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem; transition: opacity 0.25s;
+}
+.profile-modal-overlay.hidden { opacity: 0; pointer-events: none; }
+.profile-modal-card {
+  background: linear-gradient(145deg, #0d1f3c, #111e36);
+  border: 1px solid rgba(244,161,29,0.28); border-radius: 20px;
+  max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 40px 90px rgba(0,0,0,0.65); position: relative;
+}
+.profile-modal-header {
+  padding: 1.75rem 1.75rem 1.25rem;
+  background: linear-gradient(145deg, #0e203f, #121f38);
+  display: flex; gap: 1.25rem; align-items: flex-start;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  position: sticky; top: 0; z-index: 2;
+}
+.profile-modal-avatar {
+  width: 80px; height: 80px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(244,161,29,0.35); overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--accent);
+}
+.profile-modal-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-modal-name {
+  font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1.3rem;
+  color: var(--light); margin-bottom: 0.2rem; line-height: 1.2;
+}
+.profile-modal-meta { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+.profile-modal-iu {
+  font-size: 0.7rem; color: var(--accent); font-family: 'Space Mono', monospace; margin-top: 0.3rem;
+}
+.profile-modal-close {
+  margin-left: auto; flex-shrink: 0;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--muted); transition: all 0.18s; font-size: 1rem;
+}
+.profile-modal-close:hover { color: var(--light); border-color: rgba(255,255,255,0.28); }
+.profile-modal-body {
+  padding: 1.5rem 1.75rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+@media (max-width: 580px) { .profile-modal-body { grid-template-columns: 1fr; } }
+.pm-section { margin-bottom: 0.25rem; }
+.pm-section.full { grid-column: 1 / -1; }
+.pm-label {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.28rem;
+}
+.pm-value { font-size: 0.82rem; color: var(--light); line-height: 1.65; }
+.pm-value.soft { color: var(--muted); font-style: italic; }
+.pm-tag-row { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.28rem; }
+.pm-tag {
+  font-size: 0.62rem; padding: 0.17rem 0.48rem;
+  border: 1px solid rgba(244,161,29,0.3); border-radius: 12px;
+  color: var(--accent); font-family: 'Space Mono', monospace;
+}
+.pm-collab-tag {
+  font-size: 0.62rem; padding: 0.17rem 0.48px;
+  background: rgba(46,204,138,0.08); border: 1px solid rgba(46,204,138,0.25);
+  border-radius: 12px; color: var(--green); font-family: 'Space Mono', monospace;
+  padding: 0.17rem 0.48rem;
+}
+.pm-access-code {
+  font-family: 'Space Mono', monospace; font-size: 0.72rem;
+  color: var(--muted); padding: 0.32rem 0.6rem;
+  background: rgba(255,255,255,0.04); border-radius: 6px; display: inline-block;
+  margin-top: 0.25rem;
+}
+
+/* ACTIVITY FEED */
+.activity-feed-section {
+  margin-top: 1.75rem; padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.activity-feed-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.activity-feed-title {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em;
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.activity-feed-title::before {
+  content: ''; width: 5px; height: 5px; background: var(--green);
+  border-radius: 50%; animation: pulse 2s infinite;
+}
+.activity-feed-list { display: flex; flex-direction: column; gap: 0.45rem; }
+.activity-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; font-size: 0.78rem; color: var(--muted); line-height: 1.5;
+}
+.activity-icon { font-size: 0.88rem; flex-shrink: 0; width: 18px; text-align: center; margin-top: 0.06rem; }
+.activity-text strong { color: var(--light); }
+.activity-time {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem;
+  color: rgba(138,155,191,0.45); margin-left: auto; flex-shrink: 0; padding-top: 0.12rem;
+  white-space: nowrap;
+}
+
+/* View Full Profile button (on cards) */
+.node-view-profile-btn {
+  background: rgba(244,161,29,0.08) !important; border: 1px solid rgba(244,161,29,0.28) !important;
+  color: var(--accent) !important; font-family: 'Space Mono', monospace !important;
+  font-size: 0.6rem !important; cursor: pointer; transition: all 0.15s;
+  border-radius: 6px !important; padding: 0.32rem 0.7rem !important;
+  letter-spacing: 0.04em; display: inline-block; text-decoration: none !important;
+}
+.node-view-profile-btn:hover {
+  background: rgba(244,161,29,0.16) !important; border-color: rgba(244,161,29,0.5) !important;
+}
+
+/* "Looking to Collaborate On" in form */
+.colab-tag-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+/* ═══════════════════════════════════════════════════════
+   V2 PATCH 4 — LIVE STATEWIDE MISSION CONTROL
+═══════════════════════════════════════════════════════ */
+
+/* Atmospheric — slow ambient glow behind content */
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse 120% 60% at 50% 0%, rgba(26,58,107,0.18) 0%, transparent 65%);
+  animation: ambient-drift 22s ease-in-out infinite alternate;
+}
+@keyframes ambient-drift {
+  from { transform: translate(-8%, 0) scale(1.05); }
+  to   { transform: translate(8%, 4%) scale(0.97); }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244,161,29,0); }
+  50%       { box-shadow: 0 0 14px 3px rgba(244,161,29,0.22); }
+}
+@keyframes dot-ping {
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes spotlight-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Network Ticker */
+.network-ticker {
+  background: rgba(6,14,26,0.94);
+  border-bottom: 1px solid rgba(244,161,29,0.12);
+  display: flex; align-items: center; height: 32px; overflow: hidden;
+  position: relative; z-index: 90;
+}
+.ticker-badge {
+  flex-shrink: 0; font-family: 'Space Mono', monospace; font-size: 0.52rem;
+  background: var(--accent); color: #0a1628; padding: 0 0.75rem; height: 100%;
+  display: flex; align-items: center; gap: 0.3rem;
+  letter-spacing: 0.08em; font-weight: 700; white-space: nowrap;
+}
+.ticker-live-dot {
+  width: 5px; height: 5px; border-radius: 50%; background: #0a1628;
+  animation: glow-pulse 1.4s infinite;
+}
+.ticker-track { flex: 1; overflow: hidden; cursor: default; }
+.ticker-inner {
+  display: flex; align-items: center; height: 32px;
+  white-space: nowrap; animation: ticker-scroll 38s linear infinite;
+}
+.ticker-inner:hover { animation-play-state: paused; }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0 1.5rem; font-size: 0.7rem; color: var(--muted);
+  border-right: 1px solid rgba(255,255,255,0.05); height: 32px; flex-shrink: 0;
+}
+.ticker-item strong { color: var(--light); font-weight: 600; }
+.ticker-item .ti-accent { color: var(--accent); }
+
+/* Mission Control section */
+.mc-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;
+}
+@media (max-width: 860px) { .mc-split { grid-template-columns: 1fr; } }
+
+/* Statewide Initiatives */
+.initiatives-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem;
+}
+@media (max-width: 900px) { .initiatives-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .initiatives-grid { grid-template-columns: 1fr; } }
+.initiative-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 1rem 1.1rem; transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+  position: relative; overflow: hidden;
+}
+.initiative-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--init-color, var(--accent)); opacity: 0.85;
+}
+.initiative-card:hover {
+  transform: translateY(-2px); border-color: rgba(244,161,29,0.4);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+.init-icon { font-size: 1.35rem; margin-bottom: 0.45rem; display: block; }
+.init-status {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem;
+  padding: 0.1rem 0.5rem; border-radius: 20px; display: inline-block;
+  margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.init-status.active   { background: rgba(55,200,130,0.1);  color: var(--green);  border: 1px solid rgba(55,200,130,0.3); }
+.init-status.building { background: rgba(244,161,29,0.1);  color: var(--accent); border: 1px solid rgba(244,161,29,0.3); }
+.init-status.emerging { background: rgba(100,120,220,0.1); color: #9096ff;       border: 1px solid rgba(100,120,220,0.3); }
+.init-name { font-size: 0.88rem; font-weight: 700; color: var(--light); margin-bottom: 0.3rem; line-height: 1.3; }
+.init-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.55; margin-bottom: 0.5rem; }
+.init-wg-row { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.init-wg-chip {
+  font-size: 0.58rem; padding: 0.08rem 0.42rem; border-radius: 20px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(138,155,191,0.65); font-family: 'Space Mono', monospace;
+}
+.init-collab-flag {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem;
+  color: var(--green); margin-top: 0.45rem; display: block;
+}
+
+/* PA Map */
+.pa-map-wrap {
+  background: rgba(6,14,28,0.55); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 1.1rem; overflow: hidden; position: relative;
+}
+.pa-map-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+.pa-map-label {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent);
+}
+.pa-map-filter-strip {
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.pa-map-active-tag {
+  font-family: 'Space Mono', monospace; font-size: 0.56rem;
+  background: rgba(244,161,29,0.12); border: 1px solid rgba(244,161,29,0.3);
+  color: var(--accent); border-radius: 20px; padding: 0.1rem 0.6rem;
+  display: none;
+}
+.pa-map-active-tag.on { display: inline-block; }
+.pa-map-clr {
+  background: none; border: none; color: rgba(138,155,191,0.5); cursor: pointer;
+  font-size: 0.72rem; display: none; line-height: 1; padding: 0;
+}
+.pa-map-clr.on { display: inline-block; }
+.pa-map-clr:hover { color: var(--light); }
+.pa-map-svg-box { width: 100%; max-width: 480px; margin: 0 auto; display: block; }
+.pa-map-svg-box svg { width: 100%; height: auto; display: block; }
+.pa-map-tooltip {
+  position: absolute; background: rgba(4,10,24,0.96);
+  border: 1px solid rgba(244,161,29,0.3); border-radius: 7px;
+  padding: 0.35rem 0.7rem; font-size: 0.66rem; color: var(--light);
+  pointer-events: none; white-space: nowrap; z-index: 20;
+  font-family: 'Space Mono', monospace; display: none;
+}
+.pa-map-legend {
+  display: flex; gap: 1rem; margin-top: 0.7rem;
+  font-size: 0.62rem; color: var(--muted); font-family: 'Space Mono', monospace;
+}
+.pa-map-legend span { display: flex; align-items: center; gap: 0.35rem; }
+.leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.leg-dot.ld-active   { background: rgba(244,161,29,0.5); border: 1px solid rgba(244,161,29,0.7); }
+.leg-dot.ld-inactive { background: rgba(26,58,107,0.7);  border: 1px solid rgba(138,155,191,0.3); }
+
+/* Network Spotlight */
+.spotlight-block { }
+.spotlight-hdr {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;
+}
+.spotlight-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent);
+  display: flex; align-items: center; gap: 0.45rem;
+}
+.spotlight-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); display: block; animation: glow-pulse 2s infinite;
+}
+.spotlight-navs { display: flex; gap: 0.3rem; }
+.spotlight-nav-btn {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.11);
+  color: var(--muted); font-size: 0.72rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.spotlight-nav-btn:hover { background: rgba(255,255,255,0.12); color: var(--light); }
+.spotlight-card {
+  background: var(--card); border: 1px solid rgba(244,161,29,0.2);
+  border-radius: 12px; padding: 1.15rem 1.3rem;
+  display: flex; gap: 1.1rem; align-items: flex-start;
+  animation: spotlight-fade 0.35s ease;
+}
+.spotlight-avatar {
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 700; color: #fff;
+  border: 2px solid rgba(244,161,29,0.25);
+}
+.spotlight-body { flex: 1; min-width: 0; }
+.spotlight-name { font-size: 0.95rem; font-weight: 700; color: var(--light); }
+.spotlight-role { font-size: 0.72rem; color: var(--muted); margin: 0.1rem 0 0.45rem; }
+.spotlight-chips { display: flex; flex-wrap: wrap; gap: 0.28rem; margin-bottom: 0.45rem; }
+.spotlight-chip {
+  font-size: 0.61rem; padding: 0.1rem 0.48rem; border-radius: 20px;
+  background: rgba(244,161,29,0.1); border: 1px solid rgba(244,161,29,0.25);
+  color: var(--accent);
+}
+.spotlight-fact { font-size: 0.73rem; color: var(--muted); line-height: 1.5; font-style: italic; }
+.spotlight-exploring {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: var(--green); margin-top: 0.35rem;
+}
+.spotlight-pip-row { display: flex; gap: 0.28rem; margin-top: 0.65rem; }
+.spotlight-pip {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgba(255,255,255,0.14); transition: background 0.2s;
+}
+.spotlight-pip.on { background: var(--accent); }
+
+/* Help Ribbons on cards */
+.help-ribbons { display: flex; flex-wrap: wrap; gap: 0.28rem; margin-top: 0.45rem; }
+.help-ribbon {
+  font-size: 0.59rem; padding: 0.09rem 0.48rem; border-radius: 20px;
+  display: inline-flex; align-items: center; gap: 0.2rem;
+}
+.help-ribbon.can  { background: rgba(46,204,138,0.1); border: 1px solid rgba(46,204,138,0.25); color: var(--green); }
+.help-ribbon.want { background: rgba(100,120,220,0.1); border: 1px solid rgba(100,120,220,0.25); color: #9096ff; }
+
+/* Contribution Wall */
+.contrib-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.6rem; margin-bottom: 1rem;
+}
+.contrib-card {
+  background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 9px; padding: 0.7rem 0.85rem;
+  transition: border-color 0.18s, transform 0.15s;
+}
+.contrib-card:hover { border-color: rgba(244,161,29,0.22); transform: translateY(-1px); }
+.contrib-top { display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.3rem; }
+.contrib-icon { font-size: 0.95rem; }
+.contrib-type-label {
+  font-family: 'Space Mono', monospace; font-size: 0.5rem;
+  color: rgba(138,155,191,0.5); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.contrib-text { font-size: 0.74rem; color: var(--light); line-height: 1.4; }
+.contrib-meta { font-size: 0.62rem; color: rgba(138,155,191,0.35); margin-top: 0.25rem; font-family: 'Space Mono', monospace; }
+
+/* Enhanced network pulse bar */
+.network-pulse-bar { animation: glow-pulse 4s ease-in-out infinite; }
+.pulse-stat-num { text-shadow: 0 0 18px rgba(244,161,29,0.35); }
+
+/* Section divider line */
+.mc-divider {
+  display: flex; align-items: center; gap: 0.75rem; margin: 1.5rem 0 1rem;
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: rgba(138,155,191,0.3); text-transform: uppercase; letter-spacing: 0.08em;
+}
+.mc-divider::before, .mc-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.05);
+}
+
+/* ═══════════════════════════════════════════════════════
+   V2 PATCH 3 — WORKGROUP OPERATING SYSTEM
+═══════════════════════════════════════════════════════ */
+
+/* Workgroup Dashboard Grid */
+.wg-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.wg-mission-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.2rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.wg-mission-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--wg-accent, var(--accent));
+  opacity: 0.85;
+}
+.wg-mission-card:hover {
+  border-color: var(--wg-accent, var(--accent));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+.wg-card-header {
+  display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.7rem;
+}
+.wg-card-icon {
+  font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 0.1rem;
+}
+.wg-card-meta { flex: 1; min-width: 0; }
+.wg-card-del {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  color: var(--wg-accent, var(--accent)); text-transform: uppercase;
+  letter-spacing: 0.07em; margin-bottom: 0.2rem;
+}
+.wg-card-name {
+  font-weight: 700; font-size: 0.95rem; color: var(--light);
+  line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.wg-card-lead {
+  font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem;
+}
+.wg-card-stats {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.7rem;
+}
+.wg-stat-pill {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px; padding: 0.2rem 0.6rem;
+  color: var(--muted);
+}
+.wg-stat-pill.active { color: var(--green); border-color: rgba(55,200,130,0.3); background: rgba(55,200,130,0.07); }
+.wg-card-desc {
+  font-size: 0.76rem; color: var(--muted); line-height: 1.55;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; margin-bottom: 0.75rem;
+}
+.wg-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 0.65rem; border-top: 1px solid rgba(255,255,255,0.06);
+}
+.wg-next-meeting {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted);
+}
+.wg-next-meeting span { color: var(--accent); }
+.wg-open-hub-btn {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: var(--wg-accent, var(--accent)); background: none; border: none;
+  cursor: pointer; padding: 0; letter-spacing: 0.04em;
+}
+.wg-open-hub-btn:hover { text-decoration: underline; }
+
+/* Workgroup Hub Overlay */
+.wg-hub-overlay {
+  position: fixed; inset: 0; z-index: 1100;
+  background: rgba(4,12,28,0.88); backdrop-filter: blur(8px);
+  display: flex; align-items: stretch; justify-content: flex-end;
+}
+.wg-hub-overlay.hidden { display: none; }
+.wg-hub-panel {
+  width: min(820px, 100vw);
+  background: #0b1729;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.wg-hub-header {
+  padding: 1.25rem 1.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.wg-hub-header-top {
+  display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.9rem;
+}
+.wg-hub-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+.wg-hub-title-block { flex: 1; min-width: 0; }
+.wg-hub-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+.wg-hub-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
+  color: var(--light); letter-spacing: 0.03em; line-height: 1.1;
+}
+.wg-hub-lead {
+  font-size: 0.76rem; color: var(--muted); margin-top: 0.2rem;
+}
+.wg-hub-header-actions {
+  display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0;
+}
+.wg-status-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  padding: 0.2rem 0.65rem; border-radius: 20px;
+  background: rgba(55,200,130,0.12); border: 1px solid rgba(55,200,130,0.3);
+  color: var(--green); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.wg-hub-page-link {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  color: var(--muted); text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 5px;
+  padding: 0.25rem 0.7rem; transition: color 0.15s, border-color 0.15s;
+}
+.wg-hub-page-link:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+.wg-hub-close {
+  background: none; border: none; color: var(--muted); cursor: pointer;
+  font-size: 1.1rem; padding: 0.2rem 0.3rem; line-height: 1;
+  transition: color 0.15s;
+}
+.wg-hub-close:hover { color: var(--light); }
+
+/* Tab Nav */
+.wg-tab-nav {
+  display: flex; gap: 0; padding: 0 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.wg-tab-btn {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  color: var(--muted); background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  padding: 0.65rem 0.85rem; letter-spacing: 0.04em;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.wg-tab-btn:hover { color: var(--light); }
+.wg-tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Tab Body */
+.wg-hub-body {
+  flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem;
+}
+.wg-tab-panel { display: none; }
+.wg-tab-panel.active { display: block; }
+
+/* Overview tab */
+.wg-overview-desc {
+  font-size: 0.84rem; color: var(--muted); line-height: 1.7;
+  margin-bottom: 1.25rem; max-width: 640px;
+}
+.wg-goals-list {
+  margin: 0 0 1.25rem; padding: 0; list-style: none;
+  display: flex; flex-direction: column; gap: 0.45rem;
+}
+.wg-goals-list li {
+  font-size: 0.79rem; color: var(--muted); padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.02); border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0; line-height: 1.5;
+}
+.wg-initiatives-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 0.75rem;
+}
+.wg-init-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 0.75rem 0.9rem;
+}
+.wg-init-label {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  color: var(--green); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+.wg-init-name { font-size: 0.8rem; color: var(--light); font-weight: 600; line-height: 1.3; }
+.wg-init-desc { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.45; }
+
+/* Shared sub-heading style */
+.wg-section-heading {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--accent); margin: 1.25rem 0 0.65rem;
+}
+.wg-section-heading:first-child { margin-top: 0; }
+
+/* Actions tab */
+.wg-add-action-row {
+  display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;
+}
+.wg-add-action-input {
+  flex: 1; min-width: 180px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;
+  padding: 0.5rem 0.75rem; font-size: 0.8rem; color: var(--light);
+  font-family: 'DM Sans', sans-serif;
+}
+.wg-add-action-input::placeholder { color: rgba(138,155,191,0.45); }
+.wg-add-action-input:focus { outline: none; border-color: var(--accent); }
+.wg-add-action-select {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 7px; padding: 0.5rem 0.65rem; font-size: 0.75rem;
+  color: var(--muted); font-family: 'DM Sans', sans-serif; cursor: pointer;
+}
+.wg-add-action-select:focus { outline: none; }
+.wg-add-btn {
+  background: rgba(244,161,29,0.15); border: 1px solid rgba(244,161,29,0.35);
+  border-radius: 7px; padding: 0.5rem 1rem; font-size: 0.75rem;
+  font-family: 'Space Mono', monospace; color: var(--accent); cursor: pointer;
+  transition: background 0.15s;
+}
+.wg-add-btn:hover { background: rgba(244,161,29,0.25); }
+.wg-actions-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.wg-action-item {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 0.65rem 0.85rem;
+  transition: opacity 0.2s;
+}
+.wg-action-item.completed { opacity: 0.5; }
+.wg-action-check {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2); background: none;
+  cursor: pointer; flex-shrink: 0; margin-top: 0.15rem;
+  transition: background 0.15s, border-color 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; color: var(--green);
+}
+.wg-action-check.done { background: rgba(55,200,130,0.2); border-color: var(--green); }
+.wg-action-text { flex: 1; font-size: 0.78rem; color: var(--light); line-height: 1.45; }
+.wg-action-status {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem;
+  padding: 0.12rem 0.5rem; border-radius: 20px; flex-shrink: 0; margin-top: 0.12rem;
+}
+.wg-action-status.planned { background: rgba(100,120,180,0.15); color: rgba(138,155,191,0.7); border: 1px solid rgba(100,120,180,0.25); }
+.wg-action-status.in-progress { background: rgba(244,161,29,0.12); color: var(--accent); border: 1px solid rgba(244,161,29,0.3); }
+.wg-action-status.needs-support { background: rgba(220,80,80,0.12); color: #e07070; border: 1px solid rgba(220,80,80,0.3); }
+.wg-action-status.completed { background: rgba(55,200,130,0.1); color: var(--green); border: 1px solid rgba(55,200,130,0.25); }
+.wg-action-del {
+  background: none; border: none; color: rgba(138,155,191,0.3); cursor: pointer;
+  font-size: 0.75rem; padding: 0; line-height: 1; transition: color 0.15s;
+  flex-shrink: 0; margin-top: 0.1rem;
+}
+.wg-action-del:hover { color: #e07070; }
+.wg-empty-state {
+  font-size: 0.78rem; color: rgba(138,155,191,0.4); text-align: center;
+  padding: 2rem 1rem; font-family: 'Space Mono', monospace;
+}
+
+/* Resources tab */
+.wg-add-res-row { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.wg-add-res-input {
+  flex: 1; min-width: 140px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 7px;
+  padding: 0.5rem 0.75rem; font-size: 0.78rem; color: var(--light);
+  font-family: 'DM Sans', sans-serif;
+}
+.wg-add-res-input::placeholder { color: rgba(138,155,191,0.45); }
+.wg-add-res-input:focus { outline: none; border-color: var(--accent); }
+.wg-res-list { display: flex; flex-direction: column; gap: 0.45rem; }
+.wg-res-item {
+  display: flex; align-items: center; gap: 0.65rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px; padding: 0.6rem 0.85rem;
+}
+.wg-res-type-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.5rem;
+  padding: 0.1rem 0.45rem; border-radius: 20px; flex-shrink: 0;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.wg-res-type-badge.doc { background: rgba(100,120,255,0.12); color: #9096ff; border: 1px solid rgba(100,120,255,0.25); }
+.wg-res-type-badge.link { background: rgba(244,161,29,0.1); color: var(--accent); border: 1px solid rgba(244,161,29,0.25); }
+.wg-res-type-badge.slides { background: rgba(255,140,80,0.1); color: #ffa060; border: 1px solid rgba(255,140,80,0.25); }
+.wg-res-type-badge.template { background: rgba(55,200,130,0.1); color: var(--green); border: 1px solid rgba(55,200,130,0.25); }
+.wg-res-type-badge.recording { background: rgba(220,80,80,0.1); color: #e07070; border: 1px solid rgba(220,80,80,0.25); }
+.wg-res-name { flex: 1; font-size: 0.78rem; color: var(--light); }
+.wg-res-link { font-size: 0.72rem; color: var(--accent); text-decoration: none; flex-shrink: 0; }
+.wg-res-link:hover { text-decoration: underline; }
+.wg-res-del {
+  background: none; border: none; color: rgba(138,155,191,0.3);
+  cursor: pointer; font-size: 0.75rem; padding: 0; line-height: 1;
+  transition: color 0.15s; flex-shrink: 0;
+}
+.wg-res-del:hover { color: #e07070; }
+
+/* Meeting tab */
+.wg-meeting-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+@media (max-width: 600px) { .wg-meeting-grid { grid-template-columns: 1fr; } }
+.wg-meeting-stat-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px; padding: 0.85rem 1rem;
+}
+.wg-meeting-stat-label {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--muted); margin-bottom: 0.3rem;
+}
+.wg-meeting-stat-val { font-size: 1.15rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
+.wg-meeting-stat-sub { font-size: 0.68rem; color: rgba(138,155,191,0.5); margin-top: 0.15rem; }
+.wg-meeting-notes {
+  width: 100%; min-height: 180px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 0.85rem 1rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+  color: var(--light); line-height: 1.65; resize: vertical;
+  box-sizing: border-box;
+}
+.wg-meeting-notes::placeholder { color: rgba(138,155,191,0.35); }
+.wg-meeting-notes:focus { outline: none; border-color: rgba(244,161,29,0.4); }
+.wg-save-notes-btn {
+  margin-top: 0.6rem;
+  background: rgba(244,161,29,0.12); border: 1px solid rgba(244,161,29,0.3);
+  border-radius: 7px; padding: 0.5rem 1.1rem;
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  color: var(--accent); cursor: pointer; transition: background 0.15s;
+}
+.wg-save-notes-btn:hover { background: rgba(244,161,29,0.22); }
+.wg-save-notes-btn.saved { color: var(--green); border-color: rgba(55,200,130,0.3); background: rgba(55,200,130,0.08); }
+.wg-agenda-list { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+.wg-agenda-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.77rem; color: var(--muted);
+  padding: 0.4rem 0.6rem; border-radius: 6px;
+  background: rgba(255,255,255,0.025);
+}
+.wg-agenda-num {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  color: var(--accent); width: 16px; flex-shrink: 0;
+}
+.wg-agenda-time { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: rgba(138,155,191,0.45); margin-left: auto; }
+
+/* Members tab */
+.wg-member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 0.75rem; }
+.wg-member-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 9px; padding: 0.85rem 1rem;
+}
+.wg-member-card-top { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem; }
+.wg-member-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.78rem; color: #fff; flex-shrink: 0;
+}
+.wg-member-info { min-width: 0; }
+.wg-member-name { font-size: 0.82rem; font-weight: 600; color: var(--light); line-height: 1.2; }
+.wg-member-iu { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--muted); margin-top: 0.1rem; }
+.wg-member-role { font-size: 0.72rem; color: var(--muted); line-height: 1.4; margin-bottom: 0.45rem; }
+.wg-member-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.wg-member-tag {
+  font-size: 0.62rem; padding: 0.1rem 0.45rem; border-radius: 20px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(138,155,191,0.65);
+}
+.wg-community-badge-sm {
+  font-family: 'Space Mono', monospace; font-size: 0.5rem;
+  background: rgba(55,200,130,0.1); border: 1px solid rgba(55,200,130,0.25);
+  color: var(--green); border-radius: 20px; padding: 0.08rem 0.45rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
 </style>
 </head>
 <body>
@@ -3255,6 +4112,14 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
     <span class="lens-label">Current Lens:</span>
     <span class="lens-role-name" id="lensRoleName"></span>
     <button class="lens-switch-btn" onclick="openRoleChooser()">Switch Role</button>
+  </div>
+</div>
+
+<!-- NETWORK TICKER -->
+<div class="network-ticker" id="networkTicker">
+  <div class="ticker-badge"><span class="ticker-live-dot"></span>LIVE</div>
+  <div class="ticker-track">
+    <div class="ticker-inner" id="tickerInner"><!-- populated by JS --></div>
   </div>
 </div>
 
@@ -3722,6 +4587,54 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
   </div><!-- end .role-grid -->
 </div>
 
+<!-- MISSION CONTROL -->
+<div class="section reveal" id="mission-control">
+  <div class="section-header">
+    <span class="section-num">MC //</span>
+    <h2 class="section-title">MISSION CONTROL</h2>
+  </div>
+  <p style="font-size:0.88rem;color:var(--muted);max-width:680px;line-height:1.7;margin-bottom:1.5rem;">Statewide initiatives, IU network map, and featured contributors — the full ecosystem in one view.</p>
+
+  <!-- Featured Initiatives -->
+  <div style="font-family:'Space Mono',monospace;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:0.75rem;">Featured Statewide Initiatives</div>
+  <div class="initiatives-grid" id="initiativesGrid"><!-- populated by JS --></div>
+
+  <div class="mc-divider">Network Presence</div>
+
+  <!-- Map + Spotlight two-column -->
+  <div class="mc-split">
+    <!-- PA IU Map -->
+    <div class="pa-map-wrap">
+      <div class="pa-map-hdr">
+        <span class="pa-map-label">IU Network Map — Pennsylvania</span>
+        <div class="pa-map-filter-strip">
+          <span class="pa-map-active-tag" id="paMapTag"></span>
+          <button class="pa-map-clr" id="paMapClr" onclick="clearIUMapFilter()">✕ Clear</button>
+        </div>
+      </div>
+      <div class="pa-map-svg-box" id="paMapSvgBox"><!-- SVG rendered by JS --></div>
+      <div class="pa-map-tooltip" id="paMapTooltip"></div>
+      <div class="pa-map-legend">
+        <span><span class="leg-dot ld-active"></span>Participating</span>
+        <span><span class="leg-dot ld-inactive"></span>Upcoming</span>
+      </div>
+    </div>
+
+    <!-- Network Spotlight -->
+    <div class="spotlight-block">
+      <div class="spotlight-hdr">
+        <div class="spotlight-eyebrow">Network Spotlight</div>
+        <div class="spotlight-navs">
+          <button class="spotlight-nav-btn" onclick="shiftSpotlight(-1)">&#8249;</button>
+          <button class="spotlight-nav-btn" onclick="shiftSpotlight(1)">&#8250;</button>
+        </div>
+      </div>
+      <div id="spotlightCard"><!-- populated by JS --></div>
+      <div class="spotlight-pip-row" id="spotlightPips"></div>
+    </div>
+  </div>
+</div>
+
 <!-- STATEWIDE STEM NETWORK -->
 <div class="section reveal" id="directory">
   <div class="section-header">
@@ -3745,31 +4658,84 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
     <a href="stem-poc-game.html" style="color:#ffffff;background:var(--purple);text-decoration:none;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.04em;padding:0.4rem 0.9rem;border-radius:6px;white-space:nowrap;flex-shrink:0;font-weight:700;">Play the Network Game &#8594;</a>
   </div>
 
-  <!-- Directory Controls -->
-  <div class="directory-controls">
-    <input class="network-search" id="networkSearch" type="text" placeholder="Search expertise, initiatives, regions, workgroups..." oninput="filterNetworkCards()">
-    <div class="filter-row">
-      <span class="filter-label">Expertise</span>
+  <!-- NETWORK PULSE STATS BAR -->
+  <div class="network-pulse-bar" id="networkPulseBar">
+    <div class="pulse-stat">
+      <div class="pulse-stat-num" id="statTotalProfiles">13</div>
+      <div class="pulse-stat-label">Network Profiles</div>
+    </div>
+    <div class="pulse-divider"></div>
+    <div class="pulse-stat">
+      <div class="pulse-stat-num" id="statIUs">11</div>
+      <div class="pulse-stat-label">IUs Represented</div>
+    </div>
+    <div class="pulse-divider"></div>
+    <div class="pulse-stat">
+      <div class="pulse-stat-num" id="statWorkgroups">8</div>
+      <div class="pulse-stat-label">Active Workgroups</div>
+    </div>
+    <div class="pulse-divider"></div>
+    <div class="pulse-stat">
+      <div class="pulse-stat-num" id="statCollabInterests">0</div>
+      <div class="pulse-stat-label">Collab Interests</div>
+    </div>
+    <div class="pulse-divider"></div>
+    <div class="pulse-stat">
+      <div class="pulse-stat-num" id="statExpertiseTags">23</div>
+      <div class="pulse-stat-label">Expertise Signals</div>
+    </div>
+    <div class="pulse-live-badge">
+      <div class="pulse-live-dot"></div>
+      Live Network
+    </div>
+  </div>
+
+  <!-- ENHANCED DIRECTORY FILTER PANEL -->
+  <div class="dir-filter-panel">
+    <div class="dir-filter-top">
+      <input class="dir-search" id="networkSearch" type="text" placeholder="Search people, expertise, regions, initiatives..." oninput="filterNetworkCards()">
+      <button class="dir-clear-btn" onclick="clearAllFilters()">✕ Clear Filters</button>
+    </div>
+    <div class="dir-filter-row">
+      <span class="dir-filter-row-label">Expertise</span>
       <button class="filter-chip active" data-filtertype="tag" onclick="setNetworkTagFilter(this,'all')">All</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'STEELS')">STEELS</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'AI')">AI</button>
-      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'MWEE')">MWEE</button>
+      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'CS')">CS</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Ecosystems')">Ecosystems</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Competitions')">Competitions</button>
+      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'MWEE')">MWEE</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'UDL')">UDL</button>
-      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Drones')">Drones</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Esports')">Esports</button>
-      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'CS')">CS</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Math')">Math</button>
       <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Lending Library')">Lending Library</button>
+      <button class="filter-chip" data-filtertype="tag" onclick="setNetworkTagFilter(this,'Drones')">Drones</button>
     </div>
-    <div class="filter-row" style="margin-top:0.3rem;">
-      <span class="filter-label">Collaboration Mode</span>
+    <div class="dir-filter-row">
+      <span class="dir-filter-row-label">Workgroups</span>
+      <button class="filter-chip active" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'all')">All</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Science')">Science</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Math')">Math Focus</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'PA Smart')">PAsmart / CS</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Ecosystems')">Ecosystems</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Competitions')">Competitions</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Lending')">Lending Libraries</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Toolkit')">STEM Toolkit</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Equity')">Equity / Inclusion</button>
+      <button class="filter-chip" data-filtertype="wg" onclick="setNetworkWorkgroupFilter(this,'Esports')">Esports</button>
+    </div>
+    <div class="dir-filter-row">
+      <span class="dir-filter-row-label">Collab Mode</span>
       <button class="filter-chip active" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'all')">All Nodes</button>
-      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'open')">🟢 Open to Collaboration</button>
-      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'seeking')">🔵 Seeking Partners</button>
-      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'building')">🟡 Currently Building</button>
-      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'sharing')">🟣 Resource Sharing</button>
+      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'open')">🟢 Open</button>
+      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'seeking')">🔵 Seeking</button>
+      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'building')">🟡 Building</button>
+      <button class="filter-chip" data-filtertype="collab" onclick="setNetworkCollabFilter(this,'sharing')">🟣 Sharing</button>
+    </div>
+    <div class="active-filters-row" id="activeFiltersRow">
+      <span style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);">Active:</span>
+      <!-- badges injected by JS -->
+      <span class="filter-result-count" id="filterResultCount"></span>
     </div>
   </div>
 
@@ -4722,6 +5688,18 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
     </div>
 
   </div><!-- end .network-grid -->
+
+  <!-- CONTRIBUTION WALL + ACTIVITY FEED -->
+  <div class="activity-feed-section">
+    <div class="activity-feed-hdr">
+      <span class="activity-feed-title">Network Activity</span>
+      <span style="font-family:'Space Mono',monospace;font-size:0.56rem;color:var(--muted);">Live from the PA STEM PoC Network</span>
+    </div>
+    <div class="contrib-grid" id="contributionCards"><!-- populated by JS --></div>
+    <div class="activity-feed-list" id="activityFeedList">
+      <!-- populated by JS -->
+    </div>
+  </div>
 </div>
 
 <!-- LEARN THE NETWORK -->
@@ -5217,30 +6195,16 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 </div>
 
 
-<!-- WORKGROUPS PREVIEW -->
+<!-- WORKGROUPS OPERATING SYSTEM -->
 <div class="section reveal" id="workgroups">
   <div class="section-header">
     <span class="section-num">10 //</span>
-    <h2 class="section-title">WORKGROUP PROFILES</h2>
+    <h2 class="section-title">WORKGROUP HUBS</h2>
   </div>
-  <p style="font-size:0.88rem;color:var(--muted);max-width:680px;line-height:1.7;margin-bottom:1.25rem;">Quick access to all active workgroup profile pages. The full intelligence dashboard — search, filters, active projects, and action items — lives on the dedicated Workgroups page.</p>
-  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.5rem;">
-    <a class="btn-sow" href="workgroups.html" style="font-size:0.82rem;padding:0.5rem 1.25rem;">Open Workgroup Page →</a>
-    <a class="btn-sow" href="#sow" style="font-size:0.82rem;padding:0.5rem 1.25rem;background:rgba(26,58,107,0.4);border-color:rgba(140,155,191,0.25);color:var(--muted);">Jump to Deliverables →</a>
+  <p style="font-size:0.88rem;color:var(--muted);max-width:680px;line-height:1.7;margin-bottom:1.25rem;">Each workgroup is a persistent collaboration space — action items, shared resources, meeting notes, and member discovery. Click any card to open the hub.</p>
+  <div id="wgDashboardGrid" class="wg-dashboard-grid">
+    <!-- populated by renderWgDashboard() -->
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0.75rem;">
-    <a href="workgroup-science.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL B</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Science</span></a>
-    <a href="workgroup-careers-els.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL B · DEL E</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Careers &amp; EL&amp;S</span></a>
-    <a href="workgroup-student-competitions.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL F</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Student Competitions</span></a>
-    <a href="workgroup-ecosystems.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL E</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Ecosystems (PSSE)</span></a>
-    <a href="workgroup-math.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL G</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Math Focus</span></a>
-    <a href="workgroup-stem-toolkit.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL G</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">STEM Toolkit</span></a>
-    <a href="workgroup-stem-lending-libraries.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL G</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Lending Libraries</span></a>
-    <a href="workgroup-remake-learning-days.html" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:block;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(244,161,29,0.4)'" onmouseout="this.style.borderColor='rgba(244,161,29,0.2)'"><span style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.25rem;">DEL D</span><span style="font-weight:600;font-size:0.85rem;color:var(--light);">Remake Learning Days</span></a>
-    <a href="workgroups.html" style="background:rgba(244,161,29,0.07);border:1px dashed rgba(244,161,29,0.3);border-radius:7px;padding:0.85rem 1rem;text-decoration:none;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--accent);">+ View All 13 Workgroups →</span></a>
-  </div>
-  </div>
-  <p style="font-size:0.76rem;color:var(--muted);margin-top:1rem;opacity:0.75;">Profile pages are now available for <a href="workgroup-science.html" style="color:var(--green);text-decoration:none;">Science</a>, <a href="workgroup-student-competitions.html" style="color:var(--green);text-decoration:none;">Student Competitions</a>, <a href="workgroup-ecosystems.html" style="color:var(--green);text-decoration:none;">Ecosystems / PSSE</a>, <a href="workgroup-remake-learning-days.html" style="color:var(--green);text-decoration:none;">Remake Learning Days</a>, <a href="workgroup-careers-els.html" style="color:var(--green);text-decoration:none;">Careers &amp; EL&amp;S</a>, <a href="workgroup-stem-lending-libraries.html" style="color:var(--green);text-decoration:none;">STEM Lending Libraries</a>, <a href="workgroup-math.html" style="color:var(--green);text-decoration:none;">Math Focus</a>, and <a href="workgroup-stem-toolkit.html" style="color:var(--green);text-decoration:none;">STEM Toolkit</a>. Additional workgroup profiles will be added as running notes are converted.</p>
 </div>
 
 
@@ -5509,19 +6473,26 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 
   let activeNetworkTagFilter = 'all';
   let activeNetworkCollabFilter = 'all';
+  let activeNetworkWorkgroupFilter = 'all';
 
   function filterNetworkCards() {
     const query = (document.getElementById('networkSearch')?.value || '').toLowerCase().trim();
+    let visibleCount = 0;
     document.querySelectorAll('#networkGrid .network-card').forEach(card => {
       if (card.classList.contains('node-placeholder')) { card.classList.remove('hidden'); return; }
       const tags = (card.dataset.tags || '').toLowerCase();
       const collab = (card.dataset.collab || '');
-      const searchText = ((card.dataset.searchtext || '') + ' ' + tags + ' ' + card.textContent).toLowerCase();
+      const wgText = Array.from(card.querySelectorAll('.wg-chip')).map(c => c.textContent.toLowerCase()).join(' ');
+      const searchText = ((card.dataset.searchtext || '') + ' ' + tags + ' ' + wgText + ' ' + card.textContent).toLowerCase();
       const tagMatch = activeNetworkTagFilter === 'all' || tags.includes(activeNetworkTagFilter.toLowerCase());
       const collabMatch = activeNetworkCollabFilter === 'all' || collab === activeNetworkCollabFilter;
+      const wgMatch = activeNetworkWorkgroupFilter === 'all' || wgText.includes(activeNetworkWorkgroupFilter.toLowerCase());
       const queryMatch = !query || searchText.includes(query);
-      card.classList.toggle('hidden', !(tagMatch && collabMatch && queryMatch));
+      const visible = tagMatch && collabMatch && wgMatch && queryMatch;
+      card.classList.toggle('hidden', !visible);
+      if (visible) visibleCount++;
     });
+    updateActiveFilterBadges(visibleCount);
   }
 
   function setNetworkTagFilter(btn, filter) {
@@ -5536,6 +6507,49 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
     document.querySelectorAll('.filter-chip[data-filtertype="collab"]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     filterNetworkCards();
+  }
+
+  function setNetworkWorkgroupFilter(btn, filter) {
+    activeNetworkWorkgroupFilter = filter;
+    document.querySelectorAll('.filter-chip[data-filtertype="wg"]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterNetworkCards();
+  }
+
+  function clearAllFilters() {
+    activeNetworkTagFilter = 'all';
+    activeNetworkCollabFilter = 'all';
+    activeNetworkWorkgroupFilter = 'all';
+    const searchEl = document.getElementById('networkSearch');
+    if (searchEl) searchEl.value = '';
+    document.querySelectorAll('.filter-chip[data-filtertype="tag"]').forEach((b, i) => b.classList.toggle('active', i === 0));
+    document.querySelectorAll('.filter-chip[data-filtertype="collab"]').forEach((b, i) => b.classList.toggle('active', i === 0));
+    document.querySelectorAll('.filter-chip[data-filtertype="wg"]').forEach((b, i) => b.classList.toggle('active', i === 0));
+    filterNetworkCards();
+  }
+
+  function updateActiveFilterBadges(visibleCount) {
+    const row = document.getElementById('activeFiltersRow');
+    const countEl = document.getElementById('filterResultCount');
+    if (!row) return;
+    const badges = [];
+    if (activeNetworkTagFilter !== 'all')
+      badges.push(`<span class="active-filter-badge" onclick="setNetworkTagFilter(document.querySelector('.filter-chip[data-filtertype=\\'tag\\']'),'all')">Expertise: ${activeNetworkTagFilter} <span class="badge-x">×</span></span>`);
+    if (activeNetworkCollabFilter !== 'all') {
+      const lbl = { open:'Open', seeking:'Seeking', building:'Building', sharing:'Sharing' };
+      badges.push(`<span class="active-filter-badge" onclick="setNetworkCollabFilter(document.querySelector('.filter-chip[data-filtertype=\\'collab\\']'),'all')">Mode: ${lbl[activeNetworkCollabFilter]||activeNetworkCollabFilter} <span class="badge-x">×</span></span>`);
+    }
+    if (activeNetworkWorkgroupFilter !== 'all')
+      badges.push(`<span class="active-filter-badge" onclick="setNetworkWorkgroupFilter(document.querySelector('.filter-chip[data-filtertype=\\'wg\\']'),'all')">Workgroup: ${activeNetworkWorkgroupFilter} <span class="badge-x">×</span></span>`);
+    const query = (document.getElementById('networkSearch')?.value || '').trim();
+    if (query)
+      badges.push(`<span class="active-filter-badge" onclick="document.getElementById('networkSearch').value='';filterNetworkCards()">🔍 "${query.slice(0,18)}${query.length>18?'…':''}" <span class="badge-x">×</span></span>`);
+    const badgeHtml = badges.join('');
+    // Preserve the "Active:" span and result count
+    row.innerHTML = (badges.length ? '<span style="font-family:\'Space Mono\',monospace;font-size:0.56rem;color:var(--muted);">Active:</span>' : '') + badgeHtml;
+    row.classList.toggle('has-filters', badges.length > 0);
+    const totalCards = document.querySelectorAll('#networkGrid .network-card:not(.node-placeholder)').length;
+    if (countEl) countEl.textContent = (visibleCount !== undefined && visibleCount < totalCards) ? visibleCount + ' of ' + totalCards + ' shown' : totalCards + ' profiles';
   }
 
   // Story of the Network — era detail toggle
@@ -5977,6 +6991,7 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
       primaryFocus: focusChecked[0] || '',
       focusAreas: focusChecked,
       workgroupInterests: Array.from(document.querySelectorAll('.wg-chk:checked')).map(c => c.value),
+      collaborateOn: Array.from(document.querySelectorAll('.colab-chk:checked')).map(c => c.value),
       superpower: (document.getElementById('pfSuperpower').value || '').trim(),
       curiousAbout: (document.getElementById('pfCuriousAbout').value || '').trim(),
       canHelpWith: (document.getElementById('pfCanHelp').value || '').trim(),
@@ -5995,6 +7010,11 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 
     syncProfileToSupabase(profile);
     renderCommunityProfiles();
+    logActivityEvent({
+      icon: '✦',
+      text: `<strong>${profile.preferredName || profile.fullName}</strong> from <strong>${profile.iu}</strong> joined the network${profile.primaryFocus ? ' — ' + profile.primaryFocus : ''}.`
+    });
+    updateNetworkStats(false);
 
     // Show success
     const successBox = document.getElementById('pfSuccessBox');
@@ -6036,13 +7056,19 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 
       const searchText = [
         p.fullName, p.preferredName, p.iu, p.jobTitle,
-        (p.focusAreas || []).join(' '), p.superpower
+        (p.focusAreas || []).join(' '), p.superpower,
+        (p.collaborateOn || []).join(' '), (p.workgroupInterests || []).join(' ')
       ].filter(Boolean).join(' ').toLowerCase();
+
+      const collabTags = (p.collaborateOn || []).slice(0,4).map(t =>
+        '<span class="collab-interest-tag">🤝 ' + t + '</span>'
+      ).join('');
 
       return `
         <div class="network-card mission-node community-network-card"
              data-tags="${(p.focusAreas || []).join(' ')}"
              data-collab="open"
+             data-profile-id="${p.id}"
              data-searchtext="${searchText}">
           <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
             <span class="node-iu-num" style="font-size:0.85rem;">Community</span>
@@ -6062,6 +7088,7 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
           <div class="network-signals" onclick="toggleNodePanel(this.closest('.network-card'))">
             <div class="collab-mode collab-open">🟢 Open to Collaboration</div>
             <div class="signal-focus">${p.primaryFocus}</div>
+            ${collabTags ? '<div class="collab-interests-row">' + collabTags + '</div>' : ''}
           </div>
           <div class="node-expand-hint" onclick="toggleNodePanel(this.closest('.network-card'))">
             <i class="expand-arrow">▼</i> Open profile
@@ -6075,19 +7102,21 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
               <div class="dossier-label">Curious About</div>
               <p class="dossier-text">${p.curiousAbout || '—'}</p>
             </div>
+            ${p.collaborateOn && p.collaborateOn.length ? `<div class="dossier-section"><div class="dossier-label">Looking to Collaborate On</div><div class="collab-interests-row">${(p.collaborateOn||[]).map(t=>'<span class="collab-interest-tag">🤝 '+t+'</span>').join('')}</div></div>` : ''}
             ${p.canHelpWith ? `<div class="dossier-section"><div class="dossier-label">Can Help With</div><p class="dossier-text">${p.canHelpWith}</p></div>` : ''}
             ${p.needHelpWith ? `<div class="dossier-section"><div class="dossier-label">Looking For Help With</div><p class="dossier-text">${p.needHelpWith}</p></div>` : ''}
             ${p.funFact ? `<div class="dossier-section"><div class="dossier-label">Fun Fact</div><p class="dossier-text">${p.funFact}</p></div>` : ''}
-            ${p.workgroupInterests && p.workgroupInterests.length > 0 ? `
-            <div class="dossier-section">
-              <div class="dossier-label">Workgroup Interests</div>
-              <div class="wg-chips">${wgChips}</div>
-            </div>` : ''}
+            ${p.workgroupInterests && p.workgroupInterests.length ? `<div class="dossier-section"><div class="dossier-label">Workgroup Interests</div><div class="wg-chips">${wgChips}</div></div>` : ''}
             ${p.email ? `<div class="dossier-section"><div class="dossier-label">Email</div><p class="dossier-text"><a href="mailto:${p.email}" style="color:var(--accent)">${p.email}</a></p></div>` : ''}
             ${p.socialLink ? `<div class="dossier-section"><div class="dossier-label">Link</div><p class="dossier-text"><a href="${p.socialLink}" target="_blank" rel="noopener" style="color:var(--accent)">${p.socialLink}</a></p></div>` : ''}
+            <div class="dossier-section" onclick="event.stopPropagation()">
+              <div class="node-actions">
+                <button class="node-action-btn node-view-profile-btn" onclick="openProfileModal('${p.id}',null)">View Full Profile →</button>
+              </div>
+            </div>
             <div class="dossier-section" style="border-top:1px solid rgba(46,204,138,0.12);padding-top:0.75rem;margin-top:0.5rem;">
-              <div style="font-size:0.68rem;color:var(--green);font-family:'Space Mono',monospace;">Access Code: ${p.accessCode}</div>
-              <div style="font-size:0.65rem;color:var(--muted);margin-top:0.25rem;">Member since ${new Date(p.createdAt).toLocaleDateString()}</div>
+              <div style="font-size:0.66rem;color:var(--green);font-family:'Space Mono',monospace;">Access Code: ${p.accessCode}</div>
+              <div style="font-size:0.63rem;color:var(--muted);margin-top:0.22rem;">Member since ${new Date(p.createdAt).toLocaleDateString()}</div>
             </div>
           </div>
         </div>`;
@@ -6096,6 +7125,7 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 
   // Load community profiles on page load
   renderCommunityProfiles();
+  setTimeout(addHelpRibbons, 200);
 
   // ── FEATURE 8: Supabase Profile Sync Placeholder ─────────────
   // STEM PoC V2 Supabase Profile Sync Placeholder
@@ -6120,6 +7150,1054 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
       chk.addEventListener('change', updateProfilePreview);
     });
   })();
+
+  /* ═══════════════════════════════════════════════════
+     V2 PATCH 2 — COMMUNITY + NETWORK LAYER
+  ═══════════════════════════════════════════════════ */
+
+  // ── FEATURE 4: Network Pulse Stats Bar ───────────────────────
+  const NET_BASE_PROFILES = 13;
+  const NET_BASE_IUS = 11;
+  const NET_BASE_WORKGROUPS = 8;
+  const NET_BASE_EXPERTISE = 23;
+
+  function calcNetworkStats() {
+    const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    const communityIUs = new Set(profiles.map(p => p.iu).filter(Boolean));
+    const collabInterests = profiles.reduce((n, p) => n + (p.collaborateOn || []).length, 0);
+    const communityTags = new Set();
+    profiles.forEach(p => (p.focusAreas || []).forEach(t => communityTags.add(t)));
+    return {
+      totalProfiles: NET_BASE_PROFILES + profiles.length,
+      totalIUs: NET_BASE_IUS + communityIUs.size,
+      workgroups: NET_BASE_WORKGROUPS,
+      collabInterests,
+      expertiseTags: NET_BASE_EXPERTISE + communityTags.size
+    };
+  }
+
+  function animateCounter(el, target, duration) {
+    if (!el) return;
+    const start = parseInt(el.textContent) || 0;
+    const t0 = performance.now();
+    (function step(now) {
+      const p = Math.min((now - t0) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(start + (target - start) * eased);
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    })(t0);
+  }
+
+  function updateNetworkStats(animate) {
+    const s = calcNetworkStats();
+    const map = {
+      statTotalProfiles: s.totalProfiles,
+      statIUs: s.totalIUs,
+      statWorkgroups: s.workgroups,
+      statCollabInterests: s.collabInterests,
+      statExpertiseTags: s.expertiseTags
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      animate ? animateCounter(el, val, 1200) : (el.textContent = val);
+    });
+  }
+
+  (function initStatsBar() {
+    updateNetworkStats(false);
+    const bar = document.getElementById('networkPulseBar');
+    if (!bar || !window.IntersectionObserver) return;
+    let fired = false;
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !fired) { fired = true; updateNetworkStats(true); }
+    }, { threshold: 0.1 });
+    obs.observe(bar);
+  })();
+
+  // ── FEATURE 5: Activity Feed ──────────────────────────────────
+  const SEED_ACTIVITIES = [
+    { icon: '🌐', text: '<strong>IU 12 (Abbey Hathaway)</strong> is actively building STEM Ecosystems partnerships.', time: '2 days ago' },
+    { icon: '🤖', text: '<strong>IU 5 (Joy Shaffer)</strong> added AI / Emerging Tech to the network expertise layer.', time: '3 days ago' },
+    { icon: '🏆', text: '<strong>IU 29 (Greg Macer)</strong> is seeking collaboration on Student Competitions.', time: '4 days ago' },
+    { icon: '🔬', text: '<strong>Colleen Epler-Ruths (CAIU)</strong> leads the statewide Science workgroup.', time: '5 days ago' },
+    { icon: '💡', text: '<strong>IU 12 (Nicole Bond)</strong> sharing CS and AI professional learning resources.', time: '1 week ago' },
+    { icon: '🗂️', text: '<strong>3 IU comprehensive plan profiles</strong> added to the statewide directory.', time: '1 week ago' },
+    { icon: '📚', text: '<strong>STEM Lending Libraries workgroup</strong> connected 2 new sharing pairs across IUs.', time: '2 weeks ago' },
+    { icon: '🤝', text: '<strong>Equity / Inclusion workgroup</strong> is recruiting PoC partners for 2026 planning.', time: '2 weeks ago' },
+  ];
+
+  function getActivityFeed() {
+    const real = JSON.parse(localStorage.getItem('stemPocActivityFeed') || '[]').slice().reverse();
+    return [...real, ...SEED_ACTIVITIES].slice(0, 8);
+  }
+
+  function logActivityEvent(event) {
+    const feed = JSON.parse(localStorage.getItem('stemPocActivityFeed') || '[]');
+    feed.push({ icon: event.icon || '✦', text: event.text, time: 'just now', createdAt: new Date().toISOString() });
+    localStorage.setItem('stemPocActivityFeed', JSON.stringify(feed.slice(-20)));
+    renderActivityFeed();
+    if (typeof renderContributionCards === 'function') renderContributionCards();
+    if (typeof renderTicker === 'function') renderTicker();
+  }
+
+  function renderActivityFeed() {
+    const el = document.getElementById('activityFeedList');
+    if (!el) return;
+    const items = getActivityFeed();
+    el.innerHTML = items.map((item, i) =>
+      `<div class="activity-item" style="animation-delay:${i * 0.05}s">
+         <span class="activity-icon">${item.icon}</span>
+         <span class="activity-text">${item.text}</span>
+         <span class="activity-time">${item.time}</span>
+       </div>`
+    ).join('');
+  }
+
+  renderActivityFeed();
+
+  // ── FEATURE 2: Profile Detail Modal ──────────────────────────
+  function openProfileModal(profileId, card) {
+    const overlay = document.getElementById('profileDetailOverlay');
+    if (!overlay) return;
+    const modalAvatar = document.getElementById('pmAvatar');
+    const modalName   = document.getElementById('pmName');
+    const modalMeta   = document.getElementById('pmMeta');
+    const modalIU     = document.getElementById('pmIU');
+    const modalBody   = document.getElementById('pmBody');
+
+    if (profileId) {
+      const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+      const p = profiles.find(x => x.id === profileId);
+      if (!p) return;
+      // Avatar
+      if (p.photoDataUrl) {
+        modalAvatar.innerHTML = '<img src="' + p.photoDataUrl + '" alt="' + p.fullName + '">';
+        modalAvatar.className = 'profile-modal-avatar';
+      } else {
+        modalAvatar.innerHTML = getInitials(p.fullName);
+        modalAvatar.className = 'profile-modal-avatar ' + getInitialsGrad(p.fullName);
+      }
+      modalName.textContent = p.preferredName || p.fullName;
+      modalMeta.textContent = p.jobTitle;
+      modalIU.textContent   = p.iu;
+      const s = [];
+      if (p.superpower)  s.push(`<div class="pm-section full"><div class="pm-label">Neighborhood Superpower</div><div class="pm-value">${p.superpower}</div></div>`);
+      if (p.curiousAbout) s.push(`<div class="pm-section full"><div class="pm-label">Curious About</div><div class="pm-value">${p.curiousAbout}</div></div>`);
+      if (p.focusAreas?.length) s.push(`<div class="pm-section full"><div class="pm-label">STEM Focus Areas</div><div class="pm-tag-row">${p.focusAreas.map(t=>'<span class="pm-tag">'+t+'</span>').join('')}</div></div>`);
+      if (p.collaborateOn?.length) s.push(`<div class="pm-section full"><div class="pm-label">Looking to Collaborate On</div><div class="pm-tag-row">${p.collaborateOn.map(t=>'<span class="pm-collab-tag">🤝 '+t+'</span>').join('')}</div></div>`);
+      if (p.workgroupInterests?.length) s.push(`<div class="pm-section full"><div class="pm-label">Workgroup Interests</div><div class="pm-tag-row">${p.workgroupInterests.map(t=>'<span class="pm-tag">'+t+'</span>').join('')}</div></div>`);
+      if (p.canHelpWith)  s.push(`<div class="pm-section"><div class="pm-label">Can Help With</div><div class="pm-value">${p.canHelpWith}</div></div>`);
+      if (p.needHelpWith) s.push(`<div class="pm-section"><div class="pm-label">Needs Help With</div><div class="pm-value">${p.needHelpWith}</div></div>`);
+      if (p.funFact)       s.push(`<div class="pm-section"><div class="pm-label">Fun Fact</div><div class="pm-value">${p.funFact}</div></div>`);
+      if (p.yearsEducation) s.push(`<div class="pm-section"><div class="pm-label">Years in Education</div><div class="pm-value">${p.yearsEducation}</div></div>`);
+      if (p.email)        s.push(`<div class="pm-section"><div class="pm-label">Email</div><div class="pm-value"><a href="mailto:${p.email}" style="color:var(--accent)">${p.email}</a></div></div>`);
+      if (p.socialLink)   s.push(`<div class="pm-section"><div class="pm-label">Link</div><div class="pm-value"><a href="${p.socialLink}" target="_blank" rel="noopener" style="color:var(--accent)">${p.socialLink}</a></div></div>`);
+      s.push(`<div class="pm-section full" style="padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.05)"><div class="pm-label">Access Code</div><span class="pm-access-code">${p.accessCode}</span><div style="font-size:0.66rem;color:var(--muted);margin-top:0.3rem">Member since ${new Date(p.createdAt).toLocaleDateString()}</div></div>`);
+      modalBody.innerHTML = s.join('');
+    } else if (card) {
+      const name       = card.querySelector('.node-name')?.childNodes[0]?.textContent?.trim() || 'Network Member';
+      const role       = card.querySelector('.node-role')?.textContent || '';
+      const region     = card.querySelector('.node-region')?.textContent || '';
+      const iuNum      = card.querySelector('.node-iu-num')?.textContent || '';
+      const tags       = Array.from(card.querySelectorAll('.tag-pill')).map(t => t.textContent);
+      const wgChips    = Array.from(card.querySelectorAll('.wg-chip')).map(c => c.textContent);
+      const photoEl    = card.querySelector('.network-photo');
+      const initEl     = card.querySelector('.network-photo-initials');
+      if (photoEl?.src) {
+        modalAvatar.innerHTML = '<img src="' + photoEl.src + '" alt="' + name + '">';
+        modalAvatar.className = 'profile-modal-avatar';
+      } else {
+        const txt = initEl?.textContent || name.split(' ').map(p=>p[0]||'').join('').toUpperCase().slice(0,2);
+        modalAvatar.innerHTML = txt;
+        modalAvatar.className = 'profile-modal-avatar ' + getInitialsGrad(name);
+      }
+      modalName.textContent = name;
+      modalMeta.textContent = role;
+      modalIU.textContent   = iuNum + (region ? ' · ' + region : '');
+      const s = [];
+      if (tags.length) s.push(`<div class="pm-section full"><div class="pm-label">Expertise Tags</div><div class="pm-tag-row">${tags.map(t=>'<span class="pm-tag">'+t+'</span>').join('')}</div></div>`);
+      card.querySelectorAll('.dossier-section').forEach(ds => {
+        const lbl = ds.querySelector('.dossier-label')?.textContent || '';
+        if (lbl === 'Quick Actions') return;
+        const txt = ds.querySelector('.dossier-text')?.textContent?.trim() || '';
+        if (lbl && txt && txt !== '★ To be completed') s.push(`<div class="pm-section full"><div class="pm-label">${lbl}</div><div class="pm-value">${txt}</div></div>`);
+      });
+      const strength = card.querySelector('.strength-box')?.textContent?.trim();
+      if (strength) s.push(`<div class="pm-section full"><div class="pm-label">Regional Strength</div><div class="pm-value">${strength}</div></div>`);
+      if (wgChips.length) s.push(`<div class="pm-section full"><div class="pm-label">Workgroup Connections</div><div class="pm-tag-row">${wgChips.map(t=>'<span class="pm-tag">'+t+'</span>').join('')}</div></div>`);
+      const focus = card.querySelector('.signal-focus')?.textContent?.trim();
+      if (focus) s.push(`<div class="pm-section full"><div class="pm-label">Current Focus</div><div class="pm-value">${focus}</div></div>`);
+      if (!s.length) s.push('<div class="pm-section full"><div class="pm-value soft">Full profile dossier in development — check back soon.</div></div>');
+      modalBody.innerHTML = s.join('');
+    }
+    overlay.classList.remove('hidden');
+  }
+
+  function closeProfileModal() {
+    document.getElementById('profileDetailOverlay')?.classList.add('hidden');
+  }
+
+  // Add "View Full Profile" to all preloaded cards
+  (function addViewProfileBtns() {
+    document.querySelectorAll('#networkGrid .network-card:not(.community-network-card):not(.node-placeholder)').forEach(card => {
+      const actionsEl = card.querySelector('.node-actions');
+      if (!actionsEl) return;
+      const btn = document.createElement('button');
+      btn.className = 'node-action-btn node-view-profile-btn';
+      btn.textContent = 'View Full Profile →';
+      btn.onclick = function(e) { e.stopPropagation(); openProfileModal(null, card); };
+      actionsEl.appendChild(btn);
+    });
+  })();
+
+  /* ═══════════════════════════════════════════════════
+     V2 PATCH 4 — LIVE STATEWIDE MISSION CONTROL
+  ═══════════════════════════════════════════════════ */
+
+  // ── Feature 2: Network Ticker ─────────────────────────────────
+  const TICKER_SEED = [
+    { icon: '🌱', text: '<strong>IU 29</strong> joined <span class="ti-accent">STEM Ecosystems</span>' },
+    { icon: '🤝', text: '<strong>3 new collaboration interests</strong> added this week' },
+    { icon: '📐', text: '<strong>Math Focus</strong> workgroup updated action items' },
+    { icon: '🔬', text: '<strong>Science workgroup</strong> shared phenomena bank resources' },
+    { icon: '🏆', text: '<strong>IU 12</strong> posted Student Competitions coaching guide' },
+    { icon: '✦',  text: '<strong>New community profile</strong> created — <span class="ti-accent">AI & Emerging Tech</span>' },
+    { icon: '📦', text: '<strong>Lending Libraries</strong> cross-IU inventory catalog in progress' },
+    { icon: '🎨', text: '<strong>Remake Learning Days</strong> 2026 event dates confirmed' },
+    { icon: '🧭', text: '<strong>Careers & EL&S</strong> workgroup added employer contact template' },
+    { icon: '⚡', text: '<strong>IU 11</strong> completed onboarding pathway — Harrisburg region active' },
+    { icon: '📎', text: '<strong>STEELS Implementation</strong> resource bank expanded' },
+    { icon: '🗺',  text: '<strong>IU Network Map</strong> — 21 IUs now represented in the network' },
+    { icon: '🌟', text: '<strong>Network milestone:</strong> <span class="ti-accent">13 PoC profiles</span> in the statewide directory' },
+    { icon: '🧰', text: '<strong>STEM Toolkit v1</strong> launch prep underway — submissions open' },
+    { icon: '🤖', text: '<strong>AI & Emerging Tech</strong> initiative gaining momentum across 7 IUs' },
+  ];
+
+  function renderTicker() {
+    const activities = JSON.parse(localStorage.getItem('stemPocActivityFeed') || '[]').slice(0, 5);
+    const liveItems = activities.map(a => ({ icon: a.icon || '●', text: a.text }));
+    const all = [...liveItems, ...TICKER_SEED];
+    const doubled = [...all, ...all];
+    const inner = document.getElementById('tickerInner');
+    if (!inner) return;
+    inner.innerHTML = doubled.map(item =>
+      `<span class="ticker-item"><span>${item.icon}</span>${item.text}</span>`
+    ).join('');
+  }
+
+  // ── Feature 3: Featured Initiatives ──────────────────────────
+  const INITIATIVES = [
+    {
+      icon: '⚗️', name: 'STEELS Implementation',
+      status: 'active', color: '#5b8ff9',
+      desc: 'Rolling out PA\'s new science & engineering standards across IUs — curriculum alignment, phenomena-based learning, and NGSS crosswalk.',
+      wgs: ['Science', 'STEM Toolkit'],
+      collab: '🤝 Seeking: Curriculum examples, IU rollout models'
+    },
+    {
+      icon: '🤖', name: 'AI & Emerging Tech in STEM',
+      status: 'building', color: '#f4a11d',
+      desc: 'Building collective capacity for responsible AI integration, CS education pathways, and educator professional development.',
+      wgs: ['Careers & EL&S', 'STEM Toolkit'],
+      collab: '🤝 Seeking: PD models, classroom examples'
+    },
+    {
+      icon: '🌱', name: 'STEM Ecosystem Development',
+      status: 'active', color: '#37c882',
+      desc: 'Connecting IUs, employers, nonprofits, and community organizations through the PSSE network for regional STEM ecosystem growth.',
+      wgs: ['Ecosystems (PSSE)', 'Careers & EL&S'],
+      collab: '🤝 Seeking: Regional partners, ecosystem maps'
+    },
+    {
+      icon: '🏆', name: 'Student Competitions Network',
+      status: 'active', color: '#c084fc',
+      desc: 'Coordinating Science Olympiad, FIRST Robotics, eCYBERMISSION, and regional STEM competitions with shared coaching resources.',
+      wgs: ['Student Competitions'],
+      collab: '🤝 Seeking: Coaching guides, event hosts'
+    },
+    {
+      icon: '🌿', name: 'Environmental Literacy (MWEE)',
+      status: 'building', color: '#37c882',
+      desc: 'Implementing Meaningful Watershed Educational Experiences and environmental literacy programming across PA IUs.',
+      wgs: ['Science', 'Ecosystems (PSSE)'],
+      collab: '🤝 Seeking: Field site partners, funding models'
+    },
+    {
+      icon: '🔗', name: 'Cross-IU Collaboration Infrastructure',
+      status: 'emerging', color: '#9096ff',
+      desc: 'Building the systems — shared resources, PLCs, action items, and collaboration tools — that make statewide STEM coordination possible.',
+      wgs: ['All Workgroups'],
+      collab: '🤝 Seeking: Feedback, early adopters'
+    }
+  ];
+
+  function renderInitiatives() {
+    const el = document.getElementById('initiativesGrid');
+    if (!el) return;
+    el.innerHTML = INITIATIVES.map(i => `
+      <div class="initiative-card" style="--init-color:${i.color}">
+        <span class="init-icon">${i.icon}</span>
+        <span class="init-status ${i.status}">${i.status}</span>
+        <div class="init-name">${i.name}</div>
+        <div class="init-desc">${i.desc}</div>
+        <div class="init-wg-row">
+          ${i.wgs.map(w => `<span class="init-wg-chip">${w}</span>`).join('')}
+        </div>
+        <span class="init-collab-flag">${i.collab}</span>
+      </div>`).join('');
+  }
+
+  // ── Feature 4: PA IU Map ──────────────────────────────────────
+  const PA_IUS = [
+    { n:1,  x:62,  y:218, name:'IU 1 — Southwest',            active:true },
+    { n:2,  x:108, y:197, name:'IU 2 — Westmoreland',          active:false },
+    { n:3,  x:74,  y:172, name:'IU 3 — Allegheny (Pittsburgh)',active:true },
+    { n:4,  x:52,  y:138, name:'IU 4 — Beaver/Butler',         active:false },
+    { n:5,  x:70,  y:92,  name:'IU 5 — Northwest PA',          active:false },
+    { n:6,  x:112, y:120, name:'IU 6 — Armstrong/Clarion',     active:true },
+    { n:7,  x:148, y:158, name:'IU 7 — Indiana',               active:false },
+    { n:8,  x:168, y:215, name:'IU 8 — Cambria/Somerset',      active:true },
+    { n:9,  x:228, y:130, name:'IU 9 — Centre/Clearfield',     active:false },
+    { n:10, x:240, y:62,  name:'IU 10 — Tioga/Potter',         active:false },
+    { n:11, x:284, y:165, name:'IU 11 — Harrisburg/Capital',   active:true },
+    { n:12, x:360, y:218, name:'IU 12 — Lancaster',            active:true },
+    { n:13, x:332, y:196, name:'IU 13 — Lancaster-Lebanon',    active:true },
+    { n:14, x:394, y:178, name:'IU 14 — Berks',                active:true },
+    { n:15, x:298, y:145, name:'IU 15 — Capital Area',         active:true },
+    { n:16, x:432, y:88,  name:'IU 16 — Carbon/Monroe/Pike',   active:false },
+    { n:17, x:310, y:106, name:'IU 17 — Columbia/Northumberland', active:false },
+    { n:18, x:374, y:104, name:'IU 18 — Luzerne/Wyoming',      active:true },
+    { n:19, x:450, y:62,  name:'IU 19 — Northeast PA',         active:false },
+    { n:20, x:448, y:138, name:'IU 20 — Lehigh Valley',        active:false },
+    { n:21, x:410, y:128, name:'IU 21 — Schuylkill',           active:false },
+    { n:22, x:416, y:225, name:'IU 22 — Bucks County',         active:true },
+    { n:23, x:402, y:243, name:'IU 23 — Chester County',       active:false },
+    { n:24, x:420, y:205, name:'IU 24 — Montgomery County',    active:false },
+    { n:25, x:394, y:237, name:'IU 25 — Chester (Lincoln)',    active:false },
+    { n:26, x:424, y:240, name:'IU 26 — Philadelphia',         active:false },
+    { n:27, x:420, y:250, name:'IU 27 — Delaware Valley',      active:false },
+    { n:28, x:448, y:152, name:'IU 28 — Schuylkill/Lehigh',    active:false },
+    { n:29, x:458, y:105, name:'IU 29 — Monroe/Carbon',        active:true }
+  ];
+  let _iuMapFilter = null;
+
+  function renderPAMap() {
+    const box = document.getElementById('paMapSvgBox');
+    if (!box) return;
+    const dots = PA_IUS.map(iu => {
+      const cls = iu.active ? 'iu-dot active-iu' : 'iu-dot';
+      const pingAnim = iu.active ? `<circle class="ping-ring" cx="${iu.x}" cy="${iu.y}" r="6" fill="none" stroke="rgba(244,161,29,0.5)" stroke-width="1" opacity="0"><animate attributeName="r" from="5" to="13" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" from="0.7" to="0" dur="2s" repeatCount="indefinite"/></circle>` : '';
+      const baseColor = iu.active ? 'rgba(244,161,29,0.28)' : 'rgba(26,58,107,0.65)';
+      const strokeColor = iu.active ? 'rgba(244,161,29,0.65)' : 'rgba(138,155,191,0.3)';
+      const textColor = iu.active ? 'rgba(244,161,29,0.9)' : 'rgba(138,155,191,0.55)';
+      return `<g class="${cls}" data-iu="${iu.n}" data-name="${iu.name}"
+         onmouseenter="showIUTip(event,'${iu.name}',${iu.active})"
+         onmouseleave="hideIUTip()"
+         onclick="filterByIU(${iu.n},'${iu.name}')">
+        ${pingAnim}
+        <circle cx="${iu.x}" cy="${iu.y}" r="5.5" fill="${baseColor}" stroke="${strokeColor}" stroke-width="1" style="transition:fill 0.2s,stroke 0.2s;"/>
+        <text x="${iu.x}" y="${iu.y + 2.2}" fill="${textColor}" font-family="Space Mono,monospace" font-size="4.8" text-anchor="middle" dominant-baseline="middle" pointer-events="none">${iu.n}</text>
+      </g>`;
+    }).join('');
+    box.innerHTML = `<svg viewBox="0 0 500 268" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 8,80 L 8,38 L 38,14 L 84,14 L 84,44 L 104,36 L 490,36 L 494,78 L 462,120 L 440,148 L 428,165 L 428,252 L 252,256 L 8,256 Z"
+            fill="rgba(26,58,107,0.18)" stroke="rgba(244,161,29,0.28)" stroke-width="1.5"/>
+      ${dots}
+    </svg>`;
+  }
+
+  function showIUTip(e, name, active) {
+    const tip = document.getElementById('paMapTooltip');
+    if (!tip) return;
+    tip.textContent = name + (active ? ' ✦' : ' — upcoming');
+    tip.style.display = 'block';
+    const box = document.getElementById('paMapSvgBox');
+    const rect = box.getBoundingClientRect();
+    const wrapRect = document.querySelector('.pa-map-wrap').getBoundingClientRect();
+    tip.style.left = (e.clientX - wrapRect.left + 8) + 'px';
+    tip.style.top  = (e.clientY - wrapRect.top  - 32) + 'px';
+  }
+
+  function hideIUTip() {
+    const tip = document.getElementById('paMapTooltip');
+    if (tip) tip.style.display = 'none';
+  }
+
+  function filterByIU(n, name) {
+    _iuMapFilter = n;
+    const searchEl = document.getElementById('networkSearch');
+    if (searchEl) { searchEl.value = 'IU ' + n; filterNetworkCards(); }
+    const tag = document.getElementById('paMapTag');
+    const clr = document.getElementById('paMapClr');
+    if (tag) { tag.textContent = 'IU ' + n; tag.classList.add('on'); }
+    if (clr) clr.classList.add('on');
+    const dirEl = document.getElementById('directory');
+    if (dirEl) dirEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function clearIUMapFilter() {
+    _iuMapFilter = null;
+    const searchEl = document.getElementById('networkSearch');
+    if (searchEl) { searchEl.value = ''; filterNetworkCards(); }
+    const tag = document.getElementById('paMapTag');
+    const clr = document.getElementById('paMapClr');
+    if (tag) tag.classList.remove('on');
+    if (clr) clr.classList.remove('on');
+  }
+
+  // ── Feature 6: Network Spotlight ──────────────────────────────
+  const SPOTLIGHT_SEED = [
+    {
+      name: 'Carolyn Flinchbaugh', role: 'Science Coordinator · IU 12 (Lancaster)',
+      grad: 'ig-2', chips: ['STEELS', 'Phenomena-Based', 'NGSS'],
+      fact: 'Believes the best science lessons start with a question students actually wonder about.',
+      exploring: 'Currently exploring: Cross-IU phenomena bank structure'
+    },
+    {
+      name: 'Lindsay Harrington', role: 'STEM Ecosystem Lead · IU 3 (Allegheny)',
+      grad: 'ig-4', chips: ['PSSE', 'Ecosystem Development', 'Partnerships'],
+      fact: 'Has connected 40+ community organizations to school STEM programs in the last two years.',
+      exploring: 'Currently exploring: Regional asset mapping methodology'
+    },
+    {
+      name: 'Megan Kramer', role: 'Career Connections Lead · IU 1',
+      grad: 'ig-1', chips: ['Careers & EL&S', 'Work-Based Learning', 'Employer Partnerships'],
+      fact: 'Started her career as a high school biotech teacher before discovering the power of employer connections.',
+      exploring: 'Currently exploring: Regional career pathway mapping'
+    },
+    {
+      name: 'Kyle Benner', role: 'Instructional Designer · IU 12 (Lancaster)',
+      grad: 'ig-3', chips: ['STEM Toolkit', 'Curriculum Design', 'AI in Education'],
+      fact: 'Convinced that the best STEM toolkit resource is one a teacher can use on Monday morning.',
+      exploring: 'Currently exploring: AI-assisted lesson adaptation tools'
+    },
+    {
+      name: 'Jenna Lauffer', role: 'Remake Learning Regional Lead · IU 13',
+      grad: 'ig-5', chips: ['Maker Education', 'Events', 'Community Learning'],
+      fact: 'Has organized 12 Remake Learning Days events across south-central PA.',
+      exploring: 'Currently exploring: Scaling maker events to rural districts'
+    }
+  ];
+  let _spotlightIdx = 0;
+  let _spotlightTimer = null;
+
+  function getSpotlightProfiles() {
+    const community = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]').map(p => ({
+      name: p.preferredName || p.fullName,
+      role: (p.jobTitle || '') + (p.iu ? ' · ' + p.iu : ''),
+      grad: 'ig-' + ((p.fullName.charCodeAt(0) % 5) + 1),
+      photoDataUrl: p.photoDataUrl || null,
+      chips: [...(p.focusAreas || []).slice(0, 3)],
+      fact: p.funFact || p.superpower || 'Community-created profile.',
+      exploring: p.curiousAbout ? 'Currently exploring: ' + p.curiousAbout : ''
+    }));
+    return [...community, ...SPOTLIGHT_SEED];
+  }
+
+  function renderSpotlight() {
+    const profiles = getSpotlightProfiles();
+    if (!profiles.length) return;
+    _spotlightIdx = Math.max(0, Math.min(_spotlightIdx, profiles.length - 1));
+    const p = profiles[_spotlightIdx];
+    const cardEl = document.getElementById('spotlightCard');
+    const pipsEl = document.getElementById('spotlightPips');
+    if (!cardEl) return;
+    const avatarHtml = p.photoDataUrl
+      ? `<img src="${p.photoDataUrl}" alt="${p.name}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid rgba(244,161,29,0.25);">`
+      : `<div class="spotlight-avatar ${p.grad}">${p.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}</div>`;
+    cardEl.innerHTML = `<div class="spotlight-card">
+      ${avatarHtml}
+      <div class="spotlight-body">
+        <div class="spotlight-name">${p.name}</div>
+        <div class="spotlight-role">${p.role}</div>
+        ${p.chips.length ? `<div class="spotlight-chips">${p.chips.map(c=>`<span class="spotlight-chip">${c}</span>`).join('')}</div>` : ''}
+        ${p.fact ? `<div class="spotlight-fact">"${p.fact}"</div>` : ''}
+        ${p.exploring ? `<div class="spotlight-exploring">${p.exploring}</div>` : ''}
+      </div>
+    </div>`;
+    if (pipsEl) pipsEl.innerHTML = profiles.map((_,i) =>
+      `<div class="spotlight-pip ${i===_spotlightIdx?'on':''}"></div>`
+    ).join('');
+  }
+
+  function shiftSpotlight(dir) {
+    const profiles = getSpotlightProfiles();
+    _spotlightIdx = (_spotlightIdx + dir + profiles.length) % profiles.length;
+    renderSpotlight();
+    resetSpotlightTimer();
+  }
+
+  function resetSpotlightTimer() {
+    if (_spotlightTimer) clearInterval(_spotlightTimer);
+    _spotlightTimer = setInterval(() => shiftSpotlight(1), 7000);
+  }
+
+  // ── Feature 5: Help Ribbons ───────────────────────────────────
+  function addHelpRibbons() {
+    const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    document.querySelectorAll('.community-network-card[data-profile-id]').forEach(card => {
+      if (card.querySelector('.help-ribbons')) return;
+      const id = card.dataset.profileId;
+      const p = profiles.find(x => x.id === id);
+      if (!p) return;
+      const ribbons = [];
+      if (p.canHelpWith)  ribbons.push(`<span class="help-ribbon can">🛠 ${p.canHelpWith.slice(0,30)}${p.canHelpWith.length>30?'…':''}</span>`);
+      if (p.needHelpWith) ribbons.push(`<span class="help-ribbon want">🔍 ${p.needHelpWith.slice(0,30)}${p.needHelpWith.length>30?'…':''}</span>`);
+      if (!ribbons.length) return;
+      const tagsEl = card.querySelector('.collab-interests-row') || card.querySelector('.node-tags');
+      if (tagsEl) tagsEl.insertAdjacentHTML('afterend', `<div class="help-ribbons">${ribbons.join('')}</div>`);
+    });
+  }
+
+  // ── Feature 7: Contribution Wall ─────────────────────────────
+  const CONTRIB_SEED = [
+    { icon: '✦', type: 'Profile', text: 'New PoC joined the network — IU 12 · Science focus', meta: '2 days ago' },
+    { icon: '⚡', type: 'Action', text: 'Action item completed in STEM Toolkit workgroup', meta: '3 days ago' },
+    { icon: '📎', type: 'Resource', text: 'NGSS phenomena bank template shared to Science hub', meta: '4 days ago' },
+    { icon: '🏆', type: 'Event', text: 'Science Olympiad regional competition date confirmed', meta: '5 days ago' },
+    { icon: '🤝', type: 'Collab', text: 'AI in STEM collaboration interest flagged — 4 IUs', meta: '6 days ago' },
+    { icon: '🌱', type: 'Ecosystem', text: 'PSSE asset mapping template published to Ecosystem hub', meta: '1 week ago' }
+  ];
+
+  function renderContributionCards() {
+    const el = document.getElementById('contributionCards');
+    if (!el) return;
+    const activities = JSON.parse(localStorage.getItem('stemPocActivityFeed') || '[]');
+    const liveCards = activities.slice(0, 3).map(a => ({
+      icon: a.icon || '●', type: 'Live', text: a.text.replace(/<[^>]+>/g, ''), meta: 'Just now'
+    }));
+    const all = [...liveCards, ...CONTRIB_SEED].slice(0, 6);
+    el.innerHTML = all.map(c => `
+      <div class="contrib-card">
+        <div class="contrib-top">
+          <span class="contrib-icon">${c.icon}</span>
+          <span class="contrib-type-label">${c.type}</span>
+        </div>
+        <div class="contrib-text">${c.text}</div>
+        <div class="contrib-meta">${c.meta}</div>
+      </div>`).join('');
+  }
+
+  // ── Initialize all Patch 4 features ──────────────────────────
+  renderTicker();
+  renderInitiatives();
+  renderPAMap();
+  renderSpotlight();
+  resetSpotlightTimer();
+  renderContributionCards();
+  setTimeout(addHelpRibbons, 400);
+
+  /* ═══════════════════════════════════════════════════
+     V2 PATCH 3 — WORKGROUP OPERATING SYSTEM
+  ═══════════════════════════════════════════════════ */
+
+  const WG_DEFS = [
+    {
+      id: 'science', icon: '🔬', name: 'Science', del: 'DEL B',
+      lead: 'IU Science Leads', iu: 'Statewide', accentColor: '#5b8ff9',
+      pageUrl: 'workgroup-science.html', nextMeeting: '2026-06-10',
+      status: 'Active',
+      desc: 'Coordinating K-12 science instruction alignment, phenomena-based learning, and NGSS implementation across Pennsylvania IUs.',
+      goals: [
+        'Build shared phenomena bank across IUs',
+        'Align science curriculum resources to NGSS',
+        'Develop cross-IU science PLC structure'
+      ],
+      initiatives: [
+        { label: 'In Progress', name: 'Phenomena Bank', desc: 'Shared bank of locally relevant phenomena for K-12 science.' },
+        { label: 'Planning', name: 'NGSS Crosswalk', desc: 'Map existing IU resources to NGSS performance expectations.' }
+      ],
+      members: [
+        { name: 'Carolyn Flinchbaugh', iu: 'IU 12 (Lancaster)', role: 'Science Coordinator', tags: ['NGSS', 'K-12'] },
+        { name: 'David Erickson', iu: 'IU 13 (Lancaster-Lebanon)', role: 'STEM Director', tags: ['Science', 'Curriculum'] }
+      ]
+    },
+    {
+      id: 'careers-els', icon: '🧭', name: 'Careers & EL&S', del: 'DEL B · DEL E',
+      lead: 'Career & Experiential Leads', iu: 'Statewide', accentColor: '#f4a11d',
+      pageUrl: 'workgroup-careers-els.html', nextMeeting: '2026-06-17',
+      status: 'Active',
+      desc: 'Connecting STEM learning to career pathways, employer partnerships, and experiential learning models across Pennsylvania.',
+      goals: [
+        'Map IU employer partnership landscapes',
+        'Build shared work-based learning toolkit',
+        'Share ELS models across IUs'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'ELS Toolkit', desc: 'Shared resource bank for experiential and employer-connected learning.' },
+        { label: 'Planning', name: 'Career Mapping', desc: 'Regional career pathway mapping for STEM-adjacent roles.' }
+      ],
+      members: [
+        { name: 'Megan Kramer', iu: 'IU 1 (Southwestern PA)', role: 'Career Connections Lead', tags: ['Careers', 'ELS'] },
+        { name: 'Jess Albright', iu: 'IU 8 (Appalachia)', role: 'STEM PoC', tags: ['Work-Based Learning'] }
+      ]
+    },
+    {
+      id: 'student-competitions', icon: '🏆', name: 'Student Competitions', del: 'DEL F',
+      lead: 'Competition Coordinators', iu: 'Statewide', accentColor: '#37c882',
+      pageUrl: 'workgroup-student-competitions.html', nextMeeting: '2026-06-24',
+      status: 'Active',
+      desc: 'Coordinating statewide STEM competitions — Science Olympiad, FIRST, eCYBERMISSION, and regional events — and sharing coaching resources.',
+      goals: [
+        'Build shared competition calendar',
+        'Develop cross-IU coaching resource library',
+        'Identify and support underserved regions'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'Competition Calendar', desc: 'Statewide shared calendar of STEM competitions and deadlines.' },
+        { label: 'Planning', name: 'Coach Toolkit', desc: 'Coaching guides and facilitation resources for regional competition leads.' }
+      ],
+      members: [
+        { name: 'Amy Kunkle', iu: 'IU 12 (Lancaster)', role: 'STEM PoC', tags: ['Science Olympiad', 'FIRST'] },
+        { name: 'Scott Milinichik', iu: 'IU 18 (Luzerne)', role: 'Competition Lead', tags: ['eCYBERMISSION'] }
+      ]
+    },
+    {
+      id: 'ecosystems', icon: '🌱', name: 'Ecosystems (PSSE)', del: 'DEL E',
+      lead: 'PSSE Network Leads', iu: 'Statewide', accentColor: '#37c882',
+      pageUrl: 'workgroup-ecosystems.html', nextMeeting: '2026-07-08',
+      status: 'Active',
+      desc: 'Building regional STEM ecosystems through the Pennsylvania STEM Ecosystem (PSSE) network — connecting IUs, businesses, nonprofits, and community partners.',
+      goals: [
+        'Map regional ecosystem assets per IU',
+        'Establish cross-sector partnership protocols',
+        'Share ecosystem development playbooks'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'Asset Mapping', desc: 'Regional partner and resource mapping across PSSE-affiliated IUs.' },
+        { label: 'Planning', name: 'Partnership Playbook', desc: 'Shared guide for launching and sustaining community STEM partnerships.' }
+      ],
+      members: [
+        { name: 'Lindsay Harrington', iu: 'IU 3 (Allegheny)', role: 'STEM Ecosystem Lead', tags: ['PSSE', 'Partnerships'] },
+        { name: 'Michelle Rowan', iu: 'IU 11 (Harrisburg)', role: 'Ecosystem Coordinator', tags: ['Community', 'STEM'] }
+      ]
+    },
+    {
+      id: 'math', icon: '📐', name: 'Math Focus', del: 'DEL G',
+      lead: 'Math Instruction Leads', iu: 'Statewide', accentColor: '#5b8ff9',
+      pageUrl: 'workgroup-math.html', nextMeeting: '2026-06-19',
+      status: 'Active',
+      desc: 'Advancing math instruction quality, intervention strategies, and cross-IU curriculum alignment — with a focus on evidence-based practices.',
+      goals: [
+        'Align math intervention frameworks across IUs',
+        'Build shared formative assessment bank',
+        'Develop math coaching support protocols'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'Intervention Crosswalk', desc: 'Mapping IU math intervention programs to evidence-based frameworks.' },
+        { label: 'Planning', name: 'Math Coaching Protocols', desc: 'Shared coaching tools and observation guides for math instruction.' }
+      ],
+      members: [
+        { name: 'Brian Whitfield', iu: 'IU 6 (Riverview)', role: 'Math Director', tags: ['Intervention', 'Curriculum'] },
+        { name: 'Tara DiVittis', iu: 'IU 14 (Berks)', role: 'Math Specialist', tags: ['Formative Assessment'] }
+      ]
+    },
+    {
+      id: 'stem-toolkit', icon: '🧰', name: 'STEM Toolkit', del: 'DEL G',
+      lead: 'Toolkit Curators', iu: 'Statewide', accentColor: '#f4a11d',
+      pageUrl: 'workgroup-stem-toolkit.html', nextMeeting: '2026-06-26',
+      status: 'Active',
+      desc: 'Curating and publishing the shared STEM Toolkit — vetted resources, lesson frameworks, and implementation guides for IU STEM educators.',
+      goals: [
+        'Publish first toolkit release with 20+ resources',
+        'Build submission and vetting process',
+        'Establish quarterly review cycle'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'Toolkit v1 Launch', desc: 'First public release of the PA STEM shared toolkit.' },
+        { label: 'Planning', name: 'Vetting Workflow', desc: 'Peer review and tagging system for resource submissions.' }
+      ],
+      members: [
+        { name: 'Erin Heckman', iu: 'IU 15 (Capital Area)', role: 'STEM Resource Lead', tags: ['Curation', 'Resources'] },
+        { name: 'Kyle Benner', iu: 'IU 12 (Lancaster)', role: 'Instructional Designer', tags: ['Toolkit', 'Design'] }
+      ]
+    },
+    {
+      id: 'lending-libraries', icon: '📦', name: 'Lending Libraries', del: 'DEL G',
+      lead: 'Lending Library Coordinators', iu: 'Statewide', accentColor: '#ff8c50',
+      pageUrl: 'workgroup-stem-lending-libraries.html', nextMeeting: '2026-07-15',
+      status: 'Active',
+      desc: 'Coordinating the statewide network of STEM lending libraries — kits, equipment, and materials — and building cross-IU borrowing protocols.',
+      goals: [
+        'Create shared inventory catalog',
+        'Establish cross-IU borrowing protocols',
+        'Identify equity gaps in materials access'
+      ],
+      initiatives: [
+        { label: 'Active', name: 'Inventory Catalog', desc: 'Shared catalog of lending library materials across participating IUs.' },
+        { label: 'Planning', name: 'Cross-IU Borrowing', desc: 'Protocols for materials sharing between IU lending libraries.' }
+      ],
+      members: [
+        { name: 'Sarah Rhoads', iu: 'IU 6 (Riverview)', role: 'Lending Library Lead', tags: ['Kits', 'Inventory'] },
+        { name: 'Mark DePaulo', iu: 'IU 22 (Bucks County)', role: 'STEM Coordinator', tags: ['Access', 'Equity'] }
+      ]
+    },
+    {
+      id: 'remake-learning', icon: '🎨', name: 'Remake Learning Days', del: 'DEL D',
+      lead: 'Remake Learning Coordinators', iu: 'Statewide', accentColor: '#c084fc',
+      pageUrl: 'workgroup-remake-learning-days.html', nextMeeting: '2026-06-12',
+      status: 'Active',
+      desc: 'Planning and coordinating Remake Learning Days events — hands-on, maker-focused learning experiences open to students, families, and educators.',
+      goals: [
+        'Support regional RLD events across PA',
+        'Build shared event planning toolkit',
+        'Connect RLD to IU STEM programming'
+      ],
+      initiatives: [
+        { label: 'Active', name: '2026 RLD Planning', desc: 'Regional coordination for spring 2026 Remake Learning Days events.' },
+        { label: 'Planning', name: 'Event Toolkit', desc: 'Templates, guides, and planning resources for RLD hosts.' }
+      ],
+      members: [
+        { name: 'Jenna Lauffer', iu: 'IU 13 (Lancaster-Lebanon)', role: 'RLD Regional Lead', tags: ['Events', 'Maker'] },
+        { name: 'Chris Phelan', iu: 'IU 3 (Allegheny)', role: 'STEM PoC', tags: ['Remake Learning'] }
+      ]
+    }
+  ];
+
+  // ── Active workgroup hub state ────────────────────────────────
+  let _openWgId = null;
+
+  // ── Seed workgroup data ───────────────────────────────────────
+  function seedWgData() {
+    if (localStorage.getItem('stemPocWgSeedV1')) return;
+    const now = Date.now();
+    const actions = [
+      { id: crypto.randomUUID(), wgId: 'science', text: 'Draft phenomena bank submission form', status: 'in-progress', createdAt: now - 864e5 },
+      { id: crypto.randomUUID(), wgId: 'science', text: 'Review NGSS crosswalk draft from IU 12', status: 'needs-support', createdAt: now - 432e5 },
+      { id: crypto.randomUUID(), wgId: 'careers-els', text: 'Compile ELS models from each IU', status: 'planned', createdAt: now - 72e4 },
+      { id: crypto.randomUUID(), wgId: 'careers-els', text: 'Build shared employer contact database', status: 'planned', createdAt: now - 36e4 },
+      { id: crypto.randomUUID(), wgId: 'student-competitions', text: 'Populate 2025-26 competition calendar', status: 'in-progress', createdAt: now - 216e5 },
+      { id: crypto.randomUUID(), wgId: 'student-competitions', text: 'Identify IUs without active competition coaching', status: 'planned', createdAt: now - 108e5 },
+      { id: crypto.randomUUID(), wgId: 'ecosystems', text: 'Complete regional asset mapping template', status: 'in-progress', createdAt: now - 648e5 },
+      { id: crypto.randomUUID(), wgId: 'math', text: 'Collect sample formative assessment tools', status: 'planned', createdAt: now - 54e4 },
+      { id: crypto.randomUUID(), wgId: 'stem-toolkit', text: 'Finalize resource submission form', status: 'in-progress', createdAt: now - 324e5 },
+      { id: crypto.randomUUID(), wgId: 'stem-toolkit', text: 'Review first 10 resource submissions', status: 'planned', createdAt: now - 162e5 },
+      { id: crypto.randomUUID(), wgId: 'remake-learning', text: 'Confirm regional RLD host sites', status: 'in-progress', createdAt: now - 486e5 },
+      { id: crypto.randomUUID(), wgId: 'remake-learning', text: 'Draft event planning checklist', status: 'completed', createdAt: now - 972e5 }
+    ];
+    const resources = [
+      { id: crypto.randomUUID(), wgId: 'science', type: 'doc', name: 'NGSS Phenomena Starter Pack', url: '' },
+      { id: crypto.randomUUID(), wgId: 'science', type: 'link', name: 'NGSS Hub — PA Alignment Resources', url: 'https://www.nextgenscience.org' },
+      { id: crypto.randomUUID(), wgId: 'careers-els', type: 'template', name: 'ELS Program Planning Template', url: '' },
+      { id: crypto.randomUUID(), wgId: 'student-competitions', type: 'link', name: 'Science Olympiad PA', url: 'https://www.soinc.org' },
+      { id: crypto.randomUUID(), wgId: 'stem-toolkit', type: 'doc', name: 'Resource Submission Guidelines v1', url: '' },
+      { id: crypto.randomUUID(), wgId: 'remake-learning', type: 'link', name: 'Remake Learning Days Official Site', url: 'https://remakelearningdays.org' },
+      { id: crypto.randomUUID(), wgId: 'remake-learning', type: 'template', name: '2026 RLD Event Planning Checklist', url: '' }
+    ];
+    localStorage.setItem('stemPocActionItems', JSON.stringify(actions));
+    localStorage.setItem('stemPocResources', JSON.stringify(resources));
+    localStorage.setItem('stemPocWgSeedV1', '1');
+  }
+  seedWgData();
+
+  // ── Render workgroup dashboard ────────────────────────────────
+  function renderWgDashboard() {
+    const grid = document.getElementById('wgDashboardGrid');
+    if (!grid) return;
+    const actions = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]');
+    grid.innerHTML = WG_DEFS.map(wg => {
+      const wgActions = actions.filter(a => a.wgId === wg.id && a.status !== 'completed');
+      const countdown = getMeetingCountdown(wg.nextMeeting);
+      return `
+      <div class="wg-mission-card" style="--wg-accent:${wg.accentColor}" onclick="openWgHub('${wg.id}')">
+        <div class="wg-card-header">
+          <div class="wg-card-icon">${wg.icon}</div>
+          <div class="wg-card-meta">
+            <div class="wg-card-del">${wg.del}</div>
+            <div class="wg-card-name">${wg.name}</div>
+            <div class="wg-card-lead">${wg.lead}</div>
+          </div>
+        </div>
+        <div class="wg-card-stats">
+          <span class="wg-stat-pill active">${wgActions.length} open actions</span>
+          <span class="wg-stat-pill">${wg.initiatives.length} initiatives</span>
+          <span class="wg-stat-pill">${wg.status}</span>
+        </div>
+        <div class="wg-card-desc">${wg.desc}</div>
+        <div class="wg-card-footer">
+          <div class="wg-next-meeting">Next: <span>${countdown}</span></div>
+          <button class="wg-open-hub-btn" onclick="event.stopPropagation();openWgHub('${wg.id}')">Open Hub →</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Hub open / close ──────────────────────────────────────────
+  function openWgHub(wgId) {
+    _openWgId = wgId;
+    const wg = WG_DEFS.find(w => w.id === wgId);
+    if (!wg) return;
+    const overlay = document.getElementById('wgHubOverlay');
+    // Populate header
+    document.getElementById('wgHubIcon').textContent = wg.icon;
+    document.getElementById('wgHubName').textContent = wg.name;
+    document.getElementById('wgHubDel').textContent = wg.del;
+    document.getElementById('wgHubLead').textContent = wg.lead + ' · ' + wg.iu;
+    const pageLink = document.getElementById('wgHubPageLink');
+    pageLink.href = wg.pageUrl;
+    overlay.style.setProperty('--wg-accent', wg.accentColor);
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    // Open first tab
+    openWgTab('overview', overlay.querySelector('.wg-tab-btn[data-tab="overview"]'));
+  }
+
+  function closeWgHub() {
+    document.getElementById('wgHubOverlay')?.classList.add('hidden');
+    document.body.style.overflow = '';
+    _openWgId = null;
+  }
+
+  // ── Tab switching ─────────────────────────────────────────────
+  function openWgTab(tabId, btnEl) {
+    document.querySelectorAll('#wgHubOverlay .wg-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#wgHubOverlay .wg-tab-panel').forEach(p => p.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    const panel = document.getElementById('wgPanel-' + tabId);
+    if (panel) panel.classList.add('active');
+    renderWgTab(tabId);
+  }
+
+  function renderWgTab(tabId) {
+    const wg = WG_DEFS.find(w => w.id === _openWgId);
+    if (!wg) return;
+    if (tabId === 'overview') renderWgOverview(wg);
+    else if (tabId === 'actions') renderWgActions(wg.id);
+    else if (tabId === 'resources') renderWgResources(wg.id);
+    else if (tabId === 'meeting') renderWgMeeting(wg);
+    else if (tabId === 'members') renderWgMembers(wg.id);
+  }
+
+  // ── Overview tab ──────────────────────────────────────────────
+  function renderWgOverview(wg) {
+    const panel = document.getElementById('wgPanel-overview');
+    if (!panel) return;
+    panel.innerHTML = `
+      <p class="wg-overview-desc">${wg.desc}</p>
+      <div class="wg-section-heading">Workgroup Goals</div>
+      <ul class="wg-goals-list">${wg.goals.map(g => `<li>${g}</li>`).join('')}</ul>
+      <div class="wg-section-heading">Featured Initiatives</div>
+      <div class="wg-initiatives-grid">
+        ${wg.initiatives.map(i => `
+          <div class="wg-init-card">
+            <div class="wg-init-label">${i.label}</div>
+            <div class="wg-init-name">${i.name}</div>
+            <div class="wg-init-desc">${i.desc}</div>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  // ── Actions tab ───────────────────────────────────────────────
+  function renderWgActions(wgId) {
+    const panel = document.getElementById('wgPanel-actions');
+    if (!panel) return;
+    const actions = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]').filter(a => a.wgId === wgId);
+    const rows = actions.length ? actions.map(a => `
+      <div class="wg-action-item ${a.status === 'completed' ? 'completed' : ''}" data-action-id="${a.id}">
+        <div class="wg-action-check ${a.status === 'completed' ? 'done' : ''}" onclick="toggleActionStatus('${a.id}')">
+          ${a.status === 'completed' ? '✓' : ''}
+        </div>
+        <div class="wg-action-text">${a.text}</div>
+        <span class="wg-action-status ${a.status.replace(/-/g,'_')}" style="--s:1">${a.status.replace(/-/g,' ')}</span>
+        <button class="wg-action-del" onclick="deleteActionItem('${a.id}')" title="Remove">✕</button>
+      </div>`).join('') : `<div class="wg-empty-state">No action items yet — add one above.</div>`;
+    panel.innerHTML = `
+      <div class="wg-add-action-row">
+        <input class="wg-add-action-input" id="newActionText" placeholder="New action item…" onkeydown="if(event.key==='Enter')addActionItem()">
+        <select class="wg-add-action-select" id="newActionStatus">
+          <option value="planned">Planned</option>
+          <option value="in-progress">In Progress</option>
+          <option value="needs-support">Needs Support</option>
+        </select>
+        <button class="wg-add-btn" onclick="addActionItem()">+ Add</button>
+      </div>
+      <div class="wg-actions-list">${rows}</div>`;
+  }
+
+  function addActionItem() {
+    const txt = document.getElementById('newActionText')?.value.trim();
+    if (!txt) return;
+    const status = document.getElementById('newActionStatus')?.value || 'planned';
+    const actions = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]');
+    actions.push({ id: crypto.randomUUID(), wgId: _openWgId, text: txt, status, createdAt: Date.now() });
+    localStorage.setItem('stemPocActionItems', JSON.stringify(actions));
+    renderWgActions(_openWgId);
+    renderWgDashboard();
+    logActivityEvent({ icon: '⚡', text: `<strong>New action</strong> added to <strong>${WG_DEFS.find(w=>w.id===_openWgId)?.name}</strong> workgroup` });
+  }
+
+  function toggleActionStatus(actionId) {
+    const actions = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]');
+    const a = actions.find(x => x.id === actionId);
+    if (!a) return;
+    a.status = a.status === 'completed' ? 'planned' : 'completed';
+    localStorage.setItem('stemPocActionItems', JSON.stringify(actions));
+    renderWgActions(_openWgId);
+    renderWgDashboard();
+  }
+
+  function deleteActionItem(actionId) {
+    let actions = JSON.parse(localStorage.getItem('stemPocActionItems') || '[]');
+    actions = actions.filter(a => a.id !== actionId);
+    localStorage.setItem('stemPocActionItems', JSON.stringify(actions));
+    renderWgActions(_openWgId);
+    renderWgDashboard();
+  }
+
+  // ── Resources tab ─────────────────────────────────────────────
+  function renderWgResources(wgId) {
+    const panel = document.getElementById('wgPanel-resources');
+    if (!panel) return;
+    const resources = JSON.parse(localStorage.getItem('stemPocResources') || '[]').filter(r => r.wgId === wgId);
+    const rows = resources.length ? resources.map(r => `
+      <div class="wg-res-item">
+        <span class="wg-res-type-badge ${r.type}">${r.type}</span>
+        <span class="wg-res-name">${r.name}</span>
+        ${r.url ? `<a class="wg-res-link" href="${r.url}" target="_blank" rel="noopener">Open →</a>` : ''}
+        <button class="wg-res-del" onclick="deleteResource('${r.id}')" title="Remove">✕</button>
+      </div>`).join('') : `<div class="wg-empty-state">No resources yet — add one above.</div>`;
+    panel.innerHTML = `
+      <div class="wg-add-res-row">
+        <input class="wg-add-res-input" id="newResName" placeholder="Resource name…" style="flex:2">
+        <input class="wg-add-res-input" id="newResUrl" placeholder="URL (optional)" style="flex:2">
+        <select class="wg-add-action-select" id="newResType">
+          <option value="doc">Doc</option>
+          <option value="link">Link</option>
+          <option value="slides">Slides</option>
+          <option value="template">Template</option>
+          <option value="recording">Recording</option>
+        </select>
+        <button class="wg-add-btn" onclick="addResource()">+ Add</button>
+      </div>
+      <div class="wg-res-list">${rows}</div>`;
+  }
+
+  function addResource() {
+    const name = document.getElementById('newResName')?.value.trim();
+    if (!name) return;
+    const url = document.getElementById('newResUrl')?.value.trim() || '';
+    const type = document.getElementById('newResType')?.value || 'link';
+    const resources = JSON.parse(localStorage.getItem('stemPocResources') || '[]');
+    resources.push({ id: crypto.randomUUID(), wgId: _openWgId, name, url, type });
+    localStorage.setItem('stemPocResources', JSON.stringify(resources));
+    renderWgResources(_openWgId);
+    logActivityEvent({ icon: '📎', text: `<strong>Resource added</strong> to <strong>${WG_DEFS.find(w=>w.id===_openWgId)?.name}</strong>` });
+  }
+
+  function deleteResource(resId) {
+    let resources = JSON.parse(localStorage.getItem('stemPocResources') || '[]');
+    resources = resources.filter(r => r.id !== resId);
+    localStorage.setItem('stemPocResources', JSON.stringify(resources));
+    renderWgResources(_openWgId);
+  }
+
+  // ── Meeting tab ───────────────────────────────────────────────
+  function renderWgMeeting(wg) {
+    const panel = document.getElementById('wgPanel-meeting');
+    if (!panel) return;
+    const notes = localStorage.getItem('stemPocWgNotes_' + wg.id) || '';
+    const countdown = getMeetingCountdown(wg.nextMeeting);
+    const dateFormatted = formatMeetingDate(wg.nextMeeting);
+    const agenda = [
+      { num: '01', item: 'Check-in & wins (5 min)', time: '5 min' },
+      { num: '02', item: 'Action item review', time: '10 min' },
+      { num: '03', item: 'Main agenda work', time: '20 min' },
+      { num: '04', item: 'Resource + initiative updates', time: '10 min' },
+      { num: '05', item: 'Next steps & owner assignments', time: '10 min' },
+      { num: '06', item: 'Open questions', time: '5 min' }
+    ];
+    panel.innerHTML = `
+      <div class="wg-meeting-grid">
+        <div class="wg-meeting-stat-card">
+          <div class="wg-meeting-stat-label">Next Meeting</div>
+          <div class="wg-meeting-stat-val">${countdown}</div>
+          <div class="wg-meeting-stat-sub">${dateFormatted}</div>
+        </div>
+        <div class="wg-meeting-stat-card">
+          <div class="wg-meeting-stat-label">Open Actions</div>
+          <div class="wg-meeting-stat-val">${JSON.parse(localStorage.getItem('stemPocActionItems')||'[]').filter(a=>a.wgId===wg.id&&a.status!=='completed').length}</div>
+          <div class="wg-meeting-stat-sub">items needing discussion</div>
+        </div>
+      </div>
+      <div class="wg-section-heading">Standard Agenda Template</div>
+      <div class="wg-agenda-list">
+        ${agenda.map(a=>`<div class="wg-agenda-item"><span class="wg-agenda-num">${a.num}</span>${a.item}<span class="wg-agenda-time">${a.time}</span></div>`).join('')}
+      </div>
+      <div class="wg-section-heading">Meeting Notes</div>
+      <textarea class="wg-meeting-notes" id="wgMeetingNotes_${wg.id}" placeholder="Paste agenda, record decisions, note action owners…">${notes}</textarea>
+      <button class="wg-save-notes-btn" id="wgSaveNoteBtn_${wg.id}" onclick="saveWgNotes('${wg.id}')">Save Notes</button>`;
+  }
+
+  function saveWgNotes(wgId) {
+    const ta = document.getElementById('wgMeetingNotes_' + wgId);
+    if (!ta) return;
+    localStorage.setItem('stemPocWgNotes_' + wgId, ta.value);
+    const btn = document.getElementById('wgSaveNoteBtn_' + wgId);
+    if (btn) { btn.textContent = '✓ Saved'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = 'Save Notes'; btn.classList.remove('saved'); }, 2000); }
+  }
+
+  // ── Members tab ───────────────────────────────────────────────
+  function renderWgMembers(wgId) {
+    const panel = document.getElementById('wgPanel-members');
+    if (!panel) return;
+    const wg = WG_DEFS.find(w => w.id === wgId);
+    if (!wg) return;
+    const seeded = wg.members.map(m => ({ ...m, source: 'seeded' }));
+    const community = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]')
+      .filter(p => p.workgroupInterests && p.workgroupInterests.some(wi => wi.toLowerCase().includes(wg.name.split(' ')[0].toLowerCase())));
+    const allMembers = [...seeded, ...community.map(p => ({
+      name: p.preferredName || p.fullName,
+      iu: p.iu || '',
+      role: p.jobTitle || '',
+      tags: [...(p.focusAreas || []).slice(0, 2)],
+      photoDataUrl: p.photoDataUrl,
+      source: 'community'
+    }))];
+    const cards = allMembers.map(m => {
+      const initials = m.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+      const gradIdx = (m.name.charCodeAt(0) % 5) + 1;
+      const avatarHtml = m.photoDataUrl
+        ? `<img src="${m.photoDataUrl}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">`
+        : `<div class="wg-member-avatar ig-${gradIdx}">${initials}</div>`;
+      const communityBadge = m.source === 'community' ? `<span class="wg-community-badge-sm">Community</span>` : '';
+      return `
+        <div class="wg-member-card">
+          <div class="wg-member-card-top">
+            ${avatarHtml}
+            <div class="wg-member-info">
+              <div class="wg-member-name">${m.name} ${communityBadge}</div>
+              <div class="wg-member-iu">${m.iu}</div>
+            </div>
+          </div>
+          <div class="wg-member-role">${m.role}</div>
+          <div class="wg-member-tags">${m.tags.map(t => `<span class="wg-member-tag">${t}</span>`).join('')}</div>
+        </div>`;
+    }).join('');
+    panel.innerHTML = `
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem;">Known contributors and community members interested in this workgroup.</p>
+      <div class="wg-member-grid">${cards || '<div class="wg-empty-state">No members found.</div>'}</div>`;
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────
+  function getMeetingCountdown(dateStr) {
+    if (!dateStr) return '—';
+    const diff = new Date(dateStr) - new Date();
+    if (diff < 0) return 'Past';
+    const days = Math.ceil(diff / 864e5);
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Tomorrow';
+    return days + 'd away';
+  }
+
+  function formatMeetingDate(dateStr) {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  // ── Initial render ────────────────────────────────────────────
+  renderWgDashboard();
 
 </script>
 
@@ -6282,6 +8360,25 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
         </div>
       </div>
 
+      <!-- Looking to Collaborate On -->
+      <div class="pf-section">
+        <div class="pf-section-label">Looking to Collaborate On <span style="opacity:0.5;font-family:'DM Sans';font-size:0.7rem;text-transform:none;">(optional)</span></div>
+        <div class="colab-tag-grid">
+          <input class="tag-chk colab-chk" type="checkbox" id="col-steels" value="STEELS Rollout"><label class="tag-chk-label" for="col-steels">STEELS Rollout</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-ai" value="AI Literacy / Policy"><label class="tag-chk-label" for="col-ai">AI Literacy / Policy</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-cs" value="CS Implementation"><label class="tag-chk-label" for="col-cs">CS Implementation</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-nights" value="STEM Nights / Events"><label class="tag-chk-label" for="col-nights">STEM Nights / Events</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-esports" value="Esports Programs"><label class="tag-chk-label" for="col-esports">Esports Programs</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-data" value="Data Literacy"><label class="tag-chk-label" for="col-data">Data Literacy</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-env" value="Environmental Literacy"><label class="tag-chk-label" for="col-env">Environmental Literacy</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-maker" value="Maker Programs"><label class="tag-chk-label" for="col-maker">Maker Programs</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-wg" value="Workgroup Leadership"><label class="tag-chk-label" for="col-wg">Workgroup Leadership</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-cross" value="Cross-IU Projects"><label class="tag-chk-label" for="col-cross">Cross-IU Projects</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-grant" value="Grant Collaboration"><label class="tag-chk-label" for="col-grant">Grant Collaboration</label>
+          <input class="tag-chk colab-chk" type="checkbox" id="col-coaching" value="District Coaching"><label class="tag-chk-label" for="col-coaching">District Coaching</label>
+        </div>
+      </div>
+
       <!-- Optional Fields -->
       <div class="pf-section">
         <div class="pf-section-label">Optional Info</div>
@@ -6374,6 +8471,61 @@ textarea.pf-input { resize: vertical; min-height: 75px; }
 
   </div><!-- end .profile-creator-inner -->
 </div><!-- end .profile-creator-overlay -->
+
+<!-- PATCH 2 FEATURE 2: Profile Detail Modal -->
+<div class="profile-modal-overlay hidden" id="profileDetailOverlay" onclick="if(event.target===this)closeProfileModal()">
+  <div class="profile-modal-card">
+    <div class="profile-modal-header">
+      <div class="profile-modal-avatar ig-1" id="pmAvatar">?</div>
+      <div>
+        <div class="profile-modal-name" id="pmName">Network Member</div>
+        <div class="profile-modal-meta" id="pmMeta"></div>
+        <div class="profile-modal-iu" id="pmIU"></div>
+      </div>
+      <button class="profile-modal-close" onclick="closeProfileModal()">✕</button>
+    </div>
+    <div class="profile-modal-body" id="pmBody">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     V2 PATCH 3 — WORKGROUP HUB OVERLAY
+════════════════════════════════════════════════════════════ -->
+<div class="wg-hub-overlay hidden" id="wgHubOverlay" onclick="if(event.target===this)closeWgHub()">
+  <div class="wg-hub-panel">
+    <div class="wg-hub-header">
+      <div class="wg-hub-header-top">
+        <div class="wg-hub-icon" id="wgHubIcon">🔬</div>
+        <div class="wg-hub-title-block">
+          <div class="wg-hub-eyebrow" id="wgHubDel">DEL</div>
+          <div class="wg-hub-name" id="wgHubName">Workgroup</div>
+          <div class="wg-hub-lead" id="wgHubLead">Lead · IU</div>
+        </div>
+        <div class="wg-hub-header-actions">
+          <span class="wg-status-badge">Active</span>
+          <a class="wg-hub-page-link" id="wgHubPageLink" href="#" target="_blank" rel="noopener">Full Page →</a>
+          <button class="wg-hub-close" onclick="closeWgHub()">✕</button>
+        </div>
+      </div>
+      <nav class="wg-tab-nav">
+        <button class="wg-tab-btn active" data-tab="overview"   onclick="openWgTab('overview',this)">Overview</button>
+        <button class="wg-tab-btn"        data-tab="actions"    onclick="openWgTab('actions',this)">⚡ Actions</button>
+        <button class="wg-tab-btn"        data-tab="resources"  onclick="openWgTab('resources',this)">📚 Resources</button>
+        <button class="wg-tab-btn"        data-tab="meeting"    onclick="openWgTab('meeting',this)">📅 Meeting</button>
+        <button class="wg-tab-btn"        data-tab="members"    onclick="openWgTab('members',this)">👥 Members</button>
+      </nav>
+    </div>
+    <div class="wg-hub-body">
+      <div class="wg-tab-panel active" id="wgPanel-overview"></div>
+      <div class="wg-tab-panel"        id="wgPanel-actions"></div>
+      <div class="wg-tab-panel"        id="wgPanel-resources"></div>
+      <div class="wg-tab-panel"        id="wgPanel-meeting"></div>
+      <div class="wg-tab-panel"        id="wgPanel-members"></div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
