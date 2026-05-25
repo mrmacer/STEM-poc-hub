@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PA STEM PoC Hub — Statewide Command Center</title>
+<title>PA STEM PoC Hub — Statewide STEM Collaboration Network</title>
+<link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -2831,69 +2832,106 @@
    V2 PATCH 1 — STEM PoC COLLABORATION PLATFORM LAYER
 ═══════════════════════════════════════════════════ */
 
-/* V2 PROTOTYPE MODAL */
-.v2-modal-overlay {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(7,15,28,0.9);
-  backdrop-filter: blur(16px);
+/* PROTOTYPE NOTE MODAL — warm paper card */
+.pn-overlay {
+  position: fixed; inset: 0; z-index: 2100;
+  background: rgba(4,10,22,0.82);
+  backdrop-filter: blur(10px);
   display: flex; align-items: center; justify-content: center;
   padding: 1.5rem;
-  transition: opacity 0.35s;
+  transition: opacity 0.3s, visibility 0.3s;
 }
-.v2-modal-overlay.hidden { opacity: 0; pointer-events: none; }
-.v2-modal-card {
-  background: linear-gradient(145deg, #0d1f3c, #111e36);
-  border: 1px solid rgba(244,161,29,0.4);
-  border-radius: 20px;
-  padding: 2.5rem 2.25rem 2rem;
-  max-width: 560px; width: 100%;
-  box-shadow: 0 40px 90px rgba(0,0,0,0.65), 0 0 0 1px rgba(244,161,29,0.07);
-  position: relative; overflow: hidden;
+.pn-overlay[aria-hidden="true"] { opacity: 0; pointer-events: none; visibility: hidden; }
+.pn-card {
+  background: #fdf8f0;
+  border: 1px solid #e2d5bd;
+  border-radius: 18px;
+  padding: 2.25rem 2rem 1.75rem;
+  max-width: 580px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12), 0 32px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+  scroll-behavior: smooth;
 }
-.v2-modal-card::before {
-  content: ''; position: absolute; top: -70px; right: -70px;
-  width: 240px; height: 240px;
-  background: radial-gradient(circle, rgba(244,161,29,0.09), transparent 70%);
-  pointer-events: none;
+.pn-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: rgba(60,40,10,0.08); border: 1px solid rgba(60,40,10,0.12);
+  color: #7a6040; border-radius: 50%; width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; cursor: pointer; line-height: 1;
+  transition: background 0.15s, color 0.15s;
 }
-.v2-modal-eyebrow {
-  font-family: 'Space Mono', monospace; font-size: 0.62rem;
-  color: var(--green); text-transform: uppercase; letter-spacing: 0.12em;
-  margin-bottom: 0.6rem;
+.pn-close:hover { background: rgba(60,40,10,0.15); color: #3a2010; }
+.pn-header {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
 }
-.v2-modal-badge {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  background: rgba(46,204,138,0.1); border: 1px solid rgba(46,204,138,0.3);
-  color: var(--green); font-family: 'Space Mono', monospace; font-size: 0.6rem;
-  padding: 0.25rem 0.65rem; border-radius: 20px; letter-spacing: 0.08em;
-  margin-bottom: 1rem;
+.pn-photo {
+  width: 62px; height: 62px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #e2d5bd; flex-shrink: 0;
 }
-.v2-modal-badge::before {
-  content: ''; width: 5px; height: 5px; background: var(--green);
-  border-radius: 50%; animation: pulse 2s infinite;
+.pn-avatar {
+  width: 62px; height: 62px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #1a3260, #2a4a8a);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 1.2rem;
+  color: #fff; border: 2px solid #e2d5bd; letter-spacing: 0.5px;
 }
-.v2-modal-title {
-  font-family: 'Bebas Neue', sans-serif; font-size: 1.95rem;
-  letter-spacing: 2px; color: var(--accent); line-height: 1.05; margin-bottom: 0.5rem;
+.pn-header-text { flex: 1; min-width: 0; }
+.pn-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  color: #8b6914; text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 0.3rem;
 }
-.v2-modal-body {
-  font-size: 0.85rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.75rem;
+.pn-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.65rem;
+  letter-spacing: 1.5px; color: #1a1208; line-height: 1.05;
 }
-.v2-modal-body strong { color: var(--light); }
-.v2-modal-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.v2-modal-enter {
-  background: var(--accent); color: #0a1628; border: none; border-radius: 8px;
+.pn-subtitle {
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  color: #5a4020; font-style: italic; margin-top: 0.25rem;
+}
+.pn-divider {
+  border: none; border-top: 1px solid #e2d5bd; margin: 1.1rem 0;
+}
+.pn-body {
+  font-family: 'DM Sans', sans-serif; font-size: 0.86rem;
+  color: #3a2c18; line-height: 1.82; margin-bottom: 1.1rem;
+}
+.pn-body p + p { margin-top: 0.85rem; }
+.pn-privacy {
+  background: rgba(244,161,29,0.07); border: 1px solid rgba(244,161,29,0.22);
+  border-radius: 8px; padding: 0.7rem 0.85rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+  color: #6b4a10; line-height: 1.6; margin-bottom: 1.1rem;
+}
+.pn-privacy strong { color: #4a2e06; }
+.pn-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
+.pn-tag {
+  background: rgba(244,161,29,0.1); border: 1px solid rgba(244,161,29,0.28);
+  color: #7a5210; border-radius: 20px;
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  padding: 0.2rem 0.65rem; letter-spacing: 0.04em;
+}
+.pn-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+.pn-enter {
+  background: #1a3260; color: #fff; border: none; border-radius: 8px;
   padding: 0.7rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
   font-weight: 700; cursor: pointer; transition: all 0.18s; letter-spacing: 0.3px;
 }
-.v2-modal-enter:hover { background: #f5b84a; transform: translateY(-1px); }
-.v2-modal-dismiss {
-  background: transparent; color: var(--muted);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
-  padding: 0.7rem 1.2rem; font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem; cursor: pointer; transition: all 0.18s;
+.pn-enter:hover { background: #234080; transform: translateY(-1px); }
+.pn-dismiss {
+  background: transparent; color: #8b6914;
+  border: none; padding: 0.7rem 0.5rem;
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+  cursor: pointer; transition: color 0.15s; text-decoration: underline;
+  text-underline-offset: 2px; text-decoration-color: rgba(139,105,20,0.4);
 }
-.v2-modal-dismiss:hover { color: var(--light); border-color: rgba(255,255,255,0.3); }
+.pn-dismiss:hover { color: #5a3e08; }
+@media (max-width: 520px) {
+  .pn-card { padding: 1.75rem 1.25rem 1.5rem; border-radius: 14px; }
+  .pn-title { font-size: 1.4rem; }
+  .pn-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+}
 
 /* FLOATING FEEDBACK BUTTON */
 .feedback-fab {
@@ -4184,6 +4222,123 @@ body::after {
   color: var(--green); border-radius: 20px; padding: 0.08rem 0.45rem;
   text-transform: uppercase; letter-spacing: 0.05em;
 }
+
+/* ── BRANDING INTEGRATION ─────────────────────────────── */
+
+/* Nav brand */
+.nav-brand { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; text-decoration: none; }
+.nav-logo-pill {
+  background: rgba(255,255,255,0.95); border-radius: 6px;
+  padding: 3px 8px; display: flex; align-items: center;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+}
+.nav-stem-logo { height: 24px; width: auto; display: block; }
+.nav-brand-text { display: flex; flex-direction: column; gap: 2px; line-height: 1; }
+.nav-brand-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 2px; color: var(--accent); }
+.nav-brand-name span { color: var(--light); }
+.nav-brand-tagline {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-family: 'Space Mono', monospace; font-size: 0.5rem;
+  color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.nav-paiu-pill { background: rgba(255,255,255,0.9); border-radius: 3px; padding: 1px 4px; display: inline-flex; align-items: center; }
+.nav-paiu-logo { height: 11px; width: auto; display: block; }
+@media (max-width: 700px) {
+  .nav-brand-text { display: none; }
+  .nav-stem-logo { height: 20px; }
+}
+
+/* Hero branding */
+.hero-brand { margin-bottom: 1.1rem; }
+.hero-logo-wrap {
+  display: inline-block;
+  background: rgba(255,255,255,0.97); border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: 0 0 0 1px rgba(244,161,29,0.25), 0 4px 18px rgba(0,0,0,0.35);
+  animation: logo-glow 3.5s ease-in-out infinite alternate;
+}
+@keyframes logo-glow {
+  from { box-shadow: 0 0 0 1px rgba(244,161,29,0.2), 0 0 10px rgba(244,161,29,0.08), 0 4px 18px rgba(0,0,0,0.3); }
+  to   { box-shadow: 0 0 0 1px rgba(244,161,29,0.55), 0 0 26px rgba(244,161,29,0.22), 0 6px 22px rgba(0,0,0,0.4); }
+}
+.hero-stem-logo { height: 52px; width: auto; display: block; }
+@media (max-width: 600px) { .hero-stem-logo { height: 38px; } .hero-logo-wrap { padding: 6px 12px; } }
+
+/* Footer branding */
+.site-footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.site-footer-logos { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; justify-content: center; }
+.footer-logo-pill {
+  background: rgba(255,255,255,0.92); border-radius: 7px;
+  padding: 5px 12px; display: flex; align-items: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+}
+.footer-stem-logo { height: 30px; width: auto; display: block; }
+.footer-paiu-logo { height: 26px; width: auto; display: block; }
+.footer-logo-divider { width: 1px; height: 24px; background: var(--border); align-self: center; }
+.site-footer-statement { font-size: 0.72rem; color: var(--muted); max-width: 520px; line-height: 1.65; }
+.site-footer-sub { font-size: 0.6rem; color: rgba(138,155,191,0.55); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* Prototype note modal logos */
+.pn-modal-brand {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1rem; padding-bottom: 0.85rem;
+  border-bottom: 1px solid #e2d5bd;
+}
+.pn-stem-mark { height: 28px; width: auto; display: block; }
+.pn-brand-sep { font-size: 0.7rem; color: #c4a86a; }
+.pn-paiu-mark { height: 20px; width: auto; display: block; }
+.pn-partner-line {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-top: 0.6rem; margin-bottom: 1rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  color: #8b6914; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.pn-partner-logo { height: 16px; width: auto; display: block; }
+
+/* profile.html nav logo (used in profile.html) */
+.pf-nav-brand { display: flex; align-items: center; gap: 0.55rem; flex-shrink: 0; text-decoration: none; }
+.pf-nav-logo-pill { background: rgba(255,255,255,0.95); border-radius: 5px; padding: 2px 7px; display: flex; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.25); }
+.pf-nav-stem-logo { height: 22px; width: auto; display: block; }
+.pf-nav-brand-text { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
+.pf-nav-brand-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; color: var(--accent); }
+.pf-nav-brand-name span { color: var(--light); }
+@media (max-width: 600px) { .pf-nav-brand-text { display: none; } }
+
+/* profile.html header logos */
+.pf-header-brand {
+  display: flex; align-items: center; gap: 1.25rem;
+  margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.pf-header-stem-wrap { background: rgba(255,255,255,0.97); border-radius: 10px; padding: 8px 16px; box-shadow: 0 0 0 1px rgba(244,161,29,0.2), 0 4px 16px rgba(0,0,0,0.3); }
+.pf-header-stem-logo { height: 48px; width: auto; display: block; }
+.pf-header-paiu-wrap { background: rgba(255,255,255,0.9); border-radius: 8px; padding: 6px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); opacity: 0.88; }
+.pf-header-paiu-logo { height: 32px; width: auto; display: block; }
+@media (max-width: 600px) {
+  .pf-header-stem-logo { height: 36px; }
+  .pf-header-paiu-wrap { display: none; }
+}
+
+/* ── ONBOARDING REDIRECT CARD ───────────────────────────── */
+.onboard-redirect-card {
+  display: flex; align-items: flex-start; gap: 1.25rem;
+  background: var(--card); border: 1px solid rgba(244,161,29,0.25);
+  border-left: 3px solid var(--accent); border-radius: 12px;
+  padding: 1.5rem 1.75rem; max-width: 640px;
+}
+.orc-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; padding-top: 2px; }
+.orc-title {
+  font-family: 'Space Mono', monospace; font-size: 0.78rem;
+  color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 0.45rem;
+}
+.orc-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+.orc-btn {
+  display: inline-block; background: var(--accent); color: #0a1628;
+  font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.04em; padding: 0.55rem 1.15rem; border-radius: 6px;
+  text-decoration: none; transition: all 0.18s;
+}
+.orc-btn:hover { background: #f5b84a; transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -4202,10 +4357,18 @@ body::after {
 <div class="progress-bar" id="progressBar"></div>
 
 <nav>
-  <div class="nav-logo">PA STEM <span>PoC</span></div>
+  <div class="nav-brand">
+    <div class="nav-logo-pill">
+      <img class="nav-stem-logo" src="assests/stem-poc-logo.png" alt="STEM PoC">
+    </div>
+    <div class="nav-brand-text">
+      <span class="nav-brand-name">PA STEM <span>PoC</span></span>
+      <span class="nav-brand-tagline">powered by <span class="nav-paiu-pill"><img class="nav-paiu-logo" src="assests/paiu-logo.png" alt="PAIU"></span></span>
+    </div>
+  </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="about.html">About</a></li>
-    <li><a href="#start">Start</a></li>
+    <li><a href="profile.html">Start Here</a></li>
     <li><a href="#who-for">Roles</a></li>
     <li><a href="#directory">Directory</a></li>
     <li><a href="#buddy">Buddy</a></li>
@@ -4240,6 +4403,11 @@ body::after {
 
 <!-- HERO -->
 <div class="hero reveal">
+  <div class="hero-brand">
+    <div class="hero-logo-wrap">
+      <img class="hero-stem-logo" src="assests/stem-poc-logo.png" alt="PA STEM PoC Network">
+    </div>
+  </div>
   <div class="hero-badge">STEM POC NETWORK — LIVING COMMAND CENTER</div>
   <h1>
     PA STEM<br>
@@ -4247,7 +4415,7 @@ body::after {
     <span class="dim">BUILT STATEWIDE.</span>
   </h1>
   <p class="hero-sub">
-    A living command center for onboarding, collaboration, deliverable planning, and statewide STEM impact. Built for the network, by the network — from orientation to contribution.
+    A statewide collaboration network for STEM leaders, ecosystems, workgroups, and innovation across Pennsylvania. Connecting people, initiatives, and momentum across Intermediate Units and statewide partners.
   </p>
   <div class="hero-stats">
     <div class="stat">
@@ -4283,6 +4451,7 @@ body::after {
   <a class="qa-btn" href="#resources">📚 STEM Intel</a>
   <a class="qa-btn" href="#sow">📋 SoW / ORBIT</a>
   <a class="qa-btn" href="#buddy">🤝 Buddy Match</a>
+  <button class="qa-btn" onclick="openPrototypeNote(true)" title="About this prototype">About This Prototype</button>
 </div>
 
 <!-- COMMAND BRIDGE — main dashboard grid -->
@@ -4507,165 +4676,18 @@ body::after {
 
 </div>
 
-<!-- START HERE -->
+<!-- START HERE — compact redirect (onboarding moved to profile.html) -->
 <div class="section reveal" id="start">
   <div class="section-header">
     <span class="section-num">02 //</span>
-    <h2 class="section-title">START HERE — ACCESS FIRST, THEN ACTION</h2>
+    <h2 class="section-title">GETTING STARTED</h2>
   </div>
-  <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1rem;">Click each item to mark it complete. Do these in order — access to the Shared Drive unlocks most other resources.</p>
-
-  <div class="access-callout"><strong>Access note:</strong> Most links in this hub depend on Shared Drive access. If something looks broken, request access first before assuming the resource is missing.</div>
-
-  <div class="check-progress" id="checkProgress">0 of 10 onboarding steps complete</div>
-
-  <div class="checklist" id="checklist">
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Join the Email Listserv</h4>
-        <p>All statewide communications come through here. Don't skip this one.</p>
-        <a href="#">→ Signup Form [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Request Shared Drive Access</h4>
-        <p>The Shared Drive is the mothership. Workgroup folders, meeting agendas, resources — all here.</p>
-        <a href="#">→ Access Request Form [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Confirm Link Access</h4>
-        <p>Open at least one Shared Drive folder, one workgroup agenda, and one resource document to confirm your permissions are working before your first PoC meeting.</p>
-        <a href="#resources">→ Check Resource Hub ↓</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Subscribe to the STEM Calendar</h4>
-        <p>Hold dates, workgroup meetings, statewide PLs — add this to your Google Calendar now.</p>
-        <a href="#">→ STEM Calendar [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Copy Your SoW Tracking Tool</h4>
-        <p>Your Statement of Work is how you document deliverable progress. Make a copy and own it.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL A</span><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span><span class="mini-del">DEL D</span><span class="mini-del">DEL E</span><span class="mini-del">DEL F</span><span class="mini-del">DEL G</span></div>
-        <a href="#">→ SoW Tracking Tool [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Identify Your TaC</h4>
-        <p>Your Training and Consulting (TaC) specialist is your implementation partner for grant deliverables. Know who they are.</p>
-        <a href="#directory">→ See the Directory ↓</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Understand the TaC Partnership</h4>
-        <p>TaC support is not an add-on. The STEM SOW expects inclusive access, UDL, and collaboration so STEM/CS learning works for students with diverse cognitive and physical abilities.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL G</span><span class="mini-del">DEL B</span><span class="mini-del">DEL D</span></div>
-        <a href="#who-for">→ See TaC Role Guidance ↓</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Read the Q&A Sharing Doc</h4>
-        <p>Answers to the questions every new PoC asks. Read before your first meeting.</p>
-        <a href="#">→ STEM PoC Q&A Doc [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Access ORBIT 1.0</h4>
-        <p>This is where your STEMinPA data lives. You'll report expenditures and qualitative progress here.</p>
-        <div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin:0.4rem 0;"><span class="mini-del">DEL A</span><span class="mini-del">DEL B</span><span class="mini-del">DEL C</span><span class="mini-del">DEL D</span><span class="mini-del">DEL E</span><span class="mini-del">DEL F</span><span class="mini-del">DEL G</span></div>
-        <a href="#">→ ORBIT Tool [LINK PLACEHOLDER]</a>
-      </div>
-    </div>
-
-    <div class="check-item" onclick="toggleCheck(this)">
-      <div class="check-box">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
-          <path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="check-content">
-        <h4>Join Your First Workgroup</h4>
-        <p>Pick one that aligns with your IU's strengths. You can always add more.</p>
-        <a href="#workgroups">→ See Workgroups ↓</a>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="reality-check">
-    <h4>New PoC Reality Check</h4>
-    <p>You do not need to understand the whole network on day one. Your first job is to get access, understand the deliverables, find your people, and start documenting evidence. The rest becomes clearer once you attend meetings and join one workgroup.</p>
-  </div>
-
-  <div class="orbit-box" style="margin-top:1.5rem;">
-    <div class="orbit-icon">⚠️</div>
+  <div class="onboard-redirect-card">
+    <div class="orc-icon">📋</div>
     <div>
-      <h4>ORBIT Tool — Know Before You Go</h4>
-      <p>ORBIT is where you document your STEMinPA work against deliverables. It's not obvious at first. IU6 runs office hours during the year — check the calendar. Final Expenditure Reports and Qualitative Reports are both due July 15 each year. See sample entries from other IUs in the Deliverables section below. Use the SoW and ORBIT sections together: the SoW tells you what the work is, ORBIT helps you document the evidence.</p>
+      <div class="orc-title">Need to finish onboarding?</div>
+      <div class="orc-desc">Create your profile, request Shared Drive access, and complete the setup checklist before diving into the full hub. Your onboarding progress is saved between visits.</div>
+      <a class="orc-btn" href="profile.html">Open Profile + Onboarding →</a>
     </div>
   </div>
 </div>
@@ -6420,7 +6442,19 @@ body::after {
 </div>
 
 <footer>
-  PA STEM PoC HUB · LIVING COMMAND CENTER · 2026-27 · Built for the network, by the network
+  <div class="site-footer-inner">
+    <div class="site-footer-logos">
+      <div class="footer-logo-pill">
+        <img class="footer-stem-logo" src="assests/stem-poc-logo.png" alt="PA STEM PoC Network">
+      </div>
+      <div class="footer-logo-divider"></div>
+      <div class="footer-logo-pill">
+        <img class="footer-paiu-logo" src="assests/paiu-logo.png" alt="Pennsylvania Association of Intermediate Units">
+      </div>
+    </div>
+    <p class="site-footer-statement">Built as an experimental statewide STEM collaboration prototype for Pennsylvania's STEM Point-of-Contact network.</p>
+    <p class="site-footer-sub">Educator-directed · AI-assisted · Prototype platform · 2026–27</p>
+  </div>
 </footer>
 
 <script>
@@ -6958,19 +6992,39 @@ body::after {
      Features: Prototype Modal · Feedback · Profile Creator
   ═══════════════════════════════════════════════════ */
 
-  // ── FEATURE 1: V2 Prototype Note Modal ──────────────────────
-  (function initV2Modal() {
-    if (localStorage.getItem('stemPocV2PrototypeNoteSeen')) return;
-    const el = document.getElementById('v2ProtoModal');
-    if (el) el.classList.remove('hidden');
-  })();
-
-  function closeV2Modal(dontShow) {
-    const el = document.getElementById('v2ProtoModal');
-    if (!el) return;
-    if (dontShow) localStorage.setItem('stemPocV2PrototypeNoteSeen', '1');
-    el.classList.add('hidden');
+  // ── FEATURE 1: Prototype Note Modal ─────────────────────────
+  function shouldShowPrototypeNote() {
+    return localStorage.getItem('stemPocPrototypeNoteSeen') !== 'true';
   }
+
+  function openPrototypeNote(force) {
+    var modal = document.getElementById('prototypeNoteModal');
+    if (!modal) return;
+    if (force || shouldShowPrototypeNote()) {
+      modal.setAttribute('aria-hidden', 'false');
+      modal.querySelector('.pn-enter') && modal.querySelector('.pn-enter').focus();
+    }
+  }
+
+  function closePrototypeNote(remember) {
+    var modal = document.getElementById('prototypeNoteModal');
+    if (!modal) return;
+    modal.setAttribute('aria-hidden', 'true');
+    if (remember !== false) {
+      localStorage.setItem('stemPocPrototypeNoteSeen', 'true');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    openPrototypeNote(false);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('prototypeNoteModal');
+      if (modal && modal.getAttribute('aria-hidden') === 'false') closePrototypeNote(true);
+    }
+  });
 
   // ── FEATURE 2: Floating Feedback System ─────────────────────
   function openFeedbackModal() {
@@ -8406,22 +8460,60 @@ body::after {
      V2 PATCH 1 — HTML MODALS
 ════════════════════════════════════════════════════════════ -->
 
-<!-- FEATURE 1: V2 Prototype Note Modal -->
-<div class="v2-modal-overlay hidden" id="v2ProtoModal">
-  <div class="v2-modal-card">
-    <div class="v2-modal-badge">ACTIVE PROTOTYPE</div>
-    <div class="v2-modal-eyebrow">PA STEM PoC Network</div>
-    <div class="v2-modal-title">Welcome to V2 of the STEM PoC Hub</div>
-    <div class="v2-modal-body">
-      <p>This tool is evolving from a static resource site into a <strong>living statewide STEM collaboration platform</strong> — built by and for Pennsylvania STEM Points of Contact.</p>
-      <br>
-      <p>V2 introduces the foundations of a <strong>collaborative operating system</strong>: community profiles, workgroup hubs, shared momentum, and statewide connection infrastructure. The current version uses local storage while backend systems are being wired in.</p>
-      <br>
-      <p><strong>This is an active prototype.</strong> Features are being added in patches. Your feedback shapes what gets built next — use the feedback button anytime.</p>
+<!-- PROTOTYPE NOTE MODAL — "A Note From the Builder" -->
+<div class="pn-overlay"
+     id="prototypeNoteModal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="pnTitle"
+     aria-hidden="true"
+     onclick="if(event.target===this)closePrototypeNote(true)">
+  <div class="pn-card">
+    <button class="pn-close" onclick="closePrototypeNote(true)" aria-label="Close note">✕</button>
+
+    <div class="pn-modal-brand" aria-hidden="true">
+      <img class="pn-stem-mark" src="assests/stem-poc-logo.png" alt="STEM PoC">
+      <span class="pn-brand-sep">×</span>
+      <img class="pn-paiu-mark" src="assests/paiu-logo.png" alt="PAIU">
     </div>
-    <div class="v2-modal-btns">
-      <button class="v2-modal-enter" onclick="closeV2Modal(false)">Enter the Network</button>
-      <button class="v2-modal-dismiss" onclick="closeV2Modal(true)">Don't show again</button>
+
+    <div class="pn-header">
+      <img class="pn-photo"
+           src="assests/paiu-photos/Macer-Greg.jpeg"
+           alt="Greg Macer"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="pn-avatar" style="display:none" aria-hidden="true">GM</div>
+      <div class="pn-header-text">
+        <div class="pn-eyebrow">PA STEM PoC Network · Prototype Note</div>
+        <div class="pn-title" id="pnTitle">A Note From the Builder</div>
+        <div class="pn-subtitle">Before you enter the statewide STEM collaboration hub...</div>
+      </div>
+    </div>
+
+    <hr class="pn-divider">
+
+    <div class="pn-body">
+      <p>Hi — I'm Greg Macer, Supervisor of STEM and District Support at IU29. This tool is an experimental prototype for imagining what a statewide STEM Point-of-Contact network could become when we move beyond scattered emails, static documents, and disconnected workgroup spaces.</p>
+      <p>This is not meant to replace official PAIU, PDE, IU, or workgroup systems. It is a working prototype meant to explore what becomes possible when educators can create, connect, share, and build momentum in one living collaboration space.</p>
+      <p>I do not have formal coding training. What I do have is a messy pile of ideas, a strong belief in educator creativity, and a willingness to learn by building. AI helped me brainstorm, organize, troubleshoot, and iterate — but the direction, purpose, and decisions are educator-led.</p>
+      <p>My hope is that this sparks a bigger conversation: what could Pennsylvania's STEM ecosystem create if we treated collaboration as something alive, visible, and shared?</p>
+    </div>
+
+    <div class="pn-privacy">
+      <strong>Friendly privacy reminder:</strong> Please do not enter sensitive, confidential, student-specific, medical, financial, or private information into this prototype. Keep it professional and network-friendly.
+    </div>
+
+    <div class="pn-tags">
+      <span class="pn-tag">AI-assisted</span>
+      <span class="pn-tag">Educator-directed</span>
+      <span class="pn-tag">Prototype</span>
+      <span class="pn-tag">Statewide STEM Network</span>
+      <span class="pn-tag">No sensitive information</span>
+    </div>
+
+    <div class="pn-btns">
+      <button class="pn-enter" onclick="closePrototypeNote(false)">Enter the Network</button>
+      <button class="pn-dismiss" onclick="closePrototypeNote(true)">Don't show again</button>
     </div>
   </div>
 </div>

@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create Your STEM PoC Profile — PA STEM PoC Network</title>
+<title>Join the Network — PA STEM PoC Hub · Statewide STEM Collaboration</title>
+<link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -434,25 +435,191 @@
   }
   .pf-footer a { color: rgba(138,155,191,0.45); text-decoration: none; }
   .pf-footer a:hover { color: var(--muted); }
+
+  /* ── BRANDING ─────────────────────────── */
+  .pf-nav-brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; }
+  .pf-nav-logo-pill { background: rgba(255,255,255,0.95); border-radius: 5px; padding: 2px 7px; display: flex; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.25); }
+  .pf-nav-stem-logo { height: 22px; width: auto; display: block; }
+  .pf-nav-brand-text { display: flex; flex-direction: column; gap: 1px; line-height: 1; }
+  .pf-nav-brand-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; color: var(--accent); }
+  .pf-nav-brand-name span { color: var(--light); }
+  @media (max-width: 600px) { .pf-nav-brand-text { display: none; } }
+  .pf-header-brand { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .pf-header-stem-wrap { background: rgba(255,255,255,0.97); border-radius: 10px; padding: 8px 16px; box-shadow: 0 0 0 1px rgba(244,161,29,0.2), 0 4px 16px rgba(0,0,0,0.3); }
+  .pf-header-stem-logo { height: 48px; width: auto; display: block; }
+  .pf-header-paiu-wrap { background: rgba(255,255,255,0.9); border-radius: 8px; padding: 6px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); opacity: 0.88; }
+  .pf-header-paiu-logo { height: 32px; width: auto; display: block; }
+  @media (max-width: 600px) { .pf-header-stem-logo { height: 36px; } .pf-header-paiu-wrap { display: none; } }
+
+  /* ── WELCOME BANNER ──────────────────────────────────── */
+  .pf-welcome-banner {
+    background: rgba(26,58,107,0.45); border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 0.6rem 2rem; font-size: 0.8rem; color: var(--muted);
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .pf-welcome-banner strong { color: var(--light); }
+  .pf-welcome-banner a { color: var(--accent); text-decoration: none; }
+  .pf-welcome-banner a:hover { text-decoration: underline; }
+  .pf-welcome-sep { opacity: 0.35; }
+
+  /* ── ONBOARDING SECTION ──────────────────────────────── */
+  .pf-onboarding {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 2.5rem 2rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .pf-onboard-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .pf-onboard-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 3vw, 2.5rem);
+    letter-spacing: 2px; color: var(--light); line-height: 1.05; margin-bottom: 0.5rem;
+  }
+  .pf-onboard-subtitle {
+    font-size: 0.88rem; color: var(--muted); margin-bottom: 1.25rem;
+    max-width: 640px; line-height: 1.6;
+  }
+  .pf-onboard-access-note {
+    background: rgba(46,204,138,0.06); border: 1px solid rgba(46,204,138,0.25);
+    border-left: 3px solid var(--green); border-radius: 6px;
+    padding: 0.65rem 1rem; margin-bottom: 1.25rem;
+    font-size: 0.8rem; color: var(--muted); line-height: 1.5;
+  }
+  .pf-onboard-access-note strong { color: var(--green); }
+  .pf-onboard-progress {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--muted);
+    background: var(--card); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 6px;
+    padding: 0.5rem 1rem; margin-bottom: 1.25rem; letter-spacing: 0.04em;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .pf-onboard-progress.complete { border-left-color: var(--green); color: var(--green); }
+
+  /* Check items — same visual pattern as index.html */
+  .pf-checklist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .pf-check-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.25rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    cursor: pointer; transition: all 0.2s;
+    position: relative; overflow: hidden;
+    user-select: none;
+  }
+  .pf-check-item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent); opacity: 0; transition: opacity 0.2s;
+  }
+  .pf-check-item:hover { border-color: rgba(244,161,29,0.5); transform: translateY(-2px); }
+  .pf-check-item:hover::before { opacity: 1; }
+  .pf-check-item.done { border-color: rgba(46,204,138,0.4); }
+  .pf-check-item.done::before { background: var(--green); opacity: 1; }
+  .pf-check-box {
+    width: 22px; height: 22px; border: 2px solid var(--muted);
+    border-radius: 4px; flex-shrink: 0; display: flex;
+    align-items: center; justify-content: center;
+    transition: all 0.2s; margin-top: 2px;
+  }
+  .pf-check-item.done .pf-check-box { background: var(--green); border-color: var(--green); }
+  .pf-check-box svg { display: none; }
+  .pf-check-item.done .pf-check-box svg { display: block; }
+  .pf-check-content h4 { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .pf-check-content p { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .pf-check-content a {
+    color: var(--accent); text-decoration: none; font-size: 0.78rem;
+    display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.4rem;
+  }
+  .pf-check-content a:hover { text-decoration: underline; }
+  .pf-check-del-row { display: flex; gap: 0.3rem; flex-wrap: wrap; margin: 0.4rem 0; }
+  .pf-mini-del {
+    font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.04em;
+    background: rgba(244,161,29,0.1); border: 1px solid rgba(244,161,29,0.25);
+    color: var(--accent); border-radius: 4px; padding: 0.1rem 0.4rem;
+  }
+
+  /* Reality check + ORBIT note */
+  .pf-reality-check {
+    background: rgba(26,58,107,0.4); border: 1px solid rgba(244,161,29,0.15);
+    border-left: 3px solid var(--accent); border-radius: 8px;
+    padding: 1.1rem 1.25rem; margin-bottom: 1.5rem;
+  }
+  .pf-reality-check h4 {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem;
+  }
+  .pf-reality-check p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* Hub CTA */
+  .pf-onboard-cta {
+    text-align: center; padding: 2rem 1rem 1rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .pf-hub-btn {
+    display: inline-block; background: var(--accent); color: #0a1628;
+    font-family: 'Space Mono', monospace; font-size: 0.88rem; font-weight: 700;
+    letter-spacing: 0.04em; padding: 0.85rem 2rem; border-radius: 8px;
+    text-decoration: none; transition: all 0.2s; margin-bottom: 0.85rem;
+  }
+  .pf-hub-btn:hover { background: #f5b84a; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,161,29,0.25); }
+  .pf-hub-helper { font-size: 0.76rem; color: var(--muted); max-width: 460px; margin: 0 auto; line-height: 1.6; }
+
+  /* "Continue to Onboarding" button in success screen */
+  .pf-continue-onboard-btn {
+    display: inline-block; background: transparent;
+    border: 1px solid rgba(244,161,29,0.4); color: var(--accent);
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.04em; padding: 0.6rem 1.2rem; border-radius: 6px;
+    text-decoration: none; cursor: pointer; transition: all 0.18s;
+  }
+  .pf-continue-onboard-btn:hover { background: rgba(244,161,29,0.1); border-color: var(--accent); }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="pf-nav">
-  <div class="pf-nav-logo">PA STEM <span>PoC</span></div>
+  <div class="pf-nav-brand">
+    <div class="pf-nav-logo-pill">
+      <img class="pf-nav-stem-logo" src="assests/stem-poc-logo.png" alt="STEM PoC">
+    </div>
+    <div class="pf-nav-brand-text">
+      <span class="pf-nav-brand-name">PA STEM <span>PoC</span></span>
+    </div>
+  </div>
   <div class="pf-nav-right">
     <a class="pf-nav-back" href="index.html">← Back to Hub</a>
     <a class="pf-nav-enter" href="index.html">Enter Hub</a>
   </div>
 </nav>
 
+<!-- WELCOME BANNER -->
+<div class="pf-welcome-banner">
+  <span>New to the STEM PoC network? <strong>Start here.</strong></span>
+  <span class="pf-welcome-sep">—</span>
+  <span>Returning PoC? <a href="index.html">Jump straight into the hub →</a></span>
+</div>
+
 <!-- FORM AREA (hidden on success) -->
 <div id="formArea">
 
   <!-- PAGE HEADER -->
   <div class="pf-header">
-    <div class="pf-eyebrow">PA STEM PoC Network</div>
+    <div class="pf-header-brand">
+      <div class="pf-header-stem-wrap">
+        <img class="pf-header-stem-logo" src="assests/stem-poc-logo.png" alt="PA STEM PoC Network">
+      </div>
+      <div class="pf-header-paiu-wrap">
+        <img class="pf-header-paiu-logo" src="assests/paiu-logo.png" alt="Pennsylvania Association of Intermediate Units">
+      </div>
+    </div>
+    <div class="pf-eyebrow">Statewide STEM Collaboration Network</div>
     <h1 class="pf-title">Create Your<br><span>STEM PoC Profile</span></h1>
     <p class="pf-subtitle">Join the statewide STEM PoC network by creating your collaboration card. Your profile helps colleagues find you, understand your expertise, and connect across Pennsylvania.</p>
   </div>
@@ -725,9 +892,150 @@
       <button class="pf-copy-btn" id="copyBtn" onclick="copyAccessCode()">Copy Code</button>
     </div>
     <div class="pf-success-actions">
+      <button class="pf-continue-onboard-btn" onclick="scrollToOnboarding()">Continue to Onboarding ↓</button>
       <a class="pf-enter-hub-btn" href="index.html">Enter STEM PoC Hub →</a>
       <button class="pf-another-btn" onclick="resetForm()">Create Another Profile</button>
     </div>
+  </div>
+</div>
+
+<!-- ONBOARDING SECTION -->
+<div class="pf-onboarding" id="onboardingSection">
+  <div class="pf-onboard-eyebrow">STEM PoC Network Setup</div>
+  <h2 class="pf-onboard-title">Start Here — Access First, Then Action</h2>
+  <p class="pf-onboard-subtitle">Complete these setup steps so the STEM PoC Hub works for you from day one.</p>
+
+  <div class="pf-onboard-access-note">
+    <strong>Access note:</strong> Most links in this hub depend on Shared Drive access. If something looks broken, request access first before assuming the resource is missing.
+  </div>
+
+  <div class="pf-onboard-progress" id="pfOnboardProgress">0 of 10 onboarding steps completed</div>
+
+  <div class="pf-checklist" id="pfChecklist">
+
+    <div class="pf-check-item" data-key="joinListserv" onclick="toggleOnboardItem('joinListserv', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Join the Email Listserv</h4>
+        <p>All statewide communications come through here. Don't skip this one.</p>
+        <a href="#">→ Signup Form [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="sharedDriveAccess" onclick="toggleOnboardItem('sharedDriveAccess', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Request Shared Drive Access</h4>
+        <p>The Shared Drive is the mothership. Workgroup folders, meeting agendas, resources — all here.</p>
+        <a href="#">→ Access Request Form [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="confirmLinkAccess" onclick="toggleOnboardItem('confirmLinkAccess', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Confirm Link Access</h4>
+        <p>Open at least one Shared Drive folder, one workgroup agenda, and one resource document to confirm permissions are working before your first PoC meeting.</p>
+        <a href="index.html#resources">→ Check Resource Hub ↓</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="subscribeCalendar" onclick="toggleOnboardItem('subscribeCalendar', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Subscribe to the STEM Calendar</h4>
+        <p>Hold dates, workgroup meetings, statewide PLs — add this to your Google Calendar now.</p>
+        <a href="#">→ STEM Calendar [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="copySowTool" onclick="toggleOnboardItem('copySowTool', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Copy Your SoW Tracking Tool</h4>
+        <p>Your Statement of Work is how you document deliverable progress. Make a copy and own it.</p>
+        <div class="pf-check-del-row"><span class="pf-mini-del">DEL A</span><span class="pf-mini-del">DEL B</span><span class="pf-mini-del">DEL C</span><span class="pf-mini-del">DEL D</span><span class="pf-mini-del">DEL E</span><span class="pf-mini-del">DEL F</span><span class="pf-mini-del">DEL G</span></div>
+        <a href="#">→ SoW Tracking Tool [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="identifyTac" onclick="toggleOnboardItem('identifyTac', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Identify Your TaC</h4>
+        <p>Your Training and Consulting (TaC) specialist is your implementation partner for grant deliverables. Know who they are.</p>
+        <a href="index.html#directory">→ See the Directory ↓</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="tacPartnership" onclick="toggleOnboardItem('tacPartnership', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Review the TaC Partnership</h4>
+        <p>Understand how PoCs and TaC partners work together throughout the grant year. TaC support is not optional — it's built into the SoW.</p>
+        <div class="pf-check-del-row"><span class="pf-mini-del">DEL G</span><span class="pf-mini-del">DEL B</span><span class="pf-mini-del">DEL D</span></div>
+        <a href="#">→ Partnership Overview [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="qaDoc" onclick="toggleOnboardItem('qaDoc', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Read the Q&amp;A Sharing Doc</h4>
+        <p>This is where common questions, clarifications, and shared answers should live. Read before your first meeting.</p>
+        <a href="#">→ Q&amp;A Doc [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="orbitAccess" onclick="toggleOnboardItem('orbitAccess', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Access ORBIT 1.0</h4>
+        <p>ORBIT is the reporting system for grant activity. Know where it is before reporting season arrives. Final Expenditure Reports and Qualitative Reports are due July 15 each year.</p>
+        <div class="pf-check-del-row"><span class="pf-mini-del">DEL A</span><span class="pf-mini-del">DEL B</span><span class="pf-mini-del">DEL C</span><span class="pf-mini-del">DEL D</span><span class="pf-mini-del">DEL E</span><span class="pf-mini-del">DEL F</span><span class="pf-mini-del">DEL G</span></div>
+        <a href="#">→ ORBIT Login [LINK PLACEHOLDER]</a>
+      </div>
+    </div>
+
+    <div class="pf-check-item" data-key="firstNetworkAction" onclick="toggleOnboardItem('firstNetworkAction', this)">
+      <div class="pf-check-box">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pf-check-content">
+        <h4>Complete Your First Network Action</h4>
+        <p>Create your profile (above), join at least one workgroup, and identify one person you may want to connect with.</p>
+        <a href="index.html">→ Enter Hub</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="pf-reality-check">
+    <h4>New PoC Reality Check</h4>
+    <p>You do not need to understand the whole network on day one. Your first job is to get access, understand the deliverables, find your people, and start documenting evidence. The rest becomes clearer once you attend meetings and join one workgroup.</p>
+  </div>
+
+  <div class="pf-onboard-cta">
+    <a class="pf-hub-btn" href="index.html">Enter STEM PoC Hub →</a>
+    <p class="pf-hub-helper">You can enter the hub anytime, but completing these setup steps will make the network much more useful.</p>
   </div>
 </div>
 
@@ -1024,9 +1332,64 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ── Onboarding progress (localStorage-backed) ─────────────────
+  var ONBOARD_KEY = 'stemPocOnboardingProgress';
+  var ONBOARD_ITEMS = [
+    'joinListserv','sharedDriveAccess','confirmLinkAccess','subscribeCalendar',
+    'copySowTool','identifyTac','tacPartnership','qaDoc','orbitAccess','firstNetworkAction'
+  ];
+
+  function loadOnboardProgress() {
+    try { return JSON.parse(localStorage.getItem(ONBOARD_KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function saveOnboardProgress(progress) {
+    progress.updatedAt = new Date().toISOString();
+    localStorage.setItem(ONBOARD_KEY, JSON.stringify(progress));
+  }
+
+  function toggleOnboardItem(key, el) {
+    var progress = loadOnboardProgress();
+    progress[key] = !progress[key];
+    el.classList.toggle('done', !!progress[key]);
+    saveOnboardProgress(progress);
+    updateOnboardProgress();
+  }
+
+  function updateOnboardProgress() {
+    var progress = loadOnboardProgress();
+    var done = ONBOARD_ITEMS.filter(function(k) { return progress[k]; }).length;
+    var total = ONBOARD_ITEMS.length;
+    var el = document.getElementById('pfOnboardProgress');
+    if (!el) return;
+    if (done === total) {
+      el.textContent = 'Onboarding complete — you are cleared for launch.';
+      el.classList.add('complete');
+    } else {
+      el.textContent = done + ' of ' + total + ' onboarding steps completed';
+      el.classList.remove('complete');
+    }
+  }
+
+  function initOnboarding() {
+    var progress = loadOnboardProgress();
+    ONBOARD_ITEMS.forEach(function(key) {
+      var el = document.querySelector('.pf-check-item[data-key="' + key + '"]');
+      if (el && progress[key]) el.classList.add('done');
+    });
+    updateOnboardProgress();
+  }
+
+  function scrollToOnboarding() {
+    var section = document.getElementById('onboardingSection');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   // ── Init ──────────────────────────────────────────────────────
   initTagPickers();
   updatePreview();
+  initOnboarding();
 </script>
 </body>
 </html>
