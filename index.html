@@ -3505,7 +3505,7 @@ body::before {
 #sow::before, #orbit::before                      { background: linear-gradient(90deg, rgba(232,67,58,0.45) 0%, transparent 65%); }
 #resources::before, #intelligence::before         { background: linear-gradient(90deg, rgba(34,211,238,0.45) 0%, transparent 65%); }
 #buddy::before                                    { background: linear-gradient(90deg, rgba(55,200,130,0.4) 0%, transparent 65%); }
-#pathway::before, #future::before                 { background: linear-gradient(90deg, rgba(138,155,191,0.3) 0%, transparent 65%); }
+#collaborate::before                              { background: linear-gradient(90deg, rgba(167,123,245,0.55) 0%, transparent 65%); }
 
 /* Quick Actions Bar */
 .quick-actions-bar {
@@ -4340,6 +4340,195 @@ body::after {
   text-decoration: none; transition: all 0.18s;
 }
 .orc-btn:hover { background: #f5b84a; transform: translateY(-1px); }
+
+/* ── ECOSYSTEM COLLABORATION NODE SYSTEM ─────────────────── */
+
+/* Section color accent */
+#collaborate::before { background: linear-gradient(90deg, rgba(167,123,245,0.55) 0%, transparent 65%); }
+
+/* Top two-col layout: form + stats */
+.collab-top-grid {
+  display: grid; grid-template-columns: 1fr 260px;
+  gap: 1.25rem; align-items: start; margin-bottom: 1.5rem;
+}
+@media (max-width: 860px) { .collab-top-grid { grid-template-columns: 1fr; } }
+
+/* Form card */
+.collab-form-card {
+  background: var(--card); border: 1px solid rgba(167,123,245,0.25);
+  border-top: 2px solid rgba(167,123,245,0.55);
+  border-radius: 12px; padding: 1.5rem 1.5rem 1.25rem;
+  position: relative;
+}
+.collab-form-title {
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  color: #c084fc; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+.collab-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.9rem; }
+.collab-label {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted);
+}
+.collab-label .req { color: var(--accent); }
+.collab-input, .collab-select, .collab-textarea {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px; color: var(--light);
+  font-family: 'DM Sans', sans-serif; font-size: 0.84rem;
+  padding: 0.55rem 0.75rem; transition: border-color 0.18s; width: 100%;
+}
+.collab-input:focus, .collab-select:focus, .collab-textarea:focus {
+  outline: none; border-color: rgba(167,123,245,0.5);
+}
+.collab-input.error, .collab-select.error, .collab-textarea.error {
+  border-color: rgba(232,67,58,0.6);
+}
+.collab-select { appearance: none; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a9bbf'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2rem;
+}
+.collab-select option { background: #111e36; }
+.collab-textarea { resize: vertical; min-height: 80px; }
+.collab-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+@media (max-width: 600px) { .collab-row { grid-template-columns: 1fr; } }
+.collab-submit-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff; border: none; border-radius: 8px;
+  padding: 0.7rem 1.5rem; font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem; font-weight: 700; cursor: pointer;
+  transition: all 0.18s; letter-spacing: 0.2px; margin-top: 0.25rem;
+}
+.collab-submit-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.collab-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.collab-status-msg {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  letter-spacing: 0.04em; padding: 0.45rem 0.85rem;
+  border-radius: 6px; margin-top: 0.75rem; display: none;
+}
+.collab-status-ok    { color: var(--green); background: rgba(46,204,138,0.07); border: 1px solid rgba(46,204,138,0.25); }
+.collab-status-local { color: var(--muted); background: rgba(138,155,191,0.06); border: 1px solid rgba(138,155,191,0.18); }
+.collab-status-err   { color: var(--red); background: rgba(232,67,58,0.07); border: 1px solid rgba(232,67,58,0.2); }
+
+/* Stats panel */
+.collab-stats-card {
+  background: var(--card); border: 1px solid rgba(167,123,245,0.18);
+  border-radius: 12px; padding: 1.25rem 1.25rem 1rem;
+  position: sticky; top: 70px;
+}
+.collab-stats-title {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #c084fc; margin-bottom: 0.9rem;
+}
+.collab-stat-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.78rem; color: var(--muted);
+}
+.collab-stat-row:last-child { border-bottom: none; }
+.collab-stat-num { font-family: 'Space Mono', monospace; font-size: 0.88rem; color: var(--light); }
+.collab-latest {
+  margin-top: 0.85rem; padding: 0.65rem 0.75rem;
+  background: rgba(167,123,245,0.07); border: 1px solid rgba(167,123,245,0.15);
+  border-radius: 6px; font-size: 0.72rem; color: var(--muted); line-height: 1.5;
+}
+.collab-latest strong { color: var(--light); display: block; font-size: 0.75rem; }
+.collab-cloud-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.06em; border-radius: 20px;
+  padding: 0.18rem 0.65rem; margin-top: 0.85rem;
+}
+.collab-cloud-badge.active { color: var(--green); background: rgba(46,204,138,0.07); border: 1px solid rgba(46,204,138,0.2); }
+.collab-cloud-badge.local  { color: var(--muted); background: rgba(138,155,191,0.06); border: 1px solid rgba(138,155,191,0.15); }
+.collab-cloud-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* Filters + search bar */
+.collab-filter-bar {
+  display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+  margin-bottom: 1rem;
+}
+.collab-filter-search {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px; color: var(--light);
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+  padding: 0.4rem 0.75rem; flex: 1; min-width: 180px; max-width: 320px;
+  transition: border-color 0.18s;
+}
+.collab-filter-search:focus { outline: none; border-color: rgba(167,123,245,0.4); }
+.collab-filter-search::placeholder { color: var(--muted); }
+.collab-chip {
+  font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.04em;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted); border-radius: 20px; padding: 0.25rem 0.7rem;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.collab-chip:hover, .collab-chip.active {
+  background: rgba(167,123,245,0.12); border-color: rgba(167,123,245,0.4);
+  color: #c084fc;
+}
+
+/* Node card grid */
+.collab-node-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.collab-node-card {
+  background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 1.1rem 1.15rem; position: relative;
+  overflow: hidden; transition: border-color 0.2s, transform 0.2s;
+}
+.collab-node-card:hover { border-color: rgba(167,123,245,0.35); transform: translateY(-2px); }
+.collab-node-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  opacity: 0.8;
+}
+/* Category-specific left-bar colors */
+.cn-cat-looking    ::before, .collab-node-card[data-cat="Looking For"]::before    { background: #5b8ff9; }
+.collab-node-card[data-cat="Can Offer"]::before          { background: var(--green); }
+.collab-node-card[data-cat="Building"]::before           { background: #a77bf5; }
+.collab-node-card[data-cat="Sharing"]::before            { background: var(--accent); }
+.collab-node-card[data-cat="Resource"]::before           { background: #22d3ee; }
+.collab-node-card[data-cat="Question"]::before           { background: #fbbf24; }
+.collab-node-card[data-cat="Event"]::before              { background: var(--red); }
+.collab-node-card[data-cat="Pilot Opportunity"]::before  { background: #14b8a6; }
+.collab-node-card[data-cat="District Example"]::before   { background: #818cf8; }
+.collab-node-card[data-cat="Workgroup Momentum"]::before { background: #34d399; }
+.collab-node-card[data-cat="Partnership Request"]::before{ background: var(--accent); }
+
+.collab-cat-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.05em;
+  text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 20px;
+  margin-bottom: 0.55rem; border: 1px solid;
+}
+.collab-node-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; line-height: 1.3; }
+.collab-node-desc  { font-size: 0.78rem; color: var(--muted); line-height: 1.55; margin-bottom: 0.65rem; }
+.collab-node-tags  { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+.collab-node-tag {
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  color: var(--muted); border-radius: 4px; padding: 0.1rem 0.4rem;
+}
+.collab-node-tag.looking { border-color: rgba(91,143,249,0.3); color: #93c5fd; }
+.collab-node-tag.offering { border-color: rgba(46,204,138,0.3); color: var(--green); }
+.collab-node-meta {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  font-size: 0.68rem; color: rgba(138,155,191,0.7);
+  padding-top: 0.55rem; border-top: 1px solid rgba(255,255,255,0.06);
+  font-family: 'Space Mono', monospace;
+}
+.collab-node-iu {
+  background: rgba(255,255,255,0.05); border-radius: 4px;
+  padding: 0.1rem 0.45rem; font-size: 0.6rem; color: var(--muted);
+}
+.collab-empty-state {
+  grid-column: 1 / -1; text-align: center;
+  padding: 2.5rem 1rem; color: var(--muted);
+  font-family: 'Space Mono', monospace; font-size: 0.72rem;
+  border: 1px dashed rgba(255,255,255,0.08); border-radius: 10px;
+}
+.collab-empty-state strong { color: var(--light); display: block; margin-bottom: 0.4rem; }
 </style>
 </head>
 <body>
@@ -4378,7 +4567,7 @@ body::after {
     <li><a href="#orbit">ORBIT</a></li>
     <li><a href="#resources">Resources</a></li>
     <li><a href="#intelligence">STEM Intel</a></li>
-    <li><a href="#future">Future</a></li>
+    <li><a href="#collaborate">Collaborate</a></li>
     <li><a href="#" class="nav-create-btn" onclick="openProfileCreator(event)">✦ Create Profile</a></li>
     <li><a href="profile.html" target="_blank" rel="noopener" style="font-size:0.8rem;opacity:0.7;">📝 Share Form</a></li>
   </ul>
@@ -4452,6 +4641,7 @@ body::after {
   <a class="qa-btn" href="#resources">📚 STEM Intel</a>
   <a class="qa-btn" href="#sow">📋 SoW / ORBIT</a>
   <a class="qa-btn" href="#buddy">🤝 Buddy Match</a>
+  <a class="qa-btn" href="#collaborate">🌐 Collaborate</a>
   <button class="qa-btn" onclick="openPrototypeNote(true)" title="About this prototype">About This Prototype</button>
 </div>
 
@@ -4711,14 +4901,14 @@ body::after {
       <p class="role-card-desc">Start here if you are new to the STEM PoC role and need a clear path into the network.</p>
       <ul class="role-entry-list">
         <li>Complete the Start Here checklist</li>
-        <li>Follow the 90-Day Pathway</li>
+        <li>Create your profile and join the directory</li>
         <li>Learn the SoW deliverables</li>
         <li>Find your TaC and buddy</li>
         <li>Use the ORBIT companion before reporting season</li>
       </ul>
       <div class="role-actions">
         <a class="btn-role" href="#start">Start Checklist →</a>
-        <a class="btn-role" href="#pathway">View 90-Day Pathway →</a>
+        <a class="btn-role" href="#directory">Join the Directory →</a>
       </div>
     </div>
 
@@ -4769,7 +4959,7 @@ body::after {
       </ul>
       <div class="role-actions">
         <a class="btn-role" href="#orbit">Review ORBIT →</a>
-        <a class="btn-role" href="#future">View Future Builds →</a>
+        <a class="btn-role" href="#directory">Full Network Directory →</a>
       </div>
     </div>
 
@@ -5991,9 +6181,6 @@ body::after {
       <p id="matchText"></p>
     </div>
 
-    <div class="coming-soon" style="margin-top:1.5rem;">
-      <strong>PLACEHOLDER:</strong> Full buddy matching will be built out with the lead team before 2026-27 onboarding. The logic will factor in IU region, IU size, deliverable focus, and years of experience. Interested in coordinating this? Talk to Nicole Bond.
-    </div>
   </div>
 </div>
 
@@ -6415,31 +6602,129 @@ body::after {
 </div>
 
 
-<div class="section reveal" id="pathway">
-  <div class="section-header">
-    <span class="section-num">EXTRA //</span>
-    <h2 class="section-title">90-DAY ONBOARDING PATHWAY</h2>
-  </div>
-  <div class="coming-soon">
-    <strong>COMING — PATCH 3:</strong> Interactive 30 / 60 / 90-day phase cards with expandable checklists — Day 0–14 access setup, Day 15–30 first meeting and workgroup, Day 31–60 first contribution, Day 61–90 active member graduation.
-  </div>
-</div>
-
-<!-- FUTURE BUILDS -->
-<div class="section reveal" id="future">
+<!-- ECOSYSTEM COLLABORATION NODE SYSTEM -->
+<div class="section reveal" id="collaborate">
   <div class="section-header">
     <span class="section-num">11 //</span>
-    <h2 class="section-title">FUTURE BUILDS</h2>
-    <!-- note: task says 10, keeping 11 since appendix sections use EXTRA and this is last numbered -->
+    <h2 class="section-title">ADD TO THE ECOSYSTEM</h2>
   </div>
-  <div class="future-network-card">
-    <h3>// The Work Is the Network</h3>
-    <p>The SOW is more than a compliance document — it is a statewide coordination framework. Every PoC working their deliverables is simultaneously building a shared professional infrastructure for Pennsylvania STEM: shared resources, shared learning, shared evidence, shared momentum.</p>
-    <p>When you log ORBIT entries, attend workgroup meetings, contribute to the STEM Toolkit, or show up to a regional PLC — you are not just doing your job. You are contributing to a network that would not exist without each of its nodes showing up.</p>
+  <p style="font-size:0.85rem;color:var(--muted);max-width:660px;line-height:1.7;margin-bottom:0.5rem;">Share what you are building, looking for, offering, or wondering about so the statewide STEM network can see and connect around real work.</p>
+  <p style="font-family:'Space Mono',monospace;font-size:0.62rem;color:#c084fc;letter-spacing:0.06em;margin-bottom:1.5rem;">This is where the network becomes visible.</p>
+
+  <!-- Form + Stats -->
+  <div class="collab-top-grid">
+
+    <!-- FORM -->
+    <div class="collab-form-card">
+      <div class="collab-form-title">⬡ Place a Node into the Ecosystem</div>
+
+      <div class="collab-field">
+        <label class="collab-label" for="colCategory">Category <span class="req">*</span></label>
+        <select class="collab-select" id="colCategory">
+          <option value="">— Select type —</option>
+          <option>Looking For</option>
+          <option>Can Offer</option>
+          <option>Building</option>
+          <option>Sharing</option>
+          <option>Resource</option>
+          <option>Question</option>
+          <option>Event</option>
+          <option>Pilot Opportunity</option>
+          <option>District Example</option>
+          <option>Workgroup Momentum</option>
+          <option>Partnership Request</option>
+        </select>
+      </div>
+
+      <div class="collab-field">
+        <label class="collab-label" for="colTitle">Title <span class="req">*</span></label>
+        <input class="collab-input" id="colTitle" type="text" placeholder="Name your contribution..." maxlength="120">
+      </div>
+
+      <div class="collab-field">
+        <label class="collab-label" for="colDesc">Description <span class="req">*</span></label>
+        <textarea class="collab-textarea" id="colDesc" placeholder="What is it? Who benefits? How does it strengthen the STEM PoC network?"></textarea>
+      </div>
+
+      <div class="collab-row">
+        <div class="collab-field">
+          <label class="collab-label" for="colLookingFor">Looking For</label>
+          <input class="collab-input" id="colLookingFor" type="text" placeholder="e.g. pilot districts, collaborators">
+        </div>
+        <div class="collab-field">
+          <label class="collab-label" for="colCanOffer">Can Offer</label>
+          <input class="collab-input" id="colCanOffer" type="text" placeholder="e.g. resources, training, templates">
+        </div>
+      </div>
+
+      <div class="collab-row">
+        <div class="collab-field">
+          <label class="collab-label" for="colIU">IU / Organization</label>
+          <input class="collab-input" id="colIU" type="text" placeholder="e.g. IU29, PDE, district partner">
+        </div>
+        <div class="collab-field">
+          <label class="collab-label" for="colAuthor">Your Name</label>
+          <input class="collab-input" id="colAuthor" type="text" placeholder="Optional">
+        </div>
+      </div>
+
+      <div class="collab-field">
+        <label class="collab-label" for="colAccessCode">Profile Access Code</label>
+        <input class="collab-input" id="colAccessCode" type="text" placeholder="STEM-0000, optional">
+      </div>
+
+      <button class="collab-submit-btn" id="colSubmitBtn" onclick="submitEcosystemNode()">Add to the Ecosystem →</button>
+      <div class="collab-status-msg" id="colStatusMsg"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="collab-stats-card">
+      <div class="collab-stats-title">Network Activity</div>
+      <div class="collab-stat-row"><span>Total Nodes</span><span class="collab-stat-num" id="statTotal">—</span></div>
+      <div class="collab-stat-row"><span>Looking For</span><span class="collab-stat-num" id="statLooking">—</span></div>
+      <div class="collab-stat-row"><span>Can Offer</span><span class="collab-stat-num" id="statOffering">—</span></div>
+      <div class="collab-stat-row"><span>Participating IUs</span><span class="collab-stat-num" id="statIUs">—</span></div>
+      <div class="collab-latest" id="collatestBlock">
+        <span style="color:rgba(138,155,191,0.5);font-size:0.68rem;">Waiting for the first contribution...</span>
+      </div>
+      <div id="collabCloudBadge" class="collab-cloud-badge local"><span class="collab-cloud-dot"></span><span id="collabCloudText">Local testing mode</span></div>
+    </div>
+
+  </div><!-- /collab-top-grid -->
+
+  <!-- FILTERS + SEARCH -->
+  <div class="collab-filter-bar" id="collabFilterBar">
+    <input class="collab-filter-search" id="collabSearch" type="text" placeholder="Search contributions, needs, offers, resources...">
+    <button class="collab-chip active" data-filter="All" onclick="setNodeFilter('All',this)">All</button>
+    <button class="collab-chip" data-filter="Looking For"       onclick="setNodeFilter('Looking For',this)">🔍 Looking For</button>
+    <button class="collab-chip" data-filter="Can Offer"         onclick="setNodeFilter('Can Offer',this)">🛠 Can Offer</button>
+    <button class="collab-chip" data-filter="Building"          onclick="setNodeFilter('Building',this)">🧱 Building</button>
+    <button class="collab-chip" data-filter="Sharing"           onclick="setNodeFilter('Sharing',this)">📣 Sharing</button>
+    <button class="collab-chip" data-filter="Resource"          onclick="setNodeFilter('Resource',this)">📚 Resource</button>
+    <button class="collab-chip" data-filter="Question"          onclick="setNodeFilter('Question',this)">❓ Question</button>
+    <button class="collab-chip" data-filter="Event"             onclick="setNodeFilter('Event',this)">📅 Event</button>
+    <button class="collab-chip" data-filter="Pilot Opportunity" onclick="setNodeFilter('Pilot Opportunity',this)">🚀 Pilot</button>
+    <button class="collab-chip" data-filter="District Example"  onclick="setNodeFilter('District Example',this)">🏫 District</button>
+    <button class="collab-chip" data-filter="Workgroup Momentum" onclick="setNodeFilter('Workgroup Momentum',this)">🔄 Workgroup</button>
+    <button class="collab-chip" data-filter="Partnership Request" onclick="setNodeFilter('Partnership Request',this)">🤝 Partnership</button>
+  </div>
+
+  <!-- NODE FEED -->
+  <div class="collab-node-grid" id="collabNodeGrid">
+    <div class="collab-empty-state">
+      <strong>No contributions yet.</strong>
+      Be the first to add a node to the statewide STEM ecosystem.
+    </div>
+  </div>
+
+</div><!-- /#collaborate -->
+
+<div class="section reveal" style="padding-bottom:1.5rem;">
+  <div class="future-network-card" style="max-width:680px;">
+    <h3>// The Network Is the Infrastructure</h3>
+    <p>Pennsylvania STEM collaboration grows when educators, partners, and workgroups can see each other's work, share momentum, and build together.</p>
+    <p>When you contribute to a workgroup, log ORBIT entries, share a resource, or add your profile — you are not just doing your job. You are building the network itself.</p>
     <div class="network-footer">The network itself is one of Pennsylvania's most important STEM resources.</div>
-  </div>
-  <div class="coming-soon" style="margin-top:1.25rem;">
-    <strong>COMING — PATCH 8:</strong> Roadmap cards for Searchable IU Directory, Workgroup Dashboards, ORBIT Example Bank, Shared Resource Library, Annual Impact Narrative Builder, Buddy Match Logic, Meeting Agenda Generator, IU Collaboration Pitch Board, and Contribution / Microbadge Tracker — each with status (Prototype / Planned / Future), why it matters, and next build step.
   </div>
 </div>
 
@@ -6829,7 +7114,7 @@ body::after {
       desc: 'Just joined — need a clear path into the network',
       actions: [
         { icon: '✅', label: 'Start Checklist',       desc: 'Complete your onboarding steps',          href: '#start'      },
-        { icon: '📅', label: 'View 90-Day Pathway',   desc: 'Follow a structured first 90 days',       href: '#pathway'    },
+        { icon: '👥', label: 'Join the Directory',    desc: 'Create your profile and get discovered',  href: '#directory'  },
         { icon: '📋', label: 'Open SoW Menu',         desc: 'Understand your deliverables',            href: '#sow'        },
         { icon: '🤝', label: 'Find Your TaC & Buddy', desc: 'Connect with your support network',       href: '#buddy'      },
         { icon: '🛰️', label: 'Use ORBIT Companion',   desc: 'Prepare for reporting season',            href: '#orbit'      },
@@ -6865,7 +7150,7 @@ body::after {
       desc: 'Overseeing statewide coherence and reporting',
       actions: [
         { icon: '🛰️', label: 'Review ORBIT',              desc: 'Gather statewide ORBIT examples',      href: '#orbit'       },
-        { icon: '🔭', label: 'View Future Builds',        desc: 'See what\'s next for the hub',         href: '#future'      },
+        { icon: '🗺️', label: 'Full Network Directory',    desc: 'Navigate the statewide network',       href: '#directory'   },
         { icon: '🚀', label: 'Support New PoC Onboarding',desc: 'Point new PoCs to the right start',    href: '#start'       },
         { icon: '💡', label: 'STEM Intel Layer',          desc: 'Identify statewide patterns',          href: '#intelligence'},
         { icon: '🗺️', label: 'Full Network Directory',   desc: 'Navigate the statewide network',       href: '#directory'   },
@@ -8559,6 +8844,302 @@ body::after {
     if (!dateStr) return '';
     return new Date(dateStr).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   }
+
+  // ══════════════════════════════════════════════════════════════
+  //  ECOSYSTEM COLLABORATION NODE SYSTEM
+  // ══════════════════════════════════════════════════════════════
+
+  const CAT_BADGES = {
+    'Looking For':       { icon: '🔍', color: '#5b8ff9', bg: 'rgba(91,143,249,0.1)',   border: 'rgba(91,143,249,0.3)'   },
+    'Can Offer':         { icon: '🛠', color: '#2ecc8a', bg: 'rgba(46,204,138,0.1)',   border: 'rgba(46,204,138,0.3)'   },
+    'Building':          { icon: '🧱', color: '#a77bf5', bg: 'rgba(167,123,245,0.1)',  border: 'rgba(167,123,245,0.3)'  },
+    'Sharing':           { icon: '📣', color: '#f4a11d', bg: 'rgba(244,161,29,0.1)',   border: 'rgba(244,161,29,0.3)'   },
+    'Resource':          { icon: '📚', color: '#22d3ee', bg: 'rgba(34,211,238,0.1)',   border: 'rgba(34,211,238,0.3)'   },
+    'Question':          { icon: '❓', color: '#fbbf24', bg: 'rgba(251,191,36,0.1)',   border: 'rgba(251,191,36,0.3)'   },
+    'Event':             { icon: '📅', color: '#e8433a', bg: 'rgba(232,67,58,0.1)',    border: 'rgba(232,67,58,0.3)'    },
+    'Pilot Opportunity': { icon: '🚀', color: '#14b8a6', bg: 'rgba(20,184,166,0.1)',   border: 'rgba(20,184,166,0.3)'   },
+    'District Example':  { icon: '🏫', color: '#818cf8', bg: 'rgba(129,140,248,0.1)',  border: 'rgba(129,140,248,0.3)'  },
+    'Workgroup Momentum':{ icon: '🔄', color: '#34d399', bg: 'rgba(52,211,153,0.1)',   border: 'rgba(52,211,153,0.3)'   },
+    'Partnership Request':{ icon:'🤝', color: '#f4a11d', bg: 'rgba(244,161,29,0.08)',  border: 'rgba(244,161,29,0.25)'  },
+  };
+
+  let _nodeFilter = 'All';
+  let _allNodes   = [];
+
+  // ── Profile awareness ──────────────────────────────────────────
+  function getMostRecentLocalProfile() {
+    try {
+      const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+      return profiles.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))[0] || null;
+    } catch (e) { return null; }
+  }
+
+  function prefillCollabFromProfile() {
+    const p = getMostRecentLocalProfile();
+    if (!p) return;
+    const auEl = document.getElementById('colAuthor');
+    const acEl = document.getElementById('colAccessCode');
+    const iuEl = document.getElementById('colIU');
+    if (auEl && !auEl.value) auEl.value = p.preferredName || p.fullName || '';
+    if (acEl && !acEl.value) acEl.value = p.accessCode || '';
+    if (iuEl && !iuEl.value) iuEl.value = p.iu || '';
+  }
+
+  // ── LocalStorage helpers ───────────────────────────────────────
+  function getLocalEcosystemNodes() {
+    try { return JSON.parse(localStorage.getItem('stemPocEcosystemNodes') || '[]'); }
+    catch (e) { console.warn('Could not parse local ecosystem nodes', e); return []; }
+  }
+
+  function saveNodeToLocalStorage(node) {
+    const existing = getLocalEcosystemNodes();
+    const updated  = [node, ...existing.filter(item => item.id !== node.id)];
+    localStorage.setItem('stemPocEcosystemNodes', JSON.stringify(updated));
+  }
+
+  // ── Supabase: save node ────────────────────────────────────────
+  async function saveEcosystemNode(node) {
+    const localNode = {
+      ...node,
+      id: node.id || crypto.randomUUID(),
+      createdAt: node.createdAt || new Date().toISOString(),
+      source: 'local-or-supabase'
+    };
+    saveNodeToLocalStorage(localNode);
+    if (!stemPocSupabase) {
+      console.log('Supabase not configured. Node saved locally only.', localNode);
+      return { success: false, mode: 'localOnly', data: localNode };
+    }
+    const payload = {
+      category:            node.category,
+      title:               node.title,
+      description:         node.description,
+      looking_for:         node.lookingFor || [],
+      can_offer:           node.canOffer   || [],
+      iu:                  node.iu         || null,
+      author_name:         node.authorName        || null,
+      author_access_code:  node.authorAccessCode  || null
+    };
+    const { data, error } = await stemPocSupabase
+      .from('stem_poc_nodes')
+      .insert(payload)
+      .select()
+      .single();
+    if (error) {
+      console.warn('Supabase node save failed:', error);
+      return { success: false, error, data: localNode };
+    }
+    console.log('Supabase node saved:', data);
+    return { success: true, data };
+  }
+
+  // ── Supabase: load nodes ───────────────────────────────────────
+  async function loadEcosystemNodesFromSupabase() {
+    if (!stemPocSupabase) return [];
+    const { data, error } = await stemPocSupabase
+      .from('stem_poc_nodes')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) { console.warn('Could not load ecosystem nodes:', error); return []; }
+    return data.map(row => ({
+      id:                row.id,
+      category:          row.category,
+      title:             row.title,
+      description:       row.description,
+      lookingFor:        row.looking_for || [],
+      canOffer:          row.can_offer   || [],
+      iu:                row.iu,
+      authorName:        row.author_name,
+      authorAccessCode:  row.author_access_code,
+      createdAt:         row.created_at,
+      source:            'supabase'
+    }));
+  }
+
+  // ── Merge (dedup by id) ────────────────────────────────────────
+  function mergeEcosystemNodes(...nodeGroups) {
+    const seen = new Map();
+    nodeGroups.flat().forEach(node => {
+      const key = node.id || (node.title + '-' + node.createdAt);
+      if (!key) return;
+      if (!seen.has(key)) seen.set(key, node);
+    });
+    return Array.from(seen.values()).sort((a, b) =>
+      new Date(b.createdAt || 0) - new Date(a.createdAt || 0)
+    );
+  }
+
+  // ── Render node cards ──────────────────────────────────────────
+  function renderEcosystemNodes(nodes) {
+    const grid = document.getElementById('collabNodeGrid');
+    if (!grid) return;
+    const q = (document.getElementById('collabSearch')?.value || '').toLowerCase();
+    let filtered = nodes.filter(n => {
+      if (_nodeFilter !== 'All' && n.category !== _nodeFilter) return false;
+      if (!q) return true;
+      const haystack = [
+        n.title, n.description, n.category, n.iu,
+        n.authorName, ...(n.lookingFor || []), ...(n.canOffer || [])
+      ].filter(Boolean).join(' ').toLowerCase();
+      return haystack.includes(q);
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '<div class="collab-empty-state"><strong>' +
+        (q || _nodeFilter !== 'All' ? 'No matches.' : 'No contributions yet.') + '</strong>' +
+        (q || _nodeFilter !== 'All' ? 'Try a different filter or search term.' : 'Be the first to add a node to the statewide STEM ecosystem.') +
+        '</div>';
+      return;
+    }
+
+    grid.innerHTML = filtered.map(n => {
+      const badge = CAT_BADGES[n.category] || { icon: '⬡', color: '#8a9bbf', bg: 'rgba(138,155,191,0.07)', border: 'rgba(138,155,191,0.2)' };
+      const lookTags = (Array.isArray(n.lookingFor) ? n.lookingFor : (n.lookingFor || '').split(','))
+        .map(t => t.trim()).filter(Boolean)
+        .map(t => '<span class="collab-node-tag looking">🔍 ' + t + '</span>').join('');
+      const offerTags = (Array.isArray(n.canOffer) ? n.canOffer : (n.canOffer || '').split(','))
+        .map(t => t.trim()).filter(Boolean)
+        .map(t => '<span class="collab-node-tag offering">🛠 ' + t + '</span>').join('');
+      const dateStr = n.createdAt ? new Date(n.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+      return `
+        <div class="collab-node-card" data-cat="${n.category}">
+          <span class="collab-cat-badge" style="color:${badge.color};background:${badge.bg};border-color:${badge.border};">
+            ${badge.icon} ${n.category}
+          </span>
+          <div class="collab-node-title">${n.title}</div>
+          <div class="collab-node-desc">${n.description}</div>
+          ${lookTags || offerTags ? '<div class="collab-node-tags">' + lookTags + offerTags + '</div>' : ''}
+          <div class="collab-node-meta">
+            ${n.iu ? '<span class="collab-node-iu">' + n.iu + '</span>' : ''}
+            ${n.authorName ? '<span>' + n.authorName + '</span>' : ''}
+            ${dateStr ? '<span style="margin-left:auto;">' + dateStr + '</span>' : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Stats panel ────────────────────────────────────────────────
+  function updateCollabStats(nodes, cloudActive) {
+    const looking  = nodes.filter(n => n.category === 'Looking For').length;
+    const offering = nodes.filter(n => n.category === 'Can Offer').length;
+    const ius      = new Set(nodes.map(n => n.iu).filter(Boolean)).size;
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || '—'; };
+    set('statTotal',    nodes.length || '—');
+    set('statLooking',  looking  || '—');
+    set('statOffering', offering || '—');
+    set('statIUs',      ius      || '—');
+
+    const latest = document.getElementById('collatestBlock');
+    if (latest) {
+      if (nodes.length > 0) {
+        const n = nodes[0];
+        latest.innerHTML = '<strong>' + n.title + '</strong>' +
+          (n.iu ? n.iu + ' · ' : '') + (n.category || '');
+      } else {
+        latest.innerHTML = '<span style="color:rgba(138,155,191,0.5);font-size:0.68rem;">Waiting for the first contribution...</span>';
+      }
+    }
+    const badge = document.getElementById('collabCloudBadge');
+    const badgeTxt = document.getElementById('collabCloudText');
+    if (badge && badgeTxt) {
+      badge.className = 'collab-cloud-badge ' + (cloudActive ? 'active' : 'local');
+      badgeTxt.textContent = cloudActive ? 'Cloud collaboration board active' : 'Local testing mode';
+    }
+  }
+
+  // ── Load + merge + render (async) ──────────────────────────────
+  async function refreshEcosystemFeed() {
+    const local = getLocalEcosystemNodes();
+    const cloud = await loadEcosystemNodesFromSupabase();
+    _allNodes = mergeEcosystemNodes(cloud, local);
+    renderEcosystemNodes(_allNodes);
+    updateCollabStats(_allNodes, cloud.length > 0);
+  }
+
+  // ── Filter chip click ──────────────────────────────────────────
+  function setNodeFilter(cat, btn) {
+    _nodeFilter = cat;
+    document.querySelectorAll('.collab-chip').forEach(c => c.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderEcosystemNodes(_allNodes);
+  }
+
+  // ── Search ─────────────────────────────────────────────────────
+  (function wireCollabSearch() {
+    const el = document.getElementById('collabSearch');
+    if (el) el.addEventListener('input', () => renderEcosystemNodes(_allNodes));
+  })();
+
+  // ── Submit handler ─────────────────────────────────────────────
+  async function submitEcosystemNode() {
+    const btn = document.getElementById('colSubmitBtn');
+    const status = document.getElementById('colStatusMsg');
+
+    const category = document.getElementById('colCategory').value.trim();
+    const title    = document.getElementById('colTitle').value.trim();
+    const desc     = document.getElementById('colDesc').value.trim();
+
+    // Validation
+    let valid = true;
+    ['colCategory','colTitle','colDesc'].forEach(id => {
+      const el = document.getElementById(id);
+      const v  = el?.value.trim();
+      if (!v) { el?.classList.add('error'); valid = false; }
+      else el?.classList.remove('error');
+    });
+    if (!valid) {
+      status.textContent = 'Please fill in the required fields.';
+      status.className = 'collab-status-msg collab-status-err';
+      status.style.display = 'block';
+      return;
+    }
+
+    const splitCSV = v => v ? v.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+    const node = {
+      category,
+      title,
+      description:       desc,
+      lookingFor:        splitCSV(document.getElementById('colLookingFor').value),
+      canOffer:          splitCSV(document.getElementById('colCanOffer').value),
+      iu:                document.getElementById('colIU').value.trim() || null,
+      authorName:        document.getElementById('colAuthor').value.trim() || null,
+      authorAccessCode:  document.getElementById('colAccessCode').value.trim() || null,
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Adding...';
+
+    const result = await saveEcosystemNode(node);
+
+    btn.disabled = false;
+    btn.textContent = 'Add to the Ecosystem →';
+
+    if (result.success) {
+      status.textContent = 'Node added to the statewide beta ecosystem.';
+      status.className = 'collab-status-msg collab-status-ok';
+    } else if (result.data) {
+      status.textContent = 'Node saved locally. Cloud sync was not available.';
+      status.className = 'collab-status-msg collab-status-local';
+    } else {
+      status.textContent = 'Something went wrong. Please try again.';
+      status.className = 'collab-status-msg collab-status-err';
+    }
+    status.style.display = 'block';
+    setTimeout(() => { status.style.display = 'none'; }, 4000);
+
+    // Clear required fields, keep author/IU prefill
+    ['colCategory','colTitle','colDesc','colLookingFor','colCanOffer'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.value = ''; el.classList.remove('error'); }
+    });
+
+    await refreshEcosystemFeed();
+  }
+
+  // ── Init ───────────────────────────────────────────────────────
+  prefillCollabFromProfile();
+  refreshEcosystemFeed();
 
   // ── Initial render ────────────────────────────────────────────
   renderWgDashboard();
