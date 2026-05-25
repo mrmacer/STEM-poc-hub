@@ -6,6 +6,7 @@
 <title>PA STEM PoC Hub — Statewide STEM Collaboration Network</title>
 <link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --navy: #0a1628;
@@ -5877,6 +5878,7 @@ body::after {
     </div>
 
     <!-- ── COMMUNITY CREATED PROFILES ── injected by JS ── -->
+    <div id="cloudStatusBadge" style="display:none;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:var(--green);background:rgba(46,204,138,0.07);border:1px solid rgba(46,204,138,0.2);border-radius:20px;padding:0.2rem 0.7rem;margin-bottom:0.75rem;display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:5px;height:5px;background:var(--green);border-radius:50%;display:inline-block;"></span><span id="cloudStatusText">Cloud beta directory active</span></div>
     <div id="communityProfilesContainer"></div>
 
     <!-- ── PLACEHOLDER NODES ── -->
@@ -6458,7 +6460,14 @@ body::after {
 </footer>
 
 <script>
-  // Scroll progress bar
+  // ── Supabase config ───────────────────────────────────────────
+  const SUPABASE_URL = "https://ernwacjhzsumuqeupgww.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVybndhY2poenN1bXVxZXVwZ3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2Njg4ODIsImV4cCI6MjA5NTI0NDg4Mn0.FbMpBp3j75eS-MlATojpJlF3tmDqC-_d2KS6r0H0s88";
+  const stemPocSupabase = window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  // ── Scroll progress bar ───────────────────────────────────────
   window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const docHeight = document.body.scrollHeight - window.innerHeight;
@@ -7245,8 +7254,7 @@ body::after {
     existing.push(profile);
     localStorage.setItem('stemPocUserProfiles', JSON.stringify(existing));
 
-    syncProfileToSupabase(profile);
-    renderCommunityProfiles();
+    syncProfileToSupabase(profile).then(() => renderCommunityProfiles());
     logActivityEvent({
       icon: '✦',
       text: `<strong>${profile.preferredName || profile.fullName}</strong> from <strong>${profile.iu}</strong> joined the network${profile.primaryFocus ? ' — ' + profile.primaryFocus : ''}.`
@@ -7270,10 +7278,13 @@ body::after {
   }
 
   // ── FEATURE 6: Render community profiles into directory ──────
-  function renderCommunityProfiles() {
+  async function renderCommunityProfiles() {
     const container = document.getElementById('communityProfilesContainer');
     if (!container) return;
-    const profiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    const localProfiles = JSON.parse(localStorage.getItem('stemPocUserProfiles') || '[]');
+    const cloudProfiles = await loadProfilesFromSupabase();
+    const profiles = mergeProfilesByAccessCode(cloudProfiles, localProfiles);
+    updateCloudStatusBadge(cloudProfiles.length > 0);
     if (profiles.length === 0) { container.innerHTML = ''; return; }
 
     container.innerHTML = profiles.map(p => {
@@ -7360,17 +7371,115 @@ body::after {
     }).join('');
   }
 
-  // Load community profiles on page load
-  renderCommunityProfiles();
-  setTimeout(addHelpRibbons, 200);
+  // Load community profiles on page load (async — cloud + local merge)
+  renderCommunityProfiles().then(() => setTimeout(addHelpRibbons, 200));
 
-  // ── FEATURE 8: Supabase Profile Sync Placeholder ─────────────
-  // STEM PoC V2 Supabase Profile Sync Placeholder
-  // Future table: stem_poc_profiles
-  // Current patch uses localStorage only.
+  // ── Supabase: save profile ────────────────────────────────────
   async function syncProfileToSupabase(profile) {
-    console.log('Supabase sync placeholder:', profile);
-    return { success: false, mode: 'localOnly' };
+    if (!stemPocSupabase) {
+      console.log('Supabase not configured. Saved locally only.', profile);
+      return { success: false, mode: 'localOnly' };
+    }
+    const payload = {
+      access_code:        profile.accessCode,
+      full_name:          profile.fullName,
+      preferred_name:     profile.preferredName || null,
+      iu:                 profile.iu,
+      job_title:          profile.jobTitle,
+      email:              profile.email || null,
+      years_education:    profile.yearsEducation || null,
+      primary_focus:      profile.primaryFocus || null,
+      focus_areas:        profile.focusAreas || [],
+      workgroup_interests: profile.workgroupInterests || [],
+      superpower:         profile.superpower,
+      curious_about:      profile.curiousAbout,
+      can_help_with:      profile.canHelpWith || null,
+      need_help_with:     profile.needHelpWith || null,
+      fun_fact:           profile.funFact || null,
+      social_link:        profile.socialLink || null,
+      photo_data_url:     profile.photoDataUrl || null,
+      source:             profile.source || 'user-created',
+      updated_at:         new Date().toISOString()
+    };
+    const { data, error } = await stemPocSupabase
+      .from('stem_poc_profiles')
+      .insert(payload)
+      .select()
+      .single();
+    if (error) {
+      console.warn('Supabase profile sync failed:', error);
+      return { success: false, error };
+    }
+    console.log('Supabase profile saved:', data);
+    return { success: true, data };
+  }
+
+  // ── Supabase: load profiles ───────────────────────────────────
+  async function loadProfilesFromSupabase() {
+    if (!stemPocSupabase) return [];
+    const { data, error } = await stemPocSupabase
+      .from('stem_poc_profiles')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.warn('Could not load Supabase profiles:', error);
+      return [];
+    }
+    return data.map(row => ({
+      id:                 row.id,
+      accessCode:         row.access_code,
+      fullName:           row.full_name,
+      preferredName:      row.preferred_name,
+      iu:                 row.iu,
+      jobTitle:           row.job_title,
+      email:              row.email,
+      yearsEducation:     row.years_education,
+      primaryFocus:       row.primary_focus,
+      focusAreas:         row.focus_areas || [],
+      workgroupInterests: row.workgroup_interests || [],
+      superpower:         row.superpower,
+      curiousAbout:       row.curious_about,
+      canHelpWith:        row.can_help_with,
+      needHelpWith:       row.need_help_with,
+      funFact:            row.fun_fact,
+      socialLink:         row.social_link,
+      photoDataUrl:       row.photo_data_url,
+      createdAt:          row.created_at,
+      updatedAt:          row.updated_at,
+      source:             'supabase'
+    }));
+  }
+
+  // ── Merge helper (dedup by access code) ──────────────────────
+  function mergeProfilesByAccessCode(...profileGroups) {
+    const seen = new Map();
+    profileGroups.flat().forEach(profile => {
+      const key = profile.accessCode || profile.id || profile.fullName;
+      if (!key) return;
+      if (!seen.has(key)) seen.set(key, profile);
+    });
+    return Array.from(seen.values());
+  }
+
+  // ── Cloud status badge ────────────────────────────────────────
+  function updateCloudStatusBadge(cloudActive) {
+    const badge = document.getElementById('cloudStatusBadge');
+    const text  = document.getElementById('cloudStatusText');
+    if (!badge) return;
+    badge.style.display = 'inline-flex';
+    if (cloudActive) {
+      badge.style.color  = 'var(--green)';
+      badge.style.background = 'rgba(46,204,138,0.07)';
+      badge.style.borderColor = 'rgba(46,204,138,0.2)';
+      badge.querySelector('span').style.background = 'var(--green)';
+      if (text) text.textContent = 'Cloud beta directory active';
+    } else {
+      badge.style.color  = 'var(--muted)';
+      badge.style.background = 'rgba(138,155,191,0.07)';
+      badge.style.borderColor = 'rgba(138,155,191,0.2)';
+      badge.querySelector('span').style.background = 'var(--muted)';
+      if (text) text.textContent = 'Local testing mode';
+    }
   }
 
   // ── Profile form live preview listeners ─────────────────────

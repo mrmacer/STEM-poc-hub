@@ -6,6 +6,7 @@
 <title>Join the Network — PA STEM PoC Hub · Statewide STEM Collaboration</title>
 <link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
     --navy:   #0a1628;
@@ -579,6 +580,21 @@
     text-decoration: none; cursor: pointer; transition: all 0.18s;
   }
   .pf-continue-onboard-btn:hover { background: rgba(244,161,29,0.1); border-color: var(--accent); }
+
+  /* ── Sync status badge ─────────────────────────── */
+  .pf-sync-badge {
+    font-family: 'Space Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.04em; padding: 0.45rem 0.85rem; border-radius: 6px;
+    margin-bottom: 1rem; line-height: 1.4; text-align: center;
+  }
+  .pf-sync-ok {
+    color: var(--green); background: rgba(46,204,138,0.07);
+    border: 1px solid rgba(46,204,138,0.25);
+  }
+  .pf-sync-local {
+    color: var(--muted); background: rgba(138,155,191,0.06);
+    border: 1px solid rgba(138,155,191,0.18);
+  }
 </style>
 </head>
 <body>
@@ -891,6 +907,7 @@
       <span class="pf-access-code" id="successCode">STEM-0000</span>
       <button class="pf-copy-btn" id="copyBtn" onclick="copyAccessCode()">Copy Code</button>
     </div>
+    <div id="pfSyncStatus" class="pf-sync-badge" style="display:none"></div>
     <div class="pf-success-actions">
       <button class="pf-continue-onboard-btn" onclick="scrollToOnboarding()">Continue to Onboarding ↓</button>
       <a class="pf-enter-hub-btn" href="index.html">Enter STEM PoC Hub →</a>
@@ -1045,6 +1062,13 @@
 </div>
 
 <script>
+  // ── Supabase config ───────────────────────────────────────────
+  const SUPABASE_URL = "https://ernwacjhzsumuqeupgww.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVybndhY2poenN1bXVxZXVwZ3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2Njg4ODIsImV4cCI6MjA5NTI0NDg4Mn0.FbMpBp3j75eS-MlATojpJlF3tmDqC-_d2KS6r0H0s88";
+  const stemPocSupabase = window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
   // ── Tag data ──────────────────────────────────────────────────
   const FOCUS_TAGS = [
     'STEELS','Computer Science','STEM Ecosystems','Student Competitions',
@@ -1271,18 +1295,59 @@
       console.warn('localStorage write failed', e);
     }
 
-    // Supabase placeholder
-    syncProfileToSupabase(profile);
-
+    // Supabase sync (non-blocking — show success immediately, update badge after)
     showSuccess(profile);
+    syncProfileToSupabase(profile).then(result => {
+      const badge = document.getElementById('pfSyncStatus');
+      if (!badge) return;
+      if (result.success) {
+        badge.textContent = '✓ Profile saved to the statewide beta directory.';
+        badge.className = 'pf-sync-badge pf-sync-ok';
+      } else {
+        badge.textContent = 'Profile saved on this device. Cloud sync is not available yet.';
+        badge.className = 'pf-sync-badge pf-sync-local';
+      }
+      badge.style.display = 'block';
+    });
   }
 
-  // STEM PoC V2 Supabase Profile Sync Placeholder
-  // Future table: stem_poc_profiles
-  // Current patch uses localStorage only.
   async function syncProfileToSupabase(profile) {
-    console.log('Supabase sync placeholder:', profile);
-    return { success: false, mode: 'localOnly' };
+    if (!stemPocSupabase) {
+      console.log('Supabase not configured. Saved locally only.', profile);
+      return { success: false, mode: 'localOnly' };
+    }
+    const payload = {
+      access_code:         profile.accessCode,
+      full_name:           profile.fullName,
+      preferred_name:      profile.preferredName || null,
+      iu:                  profile.iu,
+      job_title:           profile.jobTitle,
+      email:               profile.email || null,
+      years_education:     profile.yearsEducation || null,
+      primary_focus:       profile.primaryFocus || null,
+      focus_areas:         profile.focusAreas || [],
+      workgroup_interests: profile.workgroupInterests || [],
+      superpower:          profile.superpower,
+      curious_about:       profile.curiousAbout,
+      can_help_with:       profile.canHelpWith || null,
+      need_help_with:      profile.needHelpWith || null,
+      fun_fact:            profile.funFact || null,
+      social_link:         profile.socialLink || null,
+      photo_data_url:      profile.photoDataUrl || null,
+      source:              profile.source || 'external-profile-form',
+      updated_at:          new Date().toISOString()
+    };
+    const { data, error } = await stemPocSupabase
+      .from('stem_poc_profiles')
+      .insert(payload)
+      .select()
+      .single();
+    if (error) {
+      console.warn('Supabase profile sync failed:', error);
+      return { success: false, error };
+    }
+    console.log('Supabase profile saved:', data);
+    return { success: true, data };
   }
 
   // ── Success screen ────────────────────────────────────────────
