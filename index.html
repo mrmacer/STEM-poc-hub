@@ -3734,7 +3734,9 @@ body::after {
 .pa-map-clr.on { display: inline-block; }
 .pa-map-clr:hover { color: var(--light); }
 .pa-map-svg-box { width: 100%; max-width: 480px; margin: 0 auto; display: block; }
-.pa-map-svg-box svg { width: 100%; height: auto; display: block; }
+.pa-map-container { position: relative; width: 100%; }
+.pa-map-image { display: block; width: 100%; height: auto; object-fit: contain; opacity: 0.85; pointer-events: none; filter: drop-shadow(0 0 18px rgba(255,255,255,0.12)); }
+.pa-map-marker-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; }
 .pa-map-tooltip {
   position: absolute; background: rgba(4,10,24,0.96);
   border: 1px solid rgba(244,161,29,0.3); border-radius: 7px;
@@ -4529,6 +4531,438 @@ body::after {
   border: 1px dashed rgba(255,255,255,0.08); border-radius: 10px;
 }
 .collab-empty-state strong { color: var(--light); display: block; margin-bottom: 0.4rem; }
+
+/* ===== V2 HOMEPAGE REDESIGN ===== */
+
+.hero-v2 {
+  position: relative;
+  z-index: 1;
+  padding: 4.5rem 2rem 2.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-v2-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-v2-logos img { height: 44px; width: auto; object-fit: contain; }
+
+.hero-v2-logo-divider {
+  width: 1px; height: 36px;
+  background: rgba(244,161,29,0.3);
+}
+
+.hero-v2-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(46,204,138,0.12);
+  border: 1px solid rgba(46,204,138,0.3);
+  color: var(--green);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.hero-v2-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.hero-v2-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.2rem, 8vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 3px;
+  color: var(--light);
+  margin-bottom: 1.25rem;
+}
+
+.hero-v2-title .accent { color: var(--accent); }
+
+.hero-v2-sub {
+  font-size: clamp(0.98rem, 2vw, 1.12rem);
+  color: var(--muted);
+  max-width: 620px;
+  margin: 0 auto 0.75rem;
+  line-height: 1.65;
+}
+
+.hero-v2-mission {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+.hero-v2-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero-v2-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.hero-v2-btn-primary {
+  background: var(--accent);
+  color: #0a1628;
+}
+
+.hero-v2-btn-primary:hover {
+  background: #f5b340;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(244,161,29,0.3);
+}
+
+.hero-v2-btn-secondary {
+  background: rgba(26,58,107,0.8);
+  color: var(--light);
+  border: 1px solid rgba(244,161,29,0.35);
+}
+
+.hero-v2-btn-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(26,58,107,1);
+  transform: translateY(-2px);
+}
+
+.hero-v2-btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(140,155,191,0.3);
+}
+
+.hero-v2-btn-ghost:hover {
+  color: var(--light);
+  border-color: rgba(140,155,191,0.6);
+  transform: translateY(-2px);
+}
+
+/* Pathway Cards */
+.pathway-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem 1rem;
+}
+
+.pathway-section-label {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.pathway-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) { .pathway-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .pathway-grid { grid-template-columns: 1fr; } }
+
+.pathway-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 1.5rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.pathway-card:hover { transform: translateY(-4px); }
+
+.pc-join {
+  background: linear-gradient(135deg, rgba(46,204,138,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(46,204,138,0.22);
+}
+.pc-join:hover { border-color: rgba(46,204,138,0.55); box-shadow: 0 12px 40px rgba(46,204,138,0.12); }
+.pc-join .pc-icon { color: var(--green); }
+.pc-join .pc-arrow { color: var(--green); }
+
+.pc-directory {
+  background: linear-gradient(135deg, rgba(91,143,249,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(91,143,249,0.22);
+}
+.pc-directory:hover { border-color: rgba(91,143,249,0.55); box-shadow: 0 12px 40px rgba(91,143,249,0.12); }
+.pc-directory .pc-icon { color: #93c5fd; }
+.pc-directory .pc-arrow { color: #93c5fd; }
+
+.pc-collaborate {
+  background: linear-gradient(135deg, rgba(167,139,250,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(167,139,250,0.22);
+}
+.pc-collaborate:hover { border-color: rgba(167,139,250,0.55); box-shadow: 0 12px 40px rgba(167,139,250,0.12); }
+.pc-collaborate .pc-icon { color: #c4b5fd; }
+.pc-collaborate .pc-arrow { color: #c4b5fd; }
+
+.pc-workgroups {
+  background: linear-gradient(135deg, rgba(244,161,29,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(244,161,29,0.22);
+}
+.pc-workgroups:hover { border-color: rgba(244,161,29,0.55); box-shadow: 0 12px 40px rgba(244,161,29,0.12); }
+.pc-workgroups .pc-icon { color: var(--accent); }
+.pc-workgroups .pc-arrow { color: var(--accent); }
+
+.pc-sow {
+  background: linear-gradient(135deg, rgba(232,67,58,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(232,67,58,0.22);
+}
+.pc-sow:hover { border-color: rgba(232,67,58,0.55); box-shadow: 0 12px 40px rgba(232,67,58,0.12); }
+.pc-sow .pc-icon { color: #fca5a5; }
+.pc-sow .pc-arrow { color: #fca5a5; }
+
+.pc-intel {
+  background: linear-gradient(135deg, rgba(110,231,183,0.1) 0%, rgba(17,30,54,0.9) 100%);
+  border-color: rgba(110,231,183,0.22);
+}
+.pc-intel:hover { border-color: rgba(110,231,183,0.55); box-shadow: 0 12px 40px rgba(110,231,183,0.12); }
+.pc-intel .pc-icon { color: #6ee7b7; }
+.pc-intel .pc-arrow { color: #6ee7b7; }
+
+.pc-icon {
+  font-size: 2.1rem;
+  margin-bottom: 0.75rem;
+  display: block;
+  line-height: 1;
+}
+
+.pc-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 1.5px;
+  color: var(--light);
+  margin-bottom: 0.6rem;
+}
+
+.pc-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.pc-arrow {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  align-self: flex-end;
+  transition: transform 0.2s;
+}
+
+.pathway-card:hover .pc-arrow { transform: translateX(5px); }
+
+/* What This Is */
+.what-this-is {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 1rem;
+}
+
+.what-this-card {
+  background: rgba(26,58,107,0.25);
+  border: 1px solid rgba(244,161,29,0.1);
+  border-radius: 12px;
+  padding: 1.25rem 1.75rem;
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Network Pulse */
+.pulse-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 2rem 2.5rem;
+}
+
+.pulse-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.pulse-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: var(--light);
+}
+
+.pulse-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+.pulse-view-all {
+  font-size: 0.75rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+}
+
+.pulse-view-all:hover { text-decoration: underline; }
+
+.pulse-feed {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.8rem;
+}
+
+.pulse-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  transition: border-color 0.2s;
+}
+
+.pulse-item:hover { border-color: rgba(244,161,29,0.3); }
+
+.pulse-item-icon { font-size: 1.25rem; flex-shrink: 0; line-height: 1.4; }
+
+.pulse-item-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.pulse-item-text {
+  font-size: 0.82rem;
+  color: var(--light);
+  line-height: 1.45;
+}
+
+.pulse-item-meta {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.pulse-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-family: 'Space Mono', monospace;
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 10px;
+}
+
+/* Collab Gate */
+.collab-gate {
+  background: rgba(167,139,250,0.07);
+  border: 1px solid rgba(167,139,250,0.22);
+  border-radius: 14px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.collab-gate-text h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  color: var(--light);
+  margin-bottom: 0.4rem;
+}
+
+.collab-gate-text p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 440px;
+}
+
+.collab-gate-btn {
+  background: rgba(167,139,250,0.14);
+  border: 1px solid rgba(167,139,250,0.38);
+  color: #c4b5fd;
+  padding: 0.65rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.collab-gate-btn:hover {
+  background: rgba(167,139,250,0.24);
+  border-color: rgba(167,139,250,0.65);
+  transform: translateY(-2px);
+}
+
+.collab-board { display: none; }
+.collab-board.open { display: block; }
 </style>
 </head>
 <body>
@@ -4558,18 +4992,13 @@ body::after {
   </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="about.html">About</a></li>
-    <li><a href="profile.html">Start Here</a></li>
-    <li><a href="#who-for">Roles</a></li>
+    <li><a href="profile.html">Join</a></li>
     <li><a href="#directory">Directory</a></li>
-    <li><a href="#buddy">Buddy</a></li>
-    <li><a href="workgroups.html">Workgroups</a></li>
-    <li><a href="#sow">SoW</a></li>
-    <li><a href="#orbit">ORBIT</a></li>
-    <li><a href="#resources">Resources</a></li>
-    <li><a href="#intelligence">STEM Intel</a></li>
     <li><a href="#collaborate">Collaborate</a></li>
+    <li><a href="workgroups.html">Workgroups</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#sow">SoW / ORBIT</a></li>
     <li><a href="#" class="nav-create-btn" onclick="openProfileCreator(event)">✦ Create Profile</a></li>
-    <li><a href="profile.html" target="_blank" rel="noopener" style="font-size:0.8rem;opacity:0.7;">📝 Share Form</a></li>
   </ul>
   <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">☰</button>
 </nav>
@@ -4583,70 +5012,102 @@ body::after {
   </div>
 </div>
 
-<!-- NETWORK TICKER -->
-<div class="network-ticker" id="networkTicker">
+<!-- NETWORK TICKER — hidden in V2 homepage redesign -->
+<div class="network-ticker" id="networkTicker" style="display:none">
   <div class="ticker-badge"><span class="ticker-live-dot"></span>LIVE</div>
   <div class="ticker-track">
     <div class="ticker-inner" id="tickerInner"><!-- populated by JS --></div>
   </div>
 </div>
 
-<!-- HERO -->
-<div class="hero reveal">
-  <div class="hero-brand">
-    <div class="hero-logo-wrap">
-      <img class="hero-stem-logo" src="assests/stem-poc-logo.png" alt="PA STEM PoC Network">
-    </div>
+<!-- HERO V2 -->
+<div class="hero-v2 reveal">
+  <div class="hero-v2-logos">
+    <img src="assests/stem-poc-logo.png" alt="PA STEM PoC Network">
+    <div class="hero-v2-logo-divider"></div>
+    <img src="assests/paiu-logo.png" alt="PAIU">
   </div>
-  <div class="hero-badge">STEM POC NETWORK — LIVING COMMAND CENTER</div>
-  <h1>
-    PA STEM<br>
-    <span class="accent">PoC HUB.</span><br>
-    <span class="dim">BUILT STATEWIDE.</span>
-  </h1>
-  <p class="hero-sub">
-    A statewide collaboration network for STEM leaders, ecosystems, workgroups, and innovation across Pennsylvania. Connecting people, initiatives, and momentum across Intermediate Units and statewide partners.
-  </p>
-  <div class="hero-stats">
-    <div class="stat">
-      <span class="stat-num">29</span>
-      <span class="stat-label">IUs in Network</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">90</span>
-      <span class="stat-label">Day Onboarding</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">7+</span>
-      <span class="stat-label">SoW Deliverables</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">12+</span>
-      <span class="stat-label">Workgroups</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">∞</span>
-      <span class="stat-label">Resource Hub</span>
-    </div>
+  <div class="hero-v2-badge">PA STEM POC NETWORK</div>
+  <h1 class="hero-v2-title">PA STEM <span class="accent">PoC</span> Hub</h1>
+  <p class="hero-v2-sub">A statewide collaboration space for STEM leaders, workgroups, resources, and shared momentum across Pennsylvania.</p>
+  <p class="hero-v2-mission">Start with people. Build the network. Make the work visible.</p>
+  <div class="hero-v2-actions">
+    <a class="hero-v2-btn hero-v2-btn-primary" href="profile.html">Create Profile</a>
+    <a class="hero-v2-btn hero-v2-btn-secondary" href="#directory">Explore the Hub</a>
+    <button class="hero-v2-btn hero-v2-btn-ghost" onclick="document.getElementById('collaborate').scrollIntoView({behavior:'smooth'})">Add to the Ecosystem</button>
   </div>
 </div>
 
-<!-- QUICK ACTIONS BAR -->
-<div class="quick-actions-bar" id="quickActionsBar">
-  <button class="qa-btn qa-primary" onclick="openProfileCreator(event)">✦ Create Profile</button>
-  <a class="qa-btn" href="profile.html" target="_blank" rel="noopener" title="Shareable profile form — send to colleagues">📝 Share Form</a>
-  <a class="qa-btn" href="#directory">👥 Directory</a>
-  <a class="qa-btn" href="#workgroups">⚡ Workgroups</a>
-  <a class="qa-btn" href="#mission-control">🗺 Network Map</a>
-  <a class="qa-btn" href="#resources">📚 STEM Intel</a>
-  <a class="qa-btn" href="#sow">📋 SoW / ORBIT</a>
-  <a class="qa-btn" href="#buddy">🤝 Buddy Match</a>
-  <a class="qa-btn" href="#collaborate">🌐 Collaborate</a>
-  <button class="qa-btn" onclick="openPrototypeNote(true)" title="About this prototype">About This Prototype</button>
+<!-- PATHWAY CARDS -->
+<div class="pathway-section reveal">
+  <div class="pathway-section-label">Choose where you want to go</div>
+  <div class="pathway-grid">
+
+    <a class="pathway-card pc-join" href="profile.html">
+      <span class="pc-icon">👤</span>
+      <h3 class="pc-title">Join the Network</h3>
+      <p class="pc-desc">Create your STEM PoC profile, complete onboarding, and become visible in the statewide network.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+    <a class="pathway-card pc-directory" href="#directory">
+      <span class="pc-icon">👥</span>
+      <h3 class="pc-title">Directory</h3>
+      <p class="pc-desc">Find people by IU, focus area, workgroup interest, and collaboration needs.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+    <a class="pathway-card pc-collaborate" href="#collaborate">
+      <span class="pc-icon">🌐</span>
+      <h3 class="pc-title">Collaborate</h3>
+      <p class="pc-desc">Share what you are building, looking for, offering, or wondering about.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+    <a class="pathway-card pc-workgroups" href="workgroups.html">
+      <span class="pc-icon">⚡</span>
+      <h3 class="pc-title">Workgroups</h3>
+      <p class="pc-desc">Explore statewide workgroups, current priorities, resources, and action items.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+    <a class="pathway-card pc-sow" href="#sow">
+      <span class="pc-icon">📋</span>
+      <h3 class="pc-title">SoW / ORBIT</h3>
+      <p class="pc-desc">Connect deliverables, documentation, evidence, and reporting into the broader network.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+    <a class="pathway-card pc-intel" href="#resources">
+      <span class="pc-icon">📚</span>
+      <h3 class="pc-title">STEM Intel</h3>
+      <p class="pc-desc">Access shared tools, guides, examples, and implementation resources.</p>
+      <span class="pc-arrow">→</span>
+    </a>
+
+  </div>
 </div>
 
-<!-- COMMAND BRIDGE — main dashboard grid -->
-<div class="command-bridge" id="commandBridge">
+<!-- WHAT THIS IS -->
+<div class="what-this-is reveal">
+  <div class="what-this-card">
+    This prototype explores how Pennsylvania's STEM PoC network can become more visible, connected, and collaborative — not just through meetings and documents, but through shared profiles, ecosystem contributions, workgroup hubs, and living network activity.
+  </div>
+</div>
+
+<!-- NETWORK PULSE -->
+<div class="pulse-section reveal">
+  <div class="pulse-header">
+    <span class="pulse-title"><span class="pulse-dot"></span>Network Pulse</span>
+    <a class="pulse-view-all" href="#collaborate">View Collaboration Board →</a>
+  </div>
+  <div class="pulse-feed" id="pulseFeed">
+    <div class="pulse-empty">Network activity will appear here as profiles, nodes, and contributions are added.</div>
+  </div>
+</div>
+
+<!-- COMMAND BRIDGE — hidden in V2; content preserved below -->
+<div class="command-bridge" id="commandBridge" style="display:none">
   <div class="bridge-eyebrow">STATEWIDE COMMAND CENTER</div>
   <div class="bridge-grid">
 
@@ -4701,8 +5162,8 @@ body::after {
   </div>
 </div>
 
-<!-- RECOMMENDED STARTING POINTS — role-aware, shown after role selection -->
-<div class="rsp-section" id="rspSection">
+<!-- RECOMMENDED STARTING POINTS — preserved but not shown on homepage in V2 -->
+<div class="rsp-section" id="rspSection" style="display:none">
   <div class="rsp-header">
     <span class="rsp-title">Recommended Starting Points</span>
     <span class="rsp-role-tag" id="rspRoleTag"></span>
@@ -6611,6 +7072,17 @@ body::after {
   <p style="font-size:0.85rem;color:var(--muted);max-width:660px;line-height:1.7;margin-bottom:0.5rem;">Share what you are building, looking for, offering, or wondering about so the statewide STEM network can see and connect around real work.</p>
   <p style="font-family:'Space Mono',monospace;font-size:0.62rem;color:#c084fc;letter-spacing:0.06em;margin-bottom:1.5rem;">This is where the network becomes visible.</p>
 
+  <!-- Collab Gate — click to reveal full board -->
+  <div class="collab-gate" id="collabGate">
+    <div class="collab-gate-text">
+      <h4>Open Collaboration Board</h4>
+      <p>Browse what people across the network are building, offering, and looking for. Add your own contribution to the statewide STEM ecosystem.</p>
+    </div>
+    <button class="collab-gate-btn" onclick="openCollabBoard()">Open Collaboration Board →</button>
+  </div>
+
+  <div class="collab-board" id="collabBoard">
+
   <!-- Form + Stats -->
   <div class="collab-top-grid">
 
@@ -6717,6 +7189,8 @@ body::after {
     </div>
   </div>
 
+  </div><!-- /.collab-board -->
+
 </div><!-- /#collaborate -->
 
 <div class="section reveal" style="padding-bottom:1.5rem;">
@@ -6739,8 +7213,8 @@ body::after {
         <img class="footer-paiu-logo" src="assests/paiu-logo.png" alt="Pennsylvania Association of Intermediate Units">
       </div>
     </div>
-    <p class="site-footer-statement">Built as an experimental statewide STEM collaboration prototype for Pennsylvania's STEM Point-of-Contact network.</p>
-    <p class="site-footer-sub">Educator-directed · AI-assisted · Prototype platform · 2026–27</p>
+    <p class="site-footer-statement">PA STEM PoC Network Prototype</p>
+    <p class="site-footer-sub">Educator-directed · AI-assisted · Built for statewide collaboration</p>
   </div>
 </footer>
 
@@ -7869,6 +8343,7 @@ body::after {
     feed.push({ icon: event.icon || '✦', text: event.text, time: 'just now', createdAt: new Date().toISOString() });
     localStorage.setItem('stemPocActivityFeed', JSON.stringify(feed.slice(-20)));
     renderActivityFeed();
+    if (typeof renderPulseFeed === 'function') renderPulseFeed();
     if (typeof renderContributionCards === 'function') renderContributionCards();
     if (typeof renderTicker === 'function') renderTicker();
     if (typeof updateBridgeStats === 'function') updateBridgeStats();
@@ -7888,6 +8363,36 @@ body::after {
   }
 
   renderActivityFeed();
+
+  // ── V2: Network Pulse Feed ────────────────────────────────────
+  function renderPulseFeed() {
+    const el = document.getElementById('pulseFeed');
+    if (!el) return;
+    const items = getActivityFeed().slice(0, 4);
+    if (!items.length) return;
+    el.innerHTML = items.map(item => `
+      <div class="pulse-item">
+        <span class="pulse-item-icon">${item.icon}</span>
+        <div>
+          <div class="pulse-item-label">Network Activity</div>
+          <div class="pulse-item-text">${item.text}</div>
+          <div class="pulse-item-meta">${item.time}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  renderPulseFeed();
+
+  // ── V2: Collaborate Board Gate ────────────────────────────────
+  function openCollabBoard() {
+    const gate  = document.getElementById('collabGate');
+    const board = document.getElementById('collabBoard');
+    if (gate)  gate.style.display  = 'none';
+    if (board) board.classList.add('open');
+  }
+
+  // Auto-open board if navigated to #collaborate via hash
+  if (window.location.hash === '#collaborate') openCollabBoard();
 
   // ── FEATURE 2: Profile Detail Modal ──────────────────────────
   function openProfileModal(profileId, card) {
@@ -8150,11 +8655,12 @@ body::after {
         <text x="${iu.x}" y="${iu.y + 2.2}" fill="${textColor}" font-family="Space Mono,monospace" font-size="4.8" text-anchor="middle" dominant-baseline="middle" pointer-events="none">${iu.n}</text>
       </g>`;
     }).join('');
-    box.innerHTML = `<svg viewBox="0 0 500 268" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 8,80 L 8,38 L 38,14 L 84,14 L 84,44 L 104,36 L 490,36 L 494,78 L 462,120 L 440,148 L 428,165 L 428,252 L 252,256 L 8,256 Z"
-            fill="rgba(26,58,107,0.18)" stroke="rgba(244,161,29,0.28)" stroke-width="1.5"/>
-      ${dots}
-    </svg>`;
+    box.innerHTML = `<div class="pa-map-container">
+      <img src="assests/pa-blank-map-white.png" class="pa-map-image" alt="Pennsylvania Map">
+      <svg class="pa-map-marker-layer" viewBox="0 0 500 268" xmlns="http://www.w3.org/2000/svg">
+        ${dots}
+      </svg>
+    </div>`;
   }
 
   function showIUTip(e, name, active) {
