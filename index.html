@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/stem-poc-meetings.js"></script>
 <style>
   :root {
     --navy: #0a1628;
@@ -4791,6 +4792,45 @@ body::after {
 
 .pathway-card:hover .pc-arrow { transform: translateX(5px); }
 
+/* Next Up — compact statewide meeting module, Comeback Patch 2.
+   Data-driven from /data/stem-poc-meetings.json via /js/stem-poc-meetings.js.
+   Hidden entirely when there is no upcoming meeting — homepage stays clean. */
+.next-up-section {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto; padding: 0 2rem 1rem;
+}
+.next-up-card {
+  background: var(--card); border: 1px solid rgba(244,161,29,0.25);
+  border-radius: 16px; padding: 1.5rem 1.75rem; max-width: 420px;
+}
+.next-up-badges { display: flex; gap: 0.35rem; margin-bottom: 0.35rem; }
+.next-up-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem; text-transform: uppercase;
+  letter-spacing: 0.05em; padding: 0.12rem 0.5rem; border-radius: 20px;
+  border: 1px solid rgba(244,161,29,0.35); color: var(--accent); background: rgba(244,161,29,0.08);
+}
+.next-up-badge.today { color: var(--green); border-color: rgba(46,204,138,0.35); background: rgba(46,204,138,0.08); }
+.next-up-badge.tentative { color: var(--muted); border-color: rgba(138,155,191,0.3); background: rgba(138,155,191,0.08); }
+.next-up-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.35rem;
+}
+.next-up-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: var(--light); }
+.next-up-date { font-size: 0.85rem; color: var(--muted); margin-top: 0.2rem; }
+.next-up-summary { font-size: 0.8rem; color: var(--light); line-height: 1.55; margin-top: 0.6rem; }
+.next-up-btn {
+  margin-top: 0.9rem; background: transparent; border: 1px solid rgba(244,161,29,0.4);
+  color: var(--accent); font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.03em; padding: 0.5rem 1rem; border-radius: 7px; cursor: pointer;
+  transition: all 0.15s;
+}
+.next-up-btn:hover { background: rgba(244,161,29,0.1); }
+.next-up-details {
+  margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.78rem; color: var(--muted); line-height: 1.7;
+}
+.next-up-details a { color: var(--accent); }
+
 /* What This Is */
 .what-this-is {
   position: relative;
@@ -5085,6 +5125,19 @@ body::after {
       <span class="pc-arrow">→</span>
     </a>
 
+  </div>
+</div>
+
+<!-- NEXT UP — compact statewide meeting module, hidden if no meeting is posted -->
+<div class="next-up-section reveal" id="nextUpSection" style="display:none">
+  <div class="next-up-card">
+    <div class="next-up-badges" id="nextUpBadges"></div>
+    <div class="next-up-eyebrow">Next Up</div>
+    <div class="next-up-title" id="nextUpTitle">STEM PoC Meeting</div>
+    <div class="next-up-date" id="nextUpDate"></div>
+    <div class="next-up-summary" id="nextUpSummary" style="display:none"></div>
+    <button type="button" class="next-up-btn" onclick="toggleNextUpDetails()">Meeting Details →</button>
+    <div class="next-up-details" id="nextUpDetails" style="display:none"></div>
   </div>
 </div>
 
@@ -9770,9 +9823,86 @@ body::after {
     await refreshEcosystemFeed();
   }
 
+  /* ═══════════════════════════════════════════════════
+     COMEBACK PATCH 2 — Next Up module
+     Single source of truth: /data/stem-poc-meetings.json,
+     loaded via /js/stem-poc-meetings.js (shared with profile.html).
+  ═══════════════════════════════════════════════════ */
+  let _homeStemPocMeetings = [];
+  let _homeStemPocMeetingsLoadedAt = 0;
+  const HOME_MEETING_REFRESH_INTERVAL = 15 * 60 * 1000;
+  let _nextUpMeeting = null;
+
+  async function ensureHomeStemPocMeetingsLoaded(force) {
+    if (!window.STEM_POC_MEETINGS) return _homeStemPocMeetings;
+    const stale = !_homeStemPocMeetingsLoadedAt || (Date.now() - _homeStemPocMeetingsLoadedAt) > HOME_MEETING_REFRESH_INTERVAL;
+    if (force || stale) {
+      _homeStemPocMeetings = await window.STEM_POC_MEETINGS.load();
+      _homeStemPocMeetingsLoadedAt = Date.now();
+    }
+    return _homeStemPocMeetings;
+  }
+
+  async function renderNextUpModule() {
+    const section = document.getElementById('nextUpSection');
+    if (!section || !window.STEM_POC_MEETINGS) return;
+    const meetings = await ensureHomeStemPocMeetingsLoaded();
+    const M = window.STEM_POC_MEETINGS;
+    _nextUpMeeting = M.getNext(meetings);
+
+    if (!_nextUpMeeting) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+
+    const badges = [];
+    if (_nextUpMeeting.isToday) badges.push('<span class="next-up-badge today">Today</span>');
+    if (_nextUpMeeting.status === 'tentative') badges.push('<span class="next-up-badge tentative">Tentative</span>');
+    document.getElementById('nextUpBadges').innerHTML = badges.join('');
+
+    document.getElementById('nextUpTitle').textContent = _nextUpMeeting.title || 'STEM PoC Meeting';
+    document.getElementById('nextUpDate').textContent = M.formatDate(_nextUpMeeting.date);
+
+    const summaryEl = document.getElementById('nextUpSummary');
+    const summaryText = _nextUpMeeting.summary || (_nextUpMeeting.priorities && _nextUpMeeting.priorities[0]) || '';
+    if (summaryText) { summaryEl.textContent = summaryText; summaryEl.style.display = ''; }
+    else { summaryEl.style.display = 'none'; }
+
+    // Collapse an already-open details panel back to a fresh render on refresh
+    document.getElementById('nextUpDetails').style.display = 'none';
+  }
+
+  function toggleNextUpDetails() {
+    const el = document.getElementById('nextUpDetails');
+    if (!el || !_nextUpMeeting) return;
+    const opening = el.style.display === 'none';
+    if (!opening) { el.style.display = 'none'; return; }
+
+    const m = _nextUpMeeting;
+    const parts = [];
+    const timeStr = window.STEM_POC_MEETINGS.formatTime(m.startTime, m.endTime);
+    if (timeStr) parts.push('<div>' + timeStr + '</div>');
+    if (m.location) parts.push('<div>' + m.location + '</div>');
+    if (m.format) parts.push('<div>' + m.format + '</div>');
+    if (m.links && m.links.meeting) parts.push('<div><a href="' + m.links.meeting + '" target="_blank" rel="noopener noreferrer">Open Meeting Link →</a></div>');
+    if (m.links && m.links.agenda) parts.push('<div><a href="' + m.links.agenda + '" target="_blank" rel="noopener noreferrer">View Full Agenda →</a></div>');
+    if (m.links && m.links.resources) parts.push('<div><a href="' + m.links.resources + '" target="_blank" rel="noopener noreferrer">Open Meeting Resources →</a></div>');
+    parts.push('<div style="margin-top:0.3rem;"><a href="profile.html">See the full activation view →</a></div>');
+    el.innerHTML = parts.join('');
+    el.style.display = '';
+  }
+
+  // Part 16 — lightweight background refresh, no full page reload
+  setInterval(async () => {
+    await ensureHomeStemPocMeetingsLoaded(true);
+    renderNextUpModule();
+  }, HOME_MEETING_REFRESH_INTERVAL);
+
   // ── Init ───────────────────────────────────────────────────────
   prefillCollabFromProfile();
   refreshEcosystemFeed();
+  renderNextUpModule();
 
   // ── Initial render ────────────────────────────────────────────
   renderWgDashboard();

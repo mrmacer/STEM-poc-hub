@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="assests/stem-poc-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/stem-poc-meetings.js"></script>
 <style>
   :root {
     --navy:   #0a1628;
@@ -791,6 +792,23 @@
   }
   .act-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
 
+  /* Meeting data — Comeback Patch 2 */
+  .act-meeting-badges { display: flex; gap: 0.4rem; margin-bottom: 0.45rem; }
+  .act-meeting-badge {
+    font-family: 'Space Mono', monospace; font-size: 0.56rem; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 20px;
+    border: 1px solid rgba(244,161,29,0.35); color: var(--accent); background: rgba(244,161,29,0.08);
+  }
+  .act-meeting-badge.today { color: var(--green); border-color: rgba(46,204,138,0.35); background: rgba(46,204,138,0.08); }
+  .act-meeting-badge.tentative { color: var(--muted); border-color: rgba(138,155,191,0.3); background: rgba(138,155,191,0.08); }
+  .act-meeting-sub { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+  .act-meeting-summary { font-size: 0.82rem; color: var(--light); line-height: 1.55; margin-top: 0.65rem; }
+  .act-meeting-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+  .act-meeting-links .act-btn { padding: 0.5rem 1rem; }
+  .act-meeting-agenda-toggle summary { list-style: none; }
+  .act-meeting-agenda-toggle summary::-webkit-details-marker { display: none; }
+  .act-meeting-agenda-toggle[open] .act-resources-toggle .arrow { transform: rotate(180deg); }
+
   /* First contribution choices */
   .act-contrib-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.25rem; }
   @media (max-width: 640px) { .act-contrib-grid { grid-template-columns: 1fr; } }
@@ -1220,19 +1238,50 @@
     <h1 class="act-title">What's Happening <span>Now</span></h1>
     <p class="act-sub">Here's how you're plugged in right now — no need to dig through the Shared Drive to find it.</p>
 
-    <div class="act-meeting-block">
+    <div class="act-meeting-tbd" id="actMeetingLoading">Loading meeting details…</div>
+
+    <!-- State: a next/today meeting was found (data: /data/stem-poc-meetings.json) -->
+    <div class="act-meeting-block" id="actMeetingFoundBlock" style="display:none">
+      <div class="act-meeting-badges" id="actMeetingBadges"></div>
       <div class="act-meeting-title" id="actMeetingTitle">Next STEM PoC Meeting</div>
-      <div class="act-meeting-when" id="actMeetingWhen">Date TBD</div>
-      <div id="actMeetingLocation" style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;"></div>
+      <div class="act-meeting-when" id="actMeetingWhen"></div>
+      <div class="act-meeting-sub" id="actMeetingTime" style="display:none"></div>
+      <div class="act-meeting-sub" id="actMeetingLocation" style="display:none"></div>
+      <div class="act-meeting-sub" id="actMeetingFormat" style="display:none"></div>
+      <p class="act-meeting-summary" id="actMeetingSummary" style="display:none"></p>
 
-      <div class="act-list-heading">We'll be working on:</div>
-      <ul class="act-list" id="actMeetingPriorities"></ul>
+      <div id="actMeetingPrioritiesBlock" style="display:none">
+        <div class="act-list-heading">We'll Be Working On</div>
+        <ul class="act-list" id="actMeetingPriorities"></ul>
+      </div>
 
-      <div class="act-list-heading">Before the meeting:</div>
-      <ul class="act-list" id="actMeetingPrep"></ul>
+      <div id="actMeetingPrepBlock" style="display:none">
+        <div class="act-list-heading">Before the Meeting</div>
+        <ul class="act-list" id="actMeetingPrep"></ul>
+      </div>
 
-      <div style="margin-top:1.1rem;">
-        <a class="act-btn act-btn-ghost" id="actMeetingDetailsBtn" href="index.html#workgroups">View Meeting Details</a>
+      <details class="act-meeting-agenda-toggle" id="actMeetingAgendaBlock" style="display:none">
+        <summary class="act-resources-toggle" style="margin-top:0.75rem;"><span>View Agenda</span><span class="arrow">▾</span></summary>
+        <ul class="act-list" id="actMeetingAgenda" style="margin-top:0.75rem;"></ul>
+      </details>
+
+      <div class="act-meeting-links" id="actMeetingLinks" style="display:none"></div>
+    </div>
+
+    <!-- State: no upcoming meeting posted -->
+    <div class="act-meeting-block" id="actMeetingEmptyBlock" style="display:none">
+      <div class="act-meeting-title">More STEM PoC Dates Coming Soon</div>
+      <p class="act-meeting-summary">There isn't another meeting posted yet. You can still explore the network, connect with other PoCs, and add to the ecosystem.</p>
+      <div class="act-confirm-actions" style="margin-top:1rem;">
+        <a class="act-btn act-btn-primary" href="index.html">Enter the Hub</a>
+        <a class="act-btn act-btn-ghost" href="index.html#collaborate">Add to the Ecosystem</a>
+      </div>
+
+      <!-- Optional secondary state: most recent past meeting, kept minimal -->
+      <div id="actMeetingRecentBlock" style="display:none;margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08);">
+        <div class="act-list-heading" style="margin-top:0;">Most Recent STEM PoC Meeting</div>
+        <div class="act-meeting-sub" id="actMeetingRecentWhen"></div>
+        <div class="act-meeting-links" id="actMeetingRecentLinks" style="display:none"></div>
       </div>
     </div>
 
@@ -1526,22 +1575,57 @@
   // the relationship is derived client-side from normalized name + IU.
 
   // ── Meeting / current-work data ─────────────────────────────────
-  // Populate from the current agenda when available. Leave placeholders
-  // clearly labeled rather than inventing dates or topics.
-  const CURRENT_POC_MEETING = {
-    title: "Next STEM PoC Meeting",
-    date: "",           // e.g. "March 12, 2026" — TBD, not yet published
-    time: "",           // e.g. "9:00 AM – 11:00 AM"
-    location: "",       // e.g. "Virtual — Teams link in Shared Drive"
-    priorities: [
-      "[ADD AGENDA ITEM] — statewide meeting priorities not yet published"
-    ],
-    preparation: [
-      "Make sure you can access the Shared Drive",
-      "Review your workgroup's most recent notes"
-    ],
-    detailsUrl: "index.html#workgroups"
-  };
+  // Comeback Patch 2: single source of truth is /data/stem-poc-meetings.json,
+  // loaded through /js/stem-poc-meetings.js (shared with index.html and
+  // workgroups.html). No meeting info is hardcoded on this page anymore.
+  let _stemPocMeetings = [];
+  let _stemPocMeetingsLoadedAt = 0;
+  const MEETING_REFRESH_INTERVAL = 15 * 60 * 1000; // Part 16 — refresh, don't reload the page
+
+  async function ensureStemPocMeetingsLoaded(force) {
+    if (!window.STEM_POC_MEETINGS) return _stemPocMeetings;
+    const stale = !_stemPocMeetingsLoadedAt || (Date.now() - _stemPocMeetingsLoadedAt) > MEETING_REFRESH_INTERVAL;
+    if (force || stale) {
+      _stemPocMeetings = await window.STEM_POC_MEETINGS.load();
+      _stemPocMeetingsLoadedAt = Date.now();
+    }
+    return _stemPocMeetings;
+  }
+
+  function escapeStemPocHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  // Shows/hides a field element based on whether it has content (Part 23 —
+  // a clean absence beats a wall of "TBD" placeholders).
+  function setMeetingField(id, text) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (text) { el.textContent = text; el.style.display = ''; }
+    else { el.style.display = 'none'; }
+  }
+
+  function renderStemPocAgendaItem(item) {
+    if (typeof item === 'string') return `<li>${escapeStemPocHtml(item)}</li>`;
+    if (item && typeof item === 'object') {
+      const time = item.time ? `<strong>${escapeStemPocHtml(item.time)}</strong> — ` : '';
+      const title = escapeStemPocHtml(item.title || '');
+      const desc = item.description ? `<div style="font-size:0.76rem;color:var(--muted);margin-top:0.15rem;">${escapeStemPocHtml(item.description)}</div>` : '';
+      return `<li>${time}${title}${desc}</li>`;
+    }
+    return '';
+  }
+
+  function renderStemPocMeetingLinks(containerId, links) {
+    const el = document.getElementById(containerId);
+    if (!el || !links) return;
+    const buttons = [];
+    if (links.meeting)   buttons.push(`<a class="act-btn act-btn-ghost" href="${links.meeting}" target="_blank" rel="noopener noreferrer">Open Meeting Link</a>`);
+    if (links.agenda)    buttons.push(`<a class="act-btn act-btn-ghost" href="${links.agenda}" target="_blank" rel="noopener noreferrer">View Full Agenda</a>`);
+    if (links.resources) buttons.push(`<a class="act-btn act-btn-ghost" href="${links.resources}" target="_blank" rel="noopener noreferrer">Open Meeting Resources</a>`);
+    el.innerHTML = buttons.join('');
+    el.style.display = buttons.length ? '' : 'none';
+  }
 
   // ── Activation state (localStorage-persisted, no Supabase table) ──
   const ACTIVATION_KEY = 'stemPocNetworkActivation';
@@ -2148,27 +2232,75 @@
   }
 
   /* ═══════════════════════════════════════════════════
-     PART 17-18 — What's Happening Now
+     COMEBACK PATCH 2 — What's Happening Now, driven by
+     /data/stem-poc-meetings.json via /js/stem-poc-meetings.js
   ═══════════════════════════════════════════════════ */
-  function renderWhatsHappening() {
-    const m = CURRENT_POC_MEETING;
-    document.getElementById('actMeetingTitle').textContent = m.title;
-    const whenParts = [m.date, m.time].filter(Boolean);
-    document.getElementById('actMeetingWhen').innerHTML = whenParts.length
-      ? whenParts.join(' · ')
-      : '<span class="act-meeting-tbd">Date not yet published — check the Shared Drive calendar</span>';
-    document.getElementById('actMeetingLocation').textContent = m.location || '';
-    document.getElementById('actMeetingPriorities').innerHTML =
-      (m.priorities || []).map(p => `<li>${p}</li>`).join('') || '<li>To be announced.</li>';
-    document.getElementById('actMeetingPrep').innerHTML =
-      (m.preparation || []).map(p => `<li>${p}</li>`).join('') || '<li>Nothing required yet.</li>';
-    const btn = document.getElementById('actMeetingDetailsBtn');
-    if (btn) btn.href = m.detailsUrl || 'index.html#workgroups';
+  async function renderWhatsHappening() {
+    const loadingEl = document.getElementById('actMeetingLoading');
+    const foundBlock = document.getElementById('actMeetingFoundBlock');
+    const emptyBlock = document.getElementById('actMeetingEmptyBlock');
+
+    await ensureStemPocMeetingsLoaded();
+    const M = window.STEM_POC_MEETINGS;
+    const next = M ? M.getNext(_stemPocMeetings) : null;
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    if (!next) {
+      foundBlock.style.display = 'none';
+      emptyBlock.style.display = '';
+      const recent = M ? M.getRecent(_stemPocMeetings) : null;
+      const recentBlock = document.getElementById('actMeetingRecentBlock');
+      if (recent) {
+        recentBlock.style.display = '';
+        document.getElementById('actMeetingRecentWhen').textContent = M.formatDate(recent.date);
+        renderStemPocMeetingLinks('actMeetingRecentLinks', recent.links);
+      } else if (recentBlock) {
+        recentBlock.style.display = 'none';
+      }
+      return;
+    }
+
+    emptyBlock.style.display = 'none';
+    foundBlock.style.display = '';
+
+    document.getElementById('actMeetingTitle').textContent =
+      next.isToday ? "Today's STEM PoC Meeting" : (next.title || 'Next STEM PoC Meeting');
+
+    const badges = [];
+    if (next.isToday) badges.push('<span class="act-meeting-badge today">Today</span>');
+    if (next.status === 'tentative') badges.push('<span class="act-meeting-badge tentative">Tentative</span>');
+    document.getElementById('actMeetingBadges').innerHTML = badges.join('');
+
+    document.getElementById('actMeetingWhen').textContent = M.formatDate(next.date);
+    setMeetingField('actMeetingTime', M.formatTime(next.startTime, next.endTime));
+    setMeetingField('actMeetingLocation', next.location);
+    setMeetingField('actMeetingFormat', next.format);
+    setMeetingField('actMeetingSummary', next.summary);
+
+    const priBlock = document.getElementById('actMeetingPrioritiesBlock');
+    if (next.priorities.length) {
+      priBlock.style.display = '';
+      document.getElementById('actMeetingPriorities').innerHTML = next.priorities.map(p => `<li>${escapeStemPocHtml(p)}</li>`).join('');
+    } else priBlock.style.display = 'none';
+
+    const prepBlock = document.getElementById('actMeetingPrepBlock');
+    if (next.preparation.length) {
+      prepBlock.style.display = '';
+      document.getElementById('actMeetingPrep').innerHTML = next.preparation.map(p => `<li>${escapeStemPocHtml(p)}</li>`).join('');
+    } else prepBlock.style.display = 'none';
+
+    const agendaBlock = document.getElementById('actMeetingAgendaBlock');
+    if (next.agendaItems.length) {
+      agendaBlock.style.display = '';
+      document.getElementById('actMeetingAgenda').innerHTML = next.agendaItems.map(renderStemPocAgendaItem).join('');
+    } else agendaBlock.style.display = 'none';
+
+    renderStemPocMeetingLinks('actMeetingLinks', next.links);
   }
 
   function showWhatsHappening() {
-    renderWhatsHappening();
     showActScreen('actWhatsHappening');
+    renderWhatsHappening();
     updateActivationState({ currentWorkViewed: true, lastStep: 'whats-happening' });
   }
 
@@ -2341,6 +2473,14 @@
       if (onboardingDetailsEl.open) updateActivationState({ onboardingResourcesViewed: true });
     });
   }
+
+  // Part 16 — lightweight background refresh of meeting data (not the page).
+  // Re-renders the What's Happening screen in place if it's what's on view;
+  // harmless no-op otherwise.
+  setInterval(async () => {
+    await ensureStemPocMeetingsLoaded(true);
+    renderWhatsHappening();
+  }, MEETING_REFRESH_INTERVAL);
 </script>
 </body>
 </html>

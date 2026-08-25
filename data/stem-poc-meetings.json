@@ -1,0 +1,24 @@
+{
+  "_instructions": {
+    "purpose": "Edit this file to update upcoming STEM PoC meetings. The website automatically displays the next scheduled meeting on profile.html and index.html — no HTML editing required.",
+    "dateFormat": "YYYY-MM-DD",
+    "important": "Do not edit profile.html or index.html just to change meeting information. Add or edit an entry in the meetings array below instead.",
+    "fields": {
+      "id": "Required. A short unique string, e.g. \"2026-03-poc-meeting\".",
+      "title": "Optional. Defaults to \"STEM PoC Meeting\" if left blank.",
+      "date": "Required. YYYY-MM-DD calendar date — this is what the site sorts on.",
+      "startTime": "Optional. e.g. \"9:00 AM\"",
+      "endTime": "Optional. e.g. \"11:00 AM\"",
+      "location": "Optional. e.g. \"Virtual — Teams\" or a physical address.",
+      "format": "Optional. e.g. \"Virtual\" or \"In-Person\"",
+      "status": "One of: scheduled, tentative, completed, cancelled. Cancelled meetings are never shown as next. Completed meetings are treated as historical.",
+      "summary": "Optional. One or two sentences describing the meeting.",
+      "priorities": "Optional array of short strings — what the meeting will focus on.",
+      "preparation": "Optional array of short strings — what to do before the meeting.",
+      "agendaItems": "Optional array. Either plain strings, or objects like {\"time\":\"10:00 AM\",\"title\":\"...\",\"description\":\"...\"}.",
+      "links": "Optional. meeting / agenda / resources URLs — a button only appears for links that are filled in.",
+      "notes": "Optional free-text, not shown publicly."
+    }
+  },
+  "meetings": []
+}

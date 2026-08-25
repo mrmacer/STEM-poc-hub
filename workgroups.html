@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PA STEM PoC — Workgroups</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="js/stem-poc-meetings.js"></script>
 <style>
 <style>
   :root {
@@ -2152,6 +2153,7 @@
     <a class="page-header-link" href="index.html#sow">SoW / Deliverables</a>
     <a class="page-header-link" href="index.html#orbit">ORBIT Companion</a>
     <a class="page-header-link" href="index.html#start">Onboarding</a>
+    <a class="page-header-link" href="profile.html" id="wgNextMeetingBadge" style="display:none;color:var(--accent);border-color:rgba(244,161,29,0.35);"></a>
   </div>
 </div>
 
@@ -2988,6 +2990,20 @@
 
   // Initial reveal for page header
   document.querySelector('.page-header') && document.querySelector('.page-header').classList.add('visible');
+
+  // Comeback Patch 2 — compact "next statewide meeting" badge, sourced from
+  // /data/stem-poc-meetings.json via /js/stem-poc-meetings.js (same data as
+  // profile.html and index.html; no duplicated meeting info).
+  async function renderWgNextMeetingBadge() {
+    const badge = document.getElementById('wgNextMeetingBadge');
+    if (!badge || !window.STEM_POC_MEETINGS) return;
+    const meetings = await window.STEM_POC_MEETINGS.load();
+    const next = window.STEM_POC_MEETINGS.getNext(meetings);
+    if (!next) { badge.style.display = 'none'; return; }
+    badge.textContent = (next.isToday ? '🗓 Today: ' : '🗓 Next Meeting: ') + window.STEM_POC_MEETINGS.formatDate(next.date);
+    badge.style.display = '';
+  }
+  renderWgNextMeetingBadge();
 </script>
 </body>
 </html>
