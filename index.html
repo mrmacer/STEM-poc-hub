@@ -7575,7 +7575,9 @@ body::after {
   });
 
   // Initial reveal for hero
-  document.querySelector('.hero').classList.add('visible');
+  // Guarded: a top-level throw here would abort all script execution that
+  // follows it (including this patch's directory/activation logic below).
+  document.querySelector('.hero')?.classList.add('visible');
 
   /* ═══════════════════════════════════════════════════
      ADAPTIVE ROLE LENS SYSTEM
@@ -7857,6 +7859,105 @@ body::after {
     return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
   }
 
+  /* ═══════════════════════════════════════════════════
+     COMEBACK PATCH 1 — Legacy/Live profile identity helpers
+     Shared conservative-matching normalization. Mirrored in
+     profile.html (no shared JS module exists in this project).
+  ═══════════════════════════════════════════════════ */
+  function normalizeProfileText(value = "") {
+    return String(value)
+      .trim()
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  function normalizeIU(value = "") {
+    return normalizeProfileText(value).replace(/^iu\s*/, "iu ");
+  }
+
+  // A legacy directory card is "replaced" only on a conservative match:
+  // normalized name AND normalized IU/organization both match a live profile.
+  // Name alone is never enough. No fuzzy matching.
+  function legacyProfileHasLiveReplacement(legacyName, legacyIU, liveProfiles) {
+    const nName = normalizeProfileText(legacyName);
+    const nIU   = normalizeIU(legacyIU);
+    if (!nName || !nIU) return false;
+    return liveProfiles.some(live => {
+      if (!live || live.source === 'example') return false;
+      const liveNames = [live.fullName, live.preferredName].filter(Boolean).map(normalizeProfileText);
+      return liveNames.includes(nName) && normalizeIU(live.iu) === nIU;
+    });
+  }
+
+  // Hide legacy directory cards that now have an authoritative live replacement.
+  // Rendering-only — never mutates or deletes the underlying legacy markup.
+  function suppressReplacedLegacyCards(liveProfiles) {
+    document.querySelectorAll('#networkGrid > .network-card.mission-node:not(.community-network-card)').forEach(card => {
+      const nameEl = card.querySelector('.node-name');
+      const iuEl   = card.querySelector('.node-iu-num');
+      if (!nameEl || !iuEl) return;
+      const iu = iuEl.textContent.trim();
+      // Some legacy cards list multiple PoCs, e.g. "Brian Stamford · Kristen Rice"
+      const names = nameEl.textContent.split('·').map(s => s.trim()).filter(Boolean);
+      const replaced = names.some(n => legacyProfileHasLiveReplacement(n, iu, liveProfiles));
+      card.style.display = replaced ? 'none' : '';
+    });
+  }
+
+  // ── Example profiles — clearly fictional, never counted in network stats ──
+  const EXAMPLE_PROFILE_HIDE_THRESHOLD = 10;
+  const EXAMPLE_PROFILES = [
+    {
+      id: 'example-alex-morgan', accessCode: null,
+      fullName: 'Alex Morgan', preferredName: '', iu: 'IU 99',
+      jobTitle: 'STEM Ecosystem Coordinator',
+      primaryFocus: 'STEM Ecosystems',
+      focusAreas: ['STEM Ecosystems', 'Cross-IU Collaboration'],
+      workgroupInterests: ['STEM Ecosystems'],
+      collaborateOn: ['Ecosystem partnerships'],
+      superpower: 'Connecting district STEM programs with community ecosystem partners.',
+      curiousAbout: 'How smaller IUs build ecosystem partnerships with limited staff time.',
+      canHelpWith: 'Ecosystem partner mapping, community STEM events',
+      needHelpWith: 'Sustainable funding models for ecosystem work',
+      funFact: 'This is an example profile — not a real STEM PoC.',
+      photoDataUrl: null, createdAt: '2025-01-01T00:00:00.000Z', updatedAt: '2025-01-01T00:00:00.000Z',
+      source: 'example'
+    },
+    {
+      id: 'example-jamie-rivera', accessCode: null,
+      fullName: 'Jamie Rivera', preferredName: '', iu: 'IU 98',
+      jobTitle: 'Science & STEELS Specialist',
+      primaryFocus: 'STEELS',
+      focusAreas: ['STEELS', 'Environmental Literacy'],
+      workgroupInterests: ['Science'],
+      collaborateOn: ['STEELS rollout planning'],
+      superpower: 'Turning STEELS standards into classroom-ready 3D learning units.',
+      curiousAbout: 'Phenomena-based science instruction at the elementary level.',
+      canHelpWith: 'STEELS unit design, science PD facilitation',
+      needHelpWith: 'Assessment models aligned to 3D standards',
+      funFact: 'This is an example profile — not a real STEM PoC.',
+      photoDataUrl: null, createdAt: '2025-01-01T00:00:00.000Z', updatedAt: '2025-01-01T00:00:00.000Z',
+      source: 'example'
+    },
+    {
+      id: 'example-taylor-chen', accessCode: null,
+      fullName: 'Taylor Chen', preferredName: '', iu: 'IU 97',
+      jobTitle: 'Computer Science & AI Consultant',
+      primaryFocus: 'Computer Science',
+      focusAreas: ['Computer Science', 'AI / Emerging Tech'],
+      workgroupInterests: ['PAsmart / Computer Science'],
+      collaborateOn: ['AI literacy pilots'],
+      superpower: 'Helping districts stand up their first CS pathway.',
+      curiousAbout: 'Responsible AI use in K-12 classrooms.',
+      canHelpWith: 'CS pathway design, AI literacy workshops',
+      needHelpWith: 'Rural broadband/device constraints for CS access',
+      funFact: 'This is an example profile — not a real STEM PoC.',
+      photoDataUrl: null, createdAt: '2025-01-01T00:00:00.000Z', updatedAt: '2025-01-01T00:00:00.000Z',
+      source: 'example'
+    }
+  ];
+
   let _previewPhotoDataUrl = null;
 
   function handlePhotoUpload(input) {
@@ -8044,9 +8145,19 @@ body::after {
     const cloudProfiles = await loadProfilesFromSupabase();
     const profiles = mergeProfilesByAccessCode(cloudProfiles, localProfiles);
     updateCloudStatusBadge(cloudProfiles.length > 0);
-    if (profiles.length === 0) { container.innerHTML = ''; return; }
 
-    container.innerHTML = profiles.map(p => {
+    // Live profiles replace matching legacy directory cards visually.
+    // Legacy source markup is never deleted — only hidden when superseded.
+    suppressReplacedLegacyCards(profiles);
+
+    // Example profiles fade out once the network has real depth of its own.
+    const showExamples = profiles.length < EXAMPLE_PROFILE_HIDE_THRESHOLD;
+    const cardProfiles = showExamples ? profiles.concat(EXAMPLE_PROFILES) : profiles;
+
+    if (cardProfiles.length === 0) { container.innerHTML = ''; return; }
+
+    container.innerHTML = cardProfiles.map(p => {
+      const isExample = p.source === 'example';
       const displayName = p.preferredName || p.fullName;
       const initials = getInitials(p.fullName);
       const grad = getInitialsGrad(p.fullName);
@@ -8072,20 +8183,20 @@ body::after {
       ).join('');
 
       return `
-        <div class="network-card mission-node community-network-card"
+        <div class="network-card mission-node community-network-card${isExample ? ' example-network-card' : ''}"
              data-tags="${(p.focusAreas || []).join(' ')}"
              data-collab="open"
              data-profile-id="${p.id}"
              data-searchtext="${searchText}">
           <div class="node-topbar" onclick="toggleNodePanel(this.closest('.network-card'))">
-            <span class="node-iu-num" style="font-size:0.85rem;">Community</span>
+            <span class="node-iu-num" style="font-size:0.85rem;">${isExample ? 'Example' : 'Community'}</span>
             <span class="node-region">${p.iu}</span>
             <span class="node-status status-active"></span>
           </div>
           <div class="node-identity" onclick="toggleNodePanel(this.closest('.network-card'))">
             <div class="network-photo-wrap">${avatarHtml}</div>
             <div class="node-info">
-              <div class="node-name">${displayName} <span class="community-badge">✦ Community Created</span></div>
+              <div class="node-name">${displayName} <span class="community-badge"${isExample ? ' style="color:var(--muted);background:rgba(138,155,191,0.1);border-color:rgba(138,155,191,0.25);"' : ''}>${isExample ? '◌ Example Profile' : '✦ Live Profile'}</span></div>
               <div class="node-role">${p.jobTitle} · ${p.iu}</div>
             </div>
           </div>
@@ -8118,20 +8229,30 @@ body::after {
             ${p.socialLink ? `<div class="dossier-section"><div class="dossier-label">Link</div><p class="dossier-text"><a href="${p.socialLink}" target="_blank" rel="noopener" style="color:var(--accent)">${p.socialLink}</a></p></div>` : ''}
             <div class="dossier-section" onclick="event.stopPropagation()">
               <div class="node-actions">
-                <button class="node-action-btn node-view-profile-btn" onclick="openProfileModal('${p.id}',null)">View Full Profile →</button>
+                <button class="node-action-btn node-view-profile-btn" onclick="${isExample ? "openProfileModal(null,this.closest('.network-card'))" : "openProfileModal('" + p.id + "',null)"}">View Full Profile →</button>
               </div>
             </div>
-            <div class="dossier-section" style="border-top:1px solid rgba(46,204,138,0.12);padding-top:0.75rem;margin-top:0.5rem;">
+            ${isExample
+              ? '<div class="dossier-section" style="border-top:1px solid rgba(138,155,191,0.15);padding-top:0.75rem;margin-top:0.5rem;"><div style="font-size:0.63rem;color:var(--muted);font-style:italic;">Example profile — for illustration only. Not counted in network stats.</div></div>'
+              : `<div class="dossier-section" style="border-top:1px solid rgba(46,204,138,0.12);padding-top:0.75rem;margin-top:0.5rem;">
               <div style="font-size:0.66rem;color:var(--green);font-family:'Space Mono',monospace;">Access Code: ${p.accessCode}</div>
               <div style="font-size:0.63rem;color:var(--muted);margin-top:0.22rem;">Member since ${new Date(p.createdAt).toLocaleDateString()}</div>
-            </div>
+            </div>`}
           </div>
         </div>`;
     }).join('');
   }
 
   // Load community profiles on page load (async — cloud + local merge)
-  renderCommunityProfiles().then(() => setTimeout(addHelpRibbons, 200));
+  renderCommunityProfiles().then(() => {
+    setTimeout(addHelpRibbons, 200);
+    // Deep link support: profile.html "View My Profile" links here as
+    // index.html?profileId=<id>#directory
+    try {
+      const deepLinkId = new URLSearchParams(window.location.search).get('profileId');
+      if (deepLinkId) openProfileModal(deepLinkId, null);
+    } catch (e) { /* URLSearchParams unsupported — ignore */ }
+  });
 
   // ── Supabase: save profile ────────────────────────────────────
   async function syncProfileToSupabase(profile) {
@@ -8209,13 +8330,19 @@ body::after {
     }));
   }
 
-  // ── Merge helper (dedup by access code) ──────────────────────
+  // ── Merge helper (dedup access code → id → normalized name+IU; newest wins) ──
   function mergeProfilesByAccessCode(...profileGroups) {
     const seen = new Map();
     profileGroups.flat().forEach(profile => {
-      const key = profile.accessCode || profile.id || profile.fullName;
+      if (!profile) return;
+      const nameIUKey = normalizeProfileText(profile.fullName) + '|' + normalizeIU(profile.iu);
+      const key = profile.accessCode || profile.id || (nameIUKey !== '|' ? nameIUKey : null);
       if (!key) return;
-      if (!seen.has(key)) seen.set(key, profile);
+      const existing = seen.get(key);
+      if (!existing) { seen.set(key, profile); return; }
+      const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
+      const newTime      = new Date(profile.updatedAt  || profile.createdAt  || 0).getTime();
+      if (newTime >= existingTime) seen.set(key, profile);
     });
     return Array.from(seen.values());
   }
