@@ -20,5 +20,44 @@
       "notes": "Optional free-text, not shown publicly."
     }
   },
-  "meetings": []
+  "meetings": [
+    {
+      "id": "2026-08-poc-meeting",
+      "title": "STEM PoC August Meeting",
+      "date": "2026-08-26",
+      "startTime": "9:00 AM",
+      "endTime": "3:00 PM",
+      "location": "Hyatt, State College",
+      "format": "Hybrid — In-Person & Zoom",
+      "status": "scheduled",
+      "summary": "Statewide STEM PoC meeting — STEELS updates, an ORBIT tour, workgroup elevator speeches, and open collaboration spaces.",
+      "priorities": [
+        "STEM SoSS & STEMinPA updates",
+        "STEELS updates",
+        "ORBIT tour & collaboration opportunities",
+        "Workgroup elevator speeches & open spaces"
+      ],
+      "preparation": [],
+      "agendaItems": [
+        { "time": "9:00 AM", "title": "Welcome & Connection", "description": "Sarah Brambley — Leadership" },
+        { "time": "9:15 AM", "title": "STEM SoSS & STEMinPA", "description": "Demetrius Roberts" },
+        { "time": "9:45 AM", "title": "STEELS Updates", "description": "Jason Zimmerman" },
+        { "time": "10:15 AM", "title": "Break", "description": "" },
+        { "time": "10:30 AM", "title": "ORBIT Tour", "description": "Demetrius Roberts — Collaboration opportunities" },
+        { "time": "11:30 AM", "title": "Maker Lunch (provided)", "description": "Button Maker & Sticker Boxes" },
+        { "time": "12:30 PM", "title": "User Profile Time — ORBIT Directory", "description": "Update by September 29th" },
+        { "time": "12:45 PM", "title": "STEM PoC Leader Updates", "description": "Mentor sign-up via ORBIT Directory; updates to monthly meeting protocol" },
+        { "time": "1:00 PM", "title": "Data Literacy Summit", "description": "Michael Fierle" },
+        { "time": "1:15 PM", "title": "Shared Docs & Workgroup Intro", "description": "Elevator speech from each workgroup; update your participation" },
+        { "time": "1:30 PM", "title": "Two 30-Minute Open Spaces", "description": "" },
+        { "time": "2:30 PM", "title": "Open Spaces Share & Elevator Spotlight", "description": "Quick-pitch an opportunity, event, or collaboration for the ORBIT Collaboration Tool" }
+      ],
+      "links": {
+        "meeting": "https://iu12-org.zoom.us/j/3741260706",
+        "agenda": "",
+        "resources": ""
+      },
+      "notes": "Migrated from 2026-2027 STEM PoC Agenda.md"
+    }
+  ]
 }
